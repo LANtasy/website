@@ -147,7 +147,7 @@ button.btn:focus,
 header {
 	position: relative;
 	width: 100%;
-	height: 100%;
+	height: 40%;
 }
 
 header h1 {
