@@ -1,6 +1,18 @@
 .site-logo h1 {
-	padding: 15px 0px 10px;
+	padding: 10px 0px 10px;
 }
 .sticky-header .site-logo h1{
-	padding-top:5px;
+	padding-top:3px;
+}
+.site-header {
+	height: 100px;
+}
+.site-header.sticky-header {
+	height: 80px;
+}
+.main-navigation > ul > li > a {
+	line-height:100px;
+}
+.sticky-header .main-navigation > ul > li > a {
+	line-height:80px;
 }
