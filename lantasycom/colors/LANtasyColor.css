@@ -40,7 +40,7 @@ fieldset[disabled] .btn-primary.active,
 a.list-group-item.active,
 a.list-group-item.active:hover,
 a.list-group-item.active:focus, .accordion-heading .accordion-toggle.active, .accordion-heading:hover .accordion-toggle.active,
-.panel-primary > .panel-heading, .carousel-indicators .active, .flex-control-nav a:hover, .flex-control-nav a.flex-active, .nav-tabs li a:active, .nav-tabs li.active a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .main-navigation > ul > li > a:hover, .main-navigation > ul > li > a, .main-navigation > ul > li.highlight a:hover, .team-item-overlay a:hover, #weather, #back-to-top:hover, .plan-style1, .social-icons li a:hover{
+.panel-primary > .panel-heading, .carousel-indicators .active, .flex-control-nav a:hover, .flex-control-nav a.flex-active, .nav-tabs li a:active, .nav-tabs li.active a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .main-navigation > ul > li > a:hover, .main-navigation > ul > li > a.current, .main-navigation > ul > li.highlight a:hover, .team-item-overlay a:hover, #weather, #back-to-top:hover, .plan-style1, .social-icons li a:hover{
   background-color: #579bd3;
 }
 .btn-primary:hover,
@@ -105,4 +105,4 @@ a.list-group-item.active:focus,
 
 .main-navigation > ul > li > a {
 	color: #FFFFFF
-}
+} 
