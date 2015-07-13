@@ -117,3 +117,9 @@ a.list-group-item.active:focus,
 body{
 	color: #FFFFFF;
 }
+
+@media only screen and (max-width: 992px) {
+	.main-navigation{
+		background:#535454;
+	}
+}
