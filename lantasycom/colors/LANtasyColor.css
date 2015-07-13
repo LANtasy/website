@@ -106,3 +106,10 @@ a.list-group-item.active:focus,
 .main-navigation > ul > li > a {
 	color: #FFFFFF
 } 
+.social-icons li a {
+	border: 2px solid #FFFFFF;
+	color: #FFFFFF;
+}
+body{
+	color: #FFFFFF;
+}
