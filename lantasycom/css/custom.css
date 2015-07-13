@@ -16,3 +16,10 @@
 .sticky-header .main-navigation > ul > li > a {
 	line-height:80px;
 }
+
+@media only screen and (max-width: 992px) {
+
+	div.venue-view{
+		display:none;
+	}
+}
