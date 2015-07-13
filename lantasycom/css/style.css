@@ -2194,11 +2194,7 @@ body.boxed .body{
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 
 }
-@media only screen and (max-width: 440px) {
-	.event-info .sl{
-		font-size: 16vw;
-	}
-}
+
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
 
 }

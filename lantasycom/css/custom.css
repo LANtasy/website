@@ -22,4 +22,8 @@
 	div.venue-view{
 		display:none;
 	}
+
+	.event-info .sl{
+		font-size: 16vw;
+	}
 }
