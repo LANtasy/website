@@ -118,6 +118,10 @@ body{
 	color: #FFFFFF;
 }
 
+.accordion-inner{
+	color: #000000;
+}
+
 @media only screen and (max-width: 992px) {
 	.main-navigation{
 		background:#535454;
