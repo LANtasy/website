@@ -256,6 +256,7 @@ var CONVOCATION = window.CONVOCATION || {};
 			$(".main-navigation").slideToggle();
 			return false;
 		});
+
 		if($(window).width() < 992){
 			var WHG = $(window).height();
 			var HH = $('.site-header').height();
@@ -265,7 +266,7 @@ var CONVOCATION = window.CONVOCATION || {};
 		$(window).resize(function(){
 			if($(body).hasClass(no-touch) & $(window).width() > 992) {
 				$(".main-navigation").css("display","block");
-				} else {
+			} else {
 				$(".main-navigation").css("display","none");
 			}
 		});
@@ -326,7 +327,8 @@ $('.scrollto').click(function(){
 $(".fw-video").fitVids();
 
 // Image Hover icons for gallery items
-var MBC = function(){
+/*
+    var MBC = function(){
 	$(".media-box .zoom").each(function(){
 		mpwidth = $(this).parent().width();
 		mpheight = $(this).parent().find("img").height();
@@ -336,6 +338,7 @@ var MBC = function(){
 		$(this).css("line-height", mpheight+"px");
 	});
 }
+*/
 $(document).ready(function(){
 	$(".format-image").each(function(){
 		$(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-image'></i></span></span>");
