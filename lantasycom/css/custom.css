@@ -23,7 +23,24 @@
 		display:none;
 	}
 
-	.event-info .sl{
-		font-size: 16vw;
-	}
+    .event-info .sl{
+        font-size: 16vw;
+    }
+
+    .event-info .fl{
+        font-size: 8vw;
+        margin-bottom:0px;
+    }
+
+    .event-info .tl{
+        font-size: 4vw;
+        margin-top: 0px;
+        margin-bottom:0px;
+    }
+
+    .event-info .event-date{
+        font-size: 4vw;
+        margin-top: 0px;
+    }
+
 }
