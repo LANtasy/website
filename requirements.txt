@@ -1,6 +1,4 @@
 Django
-djangorestframework
 django-forms-bootstrap
 django-merchant
 stripe
-pytz
