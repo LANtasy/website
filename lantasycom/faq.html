@@ -12,7 +12,7 @@
     <meta property="og:title" content="Western Canada’s largest digital gaming event | LANtasy" />
     <meta property="og:type" content="website" />
     <meta property="og:description"
-          content="LANtasy is Western Canada’s largest digital gaming event, 
+          content="LANtasy is Western Canada’s largest digital gaming event,
                    a local area network gathering with live esports competitions." />
     <meta property="og:image" content="https://www.lantasy.com/img/logo/fb-logo1-large.png" />
     <meta property="og:image:secure_url" content="https://www.lantasy.com/img/logo/fb-logo1-large" />
@@ -59,7 +59,7 @@
 <!--[if lt IE 7]>
 	<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 <![endif]-->
-<div class="body"> 
+<div class="body">
 	<!-- Start Site Header -->
 	<header class="site-header">
     	<div class="container-spec">
@@ -76,7 +76,7 @@
                     <li><a href="index.html#about">About</a></li>
                 	<li class="highlight"><a href="index.html#register">Buy Your Ticket</a></li>
                 </ul>
-            </nav>       
+            </nav>
             <a href="#" class="visible-sm visible-xs" id="menu-toggle"><i class="fa fa-bars"></i></a>
     	</div>
 	</header>
@@ -231,7 +231,6 @@
                                     </div>
                                   </div>
                                 </div>
-                                <p><a href="faq.html" class="basic-link">More Information</a></p>
                                 <!--<p>More answers...</p>-->
                             </div>
                             <!-- End Toggle -->
@@ -282,7 +281,7 @@
       	</div>
     </footer>
     <!-- End site footer -->
-  	<a id="back-to-top"><i class="fa fa-angle-double-up"></i></a> 
+  	<a id="back-to-top"><i class="fa fa-angle-double-up"></i></a>
     <div class="social-share">
     	<a href="#" class="share-float"><i class="icon-share"></i></a>
     	<ul class="social-icons inversed">
@@ -312,7 +311,7 @@ $(document).ready(function() {
     unit: 'c',
     success: function(weather) {
       html = '<i class="wi wi-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'';
-  
+
       $("#weather").html(html);
     },
     error: function(error) {
@@ -333,9 +332,9 @@ function getGeocode() {
 	geocoder.geocode( { 'address': address}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
     		latitude = results[0].geometry.location.lat();
-			longitude = results[0].geometry.location.lng(); 
-			initGoogleMap();   
-    	} 
+			longitude = results[0].geometry.location.lng();
+			initGoogleMap();
+    	}
 	});
 }
 
@@ -347,7 +346,7 @@ function initGoogleMap() {
 	      ]
 	    }
 	];
-	
+
 	var options = {
 		mapTypeControlOptions: {
 			mapTypeIds: ['Styled']
@@ -358,7 +357,7 @@ function initGoogleMap() {
 		navigationControl: false,
 		mapTypeControl: false,
 		zoomControl: true,
-		disableDefaultUI: true,	
+		disableDefaultUI: true,
 		mapTypeId: 'Styled'
 	};
 	var div = document.getElementById('gmap');
@@ -371,17 +370,17 @@ function initGoogleMap() {
 	});
 	var styledMapType = new google.maps.StyledMapType(styles, { name: 'Styled' });
 	map.mapTypes.set('Styled', styledMapType);
-	
+
 	var infowindow = new google.maps.InfoWindow({
 	      content: "<div class='iwContent'>"+address+"</div>"
 	});
 	google.maps.event.addListener(marker, 'click', function() {
 	    infowindow.open(map,marker);
 	  });
-	
-	
+
+
 	bounds = new google.maps.LatLngBounds(
-	  new google.maps.LatLng(-84.999999, -179.999999), 
+	  new google.maps.LatLng(-84.999999, -179.999999),
 	  new google.maps.LatLng(84.999999, 179.999999));
 
 	rect = new google.maps.Rectangle({
