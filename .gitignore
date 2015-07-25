@@ -1,5 +1,17 @@
+*.pyc
+*.pyo
+*.db
+.DS_Store
+.coverage
+website/settings/local_settings.py
+/static
+
+# PyCharm files
 .idea
+
+# DB files
 *.sqlite3
+
+# Vagrant
 .vagrant
 vagrant_ansible_inventory_default
-.DS_Store
