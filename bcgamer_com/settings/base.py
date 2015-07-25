@@ -40,6 +40,10 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
     # www
     'bcgamer_com.apps.www',
+
+    # payment processors
+    'billing',
+    #'stripe',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,3 +116,12 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+# Stripe settings
+MERCHANT_TEST_MODE = True  # Toggle for live
+MERCHANT_SETTINGS = {
+    "stripe": {
+        "API_KEY": "sk_test_nWipTVnnmYiWZqxVHr4IaOEm",
+        "PUBLISHABLE_KEY": "pk_test_ANIOeJo7Nq9FaJCuOgVDKAnM",  # Used for stripe integration
+    }
+}

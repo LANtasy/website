@@ -1,0 +1,48 @@
+.site-logo h1 {
+	padding: 15px 0px 10px;
+}
+.sticky-header .site-logo h1{
+	padding-top:3px;
+}
+.site-header {
+	height: 100px;
+}
+.site-header.sticky-header {
+	height: 80px;
+}
+.main-navigation > ul > li > a {
+	line-height:100px;
+}
+.sticky-header .main-navigation > ul > li > a {
+	line-height:80px;
+}
+
+
+
+@media only screen and (max-width: 440px) {
+
+	div.venue-view{
+		display:none;
+	}
+
+    .event-info .sl{
+        font-size: 16vw;
+    }
+
+    .event-info .fl{
+        font-size: 8vw;
+        margin-bottom:0px;
+    }
+
+    .event-info .tl{
+        font-size: 4vw;
+        margin-top: 0px;
+        margin-bottom:0px;
+    }
+
+    .event-info .event-date{
+        font-size: 4vw;
+        margin-top: 0px;
+    }
+
+}
