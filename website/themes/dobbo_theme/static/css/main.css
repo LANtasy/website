@@ -12,6 +12,9 @@
         top: 50%;
         transform: translateY(25%);
     }
+    ul.nav.navbar-nav {
+        float: right;
+    }
 }
 @media only screen and (max-width: 768px) {
     .navbar-header {
