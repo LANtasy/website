@@ -1,11 +1,22 @@
 /* --HEADER-- */
-.navbar.navbar-default{
-    height: 75px;
-}
-
 /* TODO: This needs to be responsive */
-.navbar-default .navbar-nav > li > a {
-    line-height: 55px;
+@media only screen and (min-width: 768px) {
+    .navbar-default .navbar-nav > li > a {
+        line-height: 44px;
+        font-size: 16px;
+        font-weight: 600;
+
+    }
+    .navbar-form {
+        position: relative;
+        top: 50%;
+        transform: translateY(25%);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .navbar-header {
+        height: 80px;
+    }
 }
 
 .navbar-default .navbar-brand > img{
@@ -15,9 +26,11 @@
     height: 55px;
     width: auto;
 }
-.navbar-default .navbar-nav > li {
 
-    position: relative;
-    top: 50%;
-
+header {
+    margin-bottom: 20px;
 }
+
+
+
+

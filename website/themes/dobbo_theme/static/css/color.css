@@ -21,6 +21,7 @@
 .navbar-default .navbar-nav > .active > a{
     color: #ffffff;
     background-color: #535454;
+    box-shadow: none;
     background-image: none;
 }
 .navbar-default .navbar-nav > .active > a:hover,
