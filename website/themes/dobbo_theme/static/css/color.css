@@ -1,7 +1,23 @@
+/* --GLOBAL-- */
+body {
+    background-color: #535454;
+    color: #FFFFFF;
+}
+a {
+    color: #FFFFFF;
+}
+a:hover {
+    color: #579bd3;
+}
+
 /* --HEADER-- */
 .navbar,
 .navbar-default{
-    background:  #535454;
+    background-color: #535454;
+    background-image: none;
+    border-color: #535454;
+    opacity: 0.9;
+    filter: alpha(opacity=90);
 }
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover,
@@ -20,7 +36,7 @@
 .navbar-default .navbar-nav > .active,
 .navbar-default .navbar-nav > .active > a{
     color: #ffffff;
-    background-color: #535454;
+    background-color: transparent;
     box-shadow: none;
     background-image: none;
 }
@@ -61,4 +77,21 @@
 }
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #ffffff;
+}
+
+/* --FOOTER-- */
+footer {
+    background-color: #535454;
+    border-color: #535454;
+    color: #FFFFFF;
+}
+
+.social-icons li a {
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+.social-icons li a:hover {
+    background-color: #579bd3;
+    border: 2px solid #579bd3;
 }

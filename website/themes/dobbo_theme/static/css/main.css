@@ -1,39 +1,87 @@
+/* --GLOBAL-- */
+
+
 /* --HEADER-- */
-/* TODO: This needs to be responsive */
 @media only screen and (min-width: 768px) {
-    .navbar-default .navbar-nav > li > a {
+    header .navbar-default .navbar-nav > li > a {
         line-height: 44px;
         font-size: 16px;
-        font-weight: 600;
+
 
     }
-    .navbar-form {
+    header .navbar-form {
         position: relative;
         top: 50%;
         transform: translateY(25%);
     }
-    ul.nav.navbar-nav {
+    header ul.nav.navbar-nav {
         float: right;
     }
 }
 @media only screen and (max-width: 768px) {
-    .navbar-header {
+    header .navbar-header {
         height: 80px;
     }
 }
 
-.navbar-default .navbar-brand > img{
+header .navbar-default .navbar-brand > img{
     position: relative;
     top: 50%;
     transform: translateY(-25%);
     height: 55px;
     width: auto;
 }
+header a {
+    font-weight: 600;
+}
 
 header {
     margin-bottom: 20px;
 }
+/* --HEADER END-- */
 
 
+/* --FOOTER-- */
+footer p.left {
+    float: left;
+}
 
+footer a {
+    font-weight: 600;
+}
 
+footer ul.right {
+    float: right;
+
+    margin: 0;
+    line-height: 25px;
+}
+footer .social-icons, footer .social-icons-colored{
+    margin: 0;
+    list-style-type: none;
+}
+
+footer ul {
+    list-style: none;
+    position: relative;
+    top: -10px;
+}
+
+footer .social-icons li {
+    display: inline-block;
+
+}
+
+footer .social-icons li a {
+    border-radius: 100%;
+    width: 33px;
+    height:33px;
+    text-align: center;
+    display: block;
+    line-height: 30px !important;
+    margin: 3px;
+    font: inherit;
+    font-size: 100%;
+
+}
+/* --FOOTER END-- */

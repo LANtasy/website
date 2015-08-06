@@ -38,6 +38,7 @@
         <link rel="stylesheet" href="{% static "css/vendor/bootstrap-theme.min.css" %}">
         <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}">
         <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}">
+        <link rel="stylesheet" href="{% static "css/vendor/font-awesome.min.css" %}">
         <!--LANtasy CSS-->
         <link rel="stylesheet" href="{% static "css/main.css" %}">
         <link rel="stylesheet" href="{% static "css/color.css" %}">
@@ -152,20 +153,19 @@
         {% page_menu "pages/menus/footer.html" %}
 
         <div class="row">
-            <p class="site-info text-center">
-                {% trans "Powered by" %}
-                <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
-                <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
-                {% trans "and" %}
-                <a href="http://www.djangoproject.com">Django</a>
-                <span class="separator">|</span>
-                {% trans "Theme by" %} <a target="_blank" href="http://getbootstrap.com">Bootstrap</a>
-                {% ifinstalled mezzanine.mobile %}
-                <span class="separator">|</span>
-                <a href="{% url "set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
-                {% endifinstalled %}
-            </p>
+            <div class="col-md-6 col-sm-6 copyrights-left">
+                &copy; 2015 LANtasy Gaming Society. All Rights Reserved.
+            </div>
+            <div class="col-md-6 col-sm-6 copyrights-right">
+                <ul class="social-icons pull-right">
+                    <li><a href="httpS://www.facebook.com/lantasy" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com/LANtasyCOM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://plus.google.com/+LantasyCOM" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
         </div>
+
+
     </div>
 </footer>
 
