@@ -51,14 +51,15 @@
                 <link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
             {% endif %}
         {% endifinstalled %}
+        <!--Additional CSS-->
         {% block extra_css %}{% endblock %}
     {% endcompress %}
 
     {% compress js %}
-        <!--<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>-->
         <script src="{% static "js/vendor/jquery-1.11.3.min.js" %}"></script>
         <script src="{% static "js/vendor/bootstrap-3.3.5.min.js" %}"></script>
         <script src="{% static "js/bootstrap-extras.js" %}"></script>
+        <script src="{% static "js/plugins.js" %}"></script>
     {% block extra_js %}{% endblock %}
     {% endcompress %}
 
@@ -90,68 +91,72 @@
         </div>
     </header>
 
-
+{% block body %}
 <div class="container">
 
-{% nevercache %}
-{% if messages %}
-<div class="messages">
-{% for message in messages %}
-<div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    {{ message }}
-</div>
-{% endfor %}
-</div>
-{% endif %}
-{% endnevercache %}
-
-<h1>{% block title %}{% endblock %}</h1>
-
-<ul class="breadcrumb">
-{% spaceless %}
-{% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
-{% endspaceless %}
-</ul>
-
-</div>
-
-<div class="container">
-<div class="row">
-
-<div class="col-md-2 left">
-    {% block left_panel %}
-    <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
-    {% endblock %}
-</div>
-
-<div class="col-md-7 middle">
-    {% block main %}{% endblock %}
-</div>
-
-<div class="col-md-3 right">
     {% nevercache %}
-    {% include "includes/language_selector.html" %}
-    {% include "includes/user_panel.html" %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endnevercache %}
-    <div class="panel panel-default">
-    <div class="panel-body">
-    {% block right_panel %}
-    {% ifinstalled mezzanine.twitter %}
-    {% include "twitter/tweets.html" %}
-    {% endifinstalled %}
-    {% endblock %}
+
+    <h1>{% block title %}{% endblock %}</h1>
+
+    <ul class="breadcrumb">
+        {% spaceless %}
+        {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+        {% endspaceless %}
+    </ul>
+
+</div>
+
+<div class="container">
+    <div class="row">
+
+
+    <div class="col-md-2 left">
+        {% block left_panel %}
+        <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
+        {% endblock %}
     </div>
+
+    <div class="col-md-7 middle">
+        {% block main %}{% endblock %}
+    </div>
+
+    <div class="col-md-3 right">
+        {% nevercache %}
+        {% include "includes/language_selector.html" %}
+        {% include "includes/user_panel.html" %}
+        {% endnevercache %}
+        <div class="panel panel-default">
+        <div class="panel-body">
+        {% block right_panel %}
+        {% ifinstalled mezzanine.twitter %}
+        {% include "twitter/tweets.html" %}
+        {% endifinstalled %}
+        {% endblock %}
+        </div>
+        </div>
+    </div>
+
+
     </div>
 </div>
 
-</div>
-</div>
-
+{% endblock %}
 <footer>
     <div class="container">
+        <!--
         {% page_menu "pages/menus/footer.html" %}
-
+        -->
         <div class="row">
             <div class="col-md-6 col-sm-6 copyrights-left">
                 &copy; 2015 LANtasy Gaming Society. All Rights Reserved.
