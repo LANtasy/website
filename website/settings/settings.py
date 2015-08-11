@@ -204,7 +204,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "themes/default/templates"),)
 ################
 
 INSTALLED_APPS = (
-    "website.themes.dobbo_theme",
+    "website.themes.convocation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

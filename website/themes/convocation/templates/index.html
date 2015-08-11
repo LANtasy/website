@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block meta_title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
+{% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/vendor/flexslider.css" %}">
+    <link rel="stylesheet" href="{% static "css/custom.css" %}">
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static "js/vendor/jquery.flexslider-min.js" %}"></script>
+
+    <script type="text/javascript" charset="utf-8">
+        $(window).load(function(){
+            $('.flexslider').flexslider();
+        });
+    </script>
+
+{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Home" %}</li>
+{% endblock %}
+{% block body %}
+    <div class="showcase wheighter">
+        <!-- Start Hero Slider -->
+        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
+            <ul class="slides">
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img1.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img2.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img3.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img4.jpg' %}')"></li>
+            </ul>
+        </div>
+        <!-- End Hero Slider -->
+        <div class="event-hero-info">
+        	<div class="container">
+                <div class="event-info">
+                    <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
+                    <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
+                    <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
+                    <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                </div>
+           	</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+
+{% blocktrans %}
+
+
+<h2>Congratulations!</h2>
+<p>
+    Welcome to your new Mezzanine powered website.
+    Here are some quick links to get you started:
+</p>
+<ul>
+    <li><a href="/admin/">Log in to the admin interface</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/content-architecture.html">Creating custom page types</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#templates">Modifying HTML templates</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#why-isn-t-the-homepage-a-page-object-i-can-edit-via-the-admin">Changing this homepage</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html">Other frequently asked questions</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/configuration.html#default-settings">Full list of settings</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/deployment.html">Deploying to a production server</a></li>
+</ul>
+{% endblocktrans %}
+{% endblock %}
