@@ -20,35 +20,29 @@
     <li class="active">{% trans "Home" %}</li>
 {% endblock %}
 {% block body %}
-    <div class="flexslider">
-      <ul class="slides">
-          <li>
-            <img src='{% static 'img/flexslider/img1.jpg' %}' />
-          </li>
-          <li>
-            <img src='{% static 'img/flexslider/img2.jpg' %}' />
-          </li>
-          <li>
-            <img src='{% static 'img/flexslider/img3.jpg' %}' />
-          </li>
-          <li>
-            <img src='{% static 'img/flexslider/img4.jpg' %}' />
-          </li>
-      </ul>
+    <div class="showcase wheighter">
+        <!-- Start Hero Slider -->
+        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
+            <ul class="slides">
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img1.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img2.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img3.jpg' %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static 'img/flexslider/img4.jpg' %}')"></li>
+            </ul>
+        </div>
+        <!-- End Hero Slider -->
+        <div class="event-hero-info">
+        	<div class="container">
+                <div class="event-info">
+                    <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
+                    <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
+                    <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
+                    <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                </div>
+           	</div>
+        </div>
     </div>
 
-
-    <!--
-    <div id="slider">
-        <figure>
-            <img src="http://demosthenes.info/assets/images/austin-fireworks.jpg" alt="">
-            <img src="http://demosthenes.info/assets/images/taj-mahal.jpg" alt="">
-            <img src="http://demosthenes.info/assets/images/ibiza.jpg" alt="">
-            <img src="http://demosthenes.info/assets/images/ankor-wat.jpg" alt="">
-            <img src="http://demosthenes.info/assets/images/austin-fireworks.jpg" alt="">
-        </figure>
-    </div>
-    -->
 {% endblock %}
 
 {% block main %}
