@@ -57,9 +57,7 @@
         <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}">
         <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}">
         <link rel="stylesheet" href="{% static "css/convocation.css" %}">
-        <!--LANtasy CSS-->
-        <link rel="stylesheet" href="{% static "css/custom.css" %}">
-        <link rel="stylesheet" href="{% static "css/color.css" %}">
+
         {% if LANGUAGE_BIDI %}
             <link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}">
         {% endif %}
@@ -71,6 +69,9 @@
         {% endifinstalled %}
         <!--Additional CSS-->
         {% block extra_css %}{% endblock %}
+        <!--LANtasy CSS-->
+        <link rel="stylesheet" href="{% static "css/custom.css" %}">
+        <link rel="stylesheet" href="{% static "css/color.css" %}">
     {% endcompress %}
 
     {% compress js %}
