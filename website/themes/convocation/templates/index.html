@@ -6,16 +6,12 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/vendor/flexslider.css" %}">
-    <link rel="stylesheet" href="{% static "css/custom.css" %}">
-    <link rel="stylesheet" href="{% static "css/LANtasyColor.css" %}">
-    <link rel="stylesheet" href="{% static "css/weather.css" %}">
+
+
 {% endblock %}
 {% block extra_js %}
     <script src="{% static "js/vendor/jquery.flexslider-min.js" %}"></script>
-    <script src="{% static "js/vendor/jquery.sticky.js" %"></script> <!-- StickyJS -->
-    <script src="{% static "js/vendor/jquery.waypoints.min.js" %"></script> <!-- UI -->
-    <script src="{% static "js/vendor/jquery.simpleWeather.min.js" %}"></script>
-    <script src="{% static "js/vendor/helper-plugins.js" %}"></script>
+    <script src="vendor/jquery.simpleWeather.min.js"></script>
     <script>
         // Docs at http://simpleweatherjs.com
         $(document).ready(function() {
@@ -121,10 +117,10 @@
 {% block body %}
     <div class="showcase wheighter">
         <!-- Start Hero Slider -->
-        <div class="hero-slider flexslider wheighter" style="height: auto;" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
+        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
             <ul class="slides">
-                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9833-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;""></li>
-                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9879-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;""></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9833-3_TEMP.jpg" %}')"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9879-3_TEMP.jpg" %}')"></li>
             </ul>
         </div>
         <!-- End Hero Slider -->
