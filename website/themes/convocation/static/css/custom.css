@@ -96,6 +96,17 @@ body {
 }
 
 
+.accordion-inner, .accordion-toggle.inactive.collapsed, .accordion-toggle, .accordion-toggle.active{
+	color: #FFFFFF;
+}
+
+div.accordion-group.panel, img.game {
+    background:#4f4f4f;
+    border: 1px solid white;
+    padding: 10px 15px 20px;
+}
+
 .flexslider {
     border: none;
 }
+
