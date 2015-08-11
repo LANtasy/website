@@ -909,7 +909,7 @@ label {
 	position:relative;
 }
 .flexslider{
-	background:url(../img/loader.gif) no-repeat scroll center center;
+	background:url(../img/flexslider/loader.gif) no-repeat scroll center center;
 }
 .flexslider .slides{
 	margin:0;

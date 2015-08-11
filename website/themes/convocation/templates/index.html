@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 
-{% block meta_title %}{% trans "Home" %}{% endblock %}
-{% block title %}{% trans "Home" %}{% endblock %}
+{% block meta_title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
+{% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/vendor/flexslider.css" %}">
 {% endblock %}
@@ -14,6 +15,7 @@
             $('.flexslider').flexslider();
         });
     </script>
+
 {% endblock %}
 
 {% block breadcrumb_menu %}

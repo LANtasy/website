@@ -5,9 +5,27 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="copyright" content="LANtasy Gaming Society">
     <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+
+    <!--FACEBOOK-->
+    <meta property="og:url" content="https://www.lantasy.com" />
+    <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{% endif %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description"
+          content="LANtasy is Western Canada’s largest digital gaming event,
+                   a local area network gathering with live esports competitions." />
+    <meta property="og:image" content="https://www.lantasy.com/img/facebook/fb-logo1-large.png" />
+    <meta property="og:image:secure_url" content="https://www.lantasy.com/img/facbeook/fb-logo1-large" />
+    <meta property="og:image:type" content="image/png" />
+
+    <meta property="og:image:width" content="1084" />
+    <meta property="og:image:height" content="723" />
+
+    <!--TWITTER-->
+
 
     <!--ICONS-->
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
@@ -60,7 +78,7 @@
         <script src="{% static "js/vendor/bootstrap-3.3.5.min.js" %}"></script>
         <script src="{% static "js/bootstrap-extras.js" %}"></script>
         <script src="{% static "js/convocation.js" %}"></script>
-        <script src="{% static "js/plugins.js" %}"></script>
+        <!--<script src="{% static "js/plugins.js" %}"></script>-->
     {% block extra_js %}{% endblock %}
     {% endcompress %}
 
@@ -72,7 +90,7 @@
     {% block extra_head %}{% endblock %}
 </head>
 
-<body id="{% block body_id %}body{% endblock %}" class="body">
+<body id="{% block body_id %}body{% endblock %}" class="body background--dark">
     <header>
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
