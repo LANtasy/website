@@ -51,35 +51,40 @@
 
     {% compress css %}
         <!--Vendor CSS-->
-        <link rel="stylesheet" href="{% static "css/vendor/bootstrap.min.css" %}">
-        <link rel="stylesheet" href="{% static "css/mezzanine.css" %}">
-        <link rel="stylesheet" href="{% static "css/vendor/bootstrap-theme.min.css" %}">
-        <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}">
-        <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}">
-        <link rel="stylesheet" href="{% static "css/convocation.css" %}">
-        <!--LANtasy CSS-->
-        <link rel="stylesheet" href="{% static "css/custom.css" %}">
-        <link rel="stylesheet" href="{% static "css/color.css" %}">
+        <link rel="stylesheet" href="{% static "css/vendor/bootstrap.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/vendor/bootstrap-theme.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "vendor/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
+
+
         {% if LANGUAGE_BIDI %}
-            <link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}">
+            <link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}" type="text/css">
         {% endif %}
         {% ifinstalled cartridge.shop %}
-            <link rel="stylesheet" href="{% static "css/cartridge.css" %}">
+            <link rel="stylesheet" href="{% static "css/cartridge.css" %}" type="text/css">
             {% if LANGUAGE_BIDI %}
-                <link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
+                <link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}" type="text/css">
             {% endif %}
         {% endifinstalled %}
         <!--Additional CSS-->
         {% block extra_css %}{% endblock %}
+        <!--LANtasy CSS-->
+        <link rel="stylesheet" href="{% static "css/convocation.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "css/color.css" %}" type="text/css">
     {% endcompress %}
 
     {% compress js %}
         <script src="{% static "js/vendor/jquery-1.11.3.min.js" %}"></script>
+        <script src="{% static "vendor/prettyphoto/js/prettyphoto.js" %}"></script>
         <script src="{% static "js/vendor/bootstrap-3.3.5.min.js" %}"></script>
         <script src="{% static "js/bootstrap-extras.js" %}"></script>
         <script src="{% static "js/convocation.js" %}"></script>
         <!--<script src="{% static "js/plugins.js" %}"></script>-->
     {% block extra_js %}{% endblock %}
+        <script src="{% static "vendor/modernizr/js/modernizr.js" %}"></script>
     {% endcompress %}
 
     <!--[if lt IE 9]>
