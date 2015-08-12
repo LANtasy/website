@@ -4,7 +4,7 @@
 .DS_Store
 .coverage
 website/settings/local_settings.py
-website/static
+static/media
 
 # PyCharm files
 .idea

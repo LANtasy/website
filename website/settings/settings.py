@@ -180,7 +180,10 @@ STATIC_URL = "/static/"
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "../static")
+
+
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "../website/static"),)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -206,7 +209,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "themes/default/templates"),)
 ################
 
 INSTALLED_APPS = (
-    "website.themes.convocation",
+    "website.apps.convocation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

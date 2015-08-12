@@ -5,15 +5,15 @@
 {% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock title %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static "css/weather.css" %}">
-    <link rel="stylesheet" href="{% static "css/custom.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/weather.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/custom.css" %}">
 {% endblock extra_css %}
 
 {% block extra_js %}
-    <script src="{% static "vendor/flexslider/jquery.flexslider-min.js" %}"></script>
-    <script src="{% static "vendor/waypoints/jquery.waypoints-3.1.1.min.js" %}"></script> <!-- UI -->
-    <script src="{% static "vendor/simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
-    <script src="{% static "js/helper-plugins.js" %}"></script>
+    <script src="{% static "common/flexslider/jquery.flexslider-min.js" %}"></script>
+    <script src="{% static "common/waypoints/jquery.waypoints-3.1.1.min.js" %}"></script> <!-- UI -->
+    <script src="{% static "common/simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
+    <script src="{% static "theme/js/helper-plugins.js" %}"></script>
     <script>
         // Docs at http://simpleweatherjs.com
         $(document).ready(function() {
@@ -122,8 +122,8 @@
         <!-- Start Hero Slider -->
         <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
             <ul class="slides">
-                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9833-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
-                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "img/BCG_GC2015-9879-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "theme/img/BCG_GC2015-9833-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "theme/img/BCG_GC2015-9879-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
             </ul>
         </div>
         <!-- End Hero Slider -->
@@ -148,7 +148,7 @@
                     <div class="row">
                         <div class="col-md-5 col-sm-5">
                             <div class="video-popup">
-                                <img src="{% static "img/BCG_GC2015-9891-3.jpg" %}" alt="">
+                                <img src="{% static "theme/img/BCG_GC2015-9891-3.jpg" %}" alt="">
                             </div>
                         </div>
                         <div class="col-md-7 col-sm-7">
@@ -211,16 +211,16 @@
                             <p>More information coming soon…</p>
                             <div class="row">
                                 <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "img/games/counterstrike_go.png" %}">
+                                    <img class="game panel" src="{% static "theme/img/games/counterstrike_go.png" %}">
                                 </div>
                                 <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "img/games/dota2.png" %}">
+                                    <img class="game panel" src="{% static "theme/img/games/dota2.png" %}">
                                 </div>
                                 <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "img/games/league_of_legends.png" %}">
+                                    <img class="game panel" src="{% static "theme/img/games/league_of_legends.png" %}">
                                 </div>
                                 <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "img/games/starcraft2.png" %}">
+                                    <img class="game panel" src="{% static "theme/img/games/starcraft2.png" %}">
                                 </div>
 
 

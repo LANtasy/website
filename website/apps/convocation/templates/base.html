@@ -17,8 +17,8 @@
     <meta property="og:description"
           content="LANtasy is Western Canada’s largest digital gaming event,
                    a local area network gathering with live esports competitions." />
-    <meta property="og:image" content="https://www.lantasy.com/img/facebook/fb-logo1-large.png" />
-    <meta property="og:image:secure_url" content="https://www.lantasy.com/img/facbeook/fb-logo1-large" />
+    <meta property="og:image" content="https://www.lantasy.com/theme/img/facebook/fb-logo1-large.png" />
+    <meta property="og:image:secure_url" content="https://www.lantasy.com/theme/img/facbeook/fb-logo1-large" />
     <meta property="og:image:type" content="image/png" />
 
     <meta property="og:image:width" content="1084" />
@@ -29,20 +29,20 @@
 
     <!--ICONS-->
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static "img/favicon/apple-touch-icon-57x57.png" %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static "img/favicon/apple-touch-icon-114x114.png" %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static "img/favicon/apple-touch-icon-72x72.png" %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/favicon/apple-touch-icon-144x144.png" %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static "img/favicon/apple-touch-icon-60x60.png" %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static "img/favicon/apple-touch-icon-120x120.png" %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static "img/favicon/apple-touch-icon-76x76.png" %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static "img/favicon/apple-touch-icon-152x152.png" %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/favicon/apple-touch-icon-180x180.png" %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static "img/favicon/favicon-192x192.png" %}">
-    <link rel="icon" type="image/png" sizes="160x160" href="{% static "img/favicon/favicon-160x160.png" %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static "img/favicon/favicon-96x96.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/favicon/favicon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/favicon/favicon-32x32.png" %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static "theme/img/favicon/apple-touch-icon-57x57.png" %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static "theme/img/favicon/apple-touch-icon-114x114.png" %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static "theme/img/favicon/apple-touch-icon-72x72.png" %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "theme/img/favicon/apple-touch-icon-144x144.png" %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static "theme/img/favicon/apple-touch-icon-60x60.png" %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static "theme/img/favicon/apple-touch-icon-120x120.png" %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static "theme/img/favicon/apple-touch-icon-76x76.png" %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static "theme/img/favicon/apple-touch-icon-152x152.png" %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "theme/img/favicon/apple-touch-icon-180x180.png" %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static "theme/img/favicon/favicon-192x192.png" %}">
+    <link rel="icon" type="image/png" sizes="160x160" href="{% static "theme/img/favicon/favicon-160x160.png" %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static "theme/img/favicon/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "theme/img/favicon/favicon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "theme/img/favicon/favicon-32x32.png" %}">
 
     {% ifinstalled mezzanine.blog %}
         <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
@@ -51,12 +51,12 @@
 
     {% compress css %}
         <!--Vendor CSS-->
-        <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "vendor/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/vendor/html5-boilerplate.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/vendor/normalize.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "common/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
 
 
         {% if LANGUAGE_BIDI %}
@@ -71,18 +71,18 @@
         <!--Additional CSS-->
         {% block extra_css %}{% endblock %}
         <!--LANtasy CSS-->
-        <link rel="stylesheet" href="{% static "css/convocation.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "css/color.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/convocation.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/custom.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/color.css" %}" type="text/css">
     {% endcompress %}
 
     {% compress js %}
-        <script src="{% static "vendor/jquery/jquery-1.11.3.min.js" %}"></script>
-        <script src="{% static "vendor/prettyphoto/js/prettyphoto.js" %}"></script>
-        <script src="{% static "vendor/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
+        <script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
+        <script src="{% static "common/prettyphoto/js/prettyphoto.js" %}"></script>
+        <script src="{% static "common/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
         <script src="{% static "js/bootstrap-extras.js" %}"></script>
-        <script src="{% static "vendor/modernizr/js/modernizr-2.8.3.min.js" %}"></script>
-        <script src="{% static "js/convocation.js" %}"></script>
+        <script src="{% static "common/modernizr/js/modernizr-2.8.3.min.js" %}"></script>
+        <script src="{% static "theme/js/convocation.js" %}"></script>
     {% block extra_js %}{% endblock %}
     {% endcompress %}
 
@@ -105,7 +105,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/"><img src="{% static "img/logo/logo-2016-white.png" %}"></a>
+                    <a class="navbar-brand" href="/"><img src="{% static "theme/img/logo/logo-2016-white.png" %}"></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     {% page_menu "pages/menus/dropdown.html" %}
