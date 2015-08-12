@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 
-{% block meta_title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
-{% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock %}
+{% block meta_title %}{% trans "The largest gaming event in western Canada" %}{% endblock meta_title %}
+{% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock title %}
 
 {% block extra_css %}
-    <!--<link rel="stylesheet" href="{% static "css/vendor/flexslider.css" %}">-->
-    <link rel="stylesheet" href="{% static "css/custom.css" %}">
     <link rel="stylesheet" href="{% static "css/weather.css" %}">
-{% endblock %}
+    <link rel="stylesheet" href="{% static "css/custom.css" %}">
+{% endblock extra_css %}
 
 {% block extra_js %}
-    <script src="{% static "js/vendor/jquery.flexslider-min.js" %}"></script>
+    <script src="{% static "vendor/flexslider/jquery.flexslider-min.js" %}"></script>
     <script src="{% static "js/vendor/jquery.sticky.js" %}"></script> <!-- StickyJS -->
     <script src="{% static "js/vendor/jquery.waypoints.min.js" %}"></script> <!-- UI -->
     <script src="{% static "js/vendor/jquery.simpleWeather.min.js" %}"></script>

@@ -51,9 +51,9 @@
 
     {% compress css %}
         <!--Vendor CSS-->
-        <link rel="stylesheet" href="{% static "css/vendor/bootstrap.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "css/vendor/bootstrap-theme.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/vendor/html5-boilerplate.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/vendor/normalize.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "vendor/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
@@ -77,14 +77,13 @@
     {% endcompress %}
 
     {% compress js %}
-        <script src="{% static "js/vendor/jquery-1.11.3.min.js" %}"></script>
+        <script src="{% static "vendor/jquery/jquery-1.11.3.min.js" %}"></script>
         <script src="{% static "vendor/prettyphoto/js/prettyphoto.js" %}"></script>
-        <script src="{% static "js/vendor/bootstrap-3.3.5.min.js" %}"></script>
+        <script src="{% static "vendor/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
         <script src="{% static "js/bootstrap-extras.js" %}"></script>
-        <script src="{% static "js/convocation.js" %}"></script>
-        <!--<script src="{% static "js/plugins.js" %}"></script>-->
-    {% block extra_js %}{% endblock %}
         <script src="{% static "vendor/modernizr/js/modernizr.js" %}"></script>
+        <script src="{% static "js/convocation.js" %}"></script>
+    {% block extra_js %}{% endblock %}
     {% endcompress %}
 
     <!--[if lt IE 9]>
