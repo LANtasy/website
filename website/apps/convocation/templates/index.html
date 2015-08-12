@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block meta_title %}{% trans "The largest gaming event in western Canada" %}{% endblock meta_title %}
+{% block title %}{% trans "The largest gaming event in western Canada" %}{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "theme/css/weather.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/custom.css" %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+    <script src="{% static "common/flexslider/jquery.flexslider-min.js" %}"></script>
+    <script src="{% static "common/waypoints/jquery.waypoints-3.1.1.min.js" %}"></script> <!-- UI -->
+    <script src="{% static "common/simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
+    <script src="{% static "theme/js/helper-plugins.js" %}"></script>
+    <script>
+        // Docs at http://simpleweatherjs.com
+        $(document).ready(function() {
+          $.simpleWeather({
+            location: 'Victoria, BC',
+            woeid: '',
+            unit: 'c',
+            success: function(weather) {
+              html = '<i class="wi wi-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'';
+
+              $("#weather").html(html);
+            },
+            error: function(error) {
+              $("#weather").html('<p>'+error+'</p>');
+            }
+          });
+        });
+    </script>
+    <script src="https://maps.google.com/maps/api/js?sensor=false"></script> <!-- Google Map -->
+    <script type="text/javascript">
+        var geocoder = new google.maps.Geocoder();
+        var address = "3100 Tillicum Road, Victoria, BC, V9A 6T2"; //Add your address here, all on one line.
+        var latitude;
+        var longitude;
+        var color = "#579bd3"; //Set your tint color. Needs to be a hex value.
+
+        function getGeocode() {
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    initGoogleMap();
+                }
+            });
+        }
+
+        function initGoogleMap() {
+            var styles = [
+                {
+                  stylers: [
+                    { saturation: -100 }
+                  ]
+                }
+            ];
+
+            var options = {
+                mapTypeControlOptions: {
+                    mapTypeIds: ['Styled']
+                },
+                center: new google.maps.LatLng(latitude, longitude),
+                zoom: 13,
+                scrollwheel: false,
+                navigationControl: false,
+                mapTypeControl: false,
+                zoomControl: true,
+                disableDefaultUI: true,
+                mapTypeId: 'Styled'
+            };
+            var div = document.getElementById('gmap');
+            var map = new google.maps.Map(div, options);
+            marker = new google.maps.Marker({
+                map:map,
+                draggable:false,
+                animation: google.maps.Animation.DROP,
+                position: new google.maps.LatLng(latitude,longitude)
+            });
+            var styledMapType = new google.maps.StyledMapType(styles, { name: 'Styled' });
+            map.mapTypes.set('Styled', styledMapType);
+
+            var infowindow = new google.maps.InfoWindow({
+                  content: "<div class='iwContent'>"+address+"</div>"
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map,marker);
+              });
+
+
+            bounds = new google.maps.LatLngBounds(
+              new google.maps.LatLng(-84.999999, -179.999999),
+              new google.maps.LatLng(84.999999, 179.999999));
+
+            rect = new google.maps.Rectangle({
+                bounds: bounds,
+                fillColor: color,
+                fillOpacity: 0.2,
+                strokeWeight: 0,
+                map: map
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', getGeocode);
+    </script>
+    <script type="text/javascript" charset="utf-8">
+        $(window).load(function(){
+            $('.flexslider').flexslider();
+        });
+    </script>
+
+
+{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Home" %}</li>
+{% endblock %}
+{% block body %}
+    <div class="showcase wheighter">
+        <!-- Start Hero Slider -->
+        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
+            <ul class="slides">
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "theme/img/BCG_GC2015-9833-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "theme/img/BCG_GC2015-9879-3_TEMP.jpg" %}'); width: 100%; float: left; margin-right: -100%; position: relative; display: list-item; height: 925px; opacity: 1; background-origin: padding-box; background-position: 50% 0px; background-repeat: no-repeat;"></li>
+            </ul>
+        </div>
+        <!-- End Hero Slider -->
+        <div class="event-hero-info">
+        	<div class="container">
+                <div class="event-info">
+                    <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
+                    <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
+                    <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
+                    <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                </div>
+           	</div>
+        </div>
+    </div>
+
+    <!-- Start Body Content -->
+  	<div class="main" role="main">
+    	<div id="content" class="content full">
+        	<!-- Home Section Content -->
+        	<section class="lantasyDark_bg" id="home">
+                <div class="container-spec home-content">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5">
+                            <div class="video-popup">
+                                <img src="{% static "theme/img/BCG_GC2015-9891-3.jpg" %}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-7">
+                            <div class="fw-inner-right">
+                                <h3 class="accent-color-secondary">Didn’t make it to our last event? Here’s a taste of what you missed.</h3>
+                                <blockquote>
+                                    <p>Our last event was held at GottaCon 2015 where we had 320+ participants and ran from Friday Feb 27th  to Sunday March 1st 2015. We had Several dozen events including tournaments in CS:GO, League of Legends, DOTA 2, Starcraft 2, Titanfall.</p>
+                                <a href="http://imgur.com/a/08QsU" class="basic-link">View photos on Imgur</a>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+              	</div>
+           	</section>
+           	<!-- Venue Section Content -->
+        	<section class="onepage-section lantasyDark_bg" id="venue">
+            	<div class="container">
+                	<header class="onepage-section-headers text-align-center">
+                    	<h3 class="page-title">Pearkes Recreation Centre</h3>
+                    	<h2 class="page-stitle">One of the best venues in Victoria for LAN events, the Pearkes Field House offers lots of room, great parking, and many food options.</h2>
+                   		<a href="http://www.saanich.ca/parkrec/recreation/pearkes.html" class="btn btn-primary btn-lg">More info about Pearkes</a>
+                   	</header>
+              	</div>
+                <div class="venue-view lantasyDark_bg">
+                	<div id="gmap"></div>
+                	<div class="quick-venue-info ">
+                    	<div class="quick-venue-info-details lantasyDark_bg">
+                            <h3>Pearkes Recreation Centre of Victoria</h3>
+                            <p>3100 Tillicum Rd, Victoria B.C., V9A 6T2</p>
+                      	</div>
+                        <hr class="fw">
+                    	<div class="quick-venue-info-details">
+                        	<a href="https://www.google.ca/maps/search/food/Pearkes+Recreation+Centre+3100+Tillicum+Road+Victoria+BC+V9A+6T2+Canada" class="ico" data-toggle="tooltip" data-original-title="Food" target="_blank"><i class="icon-fast-food"></i></a>
+                        	<a href="https://www.google.com/maps/dir/Current+Location/Pearkes+Recreation+Centre+3100+Tillicum+Road+Victoria+BC+V9A+6T2+Canada" class="ico" data-toggle="tooltip" data-original-title="Directions" target="_blank"><i class="icon-map"></i></a>
+                        	<a href="https://www.google.ca/maps/search/hotels/Pearkes+Recreation+Centre+3100+Tillicum+Road+Victoria+BC+V9A+6T2+Canada" class="ico" data-toggle="tooltip" data-original-title="Hotels" target="_blank"><i class="fa fa-building-o"></i></a>
+                        	<!--<a href="#" class="ico" data-toggle="tooltip" data-original-title="Parking"><i class="fa fa-automobile"></i></a>-->
+                        </div>
+                        <hr class="fw">
+                        <span class="small">Current Weather</span>
+                    	<div id="weather"></div>
+                    </div>
+                </div>
+            </section>
+        	<section class="onepage-section lantasyDark_bg" id="about">
+            	<div class="container">
+                	<header class="onepage-section-headers text-align-center">
+                    	<h3 class="page-title">About</h3>
+                    	<!--<h2 class="page-stitle">Some Information about BCGamer and past events</h2>-->
+                        <p>Local Victoria-based nonprofit organization, LANtasy, has been running community LANs for
+                        over a decade. Last year, we ran western Canada's largest LAN event at Gottacon. It is our
+                        mission to throw inclusive, all-ages gaming events. To that end, we present LANtasy 2016.</p>
+                        <p>LANtasy 2016 is being held March 12/13 at Pearkes Arena in Victoria BC.  It is a 200+
+                        seat event that hosts  competitive and casual tournaments designed for both new and
+                        experienced players. Expect local cosplayers to be in full force and for local vendors
+                        to be offering awesome deals to LANtasy participants.</p>
+                   	</header>
+                    <div class="row">
+                    	<div class="col-md-6">
+                            <h3>Tournaments</h3>
+                            <p>More information coming soon…</p>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-3">
+                                    <img class="game panel" src="{% static "theme/img/games/counterstrike_go.png" %}">
+                                </div>
+                                <div class="col-md-6 col-sm-3">
+                                    <img class="game panel" src="{% static "theme/img/games/dota2.png" %}">
+                                </div>
+                                <div class="col-md-6 col-sm-3">
+                                    <img class="game panel" src="{% static "theme/img/games/league_of_legends.png" %}">
+                                </div>
+                                <div class="col-md-6 col-sm-3">
+                                    <img class="game panel" src="{% static "theme/img/games/starcraft2.png" %}">
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 sm-push-top">
+                            <h3>FAQs</h3>
+                            <p>Have some questions? Here’s some answers.</p>
+                            <div class="accordion" id="toggleArea">
+                              <div class="accordion-group panel">
+                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseOne"> What is a LAN Party? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
+                                <div id="collapseOne" class="accordion-body collapse">
+                                  <div class="accordion-inner">
+                                    <p>
+                                        A LAN party is an event where people bring their own computers and play
+                                        competitive or casual multiplayer games while connected to a LAN (local area
+                                        network). The event typically lasts the duration of a weekend and involves many
+                                        different games and tournaments.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="accordion-group panel">
+                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseTwo"> What should I bring? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
+                                <div id="collapseTwo" class="accordion-body collapse">
+                                  <div class="accordion-inner">
+                                      <p>&#8226; Identification (We need proof that you’re you!)</p>
+                                      <p>&#8226; Bring a Guardian or a signed parental consent waiver if you’re under
+                                          17</p>
+                                      <p>&#8226; Your Computer (and all applicable cabling)</p>
+                                      <p>&#8226; A Single Monitor (and all applicable cabling)</p>
+                                      <p>&#8226; A mouse or trackpad/ball</p>
+                                      <p>&#8226; A mouse pad</p>
+                                      <p>&#8226; Keyboard</p>
+                                      <p>&#8226; 30-foot LAN Cable – in excellent condition. Cables will be available
+                                          onsite for $20 each. (Orange or Pink cable is NOT acceptable at the event)</p>
+                                      <p>&#8226; Power cable / Other cabling– For your Monitor / Computer. Bring all
+                                          cables required for your computer & peripherals!</p>
+                                      <p>&#8226; Powerbar – Bring one power bar, preferably with an 8ft cable. Do NOT
+                                          bring a UPS for your computer to the LAN.</p>
+                                      <p>&#8226; PC Headset – Headphones WITH A MIC.  Note: Desktop mics and speakers
+                                          are not permitted in the LAN. Remember that LAN events are quite loud — a
+                                          headset with excellent sound insulation will make a huge difference for you.
+                                      </p>
+                                      <p>&#8226; Food &#38; Beverage Money – There are nearby food trucks, restaurants
+                                          and fast food establishments.</p>
+
+                                  </div>
+                                </div>
+                              </div>
+                                <div class="accordion-group panel">
+                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseThird"> What should I do to get ready? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
+                                  <div id="collapseThird" class="accordion-body collapse">
+                                   <div class="accordion-inner">
+                                      <p>Everyone needs to take care of themselves first. Here are some tips that have
+                                          worked for us:</p>
+                                      <p>Get a good night’s sleep leading up to the LAN. This is crucial. The LAN is
+                                          open 15+ hours a day so getting a good night’s sleep the week leading up to
+                                          the LAN, will ensure you can game at your best.</p>
+                                      <p>Eat &#38; Drink – Stay well-fed, stay hydrated to keep going at maximum
+                                          performance. Remember there are lots of eating options near the venue.
+                                          Outside food and drink is allowed, but NOT ALCOHOL.</p>
+                                      <p>Arrive as a TEAM  – Want to sit with with your friends? Probably a good idea
+                                          to arrive with them. Teams who arrive together usually are seated faster and
+                                          given better seating.</p>
+                                      <p>Arrive early – If you want to get going right on time, arrive early. While we
+                                          will be seating as many LANNERS as fast as we can, you don’t want to get
+                                          stuck in the back of the line!</p>
+                                      <p>Come out with an open mind – There will be many things to do, games to play,
+                                          and there is a possibility that there will be new games for you to experience
+                                          as well as introducing new people to some of your favourite games, meeting
+                                          new people etc.</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--<p><a href="faq.html" class="basic-link">More Information</a></p>-->
+                                <!--<p>More answers...</p>-->
+                            </div>
+                            <!-- End Toggle -->
+
+                        </div>
+
+                    </div>
+                    <div class="spacer-50"></div>
+               	</div>
+            </section>
+        	<!-- Register Section Content -->
+        	<section class="onepage-section lantasyDark_bg" id="register">
+            	<div class="container">
+                	<header class="onepage-section-headers text-align-center">
+                    	<h3 class="page-title">Tickets</h3>
+                    	<h2 class="page-stitle">$50 pre-order, $65 at the door</h2>
+                        <p>Ticket sales will open soon.</p>
+                   	</header>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-1 sm-push-top">
+                            	<h3>Contact Us</h3>
+                            	<address>
+                                	<a href="mailto:info@lantasy.com" class="basic-link">info@lantasy.com</a><br>
+                                </address>
+                            </div>
+                       	</div>
+                   <!-- </form>-->
+                    <div class="spacer-75"></div>
+               	</div>
+            </section>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block main %}
+
+
+{% blocktrans %}
+
+
+<h2>Congratulations!</h2>
+<p>
+    Welcome to your new Mezzanine powered website.
+    Here are some quick links to get you started:
+</p>
+<ul>
+    <li><a href="/admin/">Log in to the admin interface</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/content-architecture.html">Creating custom page types</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#templates">Modifying HTML templates</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#why-isn-t-the-homepage-a-page-object-i-can-edit-via-the-admin">Changing this homepage</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html">Other frequently asked questions</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/configuration.html#default-settings">Full list of settings</a></li>
+    <li><a href="http://mezzanine.jupo.org/docs/deployment.html">Deploying to a production server</a></li>
+</ul>
+{% endblocktrans %}
+{% endblock %}
