@@ -233,3 +233,8 @@ div.accordion-group.panel, img.game {
 		background:#535454;
 	}
 }
+
+/* ---- Quick Venue Icons ---- */
+.qvicons a {
+    color: #555;
+}
