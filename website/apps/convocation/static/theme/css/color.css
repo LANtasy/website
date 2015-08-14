@@ -6,13 +6,15 @@ body {
 a {
     color: #FFFFFF;
 }
+
 a:hover {
     color: #579bd3;
 }
 
 /* --HEADER-- */
 .navbar,
-.navbar-default{
+.navbar-default,
+.navbar-default .navbar-nav .dropdown-menu{
     background-color: #535454;
     background-image: none;
     border-color: #535454;
@@ -24,13 +26,16 @@ a:hover {
 .navbar-default .navbar-brand:focus{
     color: #ffffff;
 }
-.navbar-default .navbar-nav > li > a {
-    color: #ffffff;
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav .dropdown-menu > li > a{
+    color: #ffffff !important;
 }
+
 .navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav .dropdown-menu > li > a:hover{
     color: #ffffff;
-    background-color: #579bd3;
+    background-color: #579bd3 !important;
     background-image: none;
 }
 .navbar-default .navbar-nav > .active,
@@ -237,4 +242,49 @@ div.accordion-group.panel, img.game {
 /* ---- Quick Venue Icons ---- */
 .qvicons a {
     color: #555;
+}
+
+/* ---- Right panel ---- */
+.panel {
+    background-color: #535454;
+}
+
+/* ---- Location indicator ---- */
+.breadcrumb {
+    background-color: #535454;
+    border: 1px solid white;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.breadcrumb>.active {
+    color: #579bd3;
+    font-weight: bolder;
+}
+
+/* ---- Left Menu ----
+.tree .active > a {
+    background-color: #579bd3;
+}
+.tree ul a:hover {
+    background-color: #D05758;
+    color: #000;
+}
+*/
+
+
+/* ---- Padding around the thumbnail images in the gallery ---- */
+.thumbnail {
+    padding: 1px;
+}
+
+/* ---- Form formatting ---- */
+.form-group > input[type="text"], .form-group > input[type="password"], .form-group > input[type="datetime"], .form-group > input[type="datetime-local"], .form-group > input[type="date"], .form-group > input[type="month"], .form-group > input[type="time"], .form-group > input[type="week"], .form-group > input[type="number"], .form-group > input[type="email"], .form-group > input[type="url"], .form-group > input[type="search"], .form-group > input[type="tel"], .form-group > input[type="color"], .form-group > select, .form-group > textarea {
+    background-color: #666;
+    color: #FFF
+}
+
+.form-actions {
+    background-color: transparent;
+    border:0;
 }

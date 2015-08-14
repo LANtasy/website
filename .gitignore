@@ -5,6 +5,7 @@
 .coverage
 website/settings/local_settings.py
 static/media
+website/static/media
 
 # PyCharm files
 .idea
