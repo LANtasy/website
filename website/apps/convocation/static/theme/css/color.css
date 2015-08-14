@@ -288,3 +288,8 @@ div.accordion-group.panel, img.game {
     background-color: transparent;
     border:0;
 }
+
+/* ---- Google map location tag ----*/
+.iwContent{
+    color: #000;
+}

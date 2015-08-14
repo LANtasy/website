@@ -37,7 +37,7 @@ function initGoogleMap() {
             mapTypeId: 'Styled'
         };
         var div = document.getElementById('gmap');
-        var map = new google.maps.Map(div, options);
+        map = new google.maps.Map(div, options);
         marker = new google.maps.Marker({
             map:map,
             draggable:false,
@@ -68,3 +68,8 @@ function initGoogleMap() {
         });
 }
 google.maps.event.addDomListener(window, 'load', getGeocode);
+google.maps.event.addDomListener(window, 'resize', function(){
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center);
+});
