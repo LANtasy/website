@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 # MEZZANINE SETTINGS #
 ######################
 
-ACCOUNTS_VERIFICATION_REQUIRED = True
+ACCOUNTS_VERIFICATION_REQUIRED = False
 
 # The following settings are already defined with default values in
 # the ``defaults.py`` module within each of Mezzanine's apps, but are
