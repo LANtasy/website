@@ -68,3 +68,4 @@ function initGoogleMap() {
         });
 }
 google.maps.event.addDomListener(window, 'load', getGeocode);
+google.maps.event.addDomListener(window, 'resize', getGeocode);
