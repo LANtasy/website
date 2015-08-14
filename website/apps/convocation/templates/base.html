@@ -161,15 +161,7 @@
         {% include "includes/language_selector.html" %}
         {% include "includes/user_panel.html" %}
         {% endnevercache %}
-        <div class="panel panel-default">
-        <div class="panel-body">
-        {% block right_panel %}
-        {% ifinstalled mezzanine.twitter %}
-        {% include "twitter/tweets.html" %}
-        {% endifinstalled %}
-        {% endblock %}
-        </div>
-        </div>
+        <!--Removed twitter from here-->
     </div>
 
 
