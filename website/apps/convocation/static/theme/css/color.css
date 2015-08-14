@@ -238,3 +238,37 @@ div.accordion-group.panel, img.game {
 .qvicons a {
     color: #555;
 }
+
+/* ---- Right panel ---- */
+.panel {
+    background-color: #535454;
+}
+
+/* ---- Location indicator ---- */
+.breadcrumb {
+    background-color: #535454;
+    border: 1px solid white;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.breadcrumb>.active {
+    color: #579bd3;
+    font-weight: bolder;
+}
+
+/* ---- Left Menu ----
+.tree .active > a {
+    background-color: #579bd3;
+}
+.tree ul a:hover {
+    background-color: #D05758;
+    color: #000;
+}
+*/
+
+
+/* ---- Padding around the thumbnail images in the gallery ---- */
+.thumbnail {
+    padding: 1px;
+}
