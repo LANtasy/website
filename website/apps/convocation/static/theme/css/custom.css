@@ -70,6 +70,12 @@ footer ul {
 body {
     padding-top:55px;
 }
+header .navbar-toggle {
+    position: relative;
+    top: 0;
+    transform: translateY(40%);
+}
+
 
 /*-------------------------------------------------------------------------------------------*/
 /* 7. Responsive Media Queries */
@@ -87,9 +93,25 @@ body {
     header ul.nav.navbar-nav {
         float: right;
     }
+    header .navbar-default .navbar-header{
+        float: right !important;
+    }
+
+    header .navbar-default .navbar-collapse{
+        float: left !important;
+    }
 }
 @media only screen and (max-width: 768px) {
     header .navbar-header {
-        height: 80px;
+        height: 74px;
     }
+    header .navbar-toggle {
+        float: left;
+        left:30px;
+    }
+    header .navbar-default .navbar-brand{
+        float: right;
+    }
+
+
 }
