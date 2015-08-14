@@ -13,7 +13,8 @@ a:hover {
 
 /* --HEADER-- */
 .navbar,
-.navbar-default{
+.navbar-default,
+.navbar-default .navbar-nav .dropdown-menu{
     background-color: #535454;
     background-image: none;
     border-color: #535454;
@@ -25,13 +26,16 @@ a:hover {
 .navbar-default .navbar-brand:focus{
     color: #ffffff;
 }
-.navbar-default .navbar-nav > li > a {
-    color: #ffffff;
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav .dropdown-menu > li > a{
+    color: #ffffff !important;
 }
+
 .navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav .dropdown-menu > li > a:hover{
     color: #ffffff;
-    background-color: #579bd3;
+    background-color: #579bd3 !important;
     background-image: none;
 }
 .navbar-default .navbar-nav > .active,
