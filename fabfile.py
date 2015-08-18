@@ -28,6 +28,7 @@ def production():
     env.project_root = '%(home)s/www.lantasy.com/website' % env
     env.venv_path = '%(home)s/www.lantasy.com/env' % env
     env.python_path = '%(venv_path)s/bin/python' % env
+    # env.settings_module = 'website.settings.%(name)s' % env
     env.settings_module = 'website.settings.%(name)s' % env
 
     env.build_dir = '%(home)s/builds'
@@ -46,7 +47,7 @@ def success():
 @roles(['webservers', 'workers', 'beat'])
 def deploy():
 
-    env.sha1 = '0b32b2fb1a15f4d4deef54bad557e12ffb78f9d2'
+    env.sha1 = '604dfd908d4580e224561dc62503eea6eedb02e7'
 
     with cd(env.project_root):
 
