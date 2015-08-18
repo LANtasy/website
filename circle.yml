@@ -17,14 +17,10 @@ dependencies:
     - pip install -r requirements/ci.txt
     - pip install -r requirements/requirements.txt
 
-#deployment:
-#  development:
-#    branch: develop
-#    owner: TelmedIQ
-#    commands:
-#      - ./manage.py collectstatic --noinput
-#      - ./package.sh
-#      - fab development upload_build
-#      - sudo apt-get update; sudo apt-get install ansible
-#      - pip install fabric boto jinja2
-#      - fab development deploy
+deployment:
+  development:
+    branch: CI-Setup
+    owner: BCGamer
+    commands:
+      - pip install fabric
+      - fab production deploy
