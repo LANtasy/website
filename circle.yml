@@ -17,8 +17,8 @@ dependencies:
     - pip install -r requirements/requirements.txt
 
 deployment:
-  development:
-    branch: CI-Setup
+  production:
+    branch: master
     owner: BCGamer
     commands:
       - pip install fabric jinja2
