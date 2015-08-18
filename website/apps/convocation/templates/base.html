@@ -56,6 +56,7 @@
         <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "theme/css/vendor/html5-boilerplate.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "theme/css/vendor/normalize.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "theme/css/vendor/font-awesome.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "common/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
         {% if LANGUAGE_BIDI %}
             <link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}" type="text/css">
@@ -67,22 +68,14 @@
             {% endif %}
         {% endifinstalled %}
         <!--Additional CSS-->
-        {% block extra_css %}{% endblock %}
-        <!--LANtasy CSS-->
-        <link rel="stylesheet" href="{% static "theme/css/convocation.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "theme/css/custom.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "theme/css/color.css" %}" type="text/css">
     {% endcompress %}
+    {% block extra_css %}
 
-    {% compress js %}
-        <script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
-        <script src="{% static "common/prettyphoto/js/prettyphoto.js" %}"></script>
-        <script src="{% static "common/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
-        <script src="{% static "js/bootstrap-extras.js" %}"></script>
-        <script src="{% static "common/modernizr/js/modernizr-2.8.3.min.js" %}"></script>
-        <script src="{% static "theme/js/convocation.js" %}"></script>
-    {% block extra_js %}{% endblock %}
-    {% endcompress %}
+    {% endblock %}
+    <!--LANtasy CSS-->
+    <link rel="stylesheet" href="{% static "theme/css/convocation.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "theme/css/custom.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "theme/css/color.css" %}" type="text/css">
 
     <!--[if lt IE 9]>
     <script src="{% static "js/html5shiv.js" %}"></script>
@@ -190,6 +183,26 @@
 
     </div>
 </footer>
+
+<script src="https://maps.google.com/maps/api/js?sensor=false"></script> <!-- Google Map -->
+{% compress js %}
+    <script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
+    <script src="{% static "common/prettyphoto/js/prettyphoto.js" %}"></script>
+    <script src="{% static "common/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
+    <script src="{% static "js/bootstrap-extras.js" %}"></script>
+    <script src="{% static "common/modernizr/js/modernizr-2.8.3.min.js" %}"></script>
+    <script src="{% static "theme/js/convocation.js" %}"></script>
+    <script src="{% static "common/flexslider/jquery.flexslider-min.js" %}"></script>
+    <script src="{% static "common/waypoints/jquery.waypoints-3.1.1.min.js" %}"></script> <!-- UI -->
+    <script src="{% static "common/simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
+    <script src="{% static "theme/js/helper-plugins.js" %}"></script>
+    <script src="{% static "theme/js/simpleWeather.js" %}"></script>
+    <script src="{% static "theme/js/Geocoder.js" %}"></script>
+    <script src="{% static "theme/js/flex-loader.js" %}"></script>
+{% endcompress %}
+{% block extra_js %}
+
+{% endblock %}
 
 {% include "includes/footer_scripts.html" %}
 

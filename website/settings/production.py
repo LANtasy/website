@@ -91,7 +91,9 @@ USE_MODELTRANSLATION = False
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.lantasy.com',
+]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -146,9 +148,9 @@ DATABASES = {
         # DB name or path to database file if using sqlite3.
         "NAME": "lantasy",
         # Not used with sqlite3.
-        "USER": os.getenv('DJANGO_DB_USER'),
+        "USER": os.environ['DJANGO_DB_USER'],
         # Not used with sqlite3.
-        "PASSWORD": os.getenv('DJANGO_DB_PASS'),
+        "PASSWORD": os.environ['DJANGO_DB_PASS'],
         # Set to empty string for localhost. Not used with sqlite3.
         "HOST": "",
         # Set to empty string for default. Not used with sqlite3.
@@ -179,7 +181,7 @@ STATIC_URL = "/static/"
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "../static")
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "../../static")
 
 
 STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "../website/static"),)
@@ -191,7 +193,7 @@ MEDIA_URL = STATIC_URL + "media/"
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '../../media/')
 
 # Package/module name to import the root urlpatterns from for the project.
 ROOT_URLCONF = "website.urls"
@@ -228,9 +230,6 @@ INSTALLED_APPS = (
     #"mezzanine.twitter",
     "mezzanine.accounts",
     # "mezzanine.mobile",
-
-
-    'django_extensions',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -295,20 +294,7 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_GRAPPELLI,
 )
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-
-##################
-# LOCAL SETTINGS #
-##################
-
-# Allow any settings to be defined in local_settings.py which should be
-# ignored in your version control system allowing for settings to be
-# defined per machine.
-try:
-    from website.settings.local_settings import *
-except ImportError as e:
-    pass
-
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 ####################
 # DYNAMIC SETTINGS #
@@ -326,3 +312,36 @@ except ImportError:
     pass
 else:
     set_dynamic_settings(globals())
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(PROJECT_ROOT, '../../logs/django.log'),
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
