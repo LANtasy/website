@@ -3,7 +3,7 @@ from __future__ import unicode_literals, absolute_import
 
 import os
 
-from fabric.api import env, run, sudo
+from fabric.api import env, run, shell_env, sudo
 from fabric.context_managers import hide, cd
 from fabric.decorators import roles
 from fabric.colors import green, yellow
@@ -13,6 +13,12 @@ def production():
     env.name = 'production'
     env.user = 'bcgamer'
 
+    env.VARS = {
+        'DJANGO_DB_USER': os.getenv('DJANGO_DB_USER'),
+        'DJANGO_DB_PASS': os.getenv('DJANGO_DB_PASS'),
+        'DJANGO_SECRET_KEY': os.getenv('DJANGO_SECRET_KEY'),
+    }
+
     env.roledefs = {
         'webservers': ['www.lantasy.com', ],
         'workers': ['www.lantasy.com', ],
@@ -21,7 +27,7 @@ def production():
 
     env.repo_name = os.getenv('CIRCLE_PROJECT_REPONAME')
     env.branch = os.getenv('CIRCLE_BRANCH')
-    env.sha1 = os.getenv('CIRCLE_SHA1')
+    env.sha1 = os.getenv('CIRCLE_SHA1', '00ab2b8b4de6ed841ef767d918fbd9f52e8b8930')
     env.circle_build_num = os.getenv('CIRCLE_BUILD_NUM')
 
     env.home = '/home/%(user)s' % env
@@ -47,19 +53,18 @@ def success():
 @roles(['webservers', 'workers', 'beat'])
 def deploy():
 
-    env.sha1 = '604dfd908d4580e224561dc62503eea6eedb02e7'
+    with shell_env(**env.VARS):
+        with cd(env.project_root):
 
-    with cd(env.project_root):
+            run('git fetch')
+            run('git clean -f -d')
+            run('git checkout %(sha1)s' % env)
 
-        run('git fetch')
-        run('git clean -f -d')
-        run('git checkout %(sha1)s' % env)
+            run('%(venv_path)s/bin/pip install -r requirements/requirements.txt' % env)
+            run('%(venv_path)s/bin/pip install -r requirements/production.txt' % env)
 
-        run('%(venv_path)s/bin/pip install -r requirements/requirements.txt' % env)
-        run('%(venv_path)s/bin/pip install -r requirements/production.txt' % env)
-
-        run('%(venv_path)s/bin/python manage.py migrate' % env)
-        run('%(venv_path)s/bin/python manage.py collectstatic --noinput' % env)
+            run('%(venv_path)s/bin/python manage.py migrate' % env)
+            run('%(venv_path)s/bin/python manage.py collectstatic --noinput' % env)
 
 
     print(yellow('Restarting uWSGI'))
