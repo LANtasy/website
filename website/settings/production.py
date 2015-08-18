@@ -230,9 +230,6 @@ INSTALLED_APPS = (
     #"mezzanine.twitter",
     "mezzanine.accounts",
     # "mezzanine.mobile",
-
-
-    'django_extensions',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -315,3 +312,36 @@ except ImportError:
     pass
 else:
     set_dynamic_settings(globals())
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(PROJECT_ROOT, '../../logs/django.log'),
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
