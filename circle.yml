@@ -1,0 +1,30 @@
+
+## Machine variables, etc
+machine:
+
+  python:
+    version: 2.7.6
+
+  # Environment Variables
+  environment:
+    DJANGO_SETTINGS_MODULE: website.settings.circle_settings
+    COVERALLS_REPO_TOKEN: jWbIwu8tuF169ulhj019DXtKZ7CFGlKQ0
+    COVERALLS_SERVICE_NAME: CircleCI
+    COVERALLS_SERVICE_JOB_ID: ${CIRCLE_BUILD_NUM}
+
+  dependencies:
+    pre:
+      - pip install -r requirements/ci.txt
+      - pip install -r requirements/requirements.txt
+
+#deployment:
+#  development:
+#    branch: develop
+#    owner: TelmedIQ
+#    commands:
+#      - ./manage.py collectstatic --noinput
+#      - ./package.sh
+#      - fab development upload_build
+#      - sudo apt-get update; sudo apt-get install ansible
+#      - pip install fabric boto jinja2
+#      - fab development deploy

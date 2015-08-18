@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import, unicode_literals
 import os
 from django.utils.translation import ugettext_lazy as _
@@ -229,6 +228,9 @@ INSTALLED_APPS = (
     #"mezzanine.twitter",
     "mezzanine.accounts",
     # "mezzanine.mobile",
+
+
+    'django_extensions',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -251,7 +253,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # these middleware classes will be applied in the order given, and in the
 # response phase the middleware will be applied in reverse order.
 MIDDLEWARE_CLASSES = (
-    "mezzanine.core.middleware.UpdateCacheMiddleware",
+    'mezzanine.core.middleware.UpdateCacheMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     # Uncomment if using internationalisation or localisation
@@ -263,16 +265,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "mezzanine.core.request.CurrentRequestMiddleware",
-    "mezzanine.core.middleware.RedirectFallbackMiddleware",
-    "mezzanine.core.middleware.TemplateForDeviceMiddleware",
-    "mezzanine.core.middleware.TemplateForHostMiddleware",
-    "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
-    "mezzanine.core.middleware.SitePermissionMiddleware",
+    'mezzanine.core.request.CurrentRequestMiddleware',
+    'mezzanine.core.middleware.RedirectFallbackMiddleware',
+    'mezzanine.core.middleware.TemplateForDeviceMiddleware',
+    'mezzanine.core.middleware.TemplateForHostMiddleware',
+    'mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware',
+    'mezzanine.core.middleware.SitePermissionMiddleware',
     # Uncomment the following if using any of the SSL settings:
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
-    "mezzanine.pages.middleware.PageMiddleware",
-    "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    'mezzanine.pages.middleware.PageMiddleware',
+    'mezzanine.core.middleware.FetchFromCacheMiddleware',
 )
 
 # Store these package names here as they may change in the future since
@@ -301,7 +303,7 @@ OPTIONAL_APPS = (
 # ignored in your version control system allowing for settings to be
 # defined per machine.
 try:
-    from .local_settings import *
+    from website.settings.local_settings import *
 except ImportError as e:
     if "local_settings" not in str(e):
         raise e
