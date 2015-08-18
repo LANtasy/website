@@ -2,6 +2,8 @@ from __future__ import unicode_literals, absolute_import
 import os
 import logging
 
+from website.settings.settings import *
+
 logger = logging.getLogger(__name__)
 
 

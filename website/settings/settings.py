@@ -305,8 +305,7 @@ OPTIONAL_APPS = (
 try:
     from website.settings.local_settings import *
 except ImportError as e:
-    if "local_settings" not in str(e):
-        raise e
+    pass
 
 
 ####################
