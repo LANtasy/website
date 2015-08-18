@@ -142,13 +142,13 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 DATABASES = {
     "default": {
         # Add "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-        "ENGINE": "django.db.backends.",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         # DB name or path to database file if using sqlite3.
-        "NAME": "",
+        "NAME": "lantasy",
         # Not used with sqlite3.
-        "USER": "",
+        "USER": os.getenv('DJANGO_DB_USER'),
         # Not used with sqlite3.
-        "PASSWORD": "",
+        "PASSWORD": os.getenv('DJANGO_DB_PASS'),
         # Set to empty string for localhost. Not used with sqlite3.
         "HOST": "",
         # Set to empty string for default. Not used with sqlite3.
@@ -294,6 +294,8 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_FILEBROWSER,
     PACKAGE_NAME_GRAPPELLI,
 )
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 ##################
 # LOCAL SETTINGS #
