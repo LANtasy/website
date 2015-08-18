@@ -1,0 +1,117 @@
+/*------------------------------------------------------------------
+[Custom Stylesheet]
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Basic Styles
+2. Typography
+3. Margin Bottom Sets
+4. Padding Sets
+5. Spacers Sets
+6. Site Structure & Appearance
+7. Responsive Media Queries
+-------------------------------------------------------------------*/
+
+/* --GLOBAL-- */
+
+
+
+header .navbar-default .navbar-brand > img{
+    position: relative;
+    top: 50%;
+    transform: translateY(-25%);
+    height: 55px;
+    width: auto;
+}
+header a {
+    font-weight: 600;
+}
+
+header {
+    margin-bottom: 20px;
+}
+/* --HEADER END-- */
+
+
+/* --FOOTER-- */
+footer p.left {
+    float: left;
+}
+
+footer a {
+    font-weight: 600;
+}
+
+footer ul.right {
+    float: right;
+
+    margin: 0;
+    line-height: 25px;
+}
+footer .social-icons, footer .social-icons-colored{
+    margin: 0;
+    list-style-type: none;
+}
+
+footer ul {
+    list-style: none;
+    position: relative;
+    top: -10px;
+}
+
+/* --FOOTER END-- */
+
+/*-------------------------------------------------------------------------------------------*/
+/* 6. Site Structure & Appearance */
+/*-------------------------------------------------------------------------------------------*/
+
+body {
+    padding-top:55px;
+}
+header .navbar-toggle {
+    position: relative;
+    top: 0;
+    transform: translateY(40%);
+}
+
+
+/*-------------------------------------------------------------------------------------------*/
+/* 7. Responsive Media Queries */
+/*-------------------------------------------------------------------------------------------*/
+@media only screen and (min-width: 768px) {
+    header .navbar-default .navbar-nav > li > a {
+        line-height: 44px;
+        font-size: 16px;
+    }
+    header .navbar-form {
+        position: relative;
+        top: 50%;
+        transform: translateY(25%);
+    }
+    header ul.nav.navbar-nav {
+        float: right;
+    }
+    header .navbar-default .navbar-header{
+        float: right !important;
+    }
+
+    header .navbar-default .navbar-collapse{
+        float: left !important;
+    }
+}
+@media only screen and (max-width: 768px) {
+    header .navbar-header {
+        height: 74px;
+    }
+    header .navbar-toggle {
+        float: left;
+        left:30px;
+    }
+    header .navbar-default .navbar-brand{
+        float: right;
+    }
+
+
+}
