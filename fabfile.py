@@ -27,7 +27,7 @@ def production():
 
     env.repo_name = os.getenv('CIRCLE_PROJECT_REPONAME')
     env.branch = os.getenv('CIRCLE_BRANCH')
-    env.sha1 = os.getenv('CIRCLE_SHA1', '00ab2b8b4de6ed841ef767d918fbd9f52e8b8930')
+    env.sha1 = os.getenv('CIRCLE_SHA1', 'c12a63b4ba3c01bc885a3b8b4fec5e08ecde5ff2')
     env.circle_build_num = os.getenv('CIRCLE_BUILD_NUM')
 
     env.home = '/home/%(user)s' % env
