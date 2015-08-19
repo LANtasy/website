@@ -65,6 +65,7 @@ def deploy():
 
             run('%(venv_path)s/bin/python manage.py migrate' % env)
             run('%(venv_path)s/bin/python manage.py collectstatic --noinput' % env)
+            run('%(venv_path)s/bin/python manage.py compress' % env)
 
 
     print(yellow('Restarting uWSGI'))
