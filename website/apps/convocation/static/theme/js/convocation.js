@@ -264,7 +264,7 @@ var CONVOCATION = window.CONVOCATION || {};
 			$('.main-navigation').css("height",WNH);
 		}
 		$(window).resize(function(){
-			if($(body).hasClass(no-touch) & $(window).width() > 992) {
+			if($(body).hasClass("no-touch") & $(window).width() > 992) {
 				$(".main-navigation").css("display","block");
 			} else {
 				$(".main-navigation").css("display","none");
