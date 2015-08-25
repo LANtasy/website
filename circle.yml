@@ -17,6 +17,11 @@ dependencies:
     - pip install -r requirements/requirements.txt
 
 deployment:
+  test:
+    branch: develop
+    owner: BCGamer
+      - pip install fabric jinja2
+      - fab production deploy
   production:
     branch: master
     owner: BCGamer
