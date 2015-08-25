@@ -15,7 +15,8 @@ register_setting(
     label='Tagline',
     description='A tag line that will appear at the top of all pages.',
     editable=True,
-    default='The largest gaming event in western Canada'
+    default='LANtasy is Western Canada\'s largest hobby game convention in Victoria, BC. There\'s something for '
+            'everybody from tabletop, to miniatures, to video games.'
 )
 
 
