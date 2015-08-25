@@ -20,6 +20,7 @@ deployment:
   test:
     branch: develop
     owner: BCGamer
+    commands:
       - pip install fabric jinja2
       - fab production deploy
   production:
