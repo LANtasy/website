@@ -1,22 +1,32 @@
+# Django
 Django==1.8.3
-Mezzanine==4.0.1
+
+# Mezzanine
 Pillow==2.9.0
-argparse==1.2.1
+grappelli-safe==0.4.1
+filebrowser-safe==0.4.0
 bleach==1.4.1
+beautifulsoup4==4.4.0
+pytz==2015.4
+tzlocal==1.2
 chardet==2.3.0
-django-appconf==1.0.1
+requests==2.7.0
+requests-oauthlib==0.5.0
 django-compressor==1.5
+Mezzanine==4.0.1
+
+
+# Unknown
+argparse==1.2.1
+django-appconf==1.0.1
 django-contrib-comments==1.6.1
 django-extensions==1.5.5
 django-forms-bootstrap==3.0.1
-django-merchant==0.2
 future==0.15.0
-grappelli-safe==0.4.1
 html5lib==0.999999
-pytz==2015.4
-requests==2.7.0
-requests-oauthlib==0.5.0
 six==1.9.0
-stripe==1.25.0
-tzlocal==1.2
 wsgiref==0.1.2
+
+# Payment processing
+django-merchant==0.2
+stripe==1.25.0
