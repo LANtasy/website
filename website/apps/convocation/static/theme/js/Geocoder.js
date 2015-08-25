@@ -28,11 +28,12 @@ function initGoogleMap() {
                 mapTypeIds: ['Styled']
             },
             center: new google.maps.LatLng(latitude, longitude),
-            zoom: 13,
+            zoom: 14,
             scrollwheel: false,
+            draggable: false,
             navigationControl: false,
             mapTypeControl: false,
-            zoomControl: true,
+            zoomControl: false,
             disableDefaultUI: true,
             mapTypeId: 'Styled'
         };
