@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 # CARTRIDGE SETTINGS #
 ######################
 
+
+
 # The following settings are already defined in cartridge.shop.defaults
 # with default values, but are common enough to be put here, commented
 # out, for conveniently overriding. Please consult the settings
@@ -302,6 +304,7 @@ INSTALLED_APPS = (
 
 
     'django_extensions',
+    'zebra',
 )
 
 # List of processors used by RequestContext to populate the context.
