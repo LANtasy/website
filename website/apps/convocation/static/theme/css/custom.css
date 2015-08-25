@@ -112,6 +112,22 @@ header .navbar-toggle {
     header .navbar-default .navbar-brand{
         float: right;
     }
-
-
+}
+@media only screen and (max-width: 470px) {
+    .event-info .sl{
+        font-size: 16vw;
+    }
+    .event-info .fl{
+        font-size: 8vw;
+        margin-bottom:0;
+    }
+    .event-info .tl{
+        font-size: 4vw;
+        margin-top: 0;
+        margin-bottom:0;
+    }
+    .event-info .event-date{
+        font-size: 4vw;
+        margin-top: 0;
+    }
 }
