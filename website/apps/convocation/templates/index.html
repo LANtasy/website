@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static "theme/css/weather.css" %}">
     <link rel="stylesheet" href="{% static "theme/css/custom.css" %}">
     <link rel="stylesheet" href="{% static "theme/css/line-icons.css" %}">
-    <link rel="stylesheet" href="{% static "theme/css/animation.css" %}">
+    <link rel="stylesheet" href="{% static "theme/css/animations.css" %}">
 {% endblock extra_css %}
 
 {% block meta_facebook %}
@@ -41,10 +41,12 @@
         <div class="event-hero-info">
         	<div class="container">
                 <div class="event-info">
-                    <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
-                    <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
-                    <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
-                    <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                    <header>
+                        <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
+                        <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
+                        <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
+                        <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                    </header>
                 </div>
            	</div>
         </div>
@@ -125,109 +127,18 @@
                                     <img class="game panel" src="{% static "theme/img/games/counterstrike_go.png" %}">
                                 </div>
                                 <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "theme/img/games/dota2.png" %}">
-                                </div>
-                                <div class="col-md-6 col-sm-3">
                                     <img class="game panel" src="{% static "theme/img/games/league_of_legends.png" %}">
                                 </div>
-                                <div class="col-md-6 col-sm-3">
-                                    <img class="game panel" src="{% static "theme/img/games/starcraft2.png" %}">
-                                </div>
-
-
-
                             </div>
                         </div>
-                        <div class="col-md-6 sm-push-top">
-                            <h3>FAQs</h3>
-                            <p>Have some questions? Here’s some answers.</p>
-                            <div class="accordion" id="toggleArea">
-                              <div class="accordion-group panel">
-                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseOne"> What is a LAN Party? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
-                                <div id="collapseOne" class="accordion-body collapse">
-                                  <div class="accordion-inner">
-                                    <p>
-                                        A LAN party is an event where people bring their own computers and play
-                                        competitive or casual multiplayer games while connected to a LAN (local area
-                                        network). The event typically lasts the duration of a weekend and involves many
-                                        different games and tournaments.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="accordion-group panel">
-                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseTwo"> What should I bring? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
-                                <div id="collapseTwo" class="accordion-body collapse">
-                                  <div class="accordion-inner">
-                                      <p>&#8226; Identification (We need proof that you’re you!)</p>
-                                      <p>&#8226; Bring a Guardian or a signed parental consent waiver if you’re under
-                                          17</p>
-                                      <p>&#8226; Your Computer (and all applicable cabling)</p>
-                                      <p>&#8226; A Single Monitor (and all applicable cabling)</p>
-                                      <p>&#8226; A mouse or trackpad/ball</p>
-                                      <p>&#8226; A mouse pad</p>
-                                      <p>&#8226; Keyboard</p>
-                                      <p>&#8226; 30-foot LAN Cable – in excellent condition. Cables will be available
-                                          onsite for $20 each. (Orange or Pink cable is NOT acceptable at the event)</p>
-                                      <p>&#8226; Power cable / Other cabling– For your Monitor / Computer. Bring all
-                                          cables required for your computer & peripherals!</p>
-                                      <p>&#8226; Powerbar – Bring one power bar, preferably with an 8ft cable. Do NOT
-                                          bring a UPS for your computer to the LAN.</p>
-                                      <p>&#8226; PC Headset – Headphones WITH A MIC.  Note: Desktop mics and speakers
-                                          are not permitted in the LAN. Remember that LAN events are quite loud — a
-                                          headset with excellent sound insulation will make a huge difference for you.
-                                      </p>
-                                      <p>&#8226; Food &#38; Beverage Money – There are nearby food trucks, restaurants
-                                          and fast food establishments.</p>
-
-                                  </div>
-                                </div>
-                              </div>
-                                <div class="accordion-group panel">
-                                <div class="accordion-heading togglize"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#" href="#collapseThird"> What should I do to get ready? <i class="fa fa-plus-circle"></i> <i class="fa fa-minus-circle"></i> </a> </div>
-                                  <div id="collapseThird" class="accordion-body collapse">
-                                   <div class="accordion-inner">
-                                      <p>Everyone needs to take care of themselves first. Here are some tips that have
-                                          worked for us:</p>
-                                      <p>Get a good night’s sleep leading up to the LAN. This is crucial. The LAN is
-                                          open 15+ hours a day so getting a good night’s sleep the week leading up to
-                                          the LAN, will ensure you can game at your best.</p>
-                                      <p>Eat &#38; Drink – Stay well-fed, stay hydrated to keep going at maximum
-                                          performance. Remember there are lots of eating options near the venue.
-                                          Outside food and drink is allowed, but NOT ALCOHOL.</p>
-                                      <p>Arrive as a TEAM  – Want to sit with with your friends? Probably a good idea
-                                          to arrive with them. Teams who arrive together usually are seated faster and
-                                          given better seating.</p>
-                                      <p>Arrive early – If you want to get going right on time, arrive early. While we
-                                          will be seating as many LANNERS as fast as we can, you don’t want to get
-                                          stuck in the back of the line!</p>
-                                      <p>Come out with an open mind – There will be many things to do, games to play,
-                                          and there is a possibility that there will be new games for you to experience
-                                          as well as introducing new people to some of your favourite games, meeting
-                                          new people etc.</p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!--<p><a href="faq.html" class="basic-link">More Information</a></p>-->
-                                <!--<p>More answers...</p>-->
-                            </div>
-                            <!-- End Toggle -->
-
-                        </div>
-
                     </div>
-                    <div class="spacer-50"></div>
+
                	</div>
             </section>
         	<!-- Register Section Content -->
         	<section class="onepage-section lantasyDark_bg" id="register">
             	<div class="container">
-                	<header class="onepage-section-headers text-align-center">
-                    	<h3 class="page-title">Tickets</h3>
-                    	<h2 class="page-stitle">$50 pre-order, $65 at the door</h2>
-                        <p>Ticket sales will open soon.</p>
-                   	</header>
-                        <div class="row">
+                	    <div class="row">
                             <div class="col-md-4 col-md-offset-1 sm-push-top">
                             	<h3>Contact Us</h3>
                             	<address>
@@ -236,34 +147,11 @@
                             </div>
                        	</div>
                    <!-- </form>-->
-                    <div class="spacer-75"></div>
+
                	</div>
             </section>
         </div>
     </div>
 
 
-{% endblock %}
-
-{% block main %}
-
-
-{% blocktrans %}
-
-
-<h2>Congratulations!</h2>
-<p>
-    Welcome to your new Mezzanine powered website.
-    Here are some quick links to get you started:
-</p>
-<ul>
-    <li><a href="/admin/">Log in to the admin interface</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/content-architecture.html">Creating custom page types</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#templates">Modifying HTML templates</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#why-isn-t-the-homepage-a-page-object-i-can-edit-via-the-admin">Changing this homepage</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html">Other frequently asked questions</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/configuration.html#default-settings">Full list of settings</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/deployment.html">Deploying to a production server</a></li>
-</ul>
-{% endblocktrans %}
-{% endblock %}
+{% endblock body %}
