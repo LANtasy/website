@@ -40,20 +40,20 @@
 
     <!--ICONS-->
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static "theme/img/favicon/apple-touch-icon-57x57.png" %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static "theme/img/favicon/apple-touch-icon-114x114.png" %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static "theme/img/favicon/apple-touch-icon-72x72.png" %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static "theme/img/favicon/apple-touch-icon-144x144.png" %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static "theme/img/favicon/apple-touch-icon-60x60.png" %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static "theme/img/favicon/apple-touch-icon-120x120.png" %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static "theme/img/favicon/apple-touch-icon-76x76.png" %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static "theme/img/favicon/apple-touch-icon-152x152.png" %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "theme/img/favicon/apple-touch-icon-180x180.png" %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static "theme/img/favicon/favicon-192x192.png" %}">
-    <link rel="icon" type="image/png" sizes="160x160" href="{% static "theme/img/favicon/favicon-160x160.png" %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static "theme/img/favicon/favicon-96x96.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "theme/img/favicon/favicon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "theme/img/favicon/favicon-32x32.png" %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static "themeBro/img/favicon/apple-touch-icon-57x57.png" %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static "themeBro/img/favicon/apple-touch-icon-114x114.png" %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static "themeBro/img/favicon/apple-touch-icon-72x72.png" %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "themeBro/img/favicon/apple-touch-icon-144x144.png" %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static "themeBro/img/favicon/apple-touch-icon-60x60.png" %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static "themeBro/img/favicon/apple-touch-icon-120x120.png" %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static "themeBro/img/favicon/apple-touch-icon-76x76.png" %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static "themeBro/img/favicon/apple-touch-icon-152x152.png" %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "themeBro/img/favicon/apple-touch-icon-180x180.png" %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static "themeBro/img/favicon/favicon-192x192.png" %}">
+    <link rel="icon" type="image/png" sizes="160x160" href="{% static "themeBro/img/favicon/favicon-160x160.png" %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static "themeBro/img/favicon/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "themeBro/img/favicon/favicon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "themeBro/img/favicon/favicon-32x32.png" %}">
 
     {% ifinstalled mezzanine.blog %}
         <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
@@ -65,9 +65,9 @@
         <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "theme/css/vendor/html5-boilerplate.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "theme/css/vendor/normalize.css" %}" type="text/css">
-        <link rel="stylesheet" href="{% static "theme/css/vendor/font-awesome.min.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "html5-boilerplate/html5-boilerplate.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "normalize/normalize.css" %}" type="text/css">
+        <link rel="stylesheet" href="{% static "font-awesome/font-awesome.min.css" %}" type="text/css">
         <link rel="stylesheet" href="{% static "prettyphoto/css/prettyPhoto.css" %}" type="text/css">
         {% if LANGUAGE_BIDI %}
             <link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}" type="text/css">
@@ -82,9 +82,9 @@
 
     {% block extra_css %}{% endblock %}
     <!--LANtasy CSS-->
-    <link rel="stylesheet" href="{% static "theme/css/convocation.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "theme/css/custom.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "theme/css/color.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "themeBro/css/convocation.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "themeBro/css/custom.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "themeBro/css/color.css" %}" type="text/css">
 
     <!--[if lt IE 9]>
     <script src="{% static "js/html5shiv.js" %}"></script>
@@ -105,7 +105,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/"><img src="{% static "theme/img/logo/logo-2016-white.png" %}"></a>
+                    <a class="navbar-brand" href="/"><img src="{% static "themeBro/img/logo/logo-2016-white.png" %}"></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     {% page_menu "pages/menus/dropdown.html" %}
@@ -199,14 +199,14 @@
     <script src="{% static "bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
     <script src="{% static "js/bootstrap-extras.js" %}"></script>
     <script src="{% static "modernizr/js/modernizr-2.8.3.min.js" %}"></script>
-    <script src="{% static "theme/js/convocation.js" %}"></script>
+    <script src="{% static "themeBro/js/convocation.js" %}"></script>
     <script src="{% static "flexslider/jquery.flexslider-min.js" %}"></script>
     <script src="{% static "waypoints/jquery.waypoints-3.1.1.min.js" %}"></script> <!-- UI -->
     <script src="{% static "simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
-    <script src="{% static "theme/js/helper-plugins.js" %}"></script>
-    <script src="{% static "theme/js/simpleWeather.js" %}"></script>
-    <script src="{% static "theme/js/Geocoder.js" %}"></script>
-    <script src="{% static "theme/js/flex-loader.js" %}"></script>
+    <script src="{% static "themeBro/js/helper-plugins.js" %}"></script>
+    <script src="{% static "themeBro/js/simpleWeather.js" %}"></script>
+    <script src="{% static "themeBro/js/Geocoder.js" %}"></script>
+    <script src="{% static "themeBro/js/flex-loader.js" %}"></script>
 {% endcompress %}
 {% block extra_js %}
 
