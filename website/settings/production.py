@@ -210,7 +210,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "themes/default/templates"),)
 ################
 
 INSTALLED_APPS = (
-    "website.apps.convocation",
+    "website.apps.themeBro",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
