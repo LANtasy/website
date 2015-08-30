@@ -63,8 +63,9 @@ def deploy():
             run('%(venv_path)s/bin/pip install -r requirements/requirements.txt' % env)
             run('%(venv_path)s/bin/pip install -r requirements/production.txt' % env)
 
+            run('%(venv_path)s/bin/python manage.py syncdb --noinput' % env)
             run('%(venv_path)s/bin/python manage.py migrate' % env)
-            run('%(venv_path)s/bin/python manage.py collectstatic --noinput' % env)
+            run('%(venv_path)s/bin/python manage.py collectstatic -v 0 --noinput' % env)
             run('%(venv_path)s/bin/python manage.py compress --force' % env)
 
 
