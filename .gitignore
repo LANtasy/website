@@ -7,6 +7,12 @@ website/settings/local_settings.py
 static/media
 website/static/media
 
+# Collectstatic files
+website/static
+
+# Media files
+website/media
+
 # PyCharm files
 .idea
 
