@@ -35,7 +35,7 @@ def production():
     env.venv_path = '%(home)s/www.lantasy.com/env' % env
     env.python_path = '%(venv_path)s/bin/python' % env
     # env.settings_module = 'website.settings.%(name)s' % env
-    env.settings_module = 'website.settings.%(name)s' % env
+    env.settings_module = 'website.settings.settings'
 
     env.build_dir = '%(home)s/builds'
 
