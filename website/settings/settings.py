@@ -29,12 +29,12 @@ from django.utils.translation import ugettext_lazy as _
 
 # If True, the checkout process has a final confirmation step before
 # completion.
-# SHOP_CHECKOUT_STEPS_CONFIRMATION = True
+SHOP_CHECKOUT_STEPS_CONFIRMATION = True
 
 # Controls the formatting of monetary values accord to the locale
 # module in the python standard library. If an empty string is
 # used, will fall back to the system's locale.
-# SHOP_CURRENCY_LOCALE = ""
+SHOP_CURRENCY_LOCALE = "EN_US"
 
 # Dotted package path and name of the function that
 # is called on submit of the billing/shipping checkout step. This
@@ -47,7 +47,7 @@ from django.utils.translation import ugettext_lazy as _
 # is called once an order is successful and all of the order
 # object's data has been created. This is where any custom order
 # processing should be implemented.
-# SHOP_HANDLER_ORDER = "cartridge.shop.checkout.default_order_handler"
+SHOP_HANDLER_ORDER = "website.apps.salesbro.checkout.salesbro_order_handler"
 
 # Dotted package path and name of the function that
 # is called on submit of the payment checkout step. This is where
@@ -73,6 +73,11 @@ from django.utils.translation import ugettext_lazy as _
 # eg for "Colour" then "Size" given the above:
 # SHOP_OPTION_ADMIN_ORDER = (2, 1)
 
+SHOP_CHECKOUT_ACCOUNT_REQUIRED = True
+
+SHOP_DEFAULT_SHIPPING_VALUE = 0
+
+SHOP_USE_WISHLIST = False
 
 ######################
 # MEZZANINE SETTINGS #
@@ -305,7 +310,12 @@ INSTALLED_APPS = (
     'mezzanine.accounts',
     # 'mezzanine.mobile',
     'django_extensions',
+
+    'website.apps.salesbro',
+
     'zebra',
+
+    'debug_toolbar',
 )
 
 # List of processors used by RequestContext to populate the context.

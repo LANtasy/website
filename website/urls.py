@@ -22,15 +22,17 @@ urlpatterns = i18n_patterns("",
 
 if settings.USE_MODELTRANSLATION:
     urlpatterns += patterns('',
-        url('^i18n/$', 'django.views.i18n.set_language', name='set_language'),
+        url(r'^i18n/$', 'django.views.i18n.set_language', name='set_language'),
     )
 
 urlpatterns += patterns('',
 
     # Cartridge URLs.
-    ("^shop/", include("cartridge.shop.urls")),
-    url("^account/orders/$", "cartridge.shop.views.order_history",
-        name="shop_order_history"),
+    url(r"^shop/", include("cartridge.shop.urls")),
+    url(r"^account/orders/$", "cartridge.shop.views.order_history", name="shop_order_history"),
+
+    url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
+    url(r'^salesbro/', include('website.apps.salesbro.urls',  namespace='salesbro')),
 
     # We don't want to presume how your homepage works, so here are a
     # few patterns you can use to set it up.
