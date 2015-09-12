@@ -205,12 +205,12 @@
     <script src="{% static "simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
     <script src="{% static "themeBro/js/helper-plugins.js" %}"></script>
     <script src="{% static "themeBro/js/simpleWeather.js" %}"></script>
-    <script src="{% static "themeBro/js/Geocoder.js" %}"></script>
     <script src="{% static "themeBro/js/flex-loader.js" %}"></script>
-{% endcompress %}
-{% block extra_js %}
+    {% block extra_js %}
 
-{% endblock %}
+    {% endblock %}
+
+{% endcompress %}
 
 {% include "includes/footer_scripts.html" %}
 
