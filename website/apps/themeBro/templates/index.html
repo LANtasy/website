@@ -21,8 +21,12 @@
     <meta property="og:image:height" content="723" />
 {% endblock meta_facebook %}
 
-{% block extra_head %}
+{% block extra_js %}
+    <script src="{% static "themeBro/js/Geocoder.js" %}"></script>
+{% endblock extra_js %}
 
+
+{% block extra_head %}
 {% endblock extra_head %}
 
 {% block breadcrumb_menu %}
@@ -35,6 +39,8 @@
             <ul class="slides">
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "themeBro/img/BCG_GC2015-9833-3_TEMP.jpg" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "themeBro/img/BCG_GC2015-9879-3_TEMP.jpg" %}');"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "themeBro/img/IMG_1801.JPG" %}');"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "themeBro/img/IMG_1894.JPG" %}');"></li>
             </ul>
         </div>
         <!-- End Hero Slider -->
