@@ -16,7 +16,14 @@
 
 /* --GLOBAL-- */
 
+.navbar{
+    height: 77px;
+    margin: auto;
+}
 
+.hero-slider.flexslider {
+    margin-top: 25px;
+}
 
 header .navbar-default .navbar-brand > img{
     position: relative;
@@ -29,9 +36,6 @@ header a {
     font-weight: 600;
 }
 
-header {
-    margin-bottom: 20px;
-}
 /* --HEADER END-- */
 
 
