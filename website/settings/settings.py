@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import platform
 from django.utils.translation import ugettext_lazy as _
 
 ######################
@@ -34,7 +35,10 @@ SHOP_CHECKOUT_STEPS_CONFIRMATION = True
 # Controls the formatting of monetary values accord to the locale
 # module in the python standard library. If an empty string is
 # used, will fall back to the system's locale.
-SHOP_CURRENCY_LOCALE = "EN_US"
+if platform.system() == 'Windows':
+    SHOP_CURRENCY_LOCALE = 'english-can'
+else:
+    SHOP_CURRENCY_LOCALE = 'en_CA'
 
 # Dotted package path and name of the function that
 # is called on submit of the billing/shipping checkout step. This
