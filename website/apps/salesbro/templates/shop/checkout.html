@@ -23,16 +23,16 @@ $(function() {$('.middle :input:visible:enabled:first').focus();});
 </li>
 {% endfor %}
 <li>{% trans "Complete" %}</li>
-{% endblock %}
+{% endblock breadcrumb_menu %}
 
 {% block main %}
 
-{% block before-form %}{% endblock %}
+{% block before-form %}{% endblock before-form %}
 <div class="row">
 <form method="post" class="col-md-8 checkout-form">
     {% csrf_token %}
 
-    {% block fields %}{% endblock %}
+    {% block fields %}{% endblock fields %}
 
     {% block nav-buttons %}
         {% if request.cart.has_items %}
@@ -49,7 +49,7 @@ $(function() {$('.middle :input:visible:enabled:first').focus();});
             <br>
             <p><a class="btn btn-lg btn-primary" href="{% url "page" "shop" %}">{% trans "Continue Shopping" %}</a></p>
         {% endif %}
-    {% endblock %}
+    {% endblock nav-buttons %}
 
 </form>
 
@@ -78,6 +78,6 @@ $(function() {$('.middle :input:visible:enabled:first').focus();});
 </div>
 {% endif %}
 
-{% block after-form %}{% endblock %}
+{% block after-form %}{% endblock after-form %}
 </div>
-{% endblock %}
+{% endblock main %}
