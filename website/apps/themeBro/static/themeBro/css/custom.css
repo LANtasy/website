@@ -131,3 +131,14 @@ header .navbar-toggle {
         margin-top: 0;
     }
 }
+
+/* Ticket Sales Formatting */
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #989898;
+}
+
+.table-striped>tbody>tr>td>input {
+    background-color: #4C86B3;
+    border: 1px INSET;
+    border-color: #4C86B3;
+}
