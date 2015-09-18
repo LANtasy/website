@@ -293,3 +293,21 @@ div.accordion-group.panel, img.game {
 .iwContent{
     color: #000;
 }
+
+/* Checkout */
+.cart-form>.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #989898;
+}
+
+#checkout-form>form>fieldset>legend {
+    color: #FFFFFF;
+}
+
+#cart .cart-form input {
+    background-color: #4C86B3;
+    border-color: #4C86B3;
+}
+
+#checkout .checkout-panel li{
+    color: #FFFFFF;
+}
