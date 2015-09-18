@@ -299,7 +299,7 @@ div.accordion-group.panel, img.game {
     background-color: #989898;
 }
 
-#checkout-form>form>fieldset>legend {
+#checkout .checkout-form legend {
     color: #FFFFFF;
 }
 
@@ -309,5 +309,9 @@ div.accordion-group.panel, img.game {
 }
 
 #checkout .checkout-panel li{
+    color: #FFFFFF;
+}
+
+.help-block {
     color: #FFFFFF;
 }

@@ -14,32 +14,23 @@
 7. Responsive Media Queries
 -------------------------------------------------------------------*/
 
-/* --GLOBAL-- */
-
-.navbar{
-    height: 77px;
-    margin: auto;
-}
-
-.hero-slider.flexslider {
-    margin-top: 25px;
-}
-
+/*-------------------------------------------------------------------------------------------*/
+/* 1. Header */
+/*-------------------------------------------------------------------------------------------*/
 header .navbar-default .navbar-brand > img{
     position: relative;
-    top: 50%;
+    top: 0;
     transform: translateY(-25%);
-    height: 55px;
+    height: 50px;
     width: auto;
 }
 header a {
     font-weight: 600;
 }
 
-/* --HEADER END-- */
-
-
-/* --FOOTER-- */
+/*-------------------------------------------------------------------------------------------*/
+/* 2. Footer */
+/*-------------------------------------------------------------------------------------------*/
 footer p.left {
     float: left;
 }
@@ -65,35 +56,21 @@ footer ul {
     top: -10px;
 }
 
-/* --FOOTER END-- */
-
 /*-------------------------------------------------------------------------------------------*/
 /* 6. Site Structure & Appearance */
 /*-------------------------------------------------------------------------------------------*/
 
 body {
-    padding-top:55px;
+    padding-top:50px;
 }
-header .navbar-toggle {
-    position: relative;
-    top: 0;
-    transform: translateY(40%);
-}
+
 
 
 /*-------------------------------------------------------------------------------------------*/
 /* 7. Responsive Media Queries */
 /*-------------------------------------------------------------------------------------------*/
 @media only screen and (min-width: 768px) {
-    header .navbar-default .navbar-nav > li > a {
-        line-height: 44px;
-        font-size: 16px;
-    }
-    header .navbar-form {
-        position: relative;
-        top: 50%;
-        transform: translateY(25%);
-    }
+
     header ul.nav.navbar-nav {
         float: right;
     }
@@ -106,9 +83,7 @@ header .navbar-toggle {
     }
 }
 @media only screen and (max-width: 768px) {
-    header .navbar-header {
-        height: 74px;
-    }
+
     header .navbar-toggle {
         float: left;
         left:30px;
