@@ -1,35 +1,21 @@
 from __future__ import unicode_literals
 
 from django.conf.urls import patterns, include, url
-from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 from mezzanine.core.views import direct_to_template
-from mezzanine.conf import settings
 
+from cartridge_stripe.forms import OrderForm
 
 admin.autodiscover()
 
-# Add the urlpatterns for any custom Django applications here.
-# You can also change the ``home`` view to add your own functionality
-# to the project's homepage.
-
-urlpatterns = i18n_patterns("",
-    # Change the admin prefix here to use an alternate URL for the
-    # admin interface, which would be marginally more secure.
-    ("^admin/", include(admin.site.urls)),
-)
-
-if settings.USE_MODELTRANSLATION:
-    urlpatterns += patterns('',
-        url(r'^i18n/$', 'django.views.i18n.set_language', name='set_language'),
-    )
-
-urlpatterns += patterns('',
-
+urlpatterns = patterns('',
+    url(r'^admin/', include(admin.site.urls)),
     # Cartridge URLs.
-    url(r"^shop/", include("cartridge.shop.urls")),
-    url(r"^account/orders/$", "cartridge.shop.views.order_history", name="shop_order_history"),
+    # url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
+    #    kwargs=dict(form_class=OrderForm)),
+    url(r'^shop/', include('cartridge.shop.urls')),
+    url(r'^account/orders/$', 'cartridge.shop.views.order_history', name='shop_order_history'),
 
     url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
     url(r'^salesbro/', include('website.apps.salesbro.urls',  namespace='salesbro')),
@@ -83,22 +69,6 @@ urlpatterns += patterns('',
     # from it, and use them directly below instead of using
     # ``mezzanine.urls``.
     ("^", include("mezzanine.urls")),
-
-    # MOUNTING MEZZANINE UNDER A PREFIX
-    # ---------------------------------
-    # You can also mount all of Mezzanine's urlpatterns under a
-    # URL prefix if desired. When doing this, you need to define the
-    # ``SITE_PREFIX`` setting, which will contain the prefix. Eg:
-    # SITE_PREFIX = "my/site/prefix"
-    # For convenience, and to avoid repeating the prefix, use the
-    # commented out pattern below (commenting out the one above of course)
-    # which will make use of the ``SITE_PREFIX`` setting. Make sure to
-    # add the import ``from django.conf import settings`` to the top
-    # of this file as well.
-    # Note that for any of the various homepage patterns above, you'll
-    # need to use the ``SITE_PREFIX`` setting as well.
-
-    # ("^%s/" % settings.SITE_PREFIX, include("mezzanine.urls"))
 
 )
 
