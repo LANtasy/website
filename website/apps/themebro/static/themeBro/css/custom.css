@@ -21,11 +21,37 @@ header .navbar-default .navbar-brand > img{
     position: relative;
     top: 0;
     transform: translateY(-25%);
-    height: 50px;
+    height: 45px;
     width: auto;
 }
 header a {
     font-weight: 600;
+}
+
+@media only screen and (min-width: 768px) {
+    header .navbar-default .navbar-nav > li > a {
+        font-size: 16px;
+    }
+    header ul.nav.navbar-nav {
+        float: right;
+    }
+    header .navbar-default .navbar-header{
+        float: right !important;
+    }
+
+    header .navbar-default .navbar-collapse{
+        float: left !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    header .navbar-toggle {
+        float: left;
+        left:30px;
+    }
+    header .navbar-default .navbar-brand{
+        float: right;
+    }
 }
 
 /*-------------------------------------------------------------------------------------------*/
@@ -69,29 +95,6 @@ body {
 /*-------------------------------------------------------------------------------------------*/
 /* 7. Responsive Media Queries */
 /*-------------------------------------------------------------------------------------------*/
-@media only screen and (min-width: 768px) {
-
-    header ul.nav.navbar-nav {
-        float: right;
-    }
-    header .navbar-default .navbar-header{
-        float: right !important;
-    }
-
-    header .navbar-default .navbar-collapse{
-        float: left !important;
-    }
-}
-@media only screen and (max-width: 768px) {
-
-    header .navbar-toggle {
-        float: left;
-        left:30px;
-    }
-    header .navbar-default .navbar-brand{
-        float: right;
-    }
-}
 @media only screen and (max-width: 470px) {
     .event-info .sl{
         font-size: 16vw;
@@ -112,6 +115,10 @@ body {
 }
 
 /* Checkout */
+#checkout .checkout-form fieldset {
+    margin-top: -21px;
+}
+
 .cart-form>.table-striped>tbody>tr>td, .cart-form>.table-striped>tbody>tr>th, .cart-form>.table-striped>tfoot>tr>td,
 .cart-form>.table-striped>tfoot>tr>th, .cart-form>.table-striped>thead>tr>td, .cart-form>.table-striped>thead>tr>th {
     border-top-width: 0;
@@ -122,16 +129,7 @@ body {
     border: 1px INSET;
 }
 
-.checkout-panel .price, .order-totals, .checkout-panel .btn {
-    margin-top: 0;
-}
-
-#checkout .price:only-child, .coming-soon {
+#checkout .price:only-child {
     margin: 0;
 }
 
-#checkout #checkout-form .form-group {
-    margin-left: 0;
-    margin-bottom: 10px;
-    margin-right: 0;
-}
