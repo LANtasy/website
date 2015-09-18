@@ -137,12 +137,26 @@ header .navbar-toggle {
 }
 
 /* Ticket Sales Formatting */
-.table-striped>tbody>tr:nth-of-type(odd) {
+.cart-form>.table-striped>tbody>tr>td, .cart-form>.table-striped>tbody>tr>th, .cart-form>.table-striped>tfoot>tr>td,
+.cart-form>.table-striped>tfoot>tr>th, .cart-form>.table-striped>thead>tr>td, .cart-form>.table-striped>thead>tr>th {
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.cart-form>.table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #989898;
 }
 
-.table-striped>tbody>tr>td>input {
+.cart-form>.table-striped>tbody>tr>td>input {
     background-color: #4C86B3;
     border: 1px INSET;
     border-color: #4C86B3;
+}
+
+.checkout-panel .price, .order-totals, .checkout-panel .btn {
+    margin-top: 0;
+}
+
+.price:only-child, .coming-soon {
+    margin: 0;
 }
