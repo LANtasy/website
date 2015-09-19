@@ -12,8 +12,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     # Cartridge URLs.
-    # url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
-    #    kwargs=dict(form_class=OrderForm)),
+    url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
+       kwargs=dict(form_class=OrderForm)),
     url(r'^shop/', include('cartridge.shop.urls')),
     url(r'^account/orders/$', 'cartridge.shop.views.order_history', name='shop_order_history'),
 

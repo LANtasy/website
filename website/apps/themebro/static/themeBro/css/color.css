@@ -303,6 +303,10 @@ div.accordion-group.panel, img.game {
     color: #FFFFFF;
 }
 
+#checkout .checkout-form input{
+    color: #333333;
+}
+
 #cart .cart-form input {
     background-color: #4C86B3;
     border-color: #4C86B3;

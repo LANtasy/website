@@ -80,6 +80,7 @@
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/respond.min.js" %}"></script>
     <![endif]-->
+<script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
 {% block extra_head %}{% endblock %}
 </head>
 
@@ -164,10 +165,7 @@
     </div>
 </footer>
 
-<script src="https://checkout.stripe.com/checkout.js"></script>
-<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
 {% compress js %}
-    <script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
     <script src="{% static "prettyphoto/js/prettyphoto.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
     <script src="{% static "js/bootstrap-extras.js" %}"></script>
@@ -179,8 +177,13 @@
     <script src="{% static "themebro/js/helper-plugins.js" %}"></script>
     <script src="{% static "themebro/js/simpleWeather.js" %}"></script>
     <script src="{% static "themebro/js/flex-loader.js" %}"></script>
-{% block extra_js %}{% endblock extra_js %}
 {% endcompress %}
+{% block extra_js %}
+
+{% endblock extra_js %}
+
+{#<script src="https://checkout.stripe.com/checkout.js"></script>#}
+<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
 
 {% include "includes/footer_scripts.html" %}
 
