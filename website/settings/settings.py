@@ -27,6 +27,7 @@ else:
     SHOP_CURRENCY_LOCALE = 'en_CA'
 
 SHOP_HANDLER_ORDER = 'website.apps.salesbro.checkout.salesbro_order_handler'
+SHOP_HANDLER_TAX = 'website.apps.salesbro.checkout.salesbro_tax_handler'
 
 SHOP_HANDLER_PAYMENT = 'cartridge_stripe.payment_handler'
 SHOP_CHARGE_CURRENCY = 'cad'
