@@ -31,6 +31,11 @@ class AddTicketForm(AddProductForm):
 
     ticket_option = TicketOptionChoiceField()
 
+    def __init__(self, *args, **kwargs):
+        super(AddTicketForm, self).__init__(*args, **kwargs)
+        if self._product is not None:
+            self.fields['ticket_option'].queryset = TicketOption.objects.available().filter(ticket=self._product)
+
     def clean(self):
         """
         Determine the chosen variation, validate it and assign it as
