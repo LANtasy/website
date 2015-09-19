@@ -16,7 +16,7 @@ class Badge(models.Model):
     order = models.ForeignKey(Order, related_name='badges')
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 
-    uid = models.CharField(max_length=34)
+    uid = models.CharField(max_length=34, unique=True)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
