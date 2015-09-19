@@ -28,6 +28,10 @@ class TicketOption(Product):
     def pricediff(self):
         return self.price() - self.ticket.price()
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ("salesbro:ticket_detail", (), {"slug": self.ticket.slug})
+
 
 class Ticket(Product):
 
