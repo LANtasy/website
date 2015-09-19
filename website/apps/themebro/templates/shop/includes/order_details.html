@@ -37,6 +37,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="10">
     <tr>
         <th align="left">{% trans "Item" %}</th>
+        <th align="left">Badge ID</th>
         <th align="right">{% trans "Unit Price" %}</th>
         <th align="right">{% trans "Qty" %}</th>
         <th align="right">{% trans "Price" %}</th>
@@ -44,6 +45,7 @@
     {% for item in order.items.all %}
     <tr>
         <td>{{ item.description }}</td>
+        <td>{{ item.badge.uid }}</td>
         <td align="right" valign="top">{{ item.unit_price|currency }}</td>
         <td align="right" valign="top">{{ item.quantity }}</td>
         <td align="right" valign="top">{{ item.total_price|currency }}</td>

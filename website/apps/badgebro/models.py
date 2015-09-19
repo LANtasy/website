@@ -3,7 +3,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 
-from cartridge.shop.models import Order
+from cartridge.shop.models import Order, OrderItem
 from website.apps.salesbro.models import TicketOption
 
 
@@ -13,7 +13,7 @@ class Badge(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True)
 
-    order = models.ForeignKey(Order, related_name='badges')
+    order_item = models.OneToOneField(OrderItem)
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 
     uid = models.CharField(max_length=34, unique=True)
