@@ -21,6 +21,13 @@ class TicketOption(Product):
     objects = TicketOptionManager()
     ticket = models.ForeignKey('Ticket')
 
+    def __unicode__(self):
+        return '{title} ({ticket})'.format(title=self.title, ticket=self.ticket.title)
+
+    @property
+    def pricediff(self):
+        return self.price() - self.ticket.price()
+
 
 class Ticket(Product):
 

@@ -60,7 +60,6 @@ class TicketDetailView(DetailView):
 
     def form_valid(self, form):
         quantity = form.cleaned_data["quantity"]
-        self.request.cart.add_item(form.variation, quantity)
         self.request.cart.add_item(form.ticket_option, quantity)
         recalculate_cart(self.request)
         info(self.request, 'Item added to cart')

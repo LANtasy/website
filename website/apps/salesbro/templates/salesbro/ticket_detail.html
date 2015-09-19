@@ -43,7 +43,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block title %}
-    {{ ticket.title }}
+    {{ ticket.title }} - ${{ ticket.price }}
 {% endblock %}
 
 {% block main %}
@@ -76,6 +76,10 @@ $(document).ready(function() {
 {% endif %}
 
 {{ ticket.content|richtext_filters|safe }}
+
+<br />
+
+Base Price: ${{ ticket.price }}
 
 {% if ticket.available and has_available_variations %}
 <ul id="variations" class="list-unstyled">

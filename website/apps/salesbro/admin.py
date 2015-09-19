@@ -115,6 +115,10 @@ ticket_fieldsets[0][1]["fields"].insert(-2, 'ticket')
 
 class TicketOptionAdmin(ProductAdmin):
     fieldsets = ticket_fieldsets
+    list_display = product_list_display = ["admin_thumb", "title", "status", "available",
+                        "admin_link", "ticket"]
+
+    list_filter = ("status", "available", "categories", "ticket")
 
 
 
