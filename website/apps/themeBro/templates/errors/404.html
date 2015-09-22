@@ -1,18 +1,29 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n staticfiles%}
 
 {% block meta_title %}
-{% trans "Page not found" %}
+{% trans "Error 404 - Page Not Found" %}
 {% endblock %}
 
 {% block title %}
-{% trans "Page not found" %}
+{% trans "Error 404 - Page Not Found" %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+            var msg = new Array(4)
+            msg[0] = "<img src=\"{% static 'themeBro/img/errors/Jackahkin.png' %}\"><p>I used to be a page like you, then I took an error to the knee.</p>"
+            msg[1] = "<img src=\"{% static 'themeBro/img/errors/Jackstool.png' %}\"><p>Thank you {% if user.is_authenticated %} {% trans user.username %} {%  else %} Visitor {% endif %}! But our page is in another castle!</p>"
+            msg[2] = "<img src=\"{% static 'themeBro/img/errors/JackValentine.png' %}\"><p>You were almost an error sandwich!</p>"
+            msg[3] = "<img src=\"{% static 'themeBro/img/errors/JackDos.png' %}\"> <p>The page is a lie.</p>"
+            document.getElementById("test").innerHTML = msg[Math.floor((Math.random() * 10) % 4)];
+    </script>
 {% endblock %}
 
 {% block main %}
 <div class="panel panel-danger">
-	<div class="panel-heading"><h3 class="panel-title">{% trans "Page not found" %}</h3></div>
-	<div class="panel-body">{% trans "The page you requested does not exist. - Test" %}</div>
+	<div class="panel-heading"><h3 class="panel-title">{% trans "Error 404 - Page Not Found" %}</h3></div>
+	<div class="panel-body"><p id="test"></p></div>
 </div>
 {% endblock %}
