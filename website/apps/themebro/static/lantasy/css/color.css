@@ -231,6 +231,9 @@ div.accordion-group.panel, img.game {
     background:#4f4f4f;
     border: 1px solid white;
     padding: 10px 15px 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media only screen and (max-width: 992px) {
@@ -319,3 +322,24 @@ div.accordion-group.panel, img.game {
 .help-block {
     color: #FFFFFF;
 }
+
+
+/* Events Page CSS */
+
+td.eventHeader{
+    text-align: center;
+}
+
+div.eventHeader{
+    background: #467DA6;
+    display: block;
+    border: 1px solid white;
+    padding: 10px 15px 20px;
+    width: 152px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
