@@ -1,0 +1,31 @@
+{% extends "shop/checkout.html" %}
+{% load i18n shop_tags %}
+
+{% block fields %}
+    {% if request.cart.has_items %}
+
+        <div class="row">
+
+            <div class="confirmation col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>{% trans "Billing Details" %}</h3>
+                        <ul class="list-unstyled">
+
+                            {% for field, value in form.billing_detail_fields.values %}
+                                <li><label>{{ field }}:</label> {{ value }}</li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        {% for field in form %}{{ field }}{% endfor %}
+
+    {% endif %}
+{% endblock %}

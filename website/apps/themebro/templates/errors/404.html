@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load staticfiles%}
+
+{% block meta_title %}
+Error 404 - Page Not Found
+{% endblock %}
+
+{% block title %}
+Error 404 - Page Not Found
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+            var msg = new Array(4)
+            msg[0] = "<img style=\"height: 225px; display: block; margin: auto;\" src=\"{% static 'lantasy/img/errors/Jackahkin.png' %}\"><p style=\"text-align: center;\">I used to be a page like you, then I took an error to the knee.</p>"
+            msg[1] = "<img style=\"height: 225px; display: block; margin: auto;\" src=\"{% static 'lantasy/img/errors/Jackstool.png' %}\"><p style=\"text-align: center;\">Thank you {% if user.is_authenticated %} {{ user.username }} {%  else %} Visitor {% endif %}! But our page is in another castle!</p>"
+            msg[2] = "<img style=\"height: 225px; display: block; margin: auto;\" src=\"{% static 'lantasy/img/errors/JackValentine.png' %}\"><p style=\"text-align: center;\">You were almost an error sandwich!</p>"
+            msg[3] = "<img style=\"height: 225px; display: block; margin: auto;\" src=\"{% static 'lantasy/img/errors/JackDos.png' %}\"> <p style=\"text-align: center;\">The page is a lie.</p>"
+            document.getElementById("errorpage").innerHTML = msg[Math.floor((Math.random() * 10) % 4)];
+    </script>
+{% endblock %}
+
+{% block main %}
+<div class="panel panel-danger">
+	<div class="panel-heading"><h3 class="panel-title">Error 404 - Page Not Found</h3></div>
+	<div class="panel-body"><p id="errorpage"></p></div>
+</div>
+{% endblock %}

@@ -1,7 +1,44 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import platform
 from django.utils.translation import ugettext_lazy as _
 
+######################
+# CARTRIDGE SETTINGS #
+######################
+
+SHOP_DISCOUNT_FIELD_IN_CART = True
+SHOP_DISCOUNT_FIELD_IN_CHECKOUT = True
+
+# SHOP_CATEGORY_USE_FEATURED_IMAGE = True
+
+# Set an alternative OrderForm class for the checkout process.
+# SHOP_CHECKOUT_FORM_CLASS = 'cartridge.shop.forms.OrderForm'
+
+
+# If True, the checkout process is split into separate billing/shipping and payment steps.
+# SHOP_CHECKOUT_STEPS_SPLIT = True
+
+SHOP_CHECKOUT_STEPS_CONFIRMATION = True
+
+if platform.system() == 'Windows':
+    SHOP_CURRENCY_LOCALE = 'english-can'
+else:
+    SHOP_CURRENCY_LOCALE = 'en_CA'
+
+SHOP_HANDLER_ORDER = 'website.apps.salesbro.checkout.salesbro_order_handler'
+SHOP_HANDLER_TAX = 'website.apps.salesbro.checkout.salesbro_tax_handler'
+
+SHOP_HANDLER_PAYMENT = 'cartridge_stripe.payment_handler'
+SHOP_CHARGE_CURRENCY = 'cad'
+
+SHOP_CHECKOUT_ACCOUNT_REQUIRED = True
+
+SHOP_DEFAULT_SHIPPING_VALUE = 0
+
+SHOP_USE_WISHLIST = False
+
+ZEBRA_ENABLE_APP = True
 
 ######################
 # MEZZANINE SETTINGS #
@@ -184,7 +221,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'common'),)
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'apps/themebro/static/common'),)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -210,7 +247,10 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'themes/default/templates'),)
 ################
 
 INSTALLED_APPS = (
-    'website.apps.themeBro',
+    # --Theme--
+    'website.apps.themebro',
+
+    # --Django--
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -219,6 +259,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+
+    # --Mezzanine--
     'mezzanine.boot',
     'mezzanine.conf',
     'mezzanine.core',
@@ -230,7 +272,19 @@ INSTALLED_APPS = (
     # 'mezzanine.twitter',
     'mezzanine.accounts',
     # 'mezzanine.mobile',
+
+    # --Cartridge--
+    'cartridge_stripe',
+    'cartridge.shop',
+    'zebra',
+
+    # --Debug--
     'django_extensions',
+    'debug_toolbar',
+
+    # --Core--
+    'website.apps.salesbro',
+    'website.apps.badgebro',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -265,6 +319,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'cartridge.shop.middleware.ShopMiddleware',
     'mezzanine.core.request.CurrentRequestMiddleware',
     'mezzanine.core.middleware.RedirectFallbackMiddleware',
     'mezzanine.core.middleware.TemplateForDeviceMiddleware',
