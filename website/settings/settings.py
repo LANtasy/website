@@ -24,7 +24,7 @@ SHOP_CHECKOUT_STEPS_CONFIRMATION = True
 if platform.system() == 'Windows':
     SHOP_CURRENCY_LOCALE = 'english-can'
 else:
-    SHOP_CURRENCY_LOCALE = 'en_CA'
+    SHOP_CURRENCY_LOCALE = 'en_CA.utf8'
 
 SHOP_HANDLER_ORDER = 'website.apps.salesbro.checkout.salesbro_order_handler'
 SHOP_HANDLER_TAX = 'website.apps.salesbro.checkout.salesbro_tax_handler'
