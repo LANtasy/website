@@ -17,6 +17,9 @@ def staging():
         'DJANGO_DB_USER': os.getenv('DJANGO_DB_USER'),
         'DJANGO_DB_PASS': os.getenv('DJANGO_DB_PASS'),
         'DJANGO_SECRET_KEY': os.getenv('DJANGO_SECRET_KEY'),
+        'DJANGO_NEVERCACHE_KEY': os.getenv('DJANGO_NEVERCACHE_KEY'),
+        'DJANGO_STRIPE_SECRET': os.getenv('DJANGO_STRIPE_SECRET'),
+        'DJANGO_STRIPE_PUBLISHABLE': os.getenv('DJANGO_STRIPE_PUBLISHABLE'),
     }
 
     env.roledefs = {
