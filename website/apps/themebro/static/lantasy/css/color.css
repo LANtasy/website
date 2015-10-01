@@ -321,26 +321,3 @@ div.accordion-group.panel, img.game {
 .help-block {
     color: #FFFFFF;
 }
-
-
-/* Events Page CSS */
-
-td.eventHeader{
-    text-align: center;
-}
-
-div.eventHeader{
-    background: #467DA6;
-    display: block;
-    border: 1px solid white;
-    padding: 10px 15px 20px;
-    width: 152px;
-    margin-right: auto;
-    margin-bottom: 20px;
-    border-radius: 4px;
-}
-
-td.eventDetails {
-    width:1px;
-    white-space: nowrap;
-}
