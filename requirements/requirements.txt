@@ -25,8 +25,6 @@ grappelli-safe==0.4.1
 html5lib==0.999999
 oauthlib==1.0.3
 paramiko==1.15.2
-psycopg2==2.6.1
-pycrypto==2.6.1
 pytz==2015.4
 reportlab==3.2.0
 requests==2.7.0
@@ -35,6 +33,5 @@ six==1.9.0
 sqlparse==0.1.16
 stripe==1.25.0
 tzlocal==1.2
-uWSGI==2.0.11.1
 wsgiref==0.1.2
 xhtml2pdf==0.0.6
