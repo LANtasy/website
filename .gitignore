@@ -22,3 +22,6 @@ website/media
 # Vagrant
 .vagrant
 vagrant_ansible_inventory_default
+
+# VirtualEnv
+.env
