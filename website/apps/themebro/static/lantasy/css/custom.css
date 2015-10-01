@@ -133,3 +133,42 @@ body {
     margin: 0;
 }
 
+
+
+/* Events Page CSS */
+
+td.eventHeader{
+    text-align: center;
+}
+
+div.eventHeader{
+    background: #467DA6;
+    display: block;
+    border: 1px solid white;
+    padding: 10px 15px 20px;
+    width: 152px;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+td.eventDetails {
+    width:1px;
+    white-space: nowrap;
+}
+
+/* Sponsor Logos */
+
+@media only screen and (max-width: 768px){
+    div.shawlogo{
+        text-align: left;
+        padding-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 769px){
+    div.shawlogo{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+}
