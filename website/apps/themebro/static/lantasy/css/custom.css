@@ -179,7 +179,7 @@ td.eventDetails {
         margin-left: auto;
         margin-right: auto;
         border: 2px solid white;
-        background-color: #535555;
+        background-color: rgba(83, 85, 85, .6);
         border-radius: 4px;
     }
 }
@@ -189,7 +189,7 @@ td.eventDetails {
         margin-left: auto;
         margin-right: auto;
         border: 2px solid white;
-        background-color: #535555;
+        background-color: rgba(83, 85, 85, .6);
         width: 716px;
         border-radius: 4px;
 
