@@ -43,9 +43,25 @@ def salesbro_tax_handler(request, order_form):
     ``cartridge.shop.utils.set_tax``. The Cart object is also
     accessible via ``request.cart``
     """
+    total = request.cart.total_price()
+    if 'discount_code' in request.session:
+        discount = request.cart.calculate_discount(request.session['discount_code'])
+        total -= discount
+
+    print request.session
+
+    pst = total * Decimal(0.07)
+    gst = total * Decimal(0.05)
+    # tax = total * Decimal(0.12)
+
+    tax = math.ceil((pst + gst)*100)/100
+
+    set_tax(request, "GST+PST", tax)
+    '''
     tax_total = request.cart.total_price() * Decimal(0.12)
 
     tax_total = math.ceil(tax_total*100)/100
 
     set_tax(request, "GST+PST", tax_total)
+    '''
 
