@@ -172,3 +172,26 @@ td.eventDetails {
         padding-bottom: 20px;
     }
 }
+
+
+@media only screen and (max-width: 719px){
+    .LANtext{
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        background-color: rgba(83, 85, 85, .6);
+        border-radius: 4px;
+    }
+}
+
+@media only screen and (min-width: 720px) {
+    .LANtext {
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        background-color: rgba(83, 85, 85, .6);
+        width: 716px;
+        border-radius: 4px;
+
+    }
+}

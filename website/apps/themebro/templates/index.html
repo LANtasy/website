@@ -35,12 +35,12 @@
 {% block body %}
     <div class="showcase wheighter">
         <!-- Start Hero Slider -->
-        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="yes">
+        <div class="hero-slider flexslider wheighter" data-autoplay="yes" data-pagination="no" data-arrows="no" data-style="fade" data-speed="5000" data-pause="no">
             <ul class="slides">
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/BCG_GC2015-9833-3.jpg" %}');"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/IMG_1894.JPG" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/BCG_GC2015-9879-3_TEMP.jpg" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/IMG_1801.JPG" %}');"></li>
-                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/IMG_1894.JPG" %}');"></li>
             </ul>
         </div>
         <!-- End Hero Slider -->
@@ -48,10 +48,12 @@
         	<div class="container">
                 <div class="event-info">
                     <header>
-                        <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
-                        <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
-                        <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
-                        <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                        <div class="LANtext" data-appear-animation="rotateIn">
+                            <span class="fl" data-appear-animation="fadeInDown" data-appear-animation-delay="200">Brought to you by LANtasy Gaming Society</span>
+                            <span class="sl" data-appear-animation="zoomIn" data-appear-animation-delay="500">LANtasy</span>
+                            <span class="tl" data-appear-animation="fadeInDown" data-appear-animation-delay="700">at Pearkes Arena, Victoria BC</span>
+                            <span class="event-date" data-appear-animation="fadeInUp" data-appear-animation-delay="900">12-13 March, 2016</span>
+                        </div>
                     </header>
                 </div>
            	</div>
@@ -72,8 +74,9 @@
                                     <div style="display: inline-block; padding: 20px"><a href="http://www.shaw.ca"><img src="{% static "lantasy/img/sponsors/shaw_logo.png" %}" height="470" width="154" alt=""></a></div>
                                     <div style="display: inline-block; padding: 20px"><a href="http://www.victech.ca"><img src="{% static "lantasy/img/sponsors/victech_logo.png" %}" height="470" width="154" alt=""></a></div>
                                 </div>
-                                <div style="word-spacing: 50px; padding: 20px">
-                                    <div style="display: inline-block"><a href="http://www.everythinggames.ca"><img src="{% static "lantasy/img/sponsors/everythinggames_logo.png" %}" height="470" width="154" alt=""></a></div>
+                                <div style="word-spacing: 50px">
+                                    <div style="display: inline-block; padding: 20px"><a href="http://www.everythinggames.ca"><img src="{% static "lantasy/img/sponsors/everythinggames_logo.png" %}" height="470" width="154" alt=""></a></div>
+                                    <div style="display: inline-block; padding: 20px"><a href="http://www.steelswordsproductions.com"><img src="{% static "lantasy/img/sponsors/steelswordprod_logo.png" %}" height="470" width="154" alt=""></a></div>
                                 </div>
                             </div>
                         </div>
