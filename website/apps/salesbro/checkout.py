@@ -3,6 +3,7 @@ from decimal import Decimal
 
 import logging
 from cartridge.shop.utils import set_tax
+from cartridge.shop.models import DiscountCode
 from django.db import transaction
 import math
 from website.apps.badgebro.models import Badge
@@ -44,24 +45,16 @@ def salesbro_tax_handler(request, order_form):
     accessible via ``request.cart``
     """
     total = request.cart.total_price()
-    if 'discount_code' in request.session:
-        discount = request.cart.calculate_discount(request.session['discount_code'])
-        total -= discount
 
-    print request.session
+    if 'discount_code' in request.session:
+        discount_code = DiscountCode.objects.get(code=request.session['discount_code'])
+        discount = request.cart.calculate_discount(discount_code)
+        total -= discount
 
     pst = total * Decimal(0.07)
     gst = total * Decimal(0.05)
-    # tax = total * Decimal(0.12)
 
-    tax = math.ceil((pst + gst)*100)/100
+    tax = math.ceil(pst*100 + gst*100)/100
 
     set_tax(request, "GST+PST", tax)
-    '''
-    tax_total = request.cart.total_price() * Decimal(0.12)
-
-    tax_total = math.ceil(tax_total*100)/100
-
-    set_tax(request, "GST+PST", tax_total)
-    '''
 
