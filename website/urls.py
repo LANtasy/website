@@ -19,11 +19,14 @@ urlpatterns = patterns('',
     url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
     url(r'^', include('website.apps.salesbro.urls',  namespace='salesbro')),
 
+    # Test URL - Remove for prod
+    url(r'^test$', direct_to_template, {'template': 'email/test.html'}),
+
     # Index URL
-    url(r"^$", direct_to_template, {"template": "index.html"}, name="home"),
+    url(r'^$', direct_to_template, {'template': 'index.html'}, name='home'),
 
     # Mezzanine defaults URLs
-    (r"^", include("mezzanine.urls")),
+    (r'^', include('mezzanine.urls')),
 
 )
 
