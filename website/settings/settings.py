@@ -44,7 +44,7 @@ ZEBRA_ENABLE_APP = True
 # MEZZANINE SETTINGS #
 ######################
 
-ACCOUNTS_VERIFICATION_REQUIRED = False
+ACCOUNTS_VERIFICATION_REQUIRED = True
 
 # The following settings are already defined with default values in
 # the ``defaults.py`` module within each of Mezzanine's apps, but are
@@ -277,6 +277,7 @@ INSTALLED_APPS = (
     'cartridge_stripe',
     'cartridge.shop',
     'zebra',
+    'django_mailgun',
 
     # --Debug--
     'django_extensions',
@@ -356,6 +357,11 @@ NEVERCACHE_KEY = os.getenv('DJANGO_NEVERCACHE_KEY')
 # Stripe
 STRIPE_SECRET = os.getenv('DJANGO_STRIPE_SECRET')
 STRIPE_PUBLISHABLE = os.getenv('DJANGO_STRIPE_PUBLISHABLE')
+
+# Mailgun
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY = os.getenv('MAILGUN_ACCESS_KEY')
+MAILGUN_SERVER_NAME = os.getenv('MAILGUN_SERVER_NAME')
 
 ##################
 # LOCAL SETTINGS #
