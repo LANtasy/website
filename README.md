@@ -25,5 +25,3 @@ Install the required python components
 
 Migrate the database of schema
 > python manage.py syncdb
-
-Make sure the server hostname is set to what you want, the default mailer will tie to this name.
