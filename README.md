@@ -16,8 +16,8 @@ The following variables are used for sending emails through mailgun.
 
 ### Stripe Payments
 You must collect these variables from a stripe account to test.
-* DJANGO_STRIPE_SECRET
-* DJANGO_STRIPE_PUBLISHABLE
+* STRIPE_SECRET
+* STRIPE_PUBLISHABLE
 
 ## Install
 Install the required python components
