@@ -16,8 +16,8 @@ The following variables are used for sending emails through mailgun.
 
 ### Stripe Payments
 You must collect these variables from a stripe account to test.
-* STRIPE_SECRET
-* STRIPE_PUBLISHABLE
+* STRIPE_SECRET = 'sk_SECRET-KEY'
+* STRIPE_PUBLISHABLE = 'pk_PUBLISHABLE-KEY'
 
 ## Install
 Install the required python components
