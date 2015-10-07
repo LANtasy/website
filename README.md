@@ -23,5 +23,5 @@ You must collect these variables from a stripe account to test.
 Install the required python components
 > pip install -r requirements/requirements.txt
 
-Migrate the database of schema
+Migrate the database schema
 > python manage.py syncdb
