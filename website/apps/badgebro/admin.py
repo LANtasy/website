@@ -5,6 +5,8 @@ from website.apps.badgebro.models import Badge
 
 
 class BadgeAdmin(admin.ModelAdmin):
-    pass
+    list_display = product_list_display = ["uid", "ticket", "order", "user"]
+
+    list_filter = ("order", "ticket")
 
 admin.site.register(Badge, BadgeAdmin)
