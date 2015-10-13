@@ -196,7 +196,7 @@ a.list-group-item.active:focus,
 }
 /* Colours the box around the date */
 .event-info .event-date{
-	border: 2px solid #FFFFFF;
+	border: none;
 }
 
 /* Colours the nav bar */
