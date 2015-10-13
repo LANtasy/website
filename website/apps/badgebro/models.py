@@ -13,7 +13,7 @@ class Badge(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True)
 
-    order_item = models.OneToOneField(OrderItem)
+    order = models.ForeignKey(Order, related_name='badge_order_id')
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 
     uid = models.CharField(max_length=34, unique=True)
@@ -29,7 +29,8 @@ class Badge(models.Model):
         return super(Badge, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return '{user}'.format(user=self.user_id)
+        # return '{user}'.format(user=self.user_id)
+        return '{uid}'.format(uid=self.uid)
 
     def generate_uid(self):
         return 'BA{uid}'.format(uid=uuid.uuid4().hex)

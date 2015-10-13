@@ -26,7 +26,7 @@ def salesbro_order_handler(request, order_form, order):
             for x in range(0, item.quantity):
 
                 badge = Badge()
-                badge.order_item = item
+                badge.order = order
                 badge.ticket = ticket_option
                 badge.save()
 

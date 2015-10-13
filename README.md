@@ -9,24 +9,19 @@ These can be defined as either as environment variables or local_settings.py
 * [NEVERCACHE_KEY](https://github.com/stephenmcd/mezzanine/issues/802)
 * [DEBUG](https://docs.djangoproject.com/en/1.8/ref/settings/#debug)
 
-### SMTP
-The following variables are used for sending emails.
-* [EMAIL_HOST](https://docs.djangoproject.com/en/1.8/ref/settings/#email-host)
-* [EMAIL_PORT](https://docs.djangoproject.com/en/1.8/ref/settings/#email-port)
-* [EMAIL_HOST_USER](https://docs.djangoproject.com/en/1.8/ref/settings/#email-host-user)
-* [EMAIL_HOST_PASSWORD](https://docs.djangoproject.com/en/1.8/ref/settings/#email-host-password)
-* [EMAIL_USE_TLS](https://docs.djangoproject.com/en/1.8/ref/settings/#email-use-tls)
-* [EMAIL_USE_SSL](https://docs.djangoproject.com/en/1.8/ref/settings/#email-use-ssl)
+### Mailgun
+The following variables are used for sending emails through mailgun.
+* MAILGUN_ACCESS_KEY = 'ACCESS-KEY'
+* MAILGUN_SERVER_NAME = 'SERVER-NAME'
 
 ### Stripe Payments
 You must collect these variables from a stripe account to test.
-* DJANGO_STRIPE_SECRET
-* DJANGO_STRIPE_PUBLISHABLE
+* STRIPE_SECRET = 'sk_SECRET-KEY'
+* STRIPE_PUBLISHABLE = 'pk_PUBLISHABLE-KEY'
 
 ## Install
 Install the required python components
 > pip install -r requirements/requirements.txt
 
-Migrate the database of schema
+Migrate the database schema
 > python manage.py syncdb
-
