@@ -31,7 +31,7 @@ SHOP_HANDLER_TAX = 'website.apps.salesbro.checkout.salesbro_tax_handler'
 
 SHOP_HANDLER_PAYMENT = 'cartridge_stripe.payment_handler'
 SHOP_CHARGE_CURRENCY = 'cad'
-SHOP_ORDER_FROM_EMAIL = 'info@lantasy.com'
+SHOP_ORDER_FROM_EMAIL = DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'noreply@lantasy.com'
 SHOP_ORDER_EMAIL_SUBJECT = 'LANtasy Order Invoice'
 
 SHOP_CHECKOUT_ACCOUNT_REQUIRED = True
