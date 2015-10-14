@@ -15,6 +15,17 @@
 
 {% if request.cart.has_items %}
 
+    {% for error in form.non_field_errors %}
+     <div class="alert alert-danger">
+        <script type="text/javascript">
+            var error = "{{ error }}";
+            error = error.substring(error.indexOf(': ')+2,error.length);
+            document.write(error);
+        </script>
+
+     </div>
+    {% endfor %}
+
     <div class="payment-errors alert alert-danger" style="display: none;">
 
     </div>
