@@ -12,6 +12,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+
     # Shop URLs.
     url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
         kwargs=dict(form_class=OrderForm)),
@@ -31,7 +32,6 @@ urlpatterns = patterns('',
 
     # Mezzanine defaults URLs
     (r'^', include('mezzanine.urls')),
-
 )
 
 # Adds ``STATIC_URL`` to the context of error pages, so that error
