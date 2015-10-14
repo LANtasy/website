@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 
 from mezzanine.core.views import direct_to_template
 
@@ -18,6 +19,9 @@ urlpatterns = patterns('',
     url(r'^account/orders/$', 'cartridge.shop.views.order_history', name='shop_order_history'),
     url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
     url(r'^', include('website.apps.salesbro.urls',  namespace='salesbro')),
+
+    # Temporary shop redirect
+    url(r'^shop$', RedirectView.as_view(url='tickets/', permanent=False)),
 
     # Test URL - Remove for prod
     url(r'^test$', direct_to_template, {'template': 'email/test.html'}),
