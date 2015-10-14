@@ -14,6 +14,13 @@ $(function() {
             return true;
         }
 
+
+        if( $("input[name='card_type']:checked").length == 0) {
+            $(".payment-errors").text("Please select a card type").slideDown(250);
+            $("#user_submit").attr("disabled", false);
+            return false;
+        }
+
         if ( $("#id_card_number").is(":visible")) {
           var form = this;
           var card = {
