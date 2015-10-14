@@ -36,14 +36,14 @@ class TicketOption(Product):
                         sale_price=-sale_price,
                         unit_price=-unit_price)
                 elif sale_price < 0:
-                    return '-${sale_price} (Door Price: +${unit_price}'.format(
+                    return '-${sale_price} (Door Price: +${unit_price})'.format(
                         sale_price=-sale_price,
                         unit_price=unit_price)
                 elif sale_price == 0:
-                    return '**FREE** (Door Price: +${unit_price}'.format(
+                    return '**FREE** (Door Price: +${unit_price})'.format(
                         unit_price=unit_price)
                 else:
-                    return '+${sale_price} (Door Price: +${unit_price}'.format(
+                    return '+${sale_price} (Door Price: +${unit_price})'.format(
                         sale_price=sale_price,
                         unit_price=unit_price)
             else:
