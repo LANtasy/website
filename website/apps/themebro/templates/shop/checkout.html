@@ -44,7 +44,7 @@
             <div class="form-actions">
                 <input type="submit" class="btn btn-lg btn-primary pull-right" id="checkout_next" value="{% trans "Next" %}">
                 {% if not CHECKOUT_STEP_FIRST %}
-                <input type="submit" class="btn btn-lg btn-default pull-left" name="back" id="checkout_back" value="{% trans "Back" %}">
+                <input type="submit" class="btn btn-lg btn-primary pull-left" name="back" id="checkout_back" value="{% trans "Back" %}">
                 {% endif %}
             </div>
         {% else %}
@@ -77,7 +77,7 @@
     </ul>
     {% order_totals %}
     <br style="clear:both;">
-    <a class="btn btn-default" href="{% url "shop_cart" %}">{% trans "Edit Cart" %}</a>
+    <a class="btn btn-primary" href="{% url "shop_cart" %}">{% trans "Edit Cart" %}</a>
     </div>
     </div>
 </div>
