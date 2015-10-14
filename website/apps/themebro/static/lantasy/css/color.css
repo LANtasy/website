@@ -321,3 +321,7 @@ div.accordion-group.panel, img.game {
 .help-block {
     color: #FFFFFF;
 }
+
+.payment-errors {
+    color: #535454;
+}
