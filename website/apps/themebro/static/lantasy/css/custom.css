@@ -125,7 +125,7 @@ body {
     border-bottom-width: 0;
 }
 
-#cart .cart-form input {
+#cart .cart-form td.quantity input {
     border: 1px INSET;
 }
 

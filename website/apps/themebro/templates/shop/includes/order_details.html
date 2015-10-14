@@ -1,57 +1,250 @@
-{% load shop_tags i18n %}
-
-<h1>{{ settings.SITE_TITLE }}</h1>
-
-<table width="100%" border="0">
-    <tr>
-        <td>{% trans "Order ID:" %} {{ order.id }}</td>
-        <td align="right">{{ order.time }}</td>
+{% load shop_tags %} <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- If you delete this tag, the sky will fall on your head -->
+    <meta content="width=device-width" name="viewport"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>LANtasy Order Receipt</title>
+</head>
+<body bgcolor="#FFFFFF"
+      style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; height: 100%; margin: 0; padding: 0; width: 100%!important;">
+<!-- HEADER -->
+<table bgcolor="#535454" class="head-wrap"
+       style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+    <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+        <td class="header container"
+            style="clear: both!important; display: block!important; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0 auto!important; max-width: 600px!important; padding: 0;">
+            <div class="content"
+                 style="display: block; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0 auto; max-width: 600px; padding: 15px;">
+                <table style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+                    <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                        <td align="right"
+                            style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                            <img src="http://staging.lantasy.com/static/lantasy/img/logo/Lantasy_Logo_white_h100px.png"
+                                 style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; max-width: 100%; padding: 0;"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
     </tr>
 </table>
+<!-- /HEADER -->
+<!-- BODY -->
+<table class="body-wrap"
+       style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+    <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+        <td bgcolor="#FFFFFF" class="container"
+            style="clear: both!important; display: block!important; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0 auto!important; max-width: 600px!important; padding: 0;">
+            <div class="content"
+                 style="display: block; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0 auto; max-width: 600px; padding: 15px;">
+                <table style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+                    <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                        <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                            <h3 style="color: red; font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 27px; font-weight: 500; line-height: 1.1; margin: 0; margin-bottom: 15px; padding: 0;">
+                                Please keep a copy of this receipt. The Badge ID is used for entry and event
+                                registration.</h3>
 
-<h2>{% trans "Your Details" %}</h2>
-<table width="100%" border="1" cellspacing="0" cellpadding="10">
-<tr>
-    <th align="left" width="50%">{% trans "Billing Details" %}</th>
-    <th align="left" width="50%">{% trans "Shipping Details" %}</th>
-</tr>
-<tr>
-    <td valign="top">
-        <table border="0">
-            {% for field, value in order_billing_detail_fields %}
-            <tr><td>{{ field }}:&nbsp;&nbsp;&nbsp;</td><td>{{ value }}</td></tr>
-            {% endfor %}
-        </table>
-    </td>
-    <td valign="top">
-        <table border="0">
-            {% for field, value in order_shipping_detail_fields %}
-            <tr><td>{{ field }}:&nbsp;&nbsp;&nbsp;</td><td>{{ value }}</td></tr>
-            {% endfor %}
-        </table>
-    </td>
-</tr>
-</table>
+                            <h2 style="color: #000; font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 37px; font-weight: 200; line-height: 1.1; margin: 0; margin-bottom: 15px; padding: 0;">
+                                Your Details</h2>
+                            <table border="1" cellpadding="10" cellspacing="0"
+                                   style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;"
+                                   width="100%">
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <th align="left"
+                                        style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;"
+                                        width="50%">Billing Details
+                                    </th>
+                                    <th align="left"
+                                        style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Event Details
+                                    </th>
+                                </tr>
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;"
+                                        valign="top">
+                                        <table border="0"
+                                               style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+                                            {% for field, value in order_billing_detail_fields %}
+                                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">{{ field }}:&nbsp;&nbsp;&nbsp;</td>
+                                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">{{ value }}</td>
+                                                </tr> {% endfor %} </table>
+                                    </td>
+                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        <table border="0"
+                                               style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;">
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Event name:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    LANtasy 2016
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Dates:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    March 12-13, 2016
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Location:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Pearkes Arena
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Street:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    3100 Tillicum Rd
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    City:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Victoria
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Province:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    BC
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    Postal Code:
+                                                </td>
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                    V9A 6T2
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
 
-<h2>{% trans "Items Ordered" %}</h2>
-<table width="100%" border="1" cellspacing="0" cellpadding="10">
-    <tr>
-        <th align="left">{% trans "Item" %}</th>
-        <th align="left">Badge ID</th>
-        <th align="right">{% trans "Unit Price" %}</th>
-        <th align="right">{% trans "Qty" %}</th>
-        <th align="right">{% trans "Price" %}</th>
-    </tr>
-    {% for item in order.items.all %}
-    <tr>
-        <td>{{ item.description }}</td>
-        <td>{{ item.badge.uid }}</td>
-        <td align="right" valign="top">{{ item.unit_price|currency }}</td>
-        <td align="right" valign="top">{{ item.quantity }}</td>
-        <td align="right" valign="top">{{ item.total_price|currency }}</td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td colspan="4" align="right">{% order_totals %}</td>
+                            <h2 style="color: #000; font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 37px; font-weight: 200; line-height: 1.1; margin: 0; margin-bottom: 15px; padding: 0;">
+                                Items Ordered</h2>
+                            <table border="0"
+                                   style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;"
+                                   width="100%">
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Order ID: {{ order.id }}</td>
+                                    <td align="right"
+                                        style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">{{ order.time }}</td>
+                                </tr>
+                            </table>
+                            <table border="1" cellpadding="10" cellspacing="0" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;" width="100%">
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <th align="left" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Item
+                                    </th>
+                                    <th align="right" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Unit Price
+                                    </th>
+                                    <th align="right" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Qty
+                                    </th>
+                                    <th align="right" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        Price
+                                    </th>
+                                </tr> {% for item in order.items.all %}
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;" nowrap>
+                                        <p style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; line-height: 1.6; margin: 0; margin-bottom: 10px; padding: 0;">{{ item.description }}<br/>Badge
+                                            ID: <span style="color: red; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">{{ item.badge.uid }}</span>
+                                        </p>
+                                    </td>
+                                    <td align="right" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;" valign="top" width="20%">
+                                        {{ item.unit_price|currency }}
+                                    </td>
+                                    <td align="right" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;" valign="top" width="20%">
+                                        {{ item.quantity }}
+                                    </td>
+                                    <td align="right"  style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;" valign="top" width="20%">
+                                        {{ item.total_price|currency }}
+                                    </td>
+                                </tr> {% endfor %}
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <td align="right" colspan="4" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; padding-right: 5px;">
+                                        {% order_totals %}
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <!-- social & contact -->
+                            <table class="social" style="background-color: #ebebeb; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0; width: 100%;" width="100%">
+                                <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                    <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                        <!--- column 1 -->
+                                        <table align="left" class="column"
+                                               style="float: left; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; min-width: 279px; padding: 0; width: 280px;">
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 15px;">
+                                                    <h5 class=""
+                                                        style="color: #000; font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 17px; font-weight: 900; line-height: 1.1; margin: 0; margin-bottom: 15px; padding: 0;">
+                                                        Connect with Us:</h5>
+
+                                                    <p class=""
+                                                       style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; line-height: 1.6; margin: 0; margin-bottom: 10px; padding: 0;">
+                                                        <a class="soc-btn fb" href="https://www.facebook.com/lantasy"
+                                                           style="background-color: #3B5998!important; border-radius: 4px; color: #FFF; display: block; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; margin: 0; margin-bottom: 10px; padding: 3px 7px; text-align: center; text-decoration: none;">Facebook</a>
+                                                        <a class="soc-btn tw" href="https://twitter.com/LANtasyCOM"
+                                                           style="background-color: #1daced!important; border-radius: 4px; color: #FFF; display: block; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; margin: 0; margin-bottom: 10px; padding: 3px 7px; text-align: center; text-decoration: none;">Twitter</a>
+                                                        <a class="soc-btn gp" href="https://plus.google.com/+LantasyCOM"
+                                                           style="background-color: #DB4A39!important; border-radius: 4px; color: #FFF; display: block; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; margin: 0; margin-bottom: 10px; padding: 3px 7px; text-align: center; text-decoration: none;">Google+</a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!-- /column 1 -->
+                                        <!--- column 2 -->
+                                        <table align="left" class="column"
+                                               style="float: left; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; min-width: 279px; padding: 0; width: 280px;">
+                                            <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
+                                                <td style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 15px;">
+                                                    <h5 class=""
+                                                        style="color: #000; font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif; font-size: 17px; font-weight: 900; line-height: 1.1; margin: 0; margin-bottom: 15px; padding: 0;">
+                                                        For Questions/Inquiries please contact:</h5>
+
+                                                    <p class=""
+                                                       style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: normal; line-height: 1.6; margin: 0; margin-bottom: 10px; padding: 0;">
+                                                        Email: <a href="mailto:info@lantasy.com"
+                                                                  style="color: #2BA6CB; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; margin: 0; padding: 0;">info@lantasy.com</a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- /social & contact -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
     </tr>
 </table>
+<!-- /BODY -->
+<!-- FOOTER -->
+<!-- /FOOTER -->
+</body>
+</html>
