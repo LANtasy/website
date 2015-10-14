@@ -20,7 +20,7 @@ class TicketOptionAdminForm(ProductAdminForm):
 class TicketOptionChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
-        return '{name} +${price}'.format(name=obj.title, price=obj.pricediff)
+        return '{name} {price}'.format(name=obj.title, price=obj.get_price_difference)
 
     def __init__(self, *args, **kwargs):
         queryset = TicketOption.objects.available()
