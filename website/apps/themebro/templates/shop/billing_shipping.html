@@ -37,11 +37,11 @@ If you have an existing account or would like to create one, please
         <label class="control-label" for="id_same_billing_shipping">
             My delivery details are the same as my billing details
         </label>
-        <!-- OOB - leaving in case we need down the road
         <input id="id_same_billing_shipping" name="same_billing_shipping" type="checkbox" checked>
-        -->
     </div>
+    <!-- OOB - leaving in case we need down the road
     {% fields_for form.same_billing_shipping_field %}
+    -->
     <div id="shipping_fields">{% fields_for form.shipping_detail_fields %}</div>
     {% fields_for form.additional_instructions_field %}
     {% fields_for form.remember_field %}
