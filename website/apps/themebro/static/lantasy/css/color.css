@@ -196,7 +196,7 @@ a.list-group-item.active:focus,
 }
 /* Colours the box around the date */
 .event-info .event-date{
-	border: 2px solid #FFFFFF;
+	border: none;
 }
 
 /* Colours the nav bar */
@@ -306,10 +306,10 @@ div.accordion-group.panel, img.game {
 }
 
 #checkout .checkout-form input{
-    color: #333333;
+    color: #FFFFFF;
 }
 
-#cart .cart-form input {
+#cart .cart-form td.quantity input {
     background-color: #4C86B3;
     border-color: #4C86B3;
 }
