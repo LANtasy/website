@@ -1,6 +1,5 @@
 # Lantasy Website
-[![Circle CI](https://circleci.com/gh/BCGamer/website/tree/master.svg?style=shield)](https://circleci.com/gh/BCGamer/website/tree/master)
-
+[![Circle CI](https://circleci.com/gh/BCGamer/website/tree/master.svg?style=shield)](https://circleci.com/gh/BCGamer/website/tree/master)  
 [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)] (https://zenhub.io)
 
 ## Variables
