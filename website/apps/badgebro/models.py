@@ -14,6 +14,7 @@ class Badge(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True)
 
     order = models.ForeignKey(Order, related_name='badge_order_id')
+    order_item = models.ForeignKey(OrderItem, related_name='badge_order_item')
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 
     uid = models.CharField(max_length=34, unique=True)
