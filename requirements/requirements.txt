@@ -7,7 +7,7 @@ PyPDF2==1.25.1
 argparse==1.2.1
 beautifulsoup4==4.4.0
 bleach==1.4.1
--e git://github.com/BCGamer/cartridge-stripe.git@8fa5db4ae53cd9e6bd85fdbf486203f1f4cbf00a#egg=cartridge_stripe-master
+-e git://github.com/BCGamer/cartridge-stripe.git@1680989872fe00ad0168fa296d4d4ae9f20aa074#egg=cartridge_stripe-master
 chardet==2.3.0
 coverage==3.7.1
 django-appconf==1.0.1
