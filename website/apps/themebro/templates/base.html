@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+{% load pages_tags mezzanine_tags i18n staticfiles %}
+
+<head>
+{% if settings.GOOGLE_ANALYTICS_ID and not request.user.is_staff %}
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{{ settings.GOOGLE_ANALYTICS_ID }}', 'auto');
+        ga('send', 'pageview');
+    </script>
+{% endif %}
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="copyright" content="LANtasy Gaming Society">
+    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+    <!--BASIC-->
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock meta_keywords %}">
+    <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
+    <!--FACEBOOK-->
+    <meta property="og:url" content="https://www.lantasy.com" />
+    <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}" />
+    <meta property="og:url" content="{{ page.get_absolute_url_with_host }}" />
+    {% block meta_facebook %}{% endblock meta_facebook %}
+    <!--TWITTER-->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@LANtasyCOM" />
+    {% block meta_twitter %}{% endblock meta_twitter %}
+    <!--ICONS-->
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static "lantasy/img/favicon/apple-touch-icon-57x57.png" %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static "lantasy/img/favicon/apple-touch-icon-114x114.png" %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static "lantasy/img/favicon/apple-touch-icon-72x72.png" %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "lantasy/img/favicon/apple-touch-icon-144x144.png" %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static "lantasy/img/favicon/apple-touch-icon-60x60.png" %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static "lantasy/img/favicon/apple-touch-icon-120x120.png" %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static "lantasy/img/favicon/apple-touch-icon-76x76.png" %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static "lantasy/img/favicon/apple-touch-icon-152x152.png" %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "lantasy/img/favicon/apple-touch-icon-180x180.png" %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static "lantasy/img/favicon/favicon-192x192.png" %}">
+    <link rel="icon" type="image/png" sizes="160x160" href="{% static "lantasy/img/favicon/favicon-160x160.png" %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static "lantasy/img/favicon/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "lantasy/img/favicon/favicon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "lantasy/img/favicon/favicon-32x32.png" %}">
+
+{% ifinstalled mezzanine.blog %}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+{% endifinstalled %}
+{% compress css %}{% endcompress css %}
+    <!--Vendor CSS-->
+    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/html5-boilerplate/html5-boilerplate.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/normalize/normalize.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/font-awesome/font-awesome.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
+
+{% ifinstalled cartridge.shop %}
+    <link rel="stylesheet" href="{% static "css/cartridge.css" %}" type="text/css">
+{% endifinstalled cartridge.shop %}
+    <!--Additional CSS-->
+{% block extra_css %}{% endblock extra_css %}
+    <!--LANtasy CSS-->
+    <link rel="stylesheet" href="{% static "lantasy/css/convocation.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "lantasy/css/custom.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "lantasy/css/color.css" %}" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/respond.min.js" %}"></script>
+    <![endif]-->
+<script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
+{% block extra_head %}{% endblock %}
+</head>
+
+<body id="{% block body_id %}body{% endblock %}" class="body background--dark">
+    <header>
+        {% include "includes/navbar.html" %}
+    </header>
+
+{% block body %}
+<div class="container">
+
+    {% nevercache %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endnevercache %}
+
+    <h1>{% block title %}{% endblock %}</h1>
+
+    <ul class="breadcrumb">
+        {% spaceless %}
+        {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+        {% endspaceless %}
+    </ul>
+
+</div>
+
+<div class="container">
+    <div class="row">
+
+
+<!-- Left Menu Bar
+    <div class="col-md-2 left">
+        {% block left_panel %}
+        <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
+        {% endblock %}
+    </div>
+-->
+    <div class="col-md-9 middle">
+        {% block main %}{% endblock %}
+    </div>
+
+    <div class="col-md-3 right">
+        {% nevercache %}
+        {% include "includes/language_selector.html" %}
+        {% include "includes/user_panel.html" %}
+        {% endnevercache %}
+        <!--Removed twitter from here-->
+    </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
+<footer>
+    <div class="container">
+
+        <!--
+        {% page_menu "pages/menus/footer.html" %}
+        -->
+        <div class="row">
+            <div class="col-md-4 col-sm-4 copyrights-left">
+                &copy; 2015 LANtasy Gaming Society.<br>All Rights Reserved.
+            </div>
+            <div class="col-md-4 col-sm-4 copyrights-left shawlogo">
+                Telecommunications provided by<br>
+                <a href="http://www.shaw.ca"><img src="{% static "lantasy/img/sponsors/shaw_logo.png" %}" height="353" width="116" alt=""></a>
+                </div>
+            <div class="col-md-4 col-sm-4 copyrights-right">
+                <ul class="social-icons pull-right">
+                    <li><a href="https://www.facebook.com/lantasy" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com/LANtasyCOM" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://plus.google.com/+LantasyCOM" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+</footer>
+
+
+{% compress js %}
+    <script src="{% static "common/prettyphoto/js/prettyphoto.js" %}"></script>
+    <script src="{% static "common/bootstrap/js/bootstrap-3.3.5.min.js" %}"></script>
+    <script src="{% static "common/modernizr/js/modernizr-2.8.3.min.js" %}"></script>
+    <script src="{% static "lantasy/js/convocation.js" %}"></script>
+    <script src="{% static "common/flexslider/jquery.flexslider-min.js" %}"></script>
+    <script src="{% static "common/waypoints/jquery.waypoints-3.1.1.min.js" %}"></script>
+    <script src="{% static "common/simpleWeather/jquery.simpleWeather-3.0.2.min.js" %}"></script>
+    <script src="{% static "lantasy/js/helper-plugins.js" %}"></script>
+    <script src="{% static "lantasy/js/simpleWeather.js" %}"></script>
+    <script src="{% static "lantasy/js/flex-loader.js" %}"></script>
+{% endcompress %}
+{% block extra_js %}
+
+{% endblock extra_js %}
+
+{#<script src="https://checkout.stripe.com/checkout.js"></script>#}
+
+{% include "includes/footer_scripts.html" %}
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "shop/checkout.html" %}
+{% load i18n mezzanine_tags zebra_tags salesbro_tags static %}
+
+{% block extra_head %}
+{{ block.super }}
+
+<script type="text/javascript" src="{% static "salesbro/card-form.js" %}"></script>
+<script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+{% salesbro_head_and_stripe_key %}
+
+
+{% endblock extra_head %}
+
+{% block fields %}
+
+{% if request.cart.has_items %}
+
+    <div class="payment-errors alert alert-danger" style="display: none;"></div>
+
+    {% for error in form.non_field_errors %}
+        <script type="text/javascript">
+            var error = "{{ error }}";
+            error = error.substring(error.indexOf(': ')+2,error.length);
+            $(".payment-errors").text(error).slideDown(250);
+        </script>
+    {% endfor %}
+
+{% include "shop/includes/payment_fields.html" %}
+{% fields_for form.other_fields %}
+{% endif %}
+
+{% endblock %}

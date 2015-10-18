@@ -9,8 +9,8 @@ from fabric.decorators import roles
 from fabric.colors import green, yellow
 
 
-def production():
-    env.name = 'production'
+def staging():
+    env.name = 'staging'
     env.user = 'bcgamer'
 
     env.VARS = {
@@ -20,9 +20,9 @@ def production():
     }
 
     env.roledefs = {
-        'webservers': ['www.lantasy.com', ],
-        'workers': ['www.lantasy.com', ],
-        'beat': ['www.lantasy.com', ],
+        'webservers': ['staging.lantasy.com', ],
+        'workers': ['staging.lantasy.com', ],
+        'beat': ['staging.lantasy.com', ],
     }
 
     env.repo_name = os.getenv('CIRCLE_PROJECT_REPONAME')
@@ -31,8 +31,8 @@ def production():
     env.circle_build_num = os.getenv('CIRCLE_BUILD_NUM')
 
     env.home = '/home/%(user)s' % env
-    env.project_root = '%(home)s/www.lantasy.com/website' % env
-    env.venv_path = '%(home)s/www.lantasy.com/env' % env
+    env.project_root = '%(home)s/staging.lantasy.com/website' % env
+    env.venv_path = '%(home)s/staging.lantasy.com/env' % env
     env.python_path = '%(venv_path)s/bin/python' % env
     # env.settings_module = 'website.settings.%(name)s' % env
     env.settings_module = 'website.settings.settings'

@@ -22,4 +22,4 @@ deployment:
     owner: BCGamer
     commands:
       - pip install fabric jinja2
-      - fab production deploy
+      - fab staging deploy

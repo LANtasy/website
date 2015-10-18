@@ -1,87 +1,53 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import platform
 from django.utils.translation import ugettext_lazy as _
 
+######################
+# CARTRIDGE SETTINGS #
+######################
+
+SHOP_DISCOUNT_FIELD_IN_CART = True
+SHOP_DISCOUNT_FIELD_IN_CHECKOUT = True
+
+# SHOP_CATEGORY_USE_FEATURED_IMAGE = True
+
+# Set an alternative OrderForm class for the checkout process.
+# SHOP_CHECKOUT_FORM_CLASS = 'cartridge.shop.forms.OrderForm'
+
+
+# If True, the checkout process is split into separate billing/shipping and payment steps.
+# SHOP_CHECKOUT_STEPS_SPLIT = True
+
+SHOP_CHECKOUT_STEPS_CONFIRMATION = True
+
+if platform.system() == 'Windows':
+    SHOP_CURRENCY_LOCALE = 'english-can'
+else:
+    SHOP_CURRENCY_LOCALE = 'en_CA.utf8'
+
+SHOP_HANDLER_ORDER = 'website.apps.salesbro.checkout.salesbro_order_handler'
+SHOP_HANDLER_TAX = 'website.apps.salesbro.checkout.salesbro_tax_handler'
+
+SHOP_HANDLER_PAYMENT = 'cartridge_stripe.payment_handler'
+SHOP_CHARGE_CURRENCY = 'cad'
+SHOP_ORDER_FROM_EMAIL = DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'noreply@lantasy.com'
+SHOP_ORDER_EMAIL_SUBJECT = 'LANtasy Order Invoice'
+
+SHOP_CHECKOUT_ACCOUNT_REQUIRED = True
+
+SHOP_DEFAULT_SHIPPING_VALUE = 0
+
+SHOP_USE_WISHLIST = False
+
+ZEBRA_ENABLE_APP = True
 
 ######################
 # MEZZANINE SETTINGS #
 ######################
 
-ACCOUNTS_VERIFICATION_REQUIRED = False
+ACCOUNTS_VERIFICATION_REQUIRED = True
 
-# The following settings are already defined with default values in
-# the ``defaults.py`` module within each of Mezzanine's apps, but are
-# common enough to be put here, commented out, for conveniently
-# overriding. Please consult the settings documentation for a full list
-# of settings Mezzanine implements:
-# http://mezzanine.jupo.org/docs/configuration.html#default-settings
-
-# Controls the ordering and grouping of the admin menu.
-#
-# ADMIN_MENU_ORDER = (
-#     ("Content", ("pages.Page", "blog.BlogPost",
-#        "generic.ThreadedComment", (_("Media Library"), "fb_browse"),)),
-#     ("Site", ("sites.Site", "redirects.Redirect", "conf.Setting")),
-#     ("Users", ("auth.User", "auth.Group",)),
-# )
-
-# A three item sequence, each containing a sequence of template tags
-# used to render the admin dashboard.
-#
-# DASHBOARD_TAGS = (
-#     ("blog_tags.quick_blog", "mezzanine_tags.app_list"),
-#     ("comment_tags.recent_comments",),
-#     ("mezzanine_tags.recent_actions",),
-# )
-
-# A sequence of templates used by the ``page_menu`` template tag. Each
-# item in the sequence is a three item sequence, containing a unique ID
-# for the template, a label for the template, and the template path.
-# These templates are then available for selection when editing which
-# menus a page should appear in. Note that if a menu template is used
-# that doesn't appear in this setting, all pages will appear in it.
-
-# PAGE_MENU_TEMPLATES = (
-#     (1, _("Top navigation bar"), "pages/menus/dropdown.html"),
-#     (2, _("Left-hand tree"), "pages/menus/tree.html"),
-#     (3, _("Footer"), "pages/menus/footer.html"),
-# )
-
-# A sequence of fields that will be injected into Mezzanine's (or any
-# library's) models. Each item in the sequence is a four item sequence.
-# The first two items are the dotted path to the model and its field
-# name to be added, and the dotted path to the field class to use for
-# the field. The third and fourth items are a sequence of positional
-# args and a dictionary of keyword args, to use when creating the
-# field instance. When specifying the field class, the path
-# ``django.models.db.`` can be omitted for regular Django model fields.
-#
-# EXTRA_MODEL_FIELDS = (
-#     (
-#         # Dotted path to field.
-#         "mezzanine.blog.models.BlogPost.image",
-#         # Dotted path to field class.
-#         "somelib.fields.ImageField",
-#         # Positional args for field class.
-#         (_("Image"),),
-#         # Keyword args for field class.
-#         {"blank": True, "upload_to": "blog"},
-#     ),
-#     # Example of adding a field to *all* of Mezzanine's content types:
-#     (
-#         "mezzanine.pages.models.Page.another_field",
-#         "IntegerField", # 'django.db.models.' is implied if path is omitted.
-#         (_("Another name"),),
-#         {"blank": True, "default": 1},
-#     ),
-# )
-
-# Setting to turn on featured images for blog posts. Defaults to False.
-#
-# BLOG_USE_FEATURED_IMAGE = True
-
-# If True, the django-modeltranslation will be added to the
-# INSTALLED_APPS setting.
 USE_MODELTRANSLATION = False
 
 
@@ -184,7 +150,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'common'),)
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'apps/themebro/static/common'),)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -210,7 +176,10 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'themes/default/templates'),)
 ################
 
 INSTALLED_APPS = (
-    'website.apps.themeBro',
+    # --Theme--
+    'website.apps.themebro',
+
+    # --Django--
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -219,6 +188,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+
+    # --Mezzanine--
     'mezzanine.boot',
     'mezzanine.conf',
     'mezzanine.core',
@@ -230,7 +201,20 @@ INSTALLED_APPS = (
     # 'mezzanine.twitter',
     'mezzanine.accounts',
     # 'mezzanine.mobile',
+
+    # --Cartridge--
+    'cartridge_stripe',
+    'cartridge.shop',
+    'zebra',
+    'django_mailgun',
+
+    # --Debug--
     'django_extensions',
+    'debug_toolbar',
+
+    # --Core--
+    'website.apps.salesbro',
+    'website.apps.badgebro',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -265,6 +249,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'cartridge.shop.middleware.ShopMiddleware',
     'mezzanine.core.request.CurrentRequestMiddleware',
     'mezzanine.core.middleware.RedirectFallbackMiddleware',
     'mezzanine.core.middleware.TemplateForDeviceMiddleware',
@@ -296,6 +281,16 @@ OPTIONAL_APPS = (
 )
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+NEVERCACHE_KEY = os.getenv('DJANGO_NEVERCACHE_KEY')
+
+# Stripe
+STRIPE_SECRET = os.getenv('DJANGO_STRIPE_SECRET')
+STRIPE_PUBLISHABLE = os.getenv('DJANGO_STRIPE_PUBLISHABLE')
+
+# Mailgun
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY = os.getenv('MAILGUN_ACCESS_KEY')
+MAILGUN_SERVER_NAME = os.getenv('MAILGUN_SERVER_NAME')
 
 ##################
 # LOCAL SETTINGS #

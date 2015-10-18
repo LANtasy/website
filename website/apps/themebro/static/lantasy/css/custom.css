@@ -1,0 +1,197 @@
+/*------------------------------------------------------------------
+[Custom Stylesheet]
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Basic Styles
+2. Typography
+3. Margin Bottom Sets
+4. Padding Sets
+5. Spacers Sets
+6. Site Structure & Appearance
+7. Responsive Media Queries
+-------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------------------------*/
+/* 1. Header */
+/*-------------------------------------------------------------------------------------------*/
+header .navbar-default .navbar-brand > img{
+    position: relative;
+    top: 0;
+    transform: translateY(-25%);
+    height: 45px;
+    width: auto;
+}
+header a {
+    font-weight: 600;
+}
+
+@media only screen and (min-width: 768px) {
+    header .navbar-default .navbar-nav > li > a {
+        font-size: 16px;
+    }
+    header ul.nav.navbar-nav {
+        float: right;
+    }
+    header .navbar-default .navbar-header{
+        float: right !important;
+    }
+
+    header .navbar-default .navbar-collapse{
+        float: left !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    header .navbar-toggle {
+        float: left;
+        left:30px;
+    }
+    header .navbar-default .navbar-brand{
+        float: right;
+    }
+}
+
+/*-------------------------------------------------------------------------------------------*/
+/* 2. Footer */
+/*-------------------------------------------------------------------------------------------*/
+footer p.left {
+    float: left;
+}
+
+footer a {
+    font-weight: 600;
+}
+
+footer ul.right {
+    float: right;
+
+    margin: 0;
+    line-height: 25px;
+}
+footer .social-icons, footer .social-icons-colored{
+    margin: 0;
+    list-style-type: none;
+}
+
+footer ul {
+    list-style: none;
+    position: relative;
+    top: -10px;
+}
+
+/*-------------------------------------------------------------------------------------------*/
+/* 6. Site Structure & Appearance */
+/*-------------------------------------------------------------------------------------------*/
+
+body {
+    padding-top:50px;
+}
+
+
+
+/*-------------------------------------------------------------------------------------------*/
+/* 7. Responsive Media Queries */
+/*-------------------------------------------------------------------------------------------*/
+@media only screen and (max-width: 470px) {
+    .event-info .sl{
+        font-size: 16vw;
+    }
+    .event-info .fl{
+        font-size: 8vw;
+        margin-bottom:0;
+    }
+    .event-info .tl{
+        font-size: 4vw;
+        margin-top: 0;
+        margin-bottom:0;
+    }
+    .event-info .event-date{
+        font-size: 4vw;
+        margin-top: 0;
+    }
+}
+
+/* Checkout */
+#checkout .checkout-form fieldset {
+    margin-top: -21px;
+}
+
+.cart-form>.table-striped>tbody>tr>td, .cart-form>.table-striped>tbody>tr>th, .cart-form>.table-striped>tfoot>tr>td,
+.cart-form>.table-striped>tfoot>tr>th, .cart-form>.table-striped>thead>tr>td, .cart-form>.table-striped>thead>tr>th {
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+#cart .cart-form td.quantity input {
+    border: 1px INSET;
+}
+
+#checkout .price:only-child {
+    margin: 0;
+}
+
+
+
+/* Events Page CSS */
+
+td.eventHeader{
+    text-align: center;
+}
+
+div.eventHeader{
+    background: #467DA6;
+    display: block;
+    border: 1px solid white;
+    padding: 10px 15px 20px;
+    width: 152px;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+td.eventDetails {
+    width:1px;
+    white-space: nowrap;
+}
+
+/* Sponsor Logos */
+
+@media only screen and (max-width: 768px){
+    div.shawlogo{
+        text-align: left;
+        padding-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 769px){
+    div.shawlogo{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+}
+
+
+@media only screen and (max-width: 719px){
+    .LANtext{
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        background-color: rgba(83, 85, 85, .6);
+        border-radius: 4px;
+    }
+}
+
+@media only screen and (min-width: 720px) {
+    .LANtext {
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        background-color: rgba(83, 85, 85, .6);
+        width: 716px;
+        border-radius: 4px;
+
+    }
+}
