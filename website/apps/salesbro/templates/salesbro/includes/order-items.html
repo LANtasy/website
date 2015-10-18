@@ -1,0 +1,51 @@
+{% load shop_tags %}
+<!-- Start Full Text -->
+<table width="100%" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="full-text">
+    <tbody><tr><td><table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+        <tbody><tr><td width="100%"><table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth"><tbody>
+            <!-- Spacing --><tr><td height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td></tr><!-- Spacing -->
+            <tr><td><table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner"><tbody>
+                <!-- Title --><tr><td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color: #545554; text-align:left; line-height: 24px;" st-title="fulltext-heading">
+                    Order Items
+                </td></tr><!-- End of Title -->
+                <!-- spacing --><tr><td width="100%" height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td></tr><!-- End of spacing -->
+                <!-- content --><tr><td style="font-family: Helvetica, arial, sans-serif; font-size: 16px; color: #666666; text-align:left; line-height: 30px;" st-content="fulltext-content">
+                    {% if order %}
+                        <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.quantity }}x {{ item.description }} @ {{ item.unit_price|currency }} = {{ item.total_price|currency }}</li>
+                            {% if item.badge_order_item.all %}
+                            <ul>
+                                {% for badge in item.badge_order_item.all %}
+                                <li><span style="color:#4884B2;">{{ badge.uid }}</span></li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                        {% order_totals %}
+                    {% else %}
+                        <ul>
+                        <li>3x BYOC LAN & Minis (Weekend Pass) @ $65.00 = $195.00</li>
+                        <ul>
+                            <li><span style="color:#4884B2;">BA5bcce151e6c446c6b7437f4b66e5cd51</span></li>
+                            <li><span style="color:#4884B2;">BA7437f4b66e5cd515bcce151e6c446c6b</span></li>
+                            <li><span style="color:#4884B2;">BA5cd515bcce151e7437f4b66e6c446c6b</span></li>
+                        </ul>
+                        <li>1x Minis (Weekend Pass) @ $45.00 = $45.00</li>
+                        <ul>
+                            <li><span style="color:#4884B2;">BA151e6c446c6b745bcce37f4b66e5cd51</span></li>
+                        </ul>
+                        <li>3x 30ft Ethernet Cable @ $10.00 = $30.00</li>
+                        </ul>
+                        GST+PST: $32.40<br/>
+                        Total: $302.40
+                    {% endif %}
+                </td></tr><!-- End of content -->
+            </tbody></table></td></tr>
+            <!-- Spacing --><tr><td height="20" style="font-size:1px; line-height:1px; mso-line-height-rule: exactly;">&nbsp;</td></tr><!-- Spacing -->
+        </tbody></table></td></tr></tbody>
+    </table></td></tr>
+   </tbody>
+</table>
+<!-- end of full text -->
