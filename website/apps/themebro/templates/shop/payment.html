@@ -15,20 +15,15 @@
 
 {% if request.cart.has_items %}
 
+    <div class="payment-errors alert alert-danger" style="display: none;"></div>
+
     {% for error in form.non_field_errors %}
-     <div class="alert alert-danger">
         <script type="text/javascript">
             var error = "{{ error }}";
             error = error.substring(error.indexOf(': ')+2,error.length);
-            document.write(error);
+            $(".payment-errors").text(error).slideDown(250);
         </script>
-
-     </div>
     {% endfor %}
-
-    <div class="payment-errors alert alert-danger" style="display: none;">
-
-    </div>
 
 {% include "shop/includes/payment_fields.html" %}
 {% fields_for form.other_fields %}
