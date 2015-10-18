@@ -197,6 +197,7 @@ a.list-group-item.active:focus,
 /* Colours the box around the date */
 .event-info .event-date{
 	border: none;
+    background: none;
 }
 
 /* Colours the nav bar */
@@ -230,7 +231,7 @@ body{
 div.accordion-group.panel, img.game {
     background:#4f4f4f;
     border: 1px solid white;
-    padding: 10px 15px 20px;
+    padding: 5px;
     display: block;
     margin-right: auto;
 }
