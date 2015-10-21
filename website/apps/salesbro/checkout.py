@@ -47,6 +47,12 @@ def salesbro_tax_handler(request, order_form):
     """
     total = request.cart.total_price()
 
+    # To implement PST would need to do the following
+    # - Keep track of GST total_price (all things)
+    # - Keep track fo PST total_price (no Ticket or TicketOptions)
+    # - Need a new calculation for discount
+    # - Change gst and pst calculation
+
     if 'discount_code' in request.session:
         discount_code = DiscountCode.objects.get(code=request.session['discount_code'])
         discount = request.cart.calculate_discount(discount_code)
