@@ -52,10 +52,11 @@ def salesbro_tax_handler(request, order_form):
         discount = request.cart.calculate_discount(discount_code)
         total -= discount
 
-    pst = total * Decimal(0.07)
+    # pst = total * Decimal(0.07)
     gst = total * Decimal(0.05)
 
-    tax = math.ceil(pst*100 + gst*100)/100
+    # tax = math.ceil(pst*100 + gst*100)/100
+    tax = math.ceil(gst*100)/100
 
-    set_tax(request, "GST+PST", tax)
+    set_tax(request, "GST", tax)
 
