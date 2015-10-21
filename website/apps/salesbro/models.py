@@ -32,24 +32,17 @@ class TicketOption(Product):
             if self.on_sale():
                 sale_price = (self.sale_price - self.ticket.unit_price)
                 if sale_price < 0 and unit_price < 0:
-                    return '-${sale_price} (Door Price: -${unit_price})'.format(
-                        sale_price=-sale_price,
-                        unit_price=-unit_price)
+                    return '-${sale_price}'.format(sale_price=-sale_price)
                 elif sale_price < 0:
-                    return '-${sale_price} (Door Price: +${unit_price})'.format(
-                        sale_price=-sale_price,
-                        unit_price=unit_price)
+                    return '-${sale_price}'.format(sale_price=-sale_price)
                 elif sale_price == 0:
-                    return '**FREE** (Door Price: +${unit_price})'.format(
-                        unit_price=unit_price)
+                    return '+$0.00'
                 else:
-                    return '+${sale_price} (Door Price: +${unit_price})'.format(
-                        sale_price=sale_price,
-                        unit_price=unit_price)
+                    return '+${sale_price}'.format(sale_price=sale_price)
             else:
                 return '+${unit_price}'.format(unit_price=unit_price)
         else:
-            return '**FREE**'
+            return '+$0.00'
 
     @models.permalink
     def get_absolute_url(self):

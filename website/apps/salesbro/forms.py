@@ -20,7 +20,10 @@ class TicketOptionAdminForm(ProductAdminForm):
 class TicketOptionChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
-        return '{name} {price}'.format(name=obj.title, price=obj.get_price_difference)
+        if obj.on_sale():
+            return '{name} {price} (On Sale)'.format(name=obj.title, price=obj.get_price_difference)
+        else:
+            return '{name} {price}'.format(name=obj.title, price=obj.get_price_difference)
 
     def __init__(self, *args, **kwargs):
         queryset = TicketOption.objects.available()
@@ -34,6 +37,7 @@ class AddTicketForm(AddProductForm):
     def __init__(self, *args, **kwargs):
         super(AddTicketForm, self).__init__(*args, **kwargs)
         if self._product is not None:
+            self.fields['ticket_option'].label = "Ticket add-ons"
             self.fields['ticket_option'].queryset = TicketOption.objects.available().filter(ticket=self._product)
 
     def clean(self):
