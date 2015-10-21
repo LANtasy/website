@@ -24,6 +24,8 @@
         {% endif %}
         </label> <span>{{ tax_total|currency }}</span>
     </div>
+    {% else %}
+    <div><label>+ TAX</label></div>
     {% endif %}
     <div class="total"><label>Total: </label> <span>{{ order_total|currency }}</span></div>
 </div>
