@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 group_name = u'Ticket Sales'
 
+
 def add_ticket_sales(apps, schema_editor):
     group = apps.get_model('auth', 'Group')
     try:
