@@ -6,11 +6,15 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.contrib.messages import info
+from django.contrib.auth.decorators import login_required
 
 from cartridge.shop.utils import recalculate_cart
 
 from website.apps.salesbro.forms import AddTicketForm
 from website.apps.salesbro.models import Ticket
+from django.http import HttpResponse
+from django.views.generic import View
+from braces.views import LoginRequiredMixin, GroupRequiredMixin
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +83,23 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
+class VendorLogon(GroupRequiredMixin, View):
+    group_required = u'Ticket Sales'
+
+    def get(self, request):
+        return HttpResponse('Hello World')
+
+
+class VendorCart(View):
+    def get(self, request):
+        return HttpResponse('result')
+
+
+class VendorCechkout(View):
+    def get(self, request):
+        return HttpResponse('result')
 
 ticket_list = TicketListView.as_view()
 ticket_detail = TicketDetailView.as_view()
+
+

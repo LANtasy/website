@@ -4,10 +4,13 @@ import logging
 
 from django.conf.urls import url, patterns
 
+from website.apps.salesbro.views import VendorLogon
+
 logger = logging.getLogger(__name__)
 
 
 urlpatterns = patterns('website.apps.salesbro.views',
     url(r'^tickets/$', 'ticket_list', name='ticket_list'),
     url(r'^tickets/(?P<slug>[a-z0-9-]+)/$', 'ticket_detail', name='ticket_detail'),
+    url(r'^vendor/$', VendorLogon.as_view()),
 )
