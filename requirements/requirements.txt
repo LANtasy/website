@@ -36,3 +36,4 @@ stripe==1.25.0
 tzlocal==1.2
 wsgiref==0.1.2
 xhtml2pdf==0.0.6
+django_braces==1.8.1
