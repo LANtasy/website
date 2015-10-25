@@ -195,3 +195,34 @@ td.eventDetails {
 
     }
 }
+
+/*  Blog */
+
+.post-meta {
+    font-weight: normal;
+}
+
+.blog-title {
+    font-weight: 700;
+    margin: 0;
+}
+.blog-link {
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+}
+
+.pager li>a, .pager li>span {
+    cursor: pointer;
+    font-family: Merriweather, serif;
+    border-radius: 4px;
+}
+
+.media-heading {
+    text-transform: none;
+}
+
+.comment-author{
+    font-weight: bolder;
+    border:0;
+    padding:0;
+}
