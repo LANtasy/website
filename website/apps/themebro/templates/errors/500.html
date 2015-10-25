@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block meta_title %}
-{% trans "Error" %}
+Error 500
 {% endblock %}
 
 {% block title %}
-{% trans "Error" %}
+Error 500
 {% endblock %}
 
 {% block main %}
 <div class="panel panel-danger">
-	<div class="panel-heading"><h3 class="panel-title">{% trans "Error" %}</h3></div>
-	<div class="panel-body">{% trans "Sorry, an error occurred. - Test" %}</div>
+	<div class="panel-heading"><h3 class="panel-title">Error 500 - Internal Server Error</h3></div>
+	<div class="panel-body"><img style="height: 225px; display: block; margin: auto;" src="{% static 'lantasy/img/errors/JackonFire.png' %}"> <p style="text-align: center;">Move along, nothing to see here</p></div>
 </div>
 {% endblock %}
