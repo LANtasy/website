@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import migrations
 from django.core.exceptions import ObjectDoesNotExist
 
-group_name = u'Ticket Sales'
+group_name = u'Sales Portal Access'
 
 
 def add_ticket_sales(apps, schema_editor):
