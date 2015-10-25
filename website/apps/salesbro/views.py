@@ -2,7 +2,6 @@ from __future__ import unicode_literals, absolute_import
 
 import logging
 
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.contrib.messages import info
@@ -14,7 +13,7 @@ from website.apps.salesbro.models import Ticket, TicketOption
 from cartridge.shop.models import Product
 from django.http import HttpResponse
 from django.views.generic import View, TemplateView
-from braces.views import LoginRequiredMixin, GroupRequiredMixin
+from braces.views import GroupRequiredMixin
 
 logger = logging.getLogger(__name__)
 
@@ -84,15 +83,13 @@ class TicketDetailView(DetailView):
 
 
 class VendorLogon(GroupRequiredMixin, View):
-    name = 'vendor_logon'
     group_required = u'Sales Portal Access'
 
     def get(self, request):
-        return redirect('cart/')
+        return redirect('salesbro:vendor_cart')
 
 
 class VendorCart(GroupRequiredMixin, ListView):
-    name = 'vendor_cart'
     group_required = u'Sales Portal Access'
     context_object_name = 'all_product_list'
     template_name = 'salesbro/vendor/cart.html'
@@ -104,21 +101,14 @@ class VendorCart(GroupRequiredMixin, ListView):
         context = super(VendorCart, self).get_context_data(**kwargs)
         context['ticket_option_list'] = TicketOption.objects.order_by('title')
         context['ticket_list'] = Ticket.objects.order_by('title')
-        products = Product.objects.order_by('title')
-        product_list = []
-        for product in products:
-            if product not in context['ticket_option_list']:
-                print context['ticket_option_list']
-                product_list.append(product)
-                print product
-
-        context['product_list'] = product_list
-
+        product_queryset = Product.objects.order_by('title')
+        product_queryset = product_queryset.exclude(id__in=TicketOption.objects.all())
+        product_queryset = product_queryset.exclude(id__in=Ticket.objects.all())
+        context['product_list'] = product_queryset
         return context
 
 
 class VendorCheckout(GroupRequiredMixin, TemplateView):
-    name = 'vendor_checkout'
     group_required = u'Sales Portal Access'
 
     def get(self, request):
