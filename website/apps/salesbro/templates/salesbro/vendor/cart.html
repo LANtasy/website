@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load mezzanine_tags shop_tags i18n %}
+
+{% block meta_title %}Vendor Portal{% endblock %}
+{% block body_id %}category{% endblock %}
+
+{% block main %}{{ block.super }}
+
+{% if child_categories %}
+<div class="row shop-category-list">
+
+</div>
+{% endif %}
+
+{% if products.paginator.count != 0 %}
+
+
+<div class="row product-list">
+{% for ticket in ticket_list %}
+    <div class="col-xs-6 col-sm-4 col-lg-3 product-thumb">
+    <a href="{{ ticket.get_absolute_url }}" class="thumbnail">
+        {% if ticket.image %}
+        <img src="{{ MEDIA_URL }}{% thumbnail ticket.image 148 148 %}">
+        {% else %}
+        <div class="placeholder"></div>
+        {% endif %}
+        <div class="caption">
+        <h6>{{ ticket }}</h6>
+        <div class="price-info">
+        {% if ticket.has_price %}
+            {% if ticket.on_sale %}
+            <span class="old-price">{{ ticket.unit_price|currency }}</span>
+            {% trans "On sale:" %}
+            {% endif %}
+            <span class="price">{{ ticket.price|currency }}</span>
+        {% else %}
+            <span class="coming-soon">{% trans "Coming soon" %}</span>
+        {% endif %}
+        </div>
+        </div>
+    </a>
+    </div>
+{% endfor %}
+</div>
+
+
+{% endif %}
+
+{% endblock %}

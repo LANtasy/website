@@ -11,9 +11,10 @@ from django.contrib.auth.decorators import login_required
 from cartridge.shop.utils import recalculate_cart
 
 from website.apps.salesbro.forms import AddTicketForm
-from website.apps.salesbro.models import Ticket
+from website.apps.salesbro.models import Ticket, TicketOption
+from cartridge.shop.models import Product
 from django.http import HttpResponse
-from django.views.generic import View
+from django.views.generic import RedirectView, TemplateView
 from braces.views import LoginRequiredMixin, GroupRequiredMixin
 
 logger = logging.getLogger(__name__)
@@ -83,21 +84,39 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
-class VendorLogon(GroupRequiredMixin, View):
+class VendorLogon(GroupRequiredMixin, RedirectView):
+    name = 'vendor_logon'
     group_required = u'Ticket Sales'
 
     def get(self, request):
-        return HttpResponse('Hello World')
+        return redirect('cart/')
 
 
-class VendorCart(View):
+class VendorCart(GroupRequiredMixin, ListView):
+    name = 'vendor_cart'
+    group_required = u'Ticket Sales'
+    # model = [TicketOption, Product]
+    context_object_name = 'ticket_option_list'
+    model = TicketOption
+    template_name = 'salesbro/vendor/cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(VendorCart, self).get_context_data(**kwargs)
+        context.update({
+            'ticket_option_list': TicketOption.objects.order_by('name'),
+            'product_list': Product.objects.all(),
+        })
+
+    def get_queryset(self):
+        return TicketOption.objects.order_by('name')
+
+
+class VendorCheckout(GroupRequiredMixin, TemplateView):
+    name = 'vendor_checkout'
+    group_required = u'Ticket Sales'
+
     def get(self, request):
-        return HttpResponse('result')
-
-
-class VendorCechkout(View):
-    def get(self, request):
-        return HttpResponse('result')
+        return HttpResponse('Hello World3')
 
 ticket_list = TicketListView.as_view()
 ticket_detail = TicketDetailView.as_view()
