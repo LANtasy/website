@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.contrib.messages import info
-from django.contrib.auth.decorators import login_required
 
 from cartridge.shop.utils import recalculate_cart
 
@@ -14,7 +13,7 @@ from website.apps.salesbro.forms import AddTicketForm
 from website.apps.salesbro.models import Ticket, TicketOption
 from cartridge.shop.models import Product
 from django.http import HttpResponse
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import View, TemplateView
 from braces.views import LoginRequiredMixin, GroupRequiredMixin
 
 logger = logging.getLogger(__name__)
@@ -84,9 +83,9 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
-class VendorLogon(GroupRequiredMixin, RedirectView):
+class VendorLogon(GroupRequiredMixin, View):
     name = 'vendor_logon'
-    group_required = u'Ticket Sales'
+    group_required = u'Sales Portal Access'
 
     def get(self, request):
         return redirect('cart/')
@@ -94,26 +93,33 @@ class VendorLogon(GroupRequiredMixin, RedirectView):
 
 class VendorCart(GroupRequiredMixin, ListView):
     name = 'vendor_cart'
-    group_required = u'Ticket Sales'
-    # model = [TicketOption, Product]
-    context_object_name = 'ticket_option_list'
-    model = TicketOption
+    group_required = u'Sales Portal Access'
+    context_object_name = 'all_product_list'
     template_name = 'salesbro/vendor/cart.html'
+
+    def get_queryset(self):
+        return Product.objects.order_by('title')
 
     def get_context_data(self, **kwargs):
         context = super(VendorCart, self).get_context_data(**kwargs)
-        context.update({
-            'ticket_option_list': TicketOption.objects.order_by('name'),
-            'product_list': Product.objects.all(),
-        })
+        context['ticket_option_list'] = TicketOption.objects.order_by('title')
+        context['ticket_list'] = Ticket.objects.order_by('title')
+        products = Product.objects.order_by('title')
+        product_list = []
+        for product in products:
+            if product not in context['ticket_option_list']:
+                print context['ticket_option_list']
+                product_list.append(product)
+                print product
 
-    def get_queryset(self):
-        return TicketOption.objects.order_by('name')
+        context['product_list'] = product_list
+
+        return context
 
 
 class VendorCheckout(GroupRequiredMixin, TemplateView):
     name = 'vendor_checkout'
-    group_required = u'Ticket Sales'
+    group_required = u'Sales Portal Access'
 
     def get(self, request):
         return HttpResponse('Hello World3')
