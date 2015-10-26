@@ -79,7 +79,6 @@ footer .social-icons, footer .social-icons-colored{
 footer ul {
     list-style: none;
     position: relative;
-    top: -10px;
 }
 
 /*-------------------------------------------------------------------------------------------*/
@@ -159,18 +158,9 @@ td.eventDetails {
 
 /* Sponsor Logos */
 
-@media only screen and (max-width: 768px){
-    div.shawlogo{
-        text-align: left;
-        padding-bottom: 20px;
-    }
-}
-
-@media only screen and (min-width: 769px){
-    div.shawlogo{
-        text-align: center;
-        padding-bottom: 20px;
-    }
+div.shawlogo{
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 
@@ -225,4 +215,30 @@ td.eventDetails {
     font-weight: bolder;
     border:0;
     padding:0;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .copyrights-left{
+        text-align: center;
+    }
+    .copyrights-right{
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .copyrights-left{
+        text-align: right;
+    }
+    .copyrights-right{
+        text-align: left;
+    }
+    .fa {
+        padding-top: 17px;
+    }
+}
+
+footer {
+    font-size: 12px;!important
 }
