@@ -1,20 +1,24 @@
 from __future__ import unicode_literals, absolute_import
 
 import logging
+from cartridge.shop.forms import CartItemFormSet, DiscountForm
+from mezzanine.conf import settings
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView
+from django.views.decorators.cache import never_cache
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView, View
 from django.contrib.messages import info
-from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import Product
+from cartridge.shop.models import Product, ProductVariation, DiscountCode
 from braces.views import GroupRequiredMixin
-from extra_views import FormSetView, InlineFormSet, CreateWithInlinesView
-from extra_views.generic import GenericInlineFormSet
+from django.views.generic.base import TemplateResponseMixin
 
-from website.apps.salesbro.forms import AddTicketForm
+import itertools
+
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -89,50 +93,177 @@ class VendorLogon(GroupRequiredMixin, RedirectView):
     permanent = False
 
 
-class VendorCart(GroupRequiredMixin, FormSetView):
+class VendorCart(GroupRequiredMixin, TemplateResponseMixin, View):
     group_required = u'Sales Portal Access'
     form_class = ''
-    template_name = 'salesbro/vendor/cart.html'
+    template_name = 'salesbro/vendor/items.html'
 
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        ticket_option_formset = self.get_ticket_option_formset()
+        product_formset = self.get_product_formset()
+
+        context['ticket_option_formset'] = ticket_option_formset
+        context['product_formset'] = product_formset
+
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+
+        ticket_option_formset = self.get_ticket_option_formset()
+        product_formset = self.get_product_formset()
+
+        ticket_option_formset_valid = ticket_option_formset.is_valid()
+        product_formset_valid = product_formset.is_valid()
+
+        quantity = self.get_total_quantity(ticket_option_formset, product_formset)
+
+        if ticket_option_formset_valid and product_formset_valid and quantity > 0:
+            return self.formsets_valid(ticket_option_formset, product_formset)
+        else:
+            return self.formsets_invalid(ticket_option_formset, product_formset, quantity)
+
+    def get_total_quantity(self, *formsets):
+        quantity = 0
+        for formset in formsets:
+            for form in formset:
+                quantity += form.cleaned_data.get('quantity', 0)
+
+        return quantity
+
+    def formsets_valid(self, ticket_option_formset, product_formset):
+
+        for form in itertools.chain(ticket_option_formset, product_formset):
+            variation = form.cleaned_data['id']
+            quantity = form.cleaned_data['quantity']
+
+            if quantity > 0:
+                self.request.cart.add_item(variation=variation, quantity=quantity)
+
+        recalculate_cart(self.request)
+
+        return redirect('salesbro:vendor_checkout')
+        # return self.render_to_response(context={})
+
+    def formsets_invalid(self, ticket_option_formset, product_formset, quantity):
+        context = self.get_context_data()
+
+        page_errors = []
+
+        if quantity == 0:
+            page_errors.append("Invalid quantity.")
+
+        context['page_errors'] = page_errors
+        context['ticket_option_formset'] = ticket_option_formset
+        context['product_formset'] = product_formset
+        return self.render_to_response(context)
+
+    def get_ticket_option_queryset(self):
+        queryset = ProductVariation.objects.filter(product_id__in=TicketOption.objects.all())
+        return queryset
+
+    def get_product_variation_formset_kwargs(self):
+        queryset = self.get_product_variation_queryset()
+
+        kwargs = {
+            'queryset': queryset,
+            'data': self.request.POST or None,
+            'prefix': 'products',
+        }
+
+        return kwargs
+
+    def get_product_variation_queryset(self):
+        queryset = ProductVariation.objects.all()
+        queryset = queryset.exclude(product__in=TicketOption.objects.all())
+        queryset = queryset.exclude(product__in=Ticket.objects.all())
+        return queryset
+
+    def get_ticket_option_formset_kwargs(self):
+        queryset = self.get_ticket_option_queryset()
+
+        kwargs = {
+            'queryset': queryset,
+            'data': self.request.POST or None,
+            'prefix': 'ticket_option',
+        }
+
+        return kwargs
+
+    def get_ticket_option_formset(self):
+        kwargs = self.get_ticket_option_formset_kwargs()
+        formset = TicketOptionFormSet(**kwargs)
+        return formset
+
+    def get_product_formset(self):
+        kwargs = self.get_product_variation_formset_kwargs()
+        formset = ProductVariationFormSet(**kwargs)
+        return formset
 
     def get_context_data(self, **kwargs):
-        context = super(VendorCart, self).get_context_data(**kwargs)
+
+        context = {}
 
         return context
 
-
-
-'''
-class VendorCart(GroupRequiredMixin, ListView):
-    group_required = u'Sales Portal Access'
-    template_name = 'salesbro/vendor/cart.html'
-
-    # On GET display 2 separate sections (TicketOptions, Products)
-    # Display as 2 separate formsets (TicketOptions, Products)
-    # Display each item (item name, price, quantity
-    # Two POST types (Update Cart, Go to Checkout)
-    # Update cart: Calculates individual item totals, calculates all totals, calculates tax, calculates discount
-    # Checkout cart: For each item with qty>0 create cart item
-
-    def get_queryset(self):
-        return Product.objects.order_by('title')
-
-    def get_context_data(self, **kwargs):
-        context = super(VendorCart, self).get_context_data(**kwargs)
-        context['ticket_option_list'] = TicketOption.objects.order_by('title')
-        context['ticket_list'] = Ticket.objects.order_by('title')
-        product_queryset = Product.objects.order_by('title')
-        product_queryset = product_queryset.exclude(id__in=TicketOption.objects.all())
-        product_queryset = product_queryset.exclude(id__in=Ticket.objects.all())
-        context['product_list'] = product_queryset
-        return context
-'''
 
 class VendorCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
+    template_name = 'salesbro/vendor/cart.html'
 
-    def get(self, request):
-        return HttpResponse('Hello World3')
 
+@never_cache
+def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartItemFormSet, discount_form_class=DiscountForm):
+    """
+    Display cart and handle removing items from the cart.
+    """
+
+    cart_formset = cart_formset_class(instance=request.cart)
+    discount_form = discount_form_class(request, request.POST or None)
+    if request.method == "POST":
+        valid = True
+        if request.POST.get("update_cart"):
+            valid = request.cart.has_items()
+            if not valid:
+                # Session timed out.
+                info(request, _("Your cart has expired"))
+            else:
+                cart_formset = cart_formset_class(request.POST,
+                                                  instance=request.cart)
+                valid = cart_formset.is_valid()
+                if valid:
+                    cart_formset.save()
+                    recalculate_cart(request)
+                    info(request, _("Cart updated"))
+                else:
+                    # Reset the cart formset so that the cart
+                    # always indicates the correct quantities.
+                    # The user is shown their invalid quantity
+                    # via the error message, which we need to
+                    # copy over to the new formset here.
+                    errors = cart_formset._errors
+                    cart_formset = cart_formset_class(instance=request.cart)
+                    cart_formset._errors = errors
+        else:
+            valid = discount_form.is_valid()
+            if valid:
+                discount_form.set_discount()
+            # Potentially need to set shipping if a discount code
+            # was previously entered with free shipping, and then
+            # another was entered (replacing the old) without
+            # free shipping, *and* the user has already progressed
+            # to the final checkout step, which they'd go straight
+            # to when returning to checkout, bypassing billing and
+            # shipping details step where shipping is normally set.
+            recalculate_cart(request)
+        if valid:
+            return redirect("shop_cart")
+    context = {"cart_formset": cart_formset}
+    settings.use_editable()
+    if (settings.SHOP_DISCOUNT_FIELD_IN_CART and
+            DiscountCode.objects.active().exists()):
+        context["discount_form"] = discount_form
+    return render(request, template, context)
 
 

@@ -6,8 +6,9 @@ from django import forms
 
 from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
 from cartridge.shop.models import ProductVariation
+from django.forms import modelformset_factory
 
-from website.apps.salesbro.models import TicketOption
+from website.apps.salesbro.models import TicketOption, Ticket
 
 logger = logging.getLogger(__name__)
 
@@ -101,3 +102,40 @@ class AddTicketForm(AddProductForm):
         self.ticket_option = ticket_variation
         return self.cleaned_data
 
+
+class TicketVaritionForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
+    quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
+
+    class Meta:
+        model = ProductVariation
+        fields = (
+            'id',
+            'quantity'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(TicketVaritionForm, self).__init__(*args, **kwargs)
+
+        if self.instance is not None:
+            self.ticket_option = TicketOption.objects.select_related('ticket').get(id=self.instance.id)
+
+
+TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVaritionForm, extra=0, can_delete=False,
+                                           can_order=False, )
+
+
+class ProductVariationForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
+    quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
+
+    class Meta:
+        model = ProductVariation
+        fields = (
+            'id',
+            'quantity'
+        )
+
+
+ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVariationForm, extra=0, can_delete=False,
+                                               can_order=False, )
