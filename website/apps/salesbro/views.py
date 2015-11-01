@@ -3,17 +3,19 @@ from __future__ import unicode_literals, absolute_import
 import logging
 
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView
 from django.contrib.messages import info
+from django.http import HttpResponse
 
 from cartridge.shop.utils import recalculate_cart
+from cartridge.shop.models import Product
+from braces.views import GroupRequiredMixin
+from extra_views import FormSetView, InlineFormSet, CreateWithInlinesView
+from extra_views.generic import GenericInlineFormSet
 
 from website.apps.salesbro.forms import AddTicketForm
 from website.apps.salesbro.models import Ticket, TicketOption
-from cartridge.shop.models import Product
-from django.http import HttpResponse
-from django.views.generic import View, TemplateView
-from braces.views import GroupRequiredMixin
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +74,6 @@ class TicketDetailView(DetailView):
         context = self.get_context_data(add_product_form=form)
         return self.render_to_response(context=context)
 
-
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
@@ -82,17 +83,36 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
-class VendorLogon(GroupRequiredMixin, View):
+class VendorLogon(GroupRequiredMixin, RedirectView):
     group_required = u'Sales Portal Access'
+    url = reverse_lazy('salesbro:vendor_cart')
+    permanent = False
 
-    def get(self, request):
-        return redirect('salesbro:vendor_cart')
+
+class VendorCart(GroupRequiredMixin, FormSetView):
+    group_required = u'Sales Portal Access'
+    form_class = ''
+    template_name = 'salesbro/vendor/cart.html'
 
 
+    def get_context_data(self, **kwargs):
+        context = super(VendorCart, self).get_context_data(**kwargs)
+
+        return context
+
+
+
+'''
 class VendorCart(GroupRequiredMixin, ListView):
     group_required = u'Sales Portal Access'
-    context_object_name = 'all_product_list'
     template_name = 'salesbro/vendor/cart.html'
+
+    # On GET display 2 separate sections (TicketOptions, Products)
+    # Display as 2 separate formsets (TicketOptions, Products)
+    # Display each item (item name, price, quantity
+    # Two POST types (Update Cart, Go to Checkout)
+    # Update cart: Calculates individual item totals, calculates all totals, calculates tax, calculates discount
+    # Checkout cart: For each item with qty>0 create cart item
 
     def get_queryset(self):
         return Product.objects.order_by('title')
@@ -106,7 +126,7 @@ class VendorCart(GroupRequiredMixin, ListView):
         product_queryset = product_queryset.exclude(id__in=Ticket.objects.all())
         context['product_list'] = product_queryset
         return context
-
+'''
 
 class VendorCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
@@ -114,7 +134,5 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
     def get(self, request):
         return HttpResponse('Hello World3')
 
-ticket_list = TicketListView.as_view()
-ticket_detail = TicketDetailView.as_view()
 
 

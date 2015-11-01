@@ -12,11 +12,12 @@
 </div>
 {% endif %}
 
+
+
 {% if products.paginator.count != 0 %}
 
-
 <div class="row product-list">
-{% for ticket in product_list %}
+{% for ticket in ticket_option_list %}
     <div class="col-xs-6 col-sm-4 col-lg-3 product-thumb">
     <a href="{{ ticket.get_absolute_url }}" class="thumbnail">
         {% if ticket.image %}

@@ -2,10 +2,11 @@ from __future__ import unicode_literals, absolute_import
 
 import logging
 
+from django import forms
+
 from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
 from cartridge.shop.models import ProductVariation
 
-from django import forms
 from website.apps.salesbro.models import TicketOption
 
 logger = logging.getLogger(__name__)
@@ -99,3 +100,4 @@ class AddTicketForm(AddProductForm):
         self.variation = variation
         self.ticket_option = ticket_variation
         return self.cleaned_data
+
