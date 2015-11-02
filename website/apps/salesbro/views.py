@@ -95,7 +95,6 @@ class VendorLogon(GroupRequiredMixin, RedirectView):
 
 class VendorCart(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
-    form_class = ''
     template_name = 'salesbro/vendor/items.html'
 
     def get(self, request, *args, **kwargs):
