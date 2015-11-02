@@ -144,7 +144,6 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         tax_handler(self.request, None)
         recalculate_cart(self.request)
 
-
         return redirect('salesbro:vendor_checkout')
         # return self.render_to_response(context={})
 
@@ -225,12 +224,10 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
 
         return self.render_to_response(context)
 
-    def post(self, request, *args, **kwargs):
-        pass
-
     def get_cart_formset_kwargs(self):
         kwargs = {
-            'instance': self.request.cart
+            'instance': self.request.cart,
+            'data': self.request.POST or None,
         }
         return kwargs
 
@@ -239,11 +236,64 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
         formset = CartItemFormSet(**kwargs)
         return formset
 
+    def cart_update_valid(self, cart_formset, product_formset):
+
+        for form in itertools.chain(cart_formset):
+            variation = form.cleaned_data['id']
+            quantity = form.cleaned_data['quantity']
+
+            if quantity > 0:
+                self.request.cart.add_item(variation=variation, quantity=quantity)
+
+        tax_handler(self.request, None)
+        recalculate_cart(self.request)
+
+        return redirect('salesbro:vendor_checkout')
+        # return self.render_to_response(context={})
+
     def get_context_data(self, **kwargs):
 
         context = {}
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('update'):
+            return self.post_update()
+        elif request.POST.get('back'):
+            return redirect('salesbro:vendor_cart')
+        elif request.POST.get('submit'):
+            self.post_submit()
+        else:
+            logger.error('Post type invalid')
+            raise NotImplementedError
+
+    def post_update(self):
+        cart_formset = self.get_cart_formset()
+        cart_formset_valid = cart_formset.is_valid()
+        cart_session_valid = self.request.cart.has_items()
+
+        if cart_session_valid and cart_formset_valid:
+            cart_formset.save()
+            recalculate_cart(self.request)
+            tax_handler(self.request, None)
+            cart_formset.save()
+            info(self.request, _("Cart updated"))
+            return redirect('salesbro:vendor_checkout')
+        elif cart_session_valid:
+            # Session still active, invalid input
+            raise NotImplementedError
+        else:
+            print 'Session bad'
+            # Session timed out
+            raise NotImplementedError
+
+    def post_back(self):
+        raise NotImplementedError
+
+    def post_submit(self):
+        raise NotImplementedError
+
 
 @never_cache
 def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartItemFormSet, discount_form_class=DiscountForm):
@@ -299,3 +349,38 @@ def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartI
     return render(request, template, context)
 
 
+'''
+valid = True
+if request.POST.get("update_cart"):
+    valid = request.cart.has_items()
+    if not valid:
+        # Session timed out.
+        info(request, _("Your cart has expired"))
+    else:
+        cart_formset = self.get_cart_formset()
+        valid = cart_formset.is_valid()
+        if valid:
+            cart_formset.save()
+            tax_handler(self.request, None)
+            recalculate_cart(self.request)
+            info(request, _("Cart updated"))
+        else:
+            # Reset the cart formset so that the cart
+            # always indicates the correct quantities.
+            # The user is shown their invalid quantity
+            # via the error message, which we need to
+            # copy over to the new formset here.
+            errors = cart_formset._errors
+            cart_formset = self.get_cart_formset()
+            cart_formset._errors = errors
+
+context = self.get_context_data()
+
+ticket_option_formset = ''  # self.get_ticket_option_formset()
+cart_formset = self.get_cart_formset()        # self.get_product_formset()
+
+context['ticket_option_formset'] = ticket_option_formset
+context['cart_formset'] = cart_formset
+
+return self.render_to_response(context)
+'''
