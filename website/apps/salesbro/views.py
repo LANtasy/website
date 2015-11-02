@@ -2,6 +2,7 @@ from __future__ import unicode_literals, absolute_import
 
 import logging
 from cartridge.shop.forms import CartItemFormSet, DiscountForm
+from cartridge.shop.views import tax_handler
 from mezzanine.conf import settings
 
 from django.shortcuts import redirect, render
@@ -140,7 +141,9 @@ class VendorCart(GroupRequiredMixin, TemplateView):
             if quantity > 0:
                 self.request.cart.add_item(variation=variation, quantity=quantity)
 
+        tax_handler(self.request, None)
         recalculate_cart(self.request)
+
 
         return redirect('salesbro:vendor_checkout')
         # return self.render_to_response(context={})
@@ -215,15 +218,26 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
         context = self.get_context_data()
 
         ticket_option_formset = ''  # self.get_ticket_option_formset()
-        cart_formset = CartItemFormSet(instance=request.cart)        # self.get_product_formset()
+        cart_formset = self.get_cart_formset()        # self.get_product_formset()
 
         context['ticket_option_formset'] = ticket_option_formset
         context['cart_formset'] = cart_formset
 
         return self.render_to_response(context)
 
-    def get_cart_formet(self, **kwargs):
+    def post(self, request, *args, **kwargs):
         pass
+
+    def get_cart_formset_kwargs(self):
+        kwargs = {
+            'instance': self.request.cart
+        }
+        return kwargs
+
+    def get_cart_formset(self):
+        kwargs = self.get_cart_formset_kwargs()
+        formset = CartItemFormSet(**kwargs)
+        return formset
 
     def get_context_data(self, **kwargs):
 
