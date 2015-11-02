@@ -211,6 +211,25 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/vendor/cart.html'
 
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        ticket_option_formset = ''  # self.get_ticket_option_formset()
+        cart_formset = CartItemFormSet(instance=request.cart)        # self.get_product_formset()
+
+        context['ticket_option_formset'] = ticket_option_formset
+        context['cart_formset'] = cart_formset
+
+        return self.render_to_response(context)
+
+    def get_cart_formet(self, **kwargs):
+        pass
+
+    def get_context_data(self, **kwargs):
+
+        context = {}
+
+        return context
 
 @never_cache
 def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartItemFormSet, discount_form_class=DiscountForm):

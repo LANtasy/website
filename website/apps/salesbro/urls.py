@@ -15,5 +15,6 @@ urlpatterns = patterns('website.apps.salesbro.views',
 
     url(r'^vendor/$', views.VendorLogon.as_view(), name='vendor_logon'),
     url(r'^vendor/cart/$', views.VendorCart.as_view(), name='vendor_cart'),
-    url(r'^vendor/checkout/$', 'cart', name='vendor_checkout'),
+    #url(r'^vendor/checkout/$', 'cart', name='vendor_checkout'),
+    url(r'^vendor/checkout/$', views.VendorCheckout.as_view(), name='vendor_checkout'),
 )
