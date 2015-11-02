@@ -93,7 +93,7 @@ class VendorLogon(GroupRequiredMixin, RedirectView):
     permanent = False
 
 
-class VendorCart(GroupRequiredMixin, TemplateResponseMixin, View):
+class VendorCart(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     form_class = ''
     template_name = 'salesbro/vendor/items.html'
