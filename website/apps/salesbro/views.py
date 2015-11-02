@@ -261,7 +261,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
         if request.POST.get('update'):
             return self.post_update()
         elif request.POST.get('back'):
-            return redirect('salesbro:vendor_cart')
+            return self.post_back()
         elif request.POST.get('submit'):
             self.post_submit()
         else:
@@ -289,7 +289,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
             raise NotImplementedError
 
     def post_back(self):
-        raise NotImplementedError
+        return redirect('salesbro:vendor_cart')
 
     def post_submit(self):
         raise NotImplementedError
