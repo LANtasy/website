@@ -1,7 +1,7 @@
 {% extends "salesbro/vendor/base.html" %}
 {% load mezzanine_tags shop_tags i18n %}
 
-{% block body_id %}list{% endblock %}
+{% block body_id %}vendor_sale_list{% endblock %}
 
 {% block main %}
     <div class="container">
@@ -10,50 +10,61 @@
             <div class="col-md-9 middle">
                 <form method="POST" action="." class="form-horizontal" novalidate autocomplete="off">
                     {% csrf_token %}
-                    <h4>Tickets</h4>
                     {{ ticket_option_formset.management_form }}
+                    <div class="row">
+                        <div class="col-md-6"><h3>Tickets</h3></div>
+                        <div class="col-md-3"><h3>Price</h3></div>
+                        <div class="col-md-3"><h3>Qty</h3></div>
+                    </div>
+
                     {% for form in ticket_option_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-6">
-                                {{ form.ticket_option.get_full_name }}
+                            <div class="col-md-6">{{ form.ticket_option.get_full_name }}</div>
+                            <div class="col-md-3">{{ form.instance.price|currency }}</div>
+                            <div class="col-md-3 form-group {% if form.quantity.errors %}has-error{% endif %}">
+                                {{ form.quantity }}
                             </div>
-                            <div class="col-md-2">
-                                <label>Price:</label> {{ form.instance.price }}
-                            </div>
-                            <div class="form-group col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
-                                <label>Quantity:</label> {{ form.quantity }}
+                        </div>
+                        {% if form.quantity.errors %}
+                            <div class="row">
+                                <div class="form-group col-md-12 has-error">
                                 {% for error in form.quantity.errors %}
-                                    <p class="help-block">
+                                    <p class="help-block pull-right">
                                         {{ error }}
                                     </p>
                                 {% endfor %}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
 
-
-                    <h4>Products</h4>
                     {{ product_formset.management_form }}
+                    <div class="row">
+                        <div class="col-md-6"><h3>Products</h3></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                    </div>
+
                     {% for form in product_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-6">
-                                {{ form.instance.product.description }}
-                            </div>
-                            <div class="col-md-2">
-                                <label>Price:</label> {{ form.instance.price }}
-                            </div>
-                            <div class="col-md-4 form-group {% if form.quantity.errors %}has-error{% endif %}">
-                                <label>Quantity:</label> {{ form.quantity }}
-                                {% for error in form.quantity.errors %}
-                                    <p class="help-block">
-                                        {{ error }}
-                                    </p>
-                                {% endfor %}
+                            <div class="col-md-6">{{ form.instance.product.description }}</div>
+                            <div class="col-md-3">{{ form.instance.price|currency }}</div>
+                            <div class="col-md-3 form-group {% if form.quantity.errors %}has-error{% endif %}">
+                                {{ form.quantity }}
                             </div>
                         </div>
+                        {% if form.quantity.errors %}
+                            <div class="row">
+                                {% for error in form.quantity.errors %}
+                                    <p class="help-block pull-right has-error">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
+
+
 
                     <div class="form-actions">
                         <input type="submit" name="add_to_cart" class="btn btn-primary btn-lg pull-right" value="{% trans "Add to Cart" %}">
