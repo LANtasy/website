@@ -104,11 +104,13 @@
 
     <h1>{% block title %}{% endblock %}</h1>
 
+    {% block breadcrumb_full %}
     <ul class="breadcrumb">
         {% spaceless %}
         {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
         {% endspaceless %}
     </ul>
+    {% endblock breadcrumb_full %}
 
 </div>
 
