@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load mezzanine_tags shop_tags i18n %}
+
+{% block meta_title %}Vendor Portal{% endblock %}
+{% block title %}{% trans "Sales Portal" %}{% endblock %}
+{% block body_id %}category{% endblock %}
+{% block breadcrumb_full %}{% endblock breadcrumb_full %}
+
+{% block main %}
+    <div class="container">
+        <div class="col-md-9 middle">
+            {% nevercache %}
+                {% if page_errors %}
+                    <div class="messages">
+                        {% for error in page_errors %}
+                            <div class="alert alert-dismissable alert-danger" data-alert="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="top:4px;">&times;</button>
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endnevercache %}
+        </div>
+    </div>
+
+    {% block contents %}
+
+    {% endblock contents %}
+{% endblock main %}
+{% block right_panel %}
+    <div class="panel panel-default user-panel">
+        <div class="panel-body">
+            {% ifinstalled mezzanine.accounts %}
+                {% include "accounts/includes/user_panel.html" %}
+            {% endifinstalled %}
+        </div>
+    </div>
+{% endblock right_panel %}

@@ -1,120 +1,68 @@
-{% extends "base.html" %}
+{% extends "salesbro/vendor/base.html" %}
 {% load mezzanine_tags shop_tags i18n %}
 
-{% block meta_title %}Vendor Portal{% endblock %}
-{% block body_id %}category{% endblock %}
+{% block body_id %}list{% endblock %}
 
-{% block main %}{{ block.super }}
+{% block contents %}
+    <div class="container">
+        <div class="row">
 
-{% if child_categories %}
-<div class="row shop-category-list">
-
-</div>
-{% endif %}
-
-    {% if page_errors %}
-        {% for error in page_errors %}
-        <div class="alert alert-danger">
-            {{ error }}
-        </div>
-        {% endfor %}
-    {% endif %}
-
-    <form method="POST" action="." class="form-horizontal" novalidate autocomplete="off">
-        {% csrf_token %}
-        <h4>Tickets</h4>
-        {{ ticket_option_formset.management_form }}
-        {% for form in ticket_option_formset %}
-            <div class="row">
-                {{ form.id }}
-                <div class="col-md-6">
-                    {{ form.ticket_option.get_full_name }}
-                </div>
-                <div class="col-md-2">
-                    <label>Price:</label> {{ form.instance.price }}
-                </div>
-                <div class="form-group col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
-                    <label>Quantity:</label> {{ form.quantity }}
-                    {% for error in form.quantity.errors %}
-                        <p class="help-block">
-                            {{ error }}
-                        </p>
+            <div class="col-md-9 middle">
+                <form method="POST" action="." class="form-horizontal" novalidate autocomplete="off">
+                    {% csrf_token %}
+                    <h4>Tickets</h4>
+                    {{ ticket_option_formset.management_form }}
+                    {% for form in ticket_option_formset %}
+                        <div class="row">
+                            {{ form.id }}
+                            <div class="col-md-6">
+                                {{ form.ticket_option.get_full_name }}
+                            </div>
+                            <div class="col-md-2">
+                                <label>Price:</label> {{ form.instance.price }}
+                            </div>
+                            <div class="form-group col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
+                                <label>Quantity:</label> {{ form.quantity }}
+                                {% for error in form.quantity.errors %}
+                                    <p class="help-block">
+                                        {{ error }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        </div>
                     {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
 
 
-        <h4>Products</h4>
-        {{ product_formset.management_form }}
-        {% for form in product_formset %}
-            <div class="row">
-                {{ form.id }}
-                <div class="col-md-6">
-                    {{ form.instance.product.description }}
-                </div>
-                <div class="col-md-2">
-                    <label>Price:</label> {{ form.instance.price }}
-                </div>
-                <div class="col-md-4 form-group {% if form.quantity.errors %}has-error{% endif %}">
-                    <label>Quantity:</label> {{ form.quantity }}
-                    {% for error in form.quantity.errors %}
-                        <p class="help-block">
-                            {{ error }}
-                        </p>
+                    <h4>Products</h4>
+                    {{ product_formset.management_form }}
+                    {% for form in product_formset %}
+                        <div class="row">
+                            {{ form.id }}
+                            <div class="col-md-6">
+                                {{ form.instance.product.description }}
+                            </div>
+                            <div class="col-md-2">
+                                <label>Price:</label> {{ form.instance.price }}
+                            </div>
+                            <div class="col-md-4 form-group {% if form.quantity.errors %}has-error{% endif %}">
+                                <label>Quantity:</label> {{ form.quantity }}
+                                {% for error in form.quantity.errors %}
+                                    <p class="help-block">
+                                        {{ error }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        </div>
                     {% endfor %}
-                </div>
+
+                    <div class="form-actions">
+                        <input type="submit" name="add_to_cart" class="btn btn-primary btn-lg pull-right" value="{% trans "Add to Cart" %}">
+                        <input type="submit" name="go_to_cart" class="btn btn-primary btn-lg pull-right" value="{% trans "Go to Cart" %}">
+                    </div>
+
+                </form>
             </div>
-        {% endfor %}
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
+    </div>
+{% endblock contents %}
 
-    </form>
-
-{#{% if products.paginator.count != 0 %}#}
-{##}
-{#<div class="row product-list">#}
-{#{% for ticket in ticket_option_list %}#}
-{#    <div class="col-xs-6 col-sm-4 col-lg-3 product-thumb">#}
-{#    #}
-{#        <a href="{{ ticket.get_absolute_url }}" class="thumbnail">#}
-{#    #}
-{#            {% if ticket.image %}#}
-{#                <img src="{{ MEDIA_URL }}{% thumbnail ticket.image 148 148 %}">#}
-{#            {% else %}#}
-{#                <div class="placeholder"></div>#}
-{#            {% endif %}#}
-{#    #}
-{#            <div class="caption">#}
-{#    #}
-{#                <h6>{{ ticket }}</h6>#}
-{#    #}
-{#                <div class="price-info">#}
-{#    #}
-{#                    {% if ticket.has_price %}#}
-{#    #}
-{#                        {% if ticket.on_sale %}#}
-{#    #}
-{#                            <span class="old-price">{{ ticket.unit_price|currency }}</span>#}
-{#                            {% trans "On sale:" %}#}
-{#                        {% endif %}#}
-{#    #}
-{#                        <span class="price">{{ ticket.price|currency }}</span>#}
-{#                    {% else %}#}
-{#                        <span class="coming-soon">{% trans "Coming soon" %}</span>#}
-{#                    {% endif %}#}
-{#    #}
-{#                </div>#}
-{#            </div>#}
-{#        </a>#}
-{##}
-{#    </div>#}
-{#{% endfor %}#}
-{#</div>#}
-{##}
-{##}
-{#{% endif %}#}
-
-{% endblock %}

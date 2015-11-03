@@ -1,16 +1,9 @@
-{% extends "shop/base.html" %}
+{% extends "salesbro/vendor/base.html" %}
 {% load mezzanine_tags shop_tags i18n %}
 
-{% block meta_title %}{% trans "Your Cart" %}{% endblock %}
-{% block title %}{% trans "Your Cart" %}{% endblock %}
 {% block body_id %}cart{% endblock %}
 
-{% block breadcrumb_menu %}
-    {{ block.super }}
-    <li>{% trans "Your Cart" %}</li>
-{% endblock %}
-
-{% block main %}
+{% block contents %}
     {% if cart_formset.forms %}
         <form method="post" class="cart-form">
             {% csrf_token %}
