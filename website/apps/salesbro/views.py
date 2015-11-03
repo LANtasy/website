@@ -9,8 +9,8 @@ from django.shortcuts import redirect, render
 from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.cache import never_cache
 from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView, View
-from django.contrib.messages import info
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.messages import info, error
 
 from cartridge.shop.utils import recalculate_cart
 from cartridge.shop.models import Product, ProductVariation, DiscountCode
@@ -151,12 +151,9 @@ class VendorItems(GroupRequiredMixin, TemplateView):
     def formsets_invalid(self, ticket_option_formset, product_formset, quantity):
         context = self.get_context_data()
 
-        page_errors = []
-
         if quantity == 0:
-            page_errors.append("Invalid quantity.")
+            error(self.request, 'Invalid quantity.')
 
-        context['page_errors'] = page_errors
         context['ticket_option_formset'] = ticket_option_formset
         context['product_formset'] = product_formset
         return self.render_to_response(context)
