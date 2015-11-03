@@ -348,42 +348,6 @@ def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartI
     return render(request, template, context)
 
 
-'''
-valid = True
-if request.POST.get("update_cart"):
-    valid = request.cart.has_items()
-    if not valid:
-        # Session timed out.
-        info(request, _("Your cart has expired"))
-    else:
-        cart_formset = self.get_cart_formset()
-        valid = cart_formset.is_valid()
-        if valid:
-            cart_formset.save()
-            tax_handler(self.request, None)
-            recalculate_cart(self.request)
-            info(request, _("Cart updated"))
-        else:
-            # Reset the cart formset so that the cart
-            # always indicates the correct quantities.
-            # The user is shown their invalid quantity
-            # via the error message, which we need to
-            # copy over to the new formset here.
-            errors = cart_formset._errors
-            cart_formset = self.get_cart_formset()
-            cart_formset._errors = errors
-
-context = self.get_context_data()
-
-ticket_option_formset = ''  # self.get_ticket_option_formset()
-cart_formset = self.get_cart_formset()        # self.get_product_formset()
-
-context['ticket_option_formset'] = ticket_option_formset
-context['cart_formset'] = cart_formset
-
-return self.render_to_response(context)
-'''
-
 ticket_detail = TicketDetailView.as_view()
 ticket_list = TicketListView.as_view()
 vendor_logon = VendorLogon.as_view()
