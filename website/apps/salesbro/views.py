@@ -13,9 +13,8 @@ from django.contrib.messages import info
 from django.utils.translation import ugettext_lazy as _
 
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import Product, ProductVariation, DiscountCode
+from cartridge.shop.models import ProductVariation, DiscountCode
 from braces.views import GroupRequiredMixin
-from django.views.generic.base import TemplateResponseMixin
 
 import itertools
 
