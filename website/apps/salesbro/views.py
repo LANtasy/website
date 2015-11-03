@@ -95,7 +95,7 @@ class VendorLogon(GroupRequiredMixin, RedirectView):
 
 class VendorItems(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
-    template_name = 'salesbro/vendor/items.html'
+    template_name = 'salesbro/portal/items.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
@@ -209,15 +209,11 @@ class VendorItems(GroupRequiredMixin, TemplateView):
 
 class VendorCart(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
-    template_name = 'salesbro/vendor/cart.html'
+    template_name = 'salesbro/portal/cart.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
-
-        ticket_option_formset = ''  # self.get_ticket_option_formset()
-        cart_formset = self.get_cart_formset()        # self.get_product_formset()
-
-        context['ticket_option_formset'] = ticket_option_formset
+        cart_formset = self.get_cart_formset()
         context['cart_formset'] = cart_formset
 
         return self.render_to_response(context)
@@ -347,8 +343,14 @@ def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartI
     return render(request, template, context)
 
 
+class VendorCheckout(GroupRequiredMixin, TemplateView):
+    group_required = u'Sales Portal Access'
+    template_name = 'salesbro/portal/checkout.html'
+
+
 ticket_detail = TicketDetailView.as_view()
 ticket_list = TicketListView.as_view()
 vendor_logon = VendorLogon.as_view()
 vendor_item = VendorItems.as_view()
 vendor_cart = VendorCart.as_view()
+vendor_checkout = VendorCheckout.as_view()
