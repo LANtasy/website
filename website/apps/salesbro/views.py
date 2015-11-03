@@ -13,7 +13,7 @@ from django.contrib.messages import info
 from django.utils.translation import ugettext_lazy as _
 
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import ProductVariation, DiscountCode
+from cartridge.shop.models import Product, ProductVariation, DiscountCode
 from braces.views import GroupRequiredMixin
 
 import itertools
@@ -109,18 +109,21 @@ class VendorItems(GroupRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        ticket_option_formset = self.get_ticket_option_formset()
-        product_formset = self.get_product_formset()
-
-        ticket_option_formset_valid = ticket_option_formset.is_valid()
-        product_formset_valid = product_formset.is_valid()
-
-        quantity = self.get_total_quantity(ticket_option_formset, product_formset)
-
-        if ticket_option_formset_valid and product_formset_valid and quantity > 0:
-            return self.formsets_valid(ticket_option_formset, product_formset)
+        if request.POST.get('go_to_cart'):
+            return redirect('salesbro:vendor_cart')
         else:
-            return self.formsets_invalid(ticket_option_formset, product_formset, quantity)
+            ticket_option_formset = self.get_ticket_option_formset()
+            product_formset = self.get_product_formset()
+
+            ticket_option_formset_valid = ticket_option_formset.is_valid()
+            product_formset_valid = product_formset.is_valid()
+
+            quantity = self.get_total_quantity(ticket_option_formset, product_formset)
+
+            if ticket_option_formset_valid and product_formset_valid and quantity > 0:
+                return self.formsets_valid(ticket_option_formset, product_formset)
+            else:
+                return self.formsets_invalid(ticket_option_formset, product_formset, quantity)
 
     def get_total_quantity(self, *formsets):
         quantity = 0
