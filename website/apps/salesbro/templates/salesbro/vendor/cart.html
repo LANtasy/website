@@ -3,7 +3,7 @@
 
 {% block body_id %}cart{% endblock %}
 
-{% block contents %}
+{% block main %}
     {% if cart_formset.forms %}
         <form method="post" class="cart-form">
             {% csrf_token %}
@@ -53,11 +53,9 @@
             </table>
 
             <div class="form-actions">
-                <a href="{% url "shop_checkout" %}" class="btn btn-primary btn-lg pull-right">
-                    {% if request.session.order.step %}{% trans "Return to Checkout" %}{% else %}{% trans "Go to Checkout" %}{% endif %}
-                </a>
-                <input type="submit" name="update" class="btn btn-primary btn-lg pull-left" value="{% trans "Update" %}">
-                <input type="submit" name="back" class="btn btn-primary btn-lg pull-left" value="{% trans "Back" %}">
+                <input type="submit" name="submit" class="btn btn-primary btn-lg pull-right" value="Purchase">
+                <input type="submit" name="update" class="btn btn-primary btn-lg pull-right" value="Update">
+                <input type="submit" name="back" class="btn btn-primary btn-lg pull-left" value="Back">
             </div>
         </form>
 
@@ -104,4 +102,4 @@
     {% else %}
         <p>{% trans "Your Cart is empty." %}</p>
     {% endif %}
-{% endblock %}
+{% endblock main %}
