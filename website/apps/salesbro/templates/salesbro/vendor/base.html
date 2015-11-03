@@ -6,28 +6,8 @@
 {% block body_id %}category{% endblock %}
 {% block breadcrumb_full %}{% endblock breadcrumb_full %}
 
-{% block main %}
-    <div class="container">
-        <div class="col-md-9 middle">
-            {% nevercache %}
-                {% if page_errors %}
-                    <div class="messages">
-                        {% for error in page_errors %}
-                            <div class="alert alert-dismissable alert-danger" data-alert="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="top:4px;">&times;</button>
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endnevercache %}
-        </div>
-    </div>
+{% block main %}{% endblock main %}
 
-    {% block contents %}
-
-    {% endblock contents %}
-{% endblock main %}
 {% block right_panel %}
     <div class="panel panel-default user-panel">
         <div class="panel-body">
