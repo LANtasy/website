@@ -128,11 +128,12 @@
     </div>
 
     <div class="col-md-3 right">
+        {% block right_panel %}
         {% nevercache %}
         {% include "includes/language_selector.html" %}
         {% include "includes/user_panel.html" %}
         {% endnevercache %}
-        <!--Removed twitter from here-->
+        {% endblock right_panel %}
     </div>
 
 
