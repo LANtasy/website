@@ -90,7 +90,9 @@ body {
     padding-top:50px;
 }
 
-
+.messages .alert button {
+    top:4px;
+}
 
 /*-------------------------------------------------------------------------------------------*/
 /* 7. Responsive Media Queries */
