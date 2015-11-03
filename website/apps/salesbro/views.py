@@ -90,11 +90,11 @@ class TicketDetailView(DetailView):
 
 class VendorLogon(GroupRequiredMixin, RedirectView):
     group_required = u'Sales Portal Access'
-    url = reverse_lazy('salesbro:vendor_cart')
+    url = reverse_lazy('salesbro:vendor_item')
     permanent = False
 
 
-class VendorCart(GroupRequiredMixin, TemplateView):
+class VendorItems(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/vendor/items.html'
 
@@ -110,7 +110,6 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-
         ticket_option_formset = self.get_ticket_option_formset()
         product_formset = self.get_product_formset()
 
@@ -144,7 +143,7 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         tax_handler(self.request, None)
         recalculate_cart(self.request)
 
-        return redirect('salesbro:vendor_checkout')
+        return redirect('salesbro:vendor_cart')
         # return self.render_to_response(context={})
 
     def formsets_invalid(self, ticket_option_formset, product_formset, quantity):
@@ -209,7 +208,7 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         return context
 
 
-class VendorCheckout(GroupRequiredMixin, TemplateView):
+class VendorCart(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/vendor/cart.html'
 
@@ -248,7 +247,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
         tax_handler(self.request, None)
         recalculate_cart(self.request)
 
-        return redirect('salesbro:vendor_checkout')
+        return redirect('salesbro:vendor_cart')
         # return self.render_to_response(context={})
 
     def get_context_data(self, **kwargs):
@@ -263,7 +262,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
         elif request.POST.get('back'):
             return self.post_back()
         elif request.POST.get('submit'):
-            self.post_submit()
+            return self.post_submit()
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
@@ -279,7 +278,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
             tax_handler(self.request, None)
             cart_formset.save()
             info(self.request, _("Cart updated"))
-            return redirect('salesbro:vendor_checkout')
+            return redirect('salesbro:vendor_cart')
         elif cart_session_valid:
             # Session still active, invalid input
             raise NotImplementedError
@@ -289,7 +288,7 @@ class VendorCheckout(GroupRequiredMixin, TemplateView):
             raise NotImplementedError
 
     def post_back(self):
-        return redirect('salesbro:vendor_cart')
+        return redirect('salesbro:vendor_item')
 
     def post_submit(self):
         raise NotImplementedError
@@ -384,3 +383,9 @@ context['cart_formset'] = cart_formset
 
 return self.render_to_response(context)
 '''
+
+ticket_detail = TicketDetailView.as_view()
+ticket_list = TicketListView.as_view()
+vendor_logon = VendorLogon.as_view()
+vendor_item = VendorItems.as_view()
+vendor_cart = VendorCart.as_view()
