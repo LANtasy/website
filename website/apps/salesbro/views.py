@@ -283,7 +283,7 @@ class VendorCart(GroupRequiredMixin, TemplateView):
             # Session still active, invalid input
             raise NotImplementedError
         else:
-            print 'Session bad'
+            logger.warn('Session expired')
             # Session timed out
             raise NotImplementedError
 
