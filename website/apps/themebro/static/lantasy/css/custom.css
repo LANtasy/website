@@ -234,11 +234,20 @@ div.shawlogo{
     .copyrights-right{
         text-align: left;
     }
-    .fa {
-        padding-top: 17px;
-    }
 }
 
 footer {
     font-size: 12px;!important
+}
+
+.sponsor-logo-major {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+}
+
+.sponsor-logo-minor {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
 }
