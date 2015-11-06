@@ -5,7 +5,7 @@ import logging
 from django import forms
 
 from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
-from cartridge.shop.models import ProductVariation
+from cartridge.shop.models import ProductVariation, Order
 from django.forms import modelformset_factory
 
 from website.apps.salesbro.models import TicketOption, Ticket
@@ -124,7 +124,6 @@ class TicketVaritionForm(forms.ModelForm):
 TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVaritionForm, extra=0, can_delete=False,
                                            can_order=False, )
 
-
 class ProductVariationForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
     quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
@@ -139,3 +138,9 @@ class ProductVariationForm(forms.ModelForm):
 
 ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVariationForm, extra=0, can_delete=False,
                                                can_order=False, )
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ()

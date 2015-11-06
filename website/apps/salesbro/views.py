@@ -18,7 +18,7 @@ from braces.views import GroupRequiredMixin
 
 import itertools
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, OrderForm
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -214,9 +214,60 @@ class VendorCart(GroupRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         cart_formset = self.get_cart_formset()
+        order_form = OrderForm
+
         context['cart_formset'] = cart_formset
+        context['order_form'] = order_form
+
 
         return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('update'):
+            return self.update_formsets()
+        elif request.POST.get('back'):
+            return self.post_back()
+        elif request.POST.get('submit'):
+            return self.post_submit()
+        else:
+            logger.error('Post type invalid')
+            raise NotImplementedError
+
+    def update_formsets(self):
+        cart_formset = self.get_cart_formset()
+        cart_formset_valid = cart_formset.is_valid()
+        cart_session_valid = self.request.cart.has_items()
+
+        if not cart_session_valid:
+            # Session timed out
+            info(self.request, _("Your session has timed out"))
+            return self.invalid_formsets_update(cart_formset)
+        elif cart_formset_valid:
+            return self.valid_formsets_update(cart_formset)
+        else:
+            return self.invalid_formsets_update(cart_formset)
+
+    def valid_formsets_update(self, cart_formset):
+        cart_formset.save()
+        recalculate_cart(self.request)
+        tax_handler(self.request, None)
+        cart_formset.save()
+        context = self.get_context_data()
+        context['cart_formset'] = cart_formset
+        return self.render_to_response(context)
+
+    def invalid_formsets_update(self, cart_formset):
+        context = self.get_context_data()
+
+        context['cart_formset'] = cart_formset
+        return self.render_to_response(context)
+
+    @staticmethod
+    def post_back():
+        return redirect('salesbro:vendor_item')
+
+    def post_submit(self):
+        raise NotImplementedError
 
     def get_cart_formset_kwargs(self):
         kwargs = {
@@ -230,117 +281,11 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         formset = CartItemFormSet(**kwargs)
         return formset
 
-    def cart_update_valid(self, cart_formset, product_formset):
-
-        for form in itertools.chain(cart_formset):
-            variation = form.cleaned_data['id']
-            quantity = form.cleaned_data['quantity']
-
-            if quantity > 0:
-                self.request.cart.add_item(variation=variation, quantity=quantity)
-
-        tax_handler(self.request, None)
-        recalculate_cart(self.request)
-
-        return redirect('salesbro:vendor_cart')
-        # return self.render_to_response(context={})
-
     def get_context_data(self, **kwargs):
 
         context = {}
 
         return context
-
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('update'):
-            return self.post_update()
-        elif request.POST.get('back'):
-            return self.post_back()
-        elif request.POST.get('submit'):
-            return self.post_submit()
-        else:
-            logger.error('Post type invalid')
-            raise NotImplementedError
-
-    def post_update(self):
-        cart_formset = self.get_cart_formset()
-        cart_formset_valid = cart_formset.is_valid()
-        cart_session_valid = self.request.cart.has_items()
-
-        if cart_session_valid and cart_formset_valid:
-            cart_formset.save()
-            recalculate_cart(self.request)
-            tax_handler(self.request, None)
-            cart_formset.save()
-            info(self.request, _("Cart updated"))
-            return redirect('salesbro:vendor_cart')
-        elif cart_session_valid:
-            # Session still active, invalid input
-            raise NotImplementedError
-        else:
-            logger.warn('Session expired')
-            # Session timed out
-            raise NotImplementedError
-
-    def post_back(self):
-        return redirect('salesbro:vendor_item')
-
-    def post_submit(self):
-        raise NotImplementedError
-
-
-@never_cache
-def cart(request, template="salesbro/vendor/cart.html", cart_formset_class=CartItemFormSet, discount_form_class=DiscountForm):
-    """
-    Display cart and handle removing items from the cart.
-    """
-
-    cart_formset = cart_formset_class(instance=request.cart)
-    discount_form = discount_form_class(request, request.POST or None)
-    if request.method == "POST":
-        valid = True
-        if request.POST.get("update_cart"):
-            valid = request.cart.has_items()
-            if not valid:
-                # Session timed out.
-                info(request, _("Your cart has expired"))
-            else:
-                cart_formset = cart_formset_class(request.POST,
-                                                  instance=request.cart)
-                valid = cart_formset.is_valid()
-                if valid:
-                    cart_formset.save()
-                    recalculate_cart(request)
-                    info(request, _("Cart updated"))
-                else:
-                    # Reset the cart formset so that the cart
-                    # always indicates the correct quantities.
-                    # The user is shown their invalid quantity
-                    # via the error message, which we need to
-                    # copy over to the new formset here.
-                    errors = cart_formset._errors
-                    cart_formset = cart_formset_class(instance=request.cart)
-                    cart_formset._errors = errors
-        else:
-            valid = discount_form.is_valid()
-            if valid:
-                discount_form.set_discount()
-            # Potentially need to set shipping if a discount code
-            # was previously entered with free shipping, and then
-            # another was entered (replacing the old) without
-            # free shipping, *and* the user has already progressed
-            # to the final checkout step, which they'd go straight
-            # to when returning to checkout, bypassing billing and
-            # shipping details step where shipping is normally set.
-            recalculate_cart(request)
-        if valid:
-            return redirect("shop_cart")
-    context = {"cart_formset": cart_formset}
-    settings.use_editable()
-    if (settings.SHOP_DISCOUNT_FIELD_IN_CART and
-            DiscountCode.objects.active().exists()):
-        context["discount_form"] = discount_form
-    return render(request, template, context)
 
 
 class VendorCheckout(GroupRequiredMixin, TemplateView):
