@@ -15,8 +15,7 @@ a:hover {
 .navbar,
 .navbar-default,
 .navbar-default .navbar-nav .dropdown-menu{
-    background-color: #535454;
-    background-image: none;
+    background: #535454 none;
     border-color: #535454;
     opacity: 0.9;
     filter: alpha(opacity=90);
@@ -41,22 +40,19 @@ a:hover {
 .navbar-default .navbar-nav > .active,
 .navbar-default .navbar-nav > .active > a{
     color: #ffffff;
-    background-color: transparent;
     box-shadow: none;
-    background-image: none;
+    background: transparent none;
 }
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
     color: #ffffff;
-    background-color: #579bd3;
-    background-image: none;
+    background: #579bd3 none;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     color: #ffffff;
-    background-color: #579bd3;
-    background-image: none;
+    background: #579bd3 none;
 }
 .navbar-default .navbar-nav > .dropdown > a .caret {
     border-top-color: #ffffff;
@@ -92,18 +88,16 @@ footer {
 }
 
 .social-icons li a {
-    border: 2px solid #FFFFFF;
     color: #FFFFFF;
 }
 
 .social-icons li a:hover {
-    background-color: #579bd3;
-    border: 2px solid #579bd3;
+        color: #579bd3;
 }
 
 /* --BULL IN CHINA SHOP-- */
 .text-primary, .btn-primary .badge, .btn-link,a.list-group-item.active > .badge,.nav-pills > .active > a > .badge, p.drop-caps:first-child:first-letter, .accent-color, .basic-link, .pagination > li > a:hover,.pagination > li > span:hover,.pagination > li > a:focus,.pagination > li > span:focus, .flexslider .flex-prev:hover, .flexslider .flex-next:hover, .accordion-heading:hover .accordion-toggle, .accordion-heading:hover .accordion-toggle.inactive, .accordion-heading:hover .accordion-toggle i, .team-item-overlay a, .nav-tabs li.active > i{
-	color:#579bd3;
+	color:#FFFFFF;
 }
 a:hover{
 	color:#579bd3;
@@ -144,7 +138,7 @@ fieldset[disabled] .btn-primary.active,
 a.list-group-item.active,
 a.list-group-item.active:hover,
 a.list-group-item.active:focus,
-.panel-primary > .panel-heading, .carousel-indicators .active, .flex-control-nav a:hover, .flex-control-nav a.flex-active, .nav-tabs li a:active, .nav-tabs li.active a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .main-navigation > ul > li > a:hover, .main-navigation > ul > li > a.current, .main-navigation > ul > li.highlight a:hover, .team-item-overlay a:hover, #weather, #back-to-top:hover, .plan-style1, .social-icons li a:hover{
+.panel-primary > .panel-heading, .carousel-indicators .active, .flex-control-nav a:hover, .flex-control-nav a.flex-active, .nav-tabs li a:active, .nav-tabs li.active a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .main-navigation > ul > li > a:hover, .main-navigation > ul > li > a.current, .main-navigation > ul > li.highlight a:hover, .team-item-overlay a:hover, #weather, #back-to-top:hover, .plan-style1{
   background-color: #579bd3;
 }
 .btn-primary:hover,
@@ -197,6 +191,7 @@ a.list-group-item.active:focus,
 /* Colours the box around the date */
 .event-info .event-date{
 	border: none;
+    background: none;
 }
 
 /* Colours the nav bar */
@@ -211,10 +206,6 @@ a.list-group-item.active:focus,
 	color: #FFFFFF
 }
 
-.social-icons li a {
-	border: 2px solid #FFFFFF;
-	color: #FFFFFF;
-}
 .page-stitle, h1, h2, h3, h4, h5, h6 {
 	color: #FFFFFF;
 }
@@ -230,7 +221,7 @@ body{
 div.accordion-group.panel, img.game {
     background:#4f4f4f;
     border: 1px solid white;
-    padding: 10px 15px 20px;
+    padding: 5px;
     display: block;
     margin-right: auto;
 }
@@ -255,8 +246,7 @@ div.accordion-group.panel, img.game {
 .breadcrumb {
     background-color: #535454;
     border: 1px solid white;
-    margin: 0;
-    margin-bottom: 15px;
+    margin: 0 0 15px;
 }
 
 .breadcrumb>.active {
@@ -324,4 +314,50 @@ div.accordion-group.panel, img.game {
 
 .payment-errors {
     color: #535454;
+}
+
+.post-meta > a {
+    color: #FFFFFF;
+}
+
+.post-meta > a:hover {
+    color: #579bd3;
+}
+
+.blog-title > a {
+    color: #FFFFFF;
+}
+
+.blog-title > a:hover {
+    color: #579bd3;
+}
+
+.pager li>a, .pager li>span {
+    border-color: #204d74;
+    background: #579bd3 linear-gradient(rgb(51, 122, 183) 0px, rgb(38, 90, 136) 100%);
+}
+
+.comment {
+    background-color: #535454;
+}
+
+.pager li>a:hover {
+    color: #FFFFFF;
+    background: #579bd3;
+}
+
+.social-icons li a:hover{
+    background-color: inherit;
+}
+
+.social-icons li a {
+    border: 0;
+}
+
+.basic-link:hover {
+    color: #579bd3;
+}
+
+.comment-author{
+    color: #579bd3;
 }
