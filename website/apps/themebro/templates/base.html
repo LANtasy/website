@@ -55,23 +55,23 @@
 {% endifinstalled %}
 {% compress css %}{% endcompress css %}
     <!--Vendor CSS-->
-    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap.min.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "css/mezzanine.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap-theme.min.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "common/html5-boilerplate/html5-boilerplate.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "common/normalize/normalize.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "common/font-awesome/font-awesome.min.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "common/prettyphoto/css/prettyPhoto.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap.min.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/mezzanine.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/bootstrap/css/bootstrap-theme.min.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/html5-boilerplate/html5-boilerplate.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/normalize/normalize.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/font-awesome/font-awesome.min.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "common/prettyphoto/css/prettyPhoto.css" %}?{% now "zY" %}" type="text/css">
 
 {% ifinstalled cartridge.shop %}
-    <link rel="stylesheet" href="{% static "css/cartridge.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/cartridge.css" %}?{% now "zY" %}" type="text/css">
 {% endifinstalled cartridge.shop %}
     <!--Additional CSS-->
 {% block extra_css %}{% endblock extra_css %}
     <!--LANtasy CSS-->
-    <link rel="stylesheet" href="{% static "lantasy/css/convocation.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "lantasy/css/custom.css" %}" type="text/css">
-    <link rel="stylesheet" href="{% static "lantasy/css/color.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "lantasy/css/convocation.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "lantasy/css/custom.css" %}?{% now "zY" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "lantasy/css/color.css" %}?{% now "zY" %}" type="text/css">
 
     <!--[if lt IE 9]>
     <script src="{% static "js/html5shiv.js" %}"></script>
