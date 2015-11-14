@@ -79,7 +79,6 @@ footer .social-icons, footer .social-icons-colored{
 footer ul {
     list-style: none;
     position: relative;
-    top: -10px;
 }
 
 /*-------------------------------------------------------------------------------------------*/
@@ -161,18 +160,9 @@ td.eventDetails {
 
 /* Sponsor Logos */
 
-@media only screen and (max-width: 768px){
-    div.shawlogo{
-        text-align: left;
-        padding-bottom: 20px;
-    }
-}
-
-@media only screen and (min-width: 769px){
-    div.shawlogo{
-        text-align: center;
-        padding-bottom: 20px;
-    }
+div.shawlogo{
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 
@@ -196,4 +186,70 @@ td.eventDetails {
         border-radius: 4px;
 
     }
+}
+
+/*  Blog */
+
+.post-meta {
+    font-weight: normal;
+}
+
+.blog-title {
+    font-weight: 700;
+    margin: 0;
+}
+.blog-link {
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+}
+
+.pager li>a, .pager li>span {
+    cursor: pointer;
+    font-family: Merriweather, serif;
+    border-radius: 4px;
+}
+
+.media-heading {
+    text-transform: none;
+}
+
+.comment-author{
+    font-weight: bolder;
+    border:0;
+    padding:0;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .copyrights-left{
+        text-align: center;
+    }
+    .copyrights-right{
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .copyrights-left{
+        text-align: right;
+    }
+    .copyrights-right{
+        text-align: left;
+    }
+}
+
+footer {
+    font-size: 12px;!important
+}
+
+.sponsor-logo-major {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+}
+
+.sponsor-logo-minor {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
 }
