@@ -18,7 +18,7 @@ from braces.views import GroupRequiredMixin
 
 import itertools
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, OrderForm
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, CustomerForm
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -87,13 +87,13 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
-class VendorLogon(GroupRequiredMixin, RedirectView):
+class PortalLogon(GroupRequiredMixin, RedirectView):
     group_required = u'Sales Portal Access'
-    url = reverse_lazy('salesbro:vendor_item')
+    url = reverse_lazy('salesbro:portal_item')
     permanent = False
 
 
-class VendorItems(GroupRequiredMixin, TemplateView):
+class PortalItems(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/items.html'
 
@@ -110,7 +110,7 @@ class VendorItems(GroupRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('go_to_cart'):
-            return redirect('salesbro:vendor_cart')
+            return redirect('salesbro:portal_cart')
         else:
             ticket_option_formset = self.get_ticket_option_formset()
             product_formset = self.get_product_formset()
@@ -145,7 +145,7 @@ class VendorItems(GroupRequiredMixin, TemplateView):
         tax_handler(self.request, None)
         recalculate_cart(self.request)
 
-        return redirect('salesbro:vendor_cart')
+        return redirect('salesbro:portal_cart')
         # return self.render_to_response(context={})
 
     def formsets_invalid(self, ticket_option_formset, product_formset, quantity):
@@ -207,47 +207,45 @@ class VendorItems(GroupRequiredMixin, TemplateView):
         return context
 
 
-class VendorCart(GroupRequiredMixin, TemplateView):
+class PortalCart(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/cart.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         cart_formset = self.get_cart_formset()
-        order_form = OrderForm
 
         context['cart_formset'] = cart_formset
-        context['order_form'] = order_form
-
 
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('update'):
-            return self.update_formsets()
+            return self.update_formset()
         elif request.POST.get('back'):
             return self.post_back()
-        elif request.POST.get('submit'):
-            return self.post_submit()
+        elif request.POST.get('next'):
+            return self.post_next()
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
 
-    def update_formsets(self):
+    def update_formset(self):
         cart_formset = self.get_cart_formset()
         cart_formset_valid = cart_formset.is_valid()
         cart_session_valid = self.request.cart.has_items()
+        print cart_session_valid
 
         if not cart_session_valid:
             # Session timed out
             info(self.request, _("Your session has timed out"))
-            return self.invalid_formsets_update(cart_formset)
+            return self.invalid_update(cart_formset)
         elif cart_formset_valid:
-            return self.valid_formsets_update(cart_formset)
+            return self.valid_update(cart_formset)
         else:
-            return self.invalid_formsets_update(cart_formset)
+            return self.invalid_update(cart_formset)
 
-    def valid_formsets_update(self, cart_formset):
+    def valid_update(self, cart_formset):
         cart_formset.save()
         recalculate_cart(self.request)
         tax_handler(self.request, None)
@@ -256,7 +254,7 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         context['cart_formset'] = cart_formset
         return self.render_to_response(context)
 
-    def invalid_formsets_update(self, cart_formset):
+    def invalid_update(self, cart_formset):
         context = self.get_context_data()
 
         context['cart_formset'] = cart_formset
@@ -264,10 +262,11 @@ class VendorCart(GroupRequiredMixin, TemplateView):
 
     @staticmethod
     def post_back():
-        return redirect('salesbro:vendor_item')
+        return redirect('salesbro:portal_item')
 
-    def post_submit(self):
-        raise NotImplementedError
+    @staticmethod
+    def post_next():
+        return redirect('salesbro:portal_checkout')
 
     def get_cart_formset_kwargs(self):
         kwargs = {
@@ -282,20 +281,19 @@ class VendorCart(GroupRequiredMixin, TemplateView):
         return formset
 
     def get_context_data(self, **kwargs):
-
         context = {}
-
         return context
 
 
-class VendorCheckout(GroupRequiredMixin, TemplateView):
+class PortalCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/checkout.html'
 
 
+
 ticket_detail = TicketDetailView.as_view()
 ticket_list = TicketListView.as_view()
-vendor_logon = VendorLogon.as_view()
-vendor_item = VendorItems.as_view()
-vendor_cart = VendorCart.as_view()
-vendor_checkout = VendorCheckout.as_view()
+portal_logon = PortalLogon.as_view()
+portal_item = PortalItems.as_view()
+portal_cart = PortalCart.as_view()
+portal_checkout = PortalCheckout.as_view()

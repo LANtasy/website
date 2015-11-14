@@ -8,67 +8,84 @@
         <div class="row">
 
             <div class="col-md-9 middle">
-                <form method="POST" action="." class="form-horizontal" novalidate autocomplete="off">
+                <div class="row">
+                    <div class="col-md-12">
+                        Add quantity to items the customer wants.
+                    </div>
+                </div>
+                <div class="spacer-10"></div>
+
+                <form method="POST" action="." class="cart-form" novalidate autocomplete="off">
                     {% csrf_token %}
+                    <hr><div class="spacer-10"></div>
                     {{ ticket_option_formset.management_form }}
                     <div class="row">
-                        <div class="col-md-6"><h3>Tickets</h3></div>
-                        <div class="col-md-3"><h3>Price</h3></div>
-                        <div class="col-md-3"><h3>Qty</h3></div>
+                        <div class="col-md-5"><h3>Tickets</h3></div>
+                        <div class="col-md-2"><h3>Unit Price</h3></div>
+                        <div class="col-md-1"><h3>Qty</h3></div>
+                        <div class="col-md-4">&nbsp;</div>
                     </div>
 
                     {% for form in ticket_option_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-6">{{ form.ticket_option.get_full_name }}</div>
-                            <div class="col-md-3">{{ form.instance.price|currency }}</div>
-                            <div class="col-md-3 form-group {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-md-5">{{ form.ticket_option.get_full_name }}</div>
+                            <div class="col-md-2">{{ form.instance.price|currency }}</div>
+                            <div class="col-md-1 quantity">
                                 {{ form.quantity }}
                             </div>
-                        </div>
-                        {% if form.quantity.errors %}
-                            <div class="row">
-                                <div class="form-group col-md-12 has-error">
-                                {% for error in form.quantity.errors %}
-                                    <p class="help-block pull-right">
-                                        {{ error }}
+                            <div class="col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
+                                {% if form.quantity.errors %}
+                                    <p class="errorlist">
+                                        {{ form.quantity.errors.0 }}
                                     </p>
-                                {% endfor %}
-                                </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                        </div>
                     {% endfor %}
 
+                    <hr><div class="spacer-10"></div>
                     {{ product_formset.management_form }}
                     <div class="row">
-                        <div class="col-md-6"><h3>Products</h3></div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-5"><h3>Products</h3></div>
+                        <div class="col-md-2"><h3>Unit Price</h3></div>
+                        <div class="col-md-1"><h3>Qty</h3></div>
+                        <div class="col-md-4">&nbsp;</div>
                     </div>
 
                     {% for form in product_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-6">{{ form.instance.product.description }}</div>
-                            <div class="col-md-3">{{ form.instance.price|currency }}</div>
-                            <div class="col-md-3 form-group {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-md-5">{{ form.instance.product.description }}</div>
+                            <div class="col-md-2">{{ form.instance.price|currency }}</div>
+                            <div class="col-md-1 quantity">
                                 {{ form.quantity }}
                             </div>
-                        </div>
-                        {% if form.quantity.errors %}
-                            <div class="row">
-                                {% for error in form.quantity.errors %}
-                                    <p class="help-block pull-right has-error">{{ error }}</p>
-                                {% endfor %}
+                            <div class="col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
+                                {% if form.quantity.errors %}
+                                    <p class="errorlist">
+                                        {{ form.quantity.errors.0 }}
+                                    </p>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                        </div>
+
                     {% endfor %}
 
 
-
+                    <hr><div class="spacer-30"></div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 center">
+                            <input type="submit" name="add_to_cart" class="btn btn-primary btn-lg" value="{% trans "Add" %}">
+                        </div>
+                        <div class="col-md-4 right">
+                            <input type="submit" name="go_to_cart" class="btn btn-primary btn-lg" value="{% trans "Next" %}">
+                        </div>
+                    </div>
                     <div class="form-actions">
-                        <input type="submit" name="add_to_cart" class="btn btn-primary btn-lg pull-right" value="{% trans "Add to Cart" %}">
-                        <input type="submit" name="go_to_cart" class="btn btn-primary btn-lg pull-left" value="{% trans "Go to Cart" %}">
+
+
                     </div>
 
                 </form>

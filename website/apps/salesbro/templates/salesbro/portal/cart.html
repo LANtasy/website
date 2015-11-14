@@ -6,70 +6,95 @@
 {% block main %}
     <div class="container">
         <div class="row">
+
             <div class="col-md-9 middle">
                 {% if cart_formset.forms %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            Review the cart with the customer and take payment before continuing.
+                        </div>
+                    </div>
+
+                    <div class="spacer-10"></div>
                     <form method="post" class="cart-form">
                         {% csrf_token %}
-                        {% if cart_formset.errors %}
-                            {% for error in cart_formset.errors %}
-                                {% if error.values.0 %}{{ error.values.0 }}{% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {{ cart_formset.management_form }}
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th colspan="2" class="left">Item</th>
-                                <th>Unit Price</th>
-                                <th class="center">Qty</th>
-                                <th>Price</th>
-                                <th class="center">Remove?</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for form in cart_formset.forms %}
-                                {% with form.instance as item %}
-                                    <tr>
-                                        <td width="30">
-                                            {{ form.id }}
-                                            {% if item.image %}
-                                                <a href="{{ item.get_absolute_url }}">
-                                                    <img alt="{{ item.description }}" src="{{ MEDIA_URL }}{% thumbnail item.image 30 30 %}">
-                                                </a>
-                                            {% endif %}
-                                        </td>
-                                        <td class="left">
-                                            <a href="{{ item.get_absolute_url }}">{{ item.description }}</a>
-                                        </td>
-                                        <td>{{ item.unit_price|currency }}</td>
-                                        <td class="quantity">{{ form.quantity }}</td>
-                                        <td>{{ item.total_price|currency }}</td>
-                                        <td class="center">{{ form.DELETE }}</td>
-                                    </tr>
-                                {% endwith %}
-                            {% endfor %}
-                            <tr>
-                                <td colspan="5">{% order_totals %}</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <hr><div class="spacer-10"></div>
 
-                        <div class="form-actions">
-                            <input type="submit" name="submit" class="btn btn-primary btn-lg pull-right" value="Purchase">
-                            <input type="submit" name="back" class="btn btn-primary btn-lg pull-left" value="Back">
-                            <input type="submit" name="update" class="btn btn-primary btn-lg pull-left" value="Update">
+                        <!--
+                        {{ customer_form.management_form }}
+                        {% for field in customer_form %}
+                            <div class="row">
+
+                                <div class="col-md-6 form-group {% if field.quantity.errors %}has-error{% endif %}">
+                                    {{ field.label }}{{ field }}
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                        -->
+
+                        {{ cart_formset.management_form }}
+                        <div class="row">
+                            <div class="col-md-5"><h3>Item(s)</h3></div>
+                            <div class="col-md-2"><h3>Unit Price</h3></div>
+                            <div class="col-md-1"><h3>Qty</h3></div>
+                            <div class="col-md-2 right"><h3>Price</h3></div>
+                            <div class="col-md-2 center"><h3>Remove?</h3></div>
+                        </div>
+
+                        {% for form in cart_formset.forms %}
+                            {% with form.instance as item %}
+                                <div class="row">
+                                    {{ form.id }}
+                                    <div class="col-md-5">{{ item.description }}</div>
+                                    <div class="col-md-2">{{ item.unit_price|currency }}</div>
+                                    <div class="col-md-1 quantity">{{ form.quantity }}</div>
+                                    <div class="col-md-2 right">{{ item.total_price|currency }}</div>
+                                    <div class="col-md-2 center">{{ form.DELETE }}</div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col-md-5">&nbsp;</div>
+                            <div class="col-md-2">&nbsp;</div>
+                            <div class="col-md-1">&nbsp;</div>
+                            <div class="col-md-2">
+                                {% order_totals %}
+                            </div>
+                            <div class="col-md-2 center">&nbsp;</div>
+                        </div>
+
+                        <hr><div class="spacer-30"></div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="submit" name="back" class="btn btn-primary btn-lg" value="Back">
+                            </div>
+                            <div class="col-md-4 center">
+                                <input type="submit" name="update" class="btn btn-primary btn-lg" value="Update">
+                            </div>
+                            <div class="col-md-4 right">
+                                <input type="submit" name="next" class="btn btn-primary btn-lg" value="Next">
+                            </div>
                         </div>
                     </form>
 
 
                 {% else %}
-
                     <form method="post" class="cart-form">
                         {% csrf_token %}
-                        <p>Your Cart is empty.</p>
-                        <div class="form-actions">
-                            <input type="submit" name="back" class="btn btn-primary btn-lg pull-left" value="Back">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Your Cart is empty.
+                            </div>
+                        </div>
+                        <div class="spacer-10"></div>
+
+                        <hr><div class="spacer-30"></div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="submit" name="back" class="btn btn-primary btn-lg" value="Back">
+                            </div>
                         </div>
                     </form>
 

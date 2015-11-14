@@ -6,9 +6,10 @@ from django import forms
 
 from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
 from cartridge.shop.models import ProductVariation, Order
-from django.forms import modelformset_factory
-
+from django.forms import modelformset_factory, CharField, EmailField
 from website.apps.salesbro.models import TicketOption, Ticket
+
+from django.utils.translation import ugettext as _
 
 logger = logging.getLogger(__name__)
 
@@ -124,6 +125,7 @@ class TicketVaritionForm(forms.ModelForm):
 TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVaritionForm, extra=0, can_delete=False,
                                            can_order=False, )
 
+
 class ProductVariationForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
     quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
@@ -140,7 +142,22 @@ ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVar
                                                can_order=False, )
 
 
-class OrderForm(forms.ModelForm):
+class CustomerForm(forms.ModelForm):
+    first_name = forms.CharField(label=_("First name"), max_length=100)
+    last_name = forms.CharField(label=_("Last name"), max_length=100)
+    street = forms.CharField(label=_("Street"), max_length=100)
+    city = forms.CharField(label=_("City"), max_length=100)
+    state = forms.CharField(label=_("Province"), max_length=100)
+    postcode = forms.CharField(label=_("Postal code"), max_length=10)
+    country = forms.CharField(label=_("Country"), max_length=100)
+    phone = forms.CharField(label=_("Phone"), max_length=20)
+    email = forms.EmailField(label=_("Email"), max_length=254)
+
     class Meta:
         model = Order
-        fields = ()
+        fields = (
+            'first_name', 'last_name',
+            'street', 'city', 'state',
+            'postcode', 'country',
+            'phone', 'email'
+        )
