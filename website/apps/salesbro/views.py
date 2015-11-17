@@ -1,24 +1,22 @@
 from __future__ import unicode_literals, absolute_import
 
 import logging
-from cartridge.shop.forms import CartItemFormSet, DiscountForm
-from cartridge.shop.views import tax_handler
-from mezzanine.conf import settings
 
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
-from django.views.decorators.cache import never_cache
-from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView, View
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.messages import info, error
 
+from cartridge.shop.forms import CartItemFormSet
+from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import Product, ProductVariation, DiscountCode
+from cartridge.shop.models import ProductVariation
 from braces.views import GroupRequiredMixin
 
 import itertools
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, CustomerForm
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -288,7 +286,6 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 class PortalCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/checkout.html'
-
 
 
 ticket_detail = TicketDetailView.as_view()
