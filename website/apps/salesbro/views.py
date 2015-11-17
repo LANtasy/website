@@ -232,7 +232,6 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         cart_formset = self.get_cart_formset()
         cart_formset_valid = cart_formset.is_valid()
         cart_session_valid = self.request.cart.has_items()
-        print cart_session_valid
 
         if not cart_session_valid:
             # Session timed out
@@ -247,10 +246,8 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         cart_formset.save()
         recalculate_cart(self.request)
         tax_handler(self.request, None)
-        cart_formset.save()
-        context = self.get_context_data()
-        context['cart_formset'] = cart_formset
-        return self.render_to_response(context)
+        info(self.request, _('Cart updated'))
+        return redirect('salesbro:portal_cart')
 
     def invalid_update(self, cart_formset):
         context = self.get_context_data()

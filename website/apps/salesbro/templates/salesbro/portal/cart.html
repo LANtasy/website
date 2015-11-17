@@ -60,7 +60,9 @@
                             <div class="col-md-2">&nbsp;</div>
                             <div class="col-md-1">&nbsp;</div>
                             <div class="col-md-2">
-                                {% order_totals %}
+                                {% if request.cart.has_items %}
+                                    {% order_totals %}
+                                {% endif %}
                             </div>
                             <div class="col-md-2 center">&nbsp;</div>
                         </div>
