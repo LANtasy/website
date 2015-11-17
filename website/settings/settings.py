@@ -213,6 +213,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
 
     # --Core--
+    'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
 )
