@@ -253,3 +253,8 @@ footer {
     margin: 5px;
     padding: 5px;
 }
+
+
+.cart-form .form-group input{
+    width: 60px;
+}
