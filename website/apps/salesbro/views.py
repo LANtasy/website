@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import ListView, DetailView, RedirectView, TemplateView
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.messages import info, error
+from django.contrib.messages import info, error, warning
 
 from cartridge.shop.forms import CartItemFormSet
 from cartridge.shop.views import tax_handler
@@ -219,49 +219,42 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('update'):
-            return self.update_formset()
+            return self.update_formset(destination='salesbro:portal_cart')
         elif request.POST.get('back'):
-            return self.post_back()
+            return self.update_formset(destination='salesbro:portal_item')
+            # return self.post_back()
         elif request.POST.get('next'):
-            return self.post_next()
+            return self.update_formset(destination='salesbro:portal_checkout')
+            # return self.post_next()
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
 
-    def update_formset(self):
+    def update_formset(self, destination):
         cart_formset = self.get_cart_formset()
         cart_formset_valid = cart_formset.is_valid()
-        cart_session_valid = self.request.cart.has_items()
 
-        if not cart_session_valid:
+        if not self.request.cart.has_items():
             # Session timed out
-            info(self.request, _("Your session has timed out"))
+            warning(self.request, _("Your session has timed out"))
             return self.invalid_update(cart_formset)
         elif cart_formset_valid:
-            return self.valid_update(cart_formset)
+            info(self.request, _('Cart updated'))
+            return self.valid_update(cart_formset=cart_formset, destination=destination)
         else:
+            error(self.request, _('Invalid update'))
             return self.invalid_update(cart_formset)
 
-    def valid_update(self, cart_formset):
+    def valid_update(self, cart_formset, destination):
         cart_formset.save()
         recalculate_cart(self.request)
         tax_handler(self.request, None)
-        info(self.request, _('Cart updated'))
-        return redirect('salesbro:portal_cart')
+        return redirect(destination)
 
     def invalid_update(self, cart_formset):
         context = self.get_context_data()
-
         context['cart_formset'] = cart_formset
         return self.render_to_response(context)
-
-    @staticmethod
-    def post_back():
-        return redirect('salesbro:portal_item')
-
-    @staticmethod
-    def post_next():
-        return redirect('salesbro:portal_checkout')
 
     def get_cart_formset_kwargs(self):
         kwargs = {
