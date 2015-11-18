@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Tickets</h3></div>
                         <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><h3>Qty</h3></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><h3>Qty</h3></div>
                     </div>
 
                     {% for form in ticket_option_formset %}
@@ -34,7 +34,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
                                 {{ form.instance.price|currency }}
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 quantity">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group
+                            {% if form.quantity.errors %}has-error{% endif %}">
                                 {{ form.quantity }}
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Products</h3></div>
                         <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><h3>Qty</h3></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><h3>Qty</h3></div>
                     </div>
 
                     {% for form in product_formset %}
@@ -67,7 +68,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
                                 {{ form.instance.price|currency }}
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 quantity">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group
+                            {% if form.quantity.errors %}has-error{% endif %}">
                                 {{ form.quantity }}
                             </div>
                         </div>
