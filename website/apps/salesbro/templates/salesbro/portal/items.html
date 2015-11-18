@@ -20,53 +20,64 @@
                     <hr><div class="spacer-10"></div>
                     {{ ticket_option_formset.management_form }}
                     <div class="row">
-                        <div class="col-md-5"><h3>Tickets</h3></div>
-                        <div class="col-md-2"><h3>Unit Price</h3></div>
-                        <div class="col-md-1"><h3>Qty</h3></div>
-                        <div class="col-md-4">&nbsp;</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Tickets</h3></div>
+                        <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><h3>Qty</h3></div>
                     </div>
 
                     {% for form in ticket_option_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-5">{{ form.ticket_option.get_full_name }}</div>
-                            <div class="col-md-2">{{ form.instance.price|currency }}</div>
-                            <div class="col-md-1 quantity">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
+                                {{ form.ticket_option.get_full_name }}
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
+                                {{ form.instance.price|currency }}
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 quantity">
                                 {{ form.quantity }}
                             </div>
-                            <div class="col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
-                                {% if form.quantity.errors %}
-                                    <p class="errorlist">
-                                        {{ form.quantity.errors.0 }}
-                                    </p>
-                                {% endif %}
+                        </div>
+                        <div class="row {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% if form.quantity.errors %}
+                                <span class="errorlist">
+                                    {{ form.quantity.errors.0 }}
+                                </span>
+                            {% endif %}
                             </div>
                         </div>
                     {% endfor %}
 
                     <hr><div class="spacer-10"></div>
                     {{ product_formset.management_form }}
+
                     <div class="row">
-                        <div class="col-md-5"><h3>Products</h3></div>
-                        <div class="col-md-2"><h3>Unit Price</h3></div>
-                        <div class="col-md-1"><h3>Qty</h3></div>
-                        <div class="col-md-4">&nbsp;</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Products</h3></div>
+                        <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><h3>Qty</h3></div>
                     </div>
 
                     {% for form in product_formset %}
                         <div class="row">
                             {{ form.id }}
-                            <div class="col-md-5">{{ form.instance.product.description }}</div>
-                            <div class="col-md-2">{{ form.instance.price|currency }}</div>
-                            <div class="col-md-1 quantity">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
+                                {{ form.instance.product.description }}
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
+                                {{ form.instance.price|currency }}
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 quantity">
                                 {{ form.quantity }}
                             </div>
-                            <div class="col-md-4 {% if form.quantity.errors %}has-error{% endif %}">
-                                {% if form.quantity.errors %}
-                                    <p class="errorlist">
-                                        {{ form.quantity.errors.0 }}
-                                    </p>
-                                {% endif %}
+                        </div>
+                        <div class="row {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% if form.quantity.errors %}
+                                <span class="errorlist">
+                                    {{ form.quantity.errors.0 }}
+                                </span>
+                            {% endif %}
                             </div>
                         </div>
 
