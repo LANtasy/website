@@ -277,6 +277,18 @@ class PortalCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/checkout.html'
 
+    '''
+    Goals:
+    -Grab remaining order details:
+    --Required:
+    ---First Name, Last Name, Phone, Email
+    --Optional: Try to save without this, otherwise input fake data
+    ---Street, City, Province/State, Postal Code/Zip, Country
+
+    -Deal with shipping? See how cartridge deals with this
+
+    '''
+
 
 ticket_detail = TicketDetailView.as_view()
 ticket_list = TicketListView.as_view()
