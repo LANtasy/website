@@ -142,9 +142,18 @@ ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVar
                                                can_order=False, )
 
 
+class CustomerForm(forms.Form):
+    first_name = forms.CharField(label=_("First name"), max_length=100)
+    last_name = forms.CharField(label=_("Last name"), max_length=100)
+    phone = forms.CharField(label=_("Phone"), max_length=20)
+    email = forms.EmailField(label=_("Email"), max_length=254)
+
+
+'''
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ([f.name for f in Order._meta.fields if
                    f.name.startswith("billing_detail")]
                   )
+        '''
