@@ -143,21 +143,8 @@ ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVar
 
 
 class CustomerForm(forms.ModelForm):
-    first_name = forms.CharField(label=_("First name"), max_length=100)
-    last_name = forms.CharField(label=_("Last name"), max_length=100)
-    street = forms.CharField(label=_("Street"), max_length=100)
-    city = forms.CharField(label=_("City"), max_length=100)
-    state = forms.CharField(label=_("Province"), max_length=100)
-    postcode = forms.CharField(label=_("Postal code"), max_length=10)
-    country = forms.CharField(label=_("Country"), max_length=100)
-    phone = forms.CharField(label=_("Phone"), max_length=20)
-    email = forms.EmailField(label=_("Email"), max_length=254)
-
     class Meta:
         model = Order
-        fields = (
-            'first_name', 'last_name',
-            'street', 'city', 'state',
-            'postcode', 'country',
-            'phone', 'email'
-        )
+        fields = ([f.name for f in Order._meta.fields if
+                   f.name.startswith("billing_detail")]
+                  )

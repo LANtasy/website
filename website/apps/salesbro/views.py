@@ -16,7 +16,7 @@ from braces.views import GroupRequiredMixin
 
 import itertools
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, CustomerForm
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -211,9 +211,12 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
-        cart_formset = self.get_cart_formset()
 
+        cart_formset = self.get_cart_formset()
         context['cart_formset'] = cart_formset
+
+        order_form = self.get_order_form()
+        context['order_form'] = order_form
 
         return self.render_to_response(context)
 
@@ -222,10 +225,8 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             return self.update_formset(destination='salesbro:portal_cart')
         elif request.POST.get('back'):
             return self.update_formset(destination='salesbro:portal_item')
-            # return self.post_back()
         elif request.POST.get('next'):
             return self.update_formset(destination='salesbro:portal_checkout')
-            # return self.post_next()
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
@@ -268,6 +269,18 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         formset = CartItemFormSet(**kwargs)
         return formset
 
+    def get_order_form_kwargs(self):
+        kwargs = {
+            #'instance': self.request.cart,
+            'data': self.request.POST or None,
+        }
+        return kwargs
+
+    def get_order_form(self):
+        kwargs = self.get_order_form_kwargs()
+        form = CustomerForm(**kwargs)
+        return form
+
     def get_context_data(self, **kwargs):
         context = {}
         return context
@@ -276,6 +289,82 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 class PortalCheckout(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
     template_name = 'salesbro/portal/checkout.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        cart_formset = self.get_cart_formset()
+        context['cart_formset'] = cart_formset
+
+        order_form = self.get_order_form()
+        context['order_form'] = order_form
+
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('update'):
+            return self.update_formset(destination='salesbro:portal_checkout')
+        elif request.POST.get('back'):
+            return self.update_formset(destination='salesbro:portal_item')
+        elif request.POST.get('order'):
+            return self.update_formset(destination='salesbro:portal_checkout')
+        else:
+            logger.error('Post type invalid')
+            raise NotImplementedError
+
+    def update_formset(self, destination):
+        cart_formset = self.get_cart_formset()
+        cart_formset_valid = cart_formset.is_valid()
+
+        if not self.request.cart.has_items():
+            # Session timed out
+            warning(self.request, _("Your session has timed out"))
+            return self.invalid_update(cart_formset)
+        elif cart_formset_valid:
+            info(self.request, _('Cart updated'))
+            return self.valid_update(cart_formset=cart_formset, destination=destination)
+        else:
+            error(self.request, _('Invalid update'))
+            return self.invalid_update(cart_formset)
+
+    def valid_update(self, cart_formset, destination):
+        cart_formset.save()
+        recalculate_cart(self.request)
+        tax_handler(self.request, None)
+        return redirect(destination)
+
+    def invalid_update(self, cart_formset):
+        context = self.get_context_data()
+        context['cart_formset'] = cart_formset
+        return self.render_to_response(context)
+
+    def get_cart_formset_kwargs(self):
+        kwargs = {
+            'instance': self.request.cart,
+            'data': self.request.POST or None,
+        }
+        return kwargs
+
+    def get_cart_formset(self):
+        kwargs = self.get_cart_formset_kwargs()
+        formset = CartItemFormSet(**kwargs)
+        return formset
+
+    def get_order_form_kwargs(self):
+        kwargs = {
+            #'instance': self.request.cart,
+            'data': self.request.POST or None,
+        }
+        return kwargs
+
+    def get_order_form(self):
+        kwargs = self.get_order_form_kwargs()
+        form = CustomerForm(**kwargs)
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        return context
 
     '''
     Goals:

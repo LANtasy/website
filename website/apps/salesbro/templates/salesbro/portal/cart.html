@@ -20,18 +20,71 @@
                         {% csrf_token %}
                         <hr><div class="spacer-10"></div>
 
+                        {{ order_form.management_form }}
                         <!--
-                        {{ customer_form.management_form }}
-                        {% for field in customer_form %}
-                            <div class="row">
+                        Important: billing_detail_first_name, billing_detail_last_name, billing_detail_phone,
+                        billing_detail_email
 
-                                <div class="col-md-6 form-group {% if field.quantity.errors %}has-error{% endif %}">
-                                    {{ field.label }}{{ field }}
-                                </div>
-                            </div>
-
-                        {% endfor %}
+                        Optional: billing_detail_street, billing_detail_city, billing_detail_state,
+                        billing_detail_postcode, billing_detail_country
                         -->
+                        <h3>Important</h3>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_first_name">First name</label>
+                                <input id="id_billing_detail_first_name" name="billing_detail_first_name"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_last_name">Last name</label>
+                                <input id="id_billing_detail_last_name" name="billing_detail_last_name"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_phone">Phone</label>
+                                <input id="id_billing_detail_phone" name="billing_detail_phone"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_email">Email</label>
+                                <input id="id_billing_detail_email" name="billing_detail_email"
+                                              maxlength="100" type="text">
+                            </div>
+                        </div>
+
+                        <!--
+                        Optional: billing_detail_street, billing_detail_city, billing_detail_state,
+                        billing_detail_postcode, billing_detail_country
+                        -->
+                        <hr><h3>Less Important</h3>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_street">Street</label>
+                                <input id="id_billing_detail_street" name="billing_detail_street"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_city">City</label>
+                                <input id="id_billing_detail_city" name="billing_detail_city"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_state">Province/State</label>
+                                <input id="id_billing_detail_state" name="billing_detail_state"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_postcode">Postal Code/Zip</label>
+                                <input id="id_billing_detail_postcode" name="billing_detail_postcode"
+                                              maxlength="100" type="text">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="id_billing_detail_country">Country</label>
+                                <input id="id_billing_detail_country" name="billing_detail_country"
+                                              maxlength="100" type="text">
+                            </div>
+                        </div>
+
                         <!--TODO: reformat this using bootstrap scaffolding to make it look less like poop-->
                         {{ cart_formset.management_form }}
                         <div class="row">
