@@ -221,48 +221,36 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        context = self.update_formset(destination='salesbro:portal_cart')
+        context = self.update_formset()
 
         if request.POST.get('update'):
             return self.render_to_response(context)
         elif request.POST.get('back'):
             return redirect('salesbro:portal_item')
         elif request.POST.get('order'):
-            return self.update_formset(destination='salesbro:portal_checkout')
+            return self.update_formset
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
 
-    def update_formset(self, destination):
+    def update_formset(self):
         cart_formset = self.get_cart_formset()
         order_form = self.get_order_form()
 
         if not self.request.cart.has_items():
-            # Session timed out
             warning(self.request, _("Your session has timed out"))
-            # return self.invalid_update(cart_formset=cart_formset, order_form=order_form)
         elif cart_formset.is_valid() and order_form.is_valid():
+            cart_formset.save()
+            recalculate_cart(self.request)
+            tax_handler(self.request, None)
             info(self.request, _('Cart updated'))
-            self.valid_update(cart_formset=cart_formset, order_form=order_form)
         else:
             error(self.request, _('Invalid update'))
-            # return self.invalid_update(cart_formset=cart_formset, order_form=order_form)
 
         context = self.get_context_data()
         context['cart_formset'] = cart_formset
         context['order_form'] = order_form
         return context
-
-    def valid_update(self, cart_formset, order_form):
-        cart_formset.save()
-        recalculate_cart(self.request)
-        tax_handler(self.request, None)
-
-    def invalid_update(self, cart_formset, order_form):
-        context = self.get_context_data()
-        context['cart_formset'] = cart_formset
-        context['order_form'] = order_form
-        return self.render_to_response(context)
 
     def get_cart_formset_kwargs(self):
         kwargs = {
@@ -281,7 +269,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         # TODO: Fix this, need to save instance so the session persists if user browses away from page.
         try:
             kwargs = {
-                #'instance': self.get_request_order,
+                'instance': self.request.order,
                 'data': self.request.POST or None,
             }
         except AttributeError:
