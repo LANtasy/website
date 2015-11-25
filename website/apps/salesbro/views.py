@@ -137,7 +137,9 @@ class PortalItems(GroupRequiredMixin, TemplateView):
     def formsets_valid(self, ticket_option_formset, product_formset):
 
         for form in itertools.chain(ticket_option_formset, product_formset):
-            variation = form.cleaned_data['id']
+            # TODO: enhance to allow for cleaned_data['id']
+            variation = form.ticket_option
+            #variation = form.cleaned_data['id']
             quantity = form.cleaned_data['quantity']
 
             if quantity > 0:
@@ -160,7 +162,8 @@ class PortalItems(GroupRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def get_ticket_option_queryset(self):
-        queryset = ProductVariation.objects.filter(product_id__in=TicketOption.objects.all())
+        queryset = TicketOption.objects.available().order_by('ticket')
+        #queryset = ProductVariation.objects.filter(product_id__in=TicketOption.objects.all())
         return queryset
 
     def get_product_variation_formset_kwargs(self):
@@ -243,7 +246,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         # TODO: Make transaction_id link to payment type somehow
         order.transaction_id = None
         order.complete(self.request)
-        salesbro_order_handler(self.request, order)
+        salesbro_order_handler(request=self.request, order_form=order, order=order)
 
         return redirect("shop_complete")
 

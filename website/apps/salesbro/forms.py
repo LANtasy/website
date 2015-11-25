@@ -122,8 +122,15 @@ class TicketVaritionForm(forms.ModelForm):
             self.ticket_option = TicketOption.objects.select_related('ticket').get(id=self.instance.id)
 
 
+    def clean(self):
+        ticket_option_qs = self.ticket_option.variations
+        ticket_variation = ticket_option_qs.get(id=self.instance.id)
+        self.ticket_option = ticket_variation
+
+
+
 TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVaritionForm, extra=0, can_delete=False,
-                                           can_order=False, )
+                                           can_order=True, )
 
 
 class ProductVariationForm(forms.ModelForm):
