@@ -1,6 +1,8 @@
 from __future__ import unicode_literals, absolute_import
 
 import logging
+from cartridge.shop import checkout
+from cartridge_stripe import billship_handler
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
@@ -8,13 +10,14 @@ from django.views.generic import ListView, DetailView, RedirectView, TemplateVie
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.messages import info, error, warning
 
-from cartridge.shop.forms import CartItemFormSet
+from cartridge.shop.forms import CartItemFormSet, OrderForm
 from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
 from cartridge.shop.models import ProductVariation
 from braces.views import GroupRequiredMixin
 
 import itertools
+from website.apps.salesbro.checkout import salesbro_order_handler
 
 from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, CustomerForm
 from website.apps.salesbro.models import Ticket, TicketOption
@@ -215,7 +218,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         cart_formset = self.get_cart_formset()
         context['cart_formset'] = cart_formset
 
-        order_form = self.get_order_form()
+        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
         context['order_form'] = order_form
 
         return self.render_to_response(context)
@@ -228,21 +231,34 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         elif request.POST.get('back'):
             return redirect('salesbro:portal_item')
         elif request.POST.get('order'):
-            return self.update_formset
+            return self.submit_order(context)
         else:
             logger.error('Post type invalid')
             raise NotImplementedError
 
+    def submit_order(self, context):
+        order = context['order_form']
+        order.save(commit=False)
+        order.setup(self.request)
+        # TODO: Make transaction_id link to payment type somehow
+        order.transaction_id = None
+        order.complete(self.request)
+        salesbro_order_handler(self.request, order)
+
+        return redirect("shop_complete")
+
     def update_formset(self):
         cart_formset = self.get_cart_formset()
-        order_form = self.get_order_form()
+        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
 
         if not self.request.cart.has_items():
             warning(self.request, _("Your session has timed out"))
         elif cart_formset.is_valid() and order_form.is_valid():
             cart_formset.save()
             recalculate_cart(self.request)
+            billship_handler(self.request, None)
             tax_handler(self.request, None)
+            self.request.session['order'] = dict(order_form.cleaned_data)
             info(self.request, _('Cart updated'))
         else:
             error(self.request, _('Invalid update'))
@@ -264,23 +280,41 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         formset = CartItemFormSet(**kwargs)
         return formset
 
-
-    def get_order_form_kwargs(self):
-        # TODO: Fix this, need to save instance so the session persists if user browses away from page.
+    def get_order_form_kwargs(self, step):
         try:
-            kwargs = {
-                'instance': self.request.order,
-                'data': self.request.POST or None,
-            }
-        except AttributeError:
-            kwargs = {
-                'data': self.request.POST or None,
-            }
+            initial = self.request.session['order']
+        except KeyError:
+            initial = {'remember': False,
+                       'same_billing_shipping': True,
+                       'shipping_detail_first_name': 'N/A',
+                       'shipping_detail_last_name': 'N/A',
+                       'shipping_detail_street': 'N/A',
+                       'shipping_detail_city': 'N/A',
+                       'shipping_detail_state': 'N/A',
+                       'shipping_detail_postcode': 'N/A',
+                       'shipping_detail_country': 'N/A',
+                       'shipping_detail_phone': 'N/A',
+                       'shipping_detail_email': 'N/A',
+                       'billing_detail_street': 'N/A',
+                       'billing_detail_city': 'N/A',
+                       'billing_detail_state': 'N/A',
+                       'billing_detail_postcode': 'N/A',
+                       'billing_detail_country': 'N/A',
+                       'additional_instructions': 'N/A',
+                       }
+
+        kwargs = {
+            'initial': initial,
+            'request': self.request or None,
+            'data': self.request.POST or None,
+            'step': step or None,
+        }
         return kwargs
 
-    def get_order_form(self):
-        kwargs = self.get_order_form_kwargs()
-        form = CustomerForm(**kwargs)
+    def get_order_form(self, step):
+        kwargs = self.get_order_form_kwargs(step)
+        #form = CustomerForm(**kwargs)
+        form = OrderForm(**kwargs)
         return form
 
     def get_context_data(self, **kwargs):

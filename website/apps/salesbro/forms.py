@@ -4,7 +4,7 @@ import logging
 
 from django import forms
 
-from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
+from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm, OrderForm
 from cartridge.shop.models import ProductVariation, Order
 from django.forms import modelformset_factory, CharField, EmailField
 from website.apps.salesbro.models import TicketOption, Ticket
@@ -148,12 +148,5 @@ class CustomerForm(forms.Form):
     phone = forms.CharField(label=_("Phone"), max_length=20)
     email = forms.EmailField(label=_("Email"), max_length=254)
 
-
-'''
-class CustomerForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ([f.name for f in Order._meta.fields if
-                   f.name.startswith("billing_detail")]
-                  )
-        '''

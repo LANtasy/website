@@ -28,14 +28,29 @@
                             </div>
                         </div>
                         <div class="row">
-                            {% for field in order_form %}
-                                <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group
-                                {% if field.errors %}has-error{% endif %}">
-                                    {{ field.label }}{{ field }}
-                                    {% for error in field.errors %}{{ error }}{% endfor %}
+                        {% for field in order_form %}
 
-                                </div>
-                            {% endfor %}
+                            {% if field.name == "billing_detail_first_name" %}
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                                {{ field.label }}{{ field }}
+                            </div>
+                            {% elif field.name == "billing_detail_last_name" %}
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                                {{ field.label }}{{ field }}
+                            </div>
+                            {% elif field.name == "billing_detail_phone" %}
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                                {{ field.label }}{{ field }}
+                            </div>
+                            {% elif field.name == "billing_detail_email" %}
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                                {{ field.label }}{{ field }}
+                            </div>
+                            {% else %}
+                                {{ field.as_hidden }}
+                            {% endif %}
+                        {% endfor %}
+
                         </div>
 
                         <hr><div class="spacer-10"></div>
