@@ -240,15 +240,18 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             raise NotImplementedError
 
     def submit_order(self, context):
-        order = context['order_form']
-        order.save(commit=False)
-        order.setup(self.request)
-        # TODO: Make transaction_id link to payment type somehow
-        order.transaction_id = None
-        order.complete(self.request)
-        salesbro_order_handler(request=self.request, order_form=order, order=order)
+        order_form = context['order_form']
+        if order_form.is_valid():
 
-        return redirect("shop_complete")
+            order = order_form.save(commit=False)
+            order.setup(self.request)
+            # TODO: Make transaction_id link to payment type somehow
+            order.transaction_id = None
+            order.complete(self.request)
+            salesbro_order_handler(request=self.request, order_form=order, order=order)
+
+            return redirect("shop_complete")
+
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()

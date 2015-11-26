@@ -104,7 +104,7 @@ class AddTicketForm(AddProductForm):
         return self.cleaned_data
 
 
-class TicketVaritionForm(forms.ModelForm):
+class TicketVariationForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
     quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
 
@@ -116,20 +116,18 @@ class TicketVaritionForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(TicketVaritionForm, self).__init__(*args, **kwargs)
+        super(TicketVariationForm, self).__init__(*args, **kwargs)
 
         if self.instance is not None:
             self.ticket_option = TicketOption.objects.select_related('ticket').get(id=self.instance.id)
 
-
     def clean(self):
-        ticket_option_qs = self.ticket_option.variations
+        super(TicketVariationForm, self).clean()
+        ticket_option_qs = self.ticket_option.variations.all()
         ticket_variation = ticket_option_qs.get(id=self.instance.id)
         self.ticket_option = ticket_variation
 
-
-
-TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVaritionForm, extra=0, can_delete=False,
+TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVariationForm, extra=0, can_delete=False,
                                            can_order=True, )
 
 
