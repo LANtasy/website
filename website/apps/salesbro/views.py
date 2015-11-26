@@ -13,13 +13,13 @@ from django.contrib.messages import info, error, warning
 from cartridge.shop.forms import CartItemFormSet, OrderForm
 from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import ProductVariation
+from cartridge.shop.models import ProductVariation, Product
 from braces.views import GroupRequiredMixin
 
 import itertools
 from website.apps.salesbro.checkout import salesbro_order_handler
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, CustomerForm
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
 from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
@@ -178,9 +178,18 @@ class PortalItems(GroupRequiredMixin, TemplateView):
         return kwargs
 
     def get_product_variation_queryset(self):
+        #Product.objects.filter(available=True).all()
+
         queryset = ProductVariation.objects.all()
         queryset = queryset.exclude(product__in=TicketOption.objects.all())
         queryset = queryset.exclude(product__in=Ticket.objects.all())
+        '''
+        not great, passed product
+
+        queryset = Product.objects.filter(available=True).all()
+        queryset = queryset.exclude(ticketoption__in=TicketOption.objects.all())
+        queryset = queryset.exclude(ticket__in=Ticket.objects.all())
+        '''
         return queryset
 
     def get_ticket_option_formset_kwargs(self):
