@@ -137,9 +137,13 @@ class PortalItems(GroupRequiredMixin, TemplateView):
     def formsets_valid(self, ticket_option_formset, product_formset):
 
         for form in itertools.chain(ticket_option_formset, product_formset):
-            # TODO: enhance to allow for cleaned_data['id']
-            variation = form.ticket_option
-            #variation = form.cleaned_data['id']
+
+            try:
+                # If it's a ticket option
+                variation = form.ticket_option
+            except AttributeError:
+                # If it's a product already
+                variation = form.cleaned_data['id']
             quantity = form.cleaned_data['quantity']
 
             if quantity > 0:
@@ -252,7 +256,6 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             salesbro_order_handler(request=self.request, order_form=order, order=order)
 
             return redirect("shop_complete")
-
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()
