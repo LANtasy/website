@@ -17,6 +17,7 @@
 
                 <form method="POST" action="." class="cart-form" novalidate autocomplete="off">
                     {% csrf_token %}
+                    {% if ticket_option_formset.forms %}
                     <hr><div class="spacer-10"></div>
                     {{ ticket_option_formset.management_form }}
                     <div class="row">
@@ -24,6 +25,7 @@
                         <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><h3>Qty</h3></div>
                     </div>
+                    {% endif %}
 
                     {% for form in ticket_option_formset %}
                         <div class="row">
@@ -50,7 +52,7 @@
                         </div>
                     {% endfor %}
 
-                    {% if product_formset %}
+                    {% if product_formset.forms %}
                     <hr><div class="spacer-10"></div>
                     {{ product_formset.management_form }}
                     <div class="row">
