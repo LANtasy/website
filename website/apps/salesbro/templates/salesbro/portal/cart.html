@@ -31,19 +31,19 @@
                         {% for field in order_form %}
 
                             {% if field.name == "billing_detail_first_name" %}
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
                                 {{ field.label }}{{ field }}
                             </div>
                             {% elif field.name == "billing_detail_last_name" %}
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
                                 {{ field.label }}{{ field }}
                             </div>
                             {% elif field.name == "billing_detail_phone" %}
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
                                 {{ field.label }}{{ field }}
                             </div>
                             {% elif field.name == "billing_detail_email" %}
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-5 form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
                                 {{ field.label }}{{ field }}
                             </div>
                             {% else %}
@@ -59,46 +59,48 @@
                         <!--TODO: reformat this using bootstrap scaffolding to make it look less like poop-->
                         {{ cart_formset.management_form }}
                         <div class="row">
-                            <div class="col-md-5"><h3>Item(s)</h3></div>
-                            <div class="col-md-2"><h3>Unit Price</h3></div>
-                            <div class="col-md-1"><h3>Qty</h3></div>
-                            <div class="col-md-2 right"><h3>Price</h3></div>
-                            <div class="col-md-2 center"><h3>Remove?</h3></div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Item(s)</h3></div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4"><h3>Qty</h3></div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs right"><h3 class="pull-right">Price</h3></div>
                         </div>
 
                         {% for form in cart_formset.forms %}
                             {% with form.instance as item %}
                                 <div class="row">
                                     {{ form.id }}
-                                    <div class="col-md-5">{{ item.description }}</div>
-                                    <div class="col-md-2">{{ item.unit_price|currency }}</div>
-                                    <div class="col-md-1 quantity">{{ form.quantity }}</div>
-                                    <div class="col-md-2 right">{{ item.total_price|currency }}</div>
-                                    <div class="col-md-2 center">{{ form.DELETE }}</div>
+                                    <div class="col-lg-5 col-md-6 col-sm-5 col-xs-8">{{ form.DELETE }} {{ item.description }}</div>
+                                    <div class="col-lg-3 col-md-2 col-sm-3 hidden-xs">{{ item.unit_price|currency }}</div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 form-group
+                                        {% if form.quantity.errors %}has-error{% endif %}">
+                                        {{ form.quantity }}
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                                        <span class="pull-right">{{ item.total_price|currency }}</span>
+                                    </div>
                                 </div>
                             {% endwith %}
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-md-5">&nbsp;</div>
-                            <div class="col-md-2">&nbsp;</div>
-                            <div class="col-md-1">&nbsp;</div>
-                            <div class="col-md-2">
+
+                            <div class="col-md-3 pull-right">
                                 {% order_totals %}
                             </div>
-                            <div class="col-md-2 center">&nbsp;</div>
+
                         </div>
 
                         <hr><div class="spacer-30"></div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <input type="submit" name="back" class="btn btn-primary btn-lg" value="Back">
                             </div>
-                            <div class="col-md-4 center">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center">
                                 <input type="submit" name="update" class="btn btn-primary btn-lg" value="Update">
                             </div>
-                            <div class="col-md-4 right">
-                                <input type="submit" name="order" class="btn btn-primary btn-lg" value="Submit Order">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 right">
+                                <input type="submit" name="order" class="btn btn-primary btn-lg align-right" value="Submit Order">
                             </div>
                         </div>
                     </form>
