@@ -178,18 +178,10 @@ class PortalItems(GroupRequiredMixin, TemplateView):
         return kwargs
 
     def get_product_variation_queryset(self):
-        #Product.objects.filter(available=True).all()
-
         queryset = ProductVariation.objects.all()
+        queryset = queryset.filter(product__available=True)
         queryset = queryset.exclude(product__in=TicketOption.objects.all())
         queryset = queryset.exclude(product__in=Ticket.objects.all())
-        '''
-        not great, passed product
-
-        queryset = Product.objects.filter(available=True).all()
-        queryset = queryset.exclude(ticketoption__in=TicketOption.objects.all())
-        queryset = queryset.exclude(ticket__in=Ticket.objects.all())
-        '''
         return queryset
 
     def get_ticket_option_formset_kwargs(self):
