@@ -262,7 +262,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
 
         if not self.request.cart.has_items():
-            warning(self.request, _("Your session has timed out"))
+            warning(self.request, _("Cart is empty"))
         elif cart_formset.is_valid() and order_form.is_valid():
             cart_formset.save()
             recalculate_cart(self.request)
