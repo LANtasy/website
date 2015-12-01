@@ -237,7 +237,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             context = self.update_formset()
 
         if request.POST.get('update'):
-            return self.render_to_response(context)
+            return redirect('salesbro:portal_cart')
         elif request.POST.get('back'):
             return redirect('salesbro:portal_item')
         elif request.POST.get('order'):
