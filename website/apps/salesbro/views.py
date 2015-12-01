@@ -1,16 +1,27 @@
 from __future__ import unicode_literals, absolute_import
 
 import logging
+from cartridge.shop import checkout
+from cartridge_stripe import billship_handler
 
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
-from django.contrib.messages import info
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.messages import info, error, warning
 
+from cartridge.shop.forms import CartItemFormSet, OrderForm
+from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
+from cartridge.shop.models import ProductVariation, Product, Order
+from cartridge.shop import checkout
+from braces.views import GroupRequiredMixin
 
-from website.apps.salesbro.forms import AddTicketForm
-from website.apps.salesbro.models import Ticket
+import itertools
+from website.apps.salesbro.checkout import salesbro_order_handler
+
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
+from website.apps.salesbro.models import Ticket, TicketOption
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +80,6 @@ class TicketDetailView(DetailView):
         context = self.get_context_data(add_product_form=form)
         return self.render_to_response(context=context)
 
-
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
@@ -79,6 +89,280 @@ class TicketDetailView(DetailView):
         return self.form_invalid(form=form)
 
 
+class PortalLogon(GroupRequiredMixin, RedirectView):
+    group_required = u'Sales Portal Access'
+    url = reverse_lazy('salesbro:portal_item')
+    permanent = False
 
-ticket_list = TicketListView.as_view()
+
+class PortalItems(GroupRequiredMixin, TemplateView):
+    group_required = u'Sales Portal Access'
+    template_name = 'salesbro/portal/items.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        ticket_option_formset = self.get_ticket_option_formset()
+        product_formset = self.get_product_formset()
+
+        context['ticket_option_formset'] = ticket_option_formset
+        context['product_formset'] = product_formset
+
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('go_to_cart'):
+            return redirect('salesbro:portal_cart')
+        else:
+            ticket_option_formset = self.get_ticket_option_formset()
+            product_formset = self.get_product_formset()
+
+            ticket_option_formset_valid = ticket_option_formset.is_valid()
+            product_formset_valid = product_formset.is_valid()
+
+            quantity = self.get_total_quantity(ticket_option_formset, product_formset)
+
+            if ticket_option_formset_valid and product_formset_valid and quantity > 0:
+                return self.formsets_valid(ticket_option_formset, product_formset)
+            else:
+                return self.formsets_invalid(ticket_option_formset, product_formset, quantity)
+
+    def get_total_quantity(self, *formsets):
+        quantity = 0
+        for formset in formsets:
+            for form in formset:
+                quantity += form.cleaned_data.get('quantity', 0)
+
+        return quantity
+
+    def formsets_valid(self, ticket_option_formset, product_formset):
+
+        for form in itertools.chain(ticket_option_formset, product_formset):
+
+            try:
+                # If it's a ticket option
+                variation = form.ticket_option
+            except AttributeError:
+                # If it's a product already
+                variation = form.cleaned_data['id']
+            quantity = form.cleaned_data['quantity']
+
+            if quantity > 0:
+                self.request.cart.add_item(variation=variation, quantity=quantity)
+
+        tax_handler(self.request, None)
+        recalculate_cart(self.request)
+
+        return redirect('salesbro:portal_cart')
+        # return self.render_to_response(context={})
+
+    def formsets_invalid(self, ticket_option_formset, product_formset, quantity):
+        context = self.get_context_data()
+
+        if quantity == 0:
+            error(self.request, 'Invalid quantity.')
+
+        context['ticket_option_formset'] = ticket_option_formset
+        context['product_formset'] = product_formset
+        return self.render_to_response(context)
+
+    def get_ticket_option_queryset(self):
+        queryset = TicketOption.objects.available().order_by('ticket')
+        #queryset = ProductVariation.objects.filter(product_id__in=TicketOption.objects.all())
+        return queryset
+
+    def get_product_variation_formset_kwargs(self):
+        queryset = self.get_product_variation_queryset()
+
+        kwargs = {
+            'queryset': queryset,
+            'data': self.request.POST or None,
+            'prefix': 'products',
+        }
+
+        return kwargs
+
+    def get_product_variation_queryset(self):
+        queryset = ProductVariation.objects.all()
+        queryset = queryset.filter(product__available=True)
+        queryset = queryset.exclude(product__in=TicketOption.objects.all())
+        queryset = queryset.exclude(product__in=Ticket.objects.all())
+        return queryset
+
+    def get_ticket_option_formset_kwargs(self):
+        queryset = self.get_ticket_option_queryset()
+
+        kwargs = {
+            'queryset': queryset,
+            'data': self.request.POST or None,
+            'prefix': 'ticket_option',
+        }
+
+        return kwargs
+
+    def get_ticket_option_formset(self):
+        kwargs = self.get_ticket_option_formset_kwargs()
+        formset = TicketOptionFormSet(**kwargs)
+        return formset
+
+    def get_product_formset(self):
+        kwargs = self.get_product_variation_formset_kwargs()
+        formset = ProductVariationFormSet(**kwargs)
+        return formset
+
+    def get_context_data(self, **kwargs):
+
+        context = {}
+
+        return context
+
+
+class PortalCart(GroupRequiredMixin, TemplateView):
+    group_required = u'Sales Portal Access'
+    template_name = 'salesbro/portal/cart.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+
+        cart_formset = self.get_cart_formset()
+        context['cart_formset'] = cart_formset
+
+        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
+        context['order_form'] = order_form
+
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        if self.request.cart.has_items():
+            context = self.update_formset()
+
+        if request.POST.get('update'):
+            return self.render_to_response(context)
+        elif request.POST.get('back'):
+            return redirect('salesbro:portal_item')
+        elif request.POST.get('order'):
+            return self.submit_order(context)
+        else:
+            logger.error('Post type invalid')
+            raise NotImplementedError
+
+    def submit_order(self, context):
+        order_form = context['order_form']
+        if order_form.is_valid():
+
+            order = order_form.save(commit=False)
+            order.setup(self.request)
+            # TODO: Make transaction_id link to payment type somehow
+            order.transaction_id = None
+            order.complete(self.request)
+            salesbro_order_handler(request=self.request, order_form=order, order=order)
+            checkout.send_order_email(request=self.request, order=order)
+
+            return redirect('salesbro:portal_complete')
+
+    def update_formset(self):
+        cart_formset = self.get_cart_formset()
+
+        if not self.request.cart.has_items():
+            warning(self.request, _("Cart is empty"))
+        elif cart_formset.is_valid():
+            cart_formset.save()
+            recalculate_cart(self.request)
+            billship_handler(self.request, None)
+            tax_handler(self.request, None)
+            info(self.request, _('Cart updated'))
+        else:
+            error(self.request, _('Invalid cart update'))
+
+        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
+
+        if order_form.is_valid():
+            self.request.session['order'] = dict(order_form.cleaned_data)
+        else:
+            error(self.request, _('Invalid customer details'))
+
+        context = self.get_context_data()
+        context['cart_formset'] = self.get_cart_formset()
+        context['order_form'] = order_form
+
+        return context
+
+    def get_cart_formset_kwargs(self):
+        kwargs = {
+            'instance': self.request.cart,
+            'data': self.request.POST or None,
+        }
+        return kwargs
+
+    def get_cart_formset(self):
+        kwargs = self.get_cart_formset_kwargs()
+        formset = CartItemFormSet(**kwargs)
+        return formset
+
+    def get_order_form_kwargs(self, step):
+        try:
+            initial = self.request.session['order']
+        except KeyError:
+            initial = {'remember': False,
+                       'same_billing_shipping': True,
+                       'shipping_detail_first_name': 'N/A',
+                       'shipping_detail_last_name': 'N/A',
+                       'shipping_detail_street': 'N/A',
+                       'shipping_detail_city': 'N/A',
+                       'shipping_detail_state': 'N/A',
+                       'shipping_detail_postcode': 'N/A',
+                       'shipping_detail_country': 'N/A',
+                       'shipping_detail_phone': 'N/A',
+                       'shipping_detail_email': 'N/A',
+                       'billing_detail_street': 'N/A',
+                       'billing_detail_city': 'N/A',
+                       'billing_detail_state': 'N/A',
+                       'billing_detail_postcode': 'N/A',
+                       'billing_detail_country': 'N/A',
+                       'additional_instructions': 'N/A',
+                       }
+
+        kwargs = {
+            'initial': initial,
+            'request': self.request or None,
+            'data': self.request.POST or None,
+            'step': step or None,
+        }
+        return kwargs
+
+    def get_order_form(self, step):
+        kwargs = self.get_order_form_kwargs(step)
+        form = OrderForm(**kwargs)
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        return context
+
+
+class PortalComplete(GroupRequiredMixin, TemplateView):
+    group_required = u'Sales Portal Access'
+    template_name = 'salesbro/portal/complete.html'
+
+    def get_context_data(self, **kwargs):
+        order = self.get_order()
+
+        context = {'order': order, 'has_pdf': False}
+
+        return context
+
+    def get_order(self):
+        try:
+            order = Order.objects.from_request(self.request)
+        except Order.DoesNotExist:
+            raise NotImplementedError
+
+        return order
+
+
 ticket_detail = TicketDetailView.as_view()
+ticket_list = TicketListView.as_view()
+portal_logon = PortalLogon.as_view()
+portal_item = PortalItems.as_view()
+portal_cart = PortalCart.as_view()
+portal_complete = PortalComplete.as_view()

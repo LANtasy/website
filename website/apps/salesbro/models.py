@@ -25,6 +25,9 @@ class TicketOption(Product):
     def __unicode__(self):
         return '{title} ({ticket})'.format(title=self.title, ticket=self.ticket.title)
 
+    def get_full_name(self):
+        return self.__unicode__()
+
     @property
     def get_price_difference(self):
         if self.has_price():

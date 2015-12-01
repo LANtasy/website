@@ -10,4 +10,9 @@ logger = logging.getLogger(__name__)
 urlpatterns = patterns('website.apps.salesbro.views',
     url(r'^tickets/$', 'ticket_list', name='ticket_list'),
     url(r'^tickets/(?P<slug>[a-z0-9-]+)/$', 'ticket_detail', name='ticket_detail'),
+
+    url(r'^salesbro/portal/$', 'portal_logon', name='portal_logon'),
+    url(r'^salesbro/portal/items/$', 'portal_item', name='portal_item'),
+    url(r'^salesbro/portal/cart/$', 'portal_cart', name='portal_cart'),
+    url(r'^salesbro/portal/complete/$', 'portal_complete', name='portal_complete'),
 )

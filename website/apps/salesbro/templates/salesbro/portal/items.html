@@ -1,0 +1,114 @@
+{% extends "salesbro/portal/base.html" %}
+{% load mezzanine_tags shop_tags %}
+
+{% block body_id %}vendor_sale_list{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-9 middle">
+                <div class="row">
+                    <div class="col-md-12">
+                        Add quantity to items the customer wants.
+                    </div>
+                </div>
+                <div class="spacer-10"></div>
+
+                <form method="POST" action="." class="cart-form" novalidate autocomplete="off">
+                    {% csrf_token %}
+                    {% if ticket_option_formset.forms %}
+                    <hr><div class="spacer-10"></div>
+                    {{ ticket_option_formset.management_form }}
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Tickets</h3></div>
+                        <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><h3>Qty</h3></div>
+                    </div>
+                    {% endif %}
+
+                    {% for form in ticket_option_formset %}
+                        <div class="row">
+                            {{ form.id }}
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
+                                {{ form.ticket_option.get_full_name }}
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
+                                {{ form.instance.price|currency }}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group
+                            {% if form.quantity.errors %}has-error{% endif %}">
+                                {{ form.quantity }}
+                            </div>
+                        </div>
+                        <div class="row {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% if form.quantity.errors %}
+                                <span class="errorlist">
+                                    {{ form.quantity.errors.0 }}
+                                </span>
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% if product_formset.forms %}
+                    <hr><div class="spacer-10"></div>
+                    {{ product_formset.management_form }}
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8"><h3>Products</h3></div>
+                        <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"><h3>Unit Price</h3></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><h3>Qty</h3></div>
+                    </div>
+                    {% endif %}
+
+                    {% for form in product_formset %}
+                        <div class="row">
+                            {{ form.id }}
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
+                                {{ form.instance.product.description }}
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-3 hidden-xs">
+                                {{ form.instance.price|currency }}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 form-group
+                            {% if form.quantity.errors %}has-error{% endif %}">
+                                {{ form.quantity }}
+                            </div>
+                        </div>
+                        <div class="row {% if form.quantity.errors %}has-error{% endif %}">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% if form.quantity.errors %}
+                                <span class="errorlist">
+                                    {{ form.quantity.errors.0 }}
+                                </span>
+                            {% endif %}
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+
+                    <hr><div class="spacer-30"></div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 center">
+                            <input type="submit" name="add_to_cart" class="btn btn-primary btn-lg" value="Add">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 right">
+                            {% if request.cart.has_items %}
+                                <input type="submit" name="go_to_cart" class="btn btn-primary btn-lg" value="Next">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-actions">
+
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+

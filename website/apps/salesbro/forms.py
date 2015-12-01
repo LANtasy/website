@@ -2,11 +2,14 @@ from __future__ import unicode_literals, absolute_import
 
 import logging
 
-from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm
-from cartridge.shop.models import ProductVariation
-
 from django import forms
-from website.apps.salesbro.models import TicketOption
+
+from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm, OrderForm
+from cartridge.shop.models import ProductVariation, Order
+from django.forms import modelformset_factory, CharField, EmailField
+from website.apps.salesbro.models import TicketOption, Ticket
+
+from django.utils.translation import ugettext as _
 
 logger = logging.getLogger(__name__)
 
@@ -99,3 +102,47 @@ class AddTicketForm(AddProductForm):
         self.variation = variation
         self.ticket_option = ticket_variation
         return self.cleaned_data
+
+
+class TicketVariationForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
+    quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
+
+    class Meta:
+        model = ProductVariation
+        fields = (
+            'id',
+            'quantity'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(TicketVariationForm, self).__init__(*args, **kwargs)
+
+        if self.instance is not None:
+            self.ticket_option = TicketOption.objects.select_related('ticket').get(id=self.instance.id)
+
+    def clean(self):
+        super(TicketVariationForm, self).clean()
+        ticket_option_qs = self.ticket_option.variations.all()
+        ticket_variation = ticket_option_qs.get(id=self.instance.id)
+        self.ticket_option = ticket_variation
+
+TicketOptionFormSet = modelformset_factory(ProductVariation, form=TicketVariationForm, extra=0, can_delete=False,
+                                           can_order=True, )
+
+
+class ProductVariationForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=True)
+    quantity = forms.IntegerField(min_value=0, max_value=50, initial=0)
+
+    class Meta:
+        model = ProductVariation
+        fields = (
+            'id',
+            'quantity'
+        )
+
+
+ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVariationForm, extra=0, can_delete=False,
+                                               can_order=False, )
+
