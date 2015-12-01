@@ -13,7 +13,7 @@ from django.contrib.messages import info, error, warning
 from cartridge.shop.forms import CartItemFormSet, OrderForm
 from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
-from cartridge.shop.models import ProductVariation, Product
+from cartridge.shop.models import ProductVariation, Product, Order
 from cartridge.shop import checkout
 from braces.views import GroupRequiredMixin
 
@@ -258,7 +258,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             salesbro_order_handler(request=self.request, order_form=order, order=order)
             checkout.send_order_email(request=self.request, order=order)
 
-            return redirect("shop_complete")
+            return redirect('salesbro:portal_complete')
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()
@@ -332,7 +332,6 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 
     def get_order_form(self, step):
         kwargs = self.get_order_form_kwargs(step)
-        #form = CustomerForm(**kwargs)
         form = OrderForm(**kwargs)
         return form
 
@@ -341,23 +340,24 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         return context
 
 
-class PortalCheckout(GroupRequiredMixin, TemplateView):
+class PortalComplete(GroupRequiredMixin, TemplateView):
     group_required = u'Sales Portal Access'
-    template_name = 'salesbro/portal/checkout.html'
+    template_name = 'salesbro/portal/complete.html'
 
+    def get_context_data(self, **kwargs):
+        order = self.get_order()
 
+        context = {'order': order, 'has_pdf': False}
 
-    '''
-    Goals:
-    -Grab remaining order details:
-    --Required:
-    ---First Name, Last Name, Phone, Email
-    --Optional: Try to save without this, otherwise input fake data
-    ---Street, City, Province/State, Postal Code/Zip, Country
+        return context
 
-    -Deal with shipping? See how cartridge deals with this
+    def get_order(self):
+        try:
+            order = Order.objects.from_request(self.request)
+        except Order.DoesNotExist:
+            raise NotImplementedError
 
-    '''
+        return order
 
 
 ticket_detail = TicketDetailView.as_view()
@@ -365,4 +365,4 @@ ticket_list = TicketListView.as_view()
 portal_logon = PortalLogon.as_view()
 portal_item = PortalItems.as_view()
 portal_cart = PortalCart.as_view()
-portal_checkout = PortalCheckout.as_view()
+portal_complete = PortalComplete.as_view()

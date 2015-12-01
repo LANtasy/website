@@ -1,0 +1,44 @@
+{% extends "salesbro/portal/base.html" %}
+{% load mezzanine_tags shop_tags %}
+
+{% block body_id %}sales_portal_checkout{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>This order is complete.</p>
+                <p>We've sent the customer a receipt via email.</p>
+                <p>You can also review the invoice using the button below.</p>
+                <br>
+                <form class="order-complete-form" method="post" action="{% url "shop_invoice_resend" order.id %}?next={{ request.path }}">
+                    <!---->
+                    {% csrf_token %}
+                    {% if has_pdf %}
+                    <a class="btn btn-primary"
+                       href="{% url "shop_invoice" order.id %}?format=pdf">
+                        Download PDF invoice
+                    </a>
+                    {% endif %}
+                    <a class="btn btn-default" href="{% url "salesbro:portal_item" %}">New Order</a>
+                    <a class="btn btn-default"
+                       target="_blank"
+                       href="{% url "shop_invoice" order.id %}">
+                        View customer invoice
+                    </a>
+
+                    <button type="submit"
+                            name="action"
+                            class="btn btn-default"
+                            value="resend_email">Re-send order email</button>
+
+
+
+
+                </form>
+            </div>
+        <div class="spacer-40"></div>
+        </div>
+
+    </div>
+{% endblock main %}
