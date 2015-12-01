@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 middle">
-                {% if cart_formset.forms %}
+                {% if request.cart.has_items %}
                     <div class="row">
                         <div class="col-md-12">
                             Review the cart with the customer and take payment before continuing.

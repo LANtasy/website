@@ -233,7 +233,8 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        context = self.update_formset()
+        if self.request.cart.has_items():
+            context = self.update_formset()
 
         if request.POST.get('update'):
             return self.render_to_response(context)
@@ -261,23 +262,29 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()
-        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
 
         if not self.request.cart.has_items():
             warning(self.request, _("Cart is empty"))
-        elif cart_formset.is_valid() and order_form.is_valid():
+        elif cart_formset.is_valid():
             cart_formset.save()
             recalculate_cart(self.request)
             billship_handler(self.request, None)
             tax_handler(self.request, None)
-            self.request.session['order'] = dict(order_form.cleaned_data)
             info(self.request, _('Cart updated'))
         else:
-            error(self.request, _('Invalid update'))
+            error(self.request, _('Invalid cart update'))
+
+        order_form = self.get_order_form(checkout.CHECKOUT_STEP_FIRST)
+
+        if order_form.is_valid():
+            self.request.session['order'] = dict(order_form.cleaned_data)
+        else:
+            error(self.request, _('Invalid customer details'))
 
         context = self.get_context_data()
-        context['cart_formset'] = cart_formset
+        context['cart_formset'] = self.get_cart_formset()
         context['order_form'] = order_form
+
         return context
 
     def get_cart_formset_kwargs(self):
