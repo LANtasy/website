@@ -14,6 +14,7 @@ from cartridge.shop.forms import CartItemFormSet, OrderForm
 from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
 from cartridge.shop.models import ProductVariation, Product
+from cartridge.shop import checkout
 from braces.views import GroupRequiredMixin
 
 import itertools
@@ -254,6 +255,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             order.transaction_id = None
             order.complete(self.request)
             salesbro_order_handler(request=self.request, order_form=order, order=order)
+            checkout.send_order_email(request=self.request, order=order)
 
             return redirect("shop_complete")
 
