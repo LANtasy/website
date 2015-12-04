@@ -3,10 +3,10 @@ from copy import deepcopy
 
 import logging
 from cartridge.shop.admin import product_list_display, other_product_fields, ProductImageAdmin, ProductVariationAdmin, \
-    product_fieldsets, ProductAdmin, option_fields
+    product_fieldsets, ProductAdmin, option_fields, OrderAdmin
 from cartridge.shop.admin import product_list_editable
 from cartridge.shop.forms import ProductAdminForm
-from cartridge.shop.models import ProductImage, ProductVariation
+from cartridge.shop.models import ProductImage, ProductVariation, Order
 
 from django.contrib import admin
 from django.utils.translation import ugettext as _
@@ -121,8 +121,16 @@ class TicketOptionAdmin(ProductAdmin):
     list_filter = ("status", "available", "categories", "ticket")
 
 
+order_fieldsets = deepcopy(OrderAdmin.fieldsets)
+order_fieldsets[0][1]["fields"].insert(-2, 'user_id')
 
 
+class CustomOrderAdmin(OrderAdmin):
+    fieldsets = order_fieldsets
+    list_filter = ('status', 'time', 'user_id')
 
-admin.site.register(TicketOption, TicketOptionAdmin)
+
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(TicketOption, TicketOptionAdmin)
+admin.site.unregister(Order)
+admin.site.register(Order, CustomOrderAdmin)
