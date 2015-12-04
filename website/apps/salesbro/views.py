@@ -168,7 +168,6 @@ class PortalItems(GroupRequiredMixin, TemplateView):
 
     def get_ticket_option_queryset(self):
         queryset = TicketOption.objects.available().order_by('ticket')
-        #queryset = ProductVariation.objects.filter(product_id__in=TicketOption.objects.all())
         return queryset
 
     def get_product_variation_formset_kwargs(self):
@@ -248,8 +247,13 @@ class PortalCart(GroupRequiredMixin, TemplateView):
 
     def submit_order(self, context):
         order_form = context['order_form']
-        if order_form.is_valid():
 
+        # Double check that order still has things
+        if self.request.cart.has_items() is False:
+            warning(self.request, _("Cart is empty"))
+            return redirect('salesbro:portal_cart')
+
+        if order_form.is_valid():
             order = order_form.save(commit=False)
             order.setup(self.request)
             # TODO: Make transaction_id link to payment type somehow
@@ -263,7 +267,7 @@ class PortalCart(GroupRequiredMixin, TemplateView):
     def update_formset(self):
         cart_formset = self.get_cart_formset()
 
-        if not self.request.cart.has_items():
+        if self.request.cart.has_items() is False:
             warning(self.request, _("Cart is empty"))
         elif cart_formset.is_valid():
             cart_formset.save()
