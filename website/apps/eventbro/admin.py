@@ -31,7 +31,7 @@ class EventAdmin(admin.ModelAdmin):
         }),
         ('Details', {
             'fields': (
-                ('size', 'valid_options',),
+                ('size', 'event_type', 'valid_options',),
                 ('group_event',),
                 ('require_game_id', 'game_id_name',),
             ),

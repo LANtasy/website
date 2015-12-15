@@ -15,6 +15,15 @@ class Convention(models.Model):
 
 
 class Event(models.Model):
+    BYOC_LAN = u'LAN'
+    MINIATURES = u'MIN'
+    TABLETOP = u'TAB'
+    EVENT_TYPE_CHOICES = (
+        (BYOC_LAN, u'BYOC LAN'),
+        (MINIATURES, u'Miniatures'),
+        (TABLETOP, u'Tabletop'),
+    )
+
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
     description = models.TextField(blank=True, null=True)
@@ -23,11 +32,12 @@ class Event(models.Model):
     size = models.PositiveSmallIntegerField(verbose_name='Max Size', blank=True, null=True)
     published = models.BooleanField(default=False)
     valid_options = models.ManyToManyField(TicketOption, related_name='event_valid_tickets',
-                                           verbose_name='Tickets that can participate in this event')
+                                           verbose_name='Valid participants')
     group_event = models.BooleanField(default=False, verbose_name='Is group event')
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
+    event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
 
 
 class Registration(models.Model):
