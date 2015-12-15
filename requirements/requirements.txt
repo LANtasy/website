@@ -1,5 +1,7 @@
+Django==1.8.7
+
 Cartridge==0.10.0
-Django==1.8.3
+
 Fabric==1.10.2
 Mezzanine==4.0.1
 Pillow==2.9.0
