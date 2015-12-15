@@ -28,4 +28,6 @@ website/media
 vagrant_ansible_inventory_default
 
 # VirtualEnv
-.env
+/.env
+/env
+
