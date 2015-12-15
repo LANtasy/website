@@ -6,7 +6,13 @@ from website.apps.eventbro.models import Convention, Event
 class ConventionAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('name', 'start', 'end')
+            'fields': (
+                ('name', 'published',),
+                ('start', 'end',),
+            )
+        }),
+        ('Details', {
+            'fields': ('description',)
         }),
     )
 
