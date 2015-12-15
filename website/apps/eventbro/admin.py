@@ -22,6 +22,26 @@ class ConventionAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': (
+               ('name', 'convention', 'published',),
+               ('description',),
+            ),
+        }),
+        ('Details', {
+            'fields': (
+                ('size', 'valid_options',),
+                ('group_event',),
+                ('require_game_id', 'game_id_name',),
+            ),
+        }),
+        ('Timing', {
+            'fields': (
+                ('start', 'end',),
+            ),
+        }),
+    )
     list_display = ['name', 'convention', 'size']
 
     list_filter = ('name', 'convention',)
