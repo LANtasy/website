@@ -18,10 +18,12 @@ class Event(models.Model):
     BYOC_LAN = u'LAN'
     MINIATURES = u'MIN'
     TABLETOP = u'TAB'
+    RPG = u'RPG'
     EVENT_TYPE_CHOICES = (
         (BYOC_LAN, u'BYOC LAN'),
         (MINIATURES, u'Miniatures'),
         (TABLETOP, u'Tabletop'),
+        (RPG, u'RPG'),
     )
 
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
