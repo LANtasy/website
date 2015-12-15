@@ -89,7 +89,9 @@ body {
     padding-top:50px;
 }
 
-
+.messages .alert button {
+    top:4px;
+}
 
 /*-------------------------------------------------------------------------------------------*/
 /* 7. Responsive Media Queries */
@@ -250,4 +252,9 @@ footer {
     display: inline-block;
     margin: 5px;
     padding: 5px;
+}
+
+
+.cart-form .form-group input{
+    width: 60px;
 }

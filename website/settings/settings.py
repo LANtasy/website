@@ -33,6 +33,7 @@ SHOP_HANDLER_PAYMENT = 'cartridge_stripe.payment_handler'
 SHOP_CHARGE_CURRENCY = 'cad'
 SHOP_ORDER_FROM_EMAIL = DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'noreply@lantasy.com'
 SHOP_ORDER_EMAIL_SUBJECT = 'LANtasy Order Invoice'
+SHOP_CARD_TYPES = 'Mastercard', 'Visa', 'Amex'
 
 SHOP_CHECKOUT_ACCOUNT_REQUIRED = True
 
@@ -323,35 +324,41 @@ except ImportError:
 else:
     set_dynamic_settings(globals())
 
-if DEBUG is False:
-    LOGGING = {
-        'version': 1,
-        'formatters': {
-            'verbose': {
-                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-            },
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            },
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
         },
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple'
-            },
-            'file': {
-                'level': 'DEBUG',
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(PROJECT_ROOT, '../../logs/django.log'),
-                'formatter': 'verbose'
-            },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
         },
-        'loggers': {
-            'django': {
-                'handlers': ['file', 'console'],
-                'level': 'DEBUG',
-                'propagate': True,
-            },
-        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        # 'file': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.FileHandler',
+        #     'filename': os.path.join(PROJECT_ROOT, '../../logs/django.log'),
+        #     'formatter': 'verbose'
+        # },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     }
+}

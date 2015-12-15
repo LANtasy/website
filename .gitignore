@@ -4,14 +4,18 @@
 .DS_Store
 .coverage
 website/settings/local_settings.py
-static/media
-website/static/media
 
 # Collectstatic files
 website/static
 
 # Media files
 website/media
+# This wont work till git 2.7 client
+# at which point we can create migrations for a several different things
+# -Tickets (product/Tickets) with images
+# -Events (game_logos) for event pages
+!website/media/uploads/product/
+!website/media/uploads/game_logos/
 
 # PyCharm files
 .idea

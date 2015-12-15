@@ -299,10 +299,11 @@ div.accordion-group.panel, img.game {
     color: #FFFFFF;
 }
 
-#cart .cart-form td.quantity input {
+.cart-form .quantity input {
     background-color: #4C86B3;
     border-color: #4C86B3;
 }
+
 
 #checkout .checkout-panel li{
     color: #FFFFFF;
