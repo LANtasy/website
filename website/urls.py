@@ -24,9 +24,6 @@ urlpatterns = patterns('',
     # Temporary shop redirect
     url(r'^shop$', RedirectView.as_view(url='tickets/', permanent=False)),
 
-    # Test URL - Remove for prod
-    url(r'^test$', direct_to_template, {'template': 'salesbro/order_email.html'}),
-
     # Index URL
     url(r'^$', direct_to_template, {'template': 'index.html'}, name='home'),
 
