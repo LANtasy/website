@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 
+{% block meta_title_override %}{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} - {% endif %}Western Canada's largest game convention{% endblock meta_title_override %}
 {% block meta_title %}Western Canada's largest game convention{% endblock meta_title %}
 {% block title %}Western Canada's largest game convention{% endblock title %}
 {% block meta_keywords %}{% trans settings.SITE_TAGLINE %} {{ settings.SITE_TITLE }}{% endblock meta_keywords %}
