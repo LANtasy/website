@@ -1,10 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-badge
-</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags %}
+
+{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
+{% block body_id %}category{% endblock %}
+
+<!--TODO: make sure this keywords is working-->
+{% block meta_keywords %}{% metablock %}
+{% for keyword in page.keywords.all %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this description is working-->
+{% block meta_description %}{% metablock %}
+{{ ticket.description }}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this breadcrumb menu is working-->
+{% block breadcrumb_menu %}
+{{ block.super }}
+<li>{{ ticket.title }}</li>
+{% endblock %}
+
+{% block title %}
+    badge
+{% endblock %}
+
+{% block main %}
+    <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
+        {% csrf_token %}
+        {{ user_form.management_form }}
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Confirm user details</h5>
+                <p>
+                    The following details will be used to help locate your badge at the door.
+                    First name and Last name will be printed on the badges.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                    <strong>{{ user_form.first_name.label }}</strong>
+                    {{ user_form.first_name }}
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                    <strong>{{ user_form.last_name.label }}</strong>
+                    {{ user_form.last_name }}
+                </div>
+            </div>
+        </div>
+
+        <hr><div class="spacer-10"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Enter badge ID</h5>
+                <p>
+                    Once submitted this badge will be a digital representation of your physical ticket.
+                    It will be associated with your account. This will then be used for event registration purpose.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group-lg">
+                    <input type="submit" name="next" class="btn btn-primary" value="Next">
+                </div>
+            </div>
+        </div>
+        <div class="spacer-30"></div>
+    </form>
+{% endblock main %}
+

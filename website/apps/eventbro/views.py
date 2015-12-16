@@ -6,6 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
+from website.apps.eventbro.forms import UpdateUserForm
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
@@ -29,10 +30,17 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
         if already_registered:
             return HttpResponseRedirect(already_registered)
         else:
-            context = self.get_context_data(**kwargs)
-            return self.render_to_response(context)
+            return self.display_page()
 
-    def check_badges_for_user(self, *args, **kwargs):
+    def display_page(self):
+        context = self.reset_context()
+        user_form = self.get_user_form()
+        context['user_form'] = user_form
+        return self.render_to_response(context)
+
+    # Check to see if the user is already associated with a badge
+    # If they are then provide a redirect url
+    def check_badges_for_user(self):
         user = self.request.user
         try:
             Badge.objects.get(user=user)
@@ -40,6 +48,23 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
         except Badge.DoesNotExist:
             url = None
         return url
+
+    def get_user_form_kwargs(self):
+        kwargs = {
+            'instance': self.request.user
+        }
+        return kwargs
+
+    def get_user_form(self):
+        kwargs = self.get_user_form_kwargs()
+        form = UpdateUserForm(**kwargs)
+        return form
+
+    @staticmethod
+    def reset_context():
+        context = {}
+        return context
+
     # - Explain that accurate firstname / lastname is required for picking up tickets at the door
     # - Show Firstname and lastname fields with the user's firstname and lastname entered, allow edit
 
