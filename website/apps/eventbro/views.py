@@ -1,4 +1,5 @@
 from braces.views import LoginRequiredMixin
+from django.contrib.messages import error
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -32,11 +33,59 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
         else:
             return self.display_page()
 
+    def post(self, request, *args, **kwargs):
+        already_registered = self.check_badges_for_user()
+        if already_registered:
+            return HttpResponseRedirect(already_registered)
+        else:
+            return self.save_forms()
+
+    def save_forms(self):
+        return self.check_update(user_valid=self.update_user(),
+                                 badge_valid=self.update_badge(),
+                                 )
+
+    def check_update(self, user_valid, badge_valid):
+        if user_valid and badge_valid:
+            already_registered = self.check_badges_for_user()
+            if already_registered:
+                return HttpResponseRedirect(already_registered)
+            else:
+                return self.display_page()
+        else:
+            return self.display_page()
+
+    def invalid_update(self):
+        pass
+
+    def update_user(self):
+        user_form = self.get_user_form()
+        user_form_valid = user_form.is_valid()
+        if user_form_valid:
+            user_form.save()
+            return True
+        else:
+            return False
+
+    def update_badge(self):
+        badge_form = self.get_badge_form()
+        badge_form_valid = badge_form.is_valid()
+        if badge_form_valid:
+            try:
+                uid = badge_form.cleaned_data['uid']
+                badge = Badge.objects.get(uid=uid)
+                badge.user = self.request.user
+                badge.save()
+                return True
+            except Badge.DoesNotExist:
+                error(self.request, 'Could not find UID')
+                return False
+        else:
+            return False
+
     def display_page(self):
         context = self.reset_context()
-
         context['user_form'] = self.get_user_form()
-
         context['badge_form'] = self.get_badge_form()
         return self.render_to_response(context)
 
@@ -78,11 +127,6 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
     def reset_context():
         context = {}
         return context
-
-    # - Explain that accurate firstname / lastname is required for picking up tickets at the door
-    # - Show Firstname and lastname fields with the user's firstname and lastname entered, allow edit
-
-    # - Show field for Badge ID, allow edit
 
     # - On click next
     #   - Look to see if Firstname/Lastname matches the logged in user, if not modify that record

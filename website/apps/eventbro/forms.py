@@ -16,9 +16,10 @@ class UpdateUserForm(forms.ModelForm):
         )
 
 
-class UpdateBadgeForm(forms.ModelForm):
+class UpdateBadgeForm(forms.Form):
+    uid = forms.CharField(label='UID', max_length=34)
+
     class Meta:
-        model = Badge
         fields = (
             'uid',
         )
