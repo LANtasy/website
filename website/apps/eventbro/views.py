@@ -1,5 +1,6 @@
 from braces.views import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
@@ -23,6 +24,22 @@ class RegisterRedirectView(LoginRequiredMixin, RedirectView):
 class RegisterBadgeView(LoginRequiredMixin, TemplateView):
     template_name = 'eventbro/registration/register_badge.html'
 
+    def get(self, request, *args, **kwargs):
+        already_registered = self.check_badges_for_user()
+        if already_registered:
+            return HttpResponseRedirect(already_registered)
+        else:
+            context = self.get_context_data(**kwargs)
+            return self.render_to_response(context)
+
+    def check_badges_for_user(self, *args, **kwargs):
+        user = self.request.user
+        try:
+            Badge.objects.get(user=user)
+            url = reverse_lazy('eventbro:register_event')
+        except Badge.DoesNotExist:
+            url = None
+        return url
     # - Explain that accurate firstname / lastname is required for picking up tickets at the door
     # - Show Firstname and lastname fields with the user's firstname and lastname entered, allow edit
 
