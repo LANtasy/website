@@ -6,7 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
@@ -34,8 +34,10 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
 
     def display_page(self):
         context = self.reset_context()
-        user_form = self.get_user_form()
-        context['user_form'] = user_form
+
+        context['user_form'] = self.get_user_form()
+
+        context['badge_form'] = self.get_badge_form()
         return self.render_to_response(context)
 
     # Check to see if the user is already associated with a badge
@@ -51,13 +53,25 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
 
     def get_user_form_kwargs(self):
         kwargs = {
-            'instance': self.request.user
+            'instance': self.request.user,
+            'data': self.request.POST or None,
         }
         return kwargs
 
     def get_user_form(self):
         kwargs = self.get_user_form_kwargs()
         form = UpdateUserForm(**kwargs)
+        return form
+
+    def get_badge_form_kwargs(self):
+        kwargs = {
+            'data': self.request.POST or None,
+        }
+        return kwargs
+
+    def get_badge_form(self):
+        kwargs = self.get_badge_form_kwargs()
+        form = UpdateBadgeForm(**kwargs)
         return form
 
     @staticmethod

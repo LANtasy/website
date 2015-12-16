@@ -64,12 +64,27 @@
                     Once submitted this badge will be a digital representation of your physical ticket.
                     It will be associated with your account. This will then be used for event registration purpose.
                 </p>
+                <p>
+                    This ID can be located on your ticket receipt<br>
+                    e.g. BAfa18b9f5b4b14f9a927a88da231f7119
+                </p>
             </div>
         </div>
         <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                    <strong>{{ badge_form.uid.label }}</strong>
+                    {{ badge_form.uid }}
+                </div>
+            </div>
+        </div>
+
+        <hr><div class="spacer-10"></div>
+
+        <div class="row">
             <div class="col-md-12">
                 <div class="btn-group-lg">
-                    <input type="submit" name="next" class="btn btn-primary" value="Next">
+                    <input type="submit" name="save" class="btn btn-primary" value="Save">
                 </div>
             </div>
         </div>
