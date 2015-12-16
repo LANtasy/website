@@ -4,17 +4,20 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
+from website.apps.badgebro.models import Badge
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
-    url = reverse_lazy('eventbro:register_badge')
     permanent = False
 
-    # def get_redirect_url(self, *args, **kwargs):
-    #   If user is already associated with a badge:
-    #       url = reverse_lazy('eventbro:register_event')
-    #   Else:
-    #       url = reverse_lazy('eventbro:register_badge')
+    def get_redirect_url(self, *args, **kwargs):
+        user = self.request.user
+        try:
+            Badge.objects.get(user=user)
+            url = reverse_lazy('eventbro:register_event')
+        except Badge.DoesNotExist:
+            url = reverse_lazy('eventbro:register_badge')
+        return url
 
 
 class RegisterBadgeView(LoginRequiredMixin, TemplateView):
