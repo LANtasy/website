@@ -57,6 +57,14 @@ class Event(models.Model):
         registered = Registration.objects.filter(event=self).count()
         available = self.size - registered
         return available
+
+    def is_full(self):
+        registered = Registration.objects.filter(event=self).count()
+        if registered >= self.size:
+            return True
+        else:
+            return False
+
     # annotate count
 
 

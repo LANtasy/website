@@ -49,18 +49,20 @@ Event Registration
     </div>
 
 
-
+    {# Loop through all categories #}
+    {% for category in event_categories %}
     <div class="spacer-10"></div>
 
     <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    <h3><strong>Boop</strong></h3>
+                    <h3><strong>{{ category.1 }}</strong></h3>
                 </div>
             </div>
-            {% for event in events %}
-            <!--Loop through all events for this category-->
+            {# Loop through all events for this category #}
+            {% for event in published_events %}
+            {% if event.event_type == category.0 %}
             <div class="row">
                 <div class="container-fluid">
                     <div class="panel panel-default">
@@ -80,7 +82,7 @@ Event Registration
                                             <div class="btn-group-md">
                                                 {% if registered %}
                                                     <input type="submit" name="event-id" class="btn btn-primary" value="Unregister">
-                                                {% elif event_is_full %}
+                                                {% elif event.is_full %}
                                                     <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist">
                                                 {% else %}
                                                     <input type="submit" name="event-id" class="btn btn-primary" value="Register">
@@ -111,35 +113,36 @@ Event Registration
                                     </div>
                                 </div>
                             </div>
-                            <div class="spacer-10"></div>
-                            <div class="row">
-                                <div class="col-md-12 hidden-xs">
-                                    {{ event.description|linebreaks }}
+
+                            {% if event.group_event or event.require_game_id %}
+                                <div class="spacer-10"></div>
+
+                                {% if event.group_event %}
+                                <div class="row">
+                                    <div class="col-md-12 hidden-xs">
+                                        group
+                                    </div>
                                 </div>
-                            </div>
+                                {% endif %}
+                                {% if event.require_game_id %}
+                                <div class="row">
+                                    <div class="col-md-12 hidden-xs">
+                                        game id
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <!--End loop-->
+            {% endif %}
+            {% endfor event %}
+            {# Endloop through all events in this category #}
         </div>
     </div>
-
-
-    <div class="spacer-10"></div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3><strong>Boop2</strong></h3>
-                </div>
-            </div>
-
-            <!--Loop through all events for this category-->
-        </div>
-    </div>
+    {% endfor category %}
+    {# Endloop through all categories #}
 
 </form>
 {% endblock main %}

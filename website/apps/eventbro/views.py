@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
 from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm
-from website.apps.eventbro.models import Event
+from website.apps.eventbro.models import Event, Registration
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
@@ -142,8 +142,10 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
 
     def display_page(self):
         context = self.reset_context()
-        context['events'] = self.get_event_queryset()
         context['event_categories'] = self.get_event_categories()
+        context['published_events'] = self.get_published_events()
+        context['registrations'] = self.get_registerations()
+
         return self.render_to_response(context)
 
     def check_badges_for_user(self):
@@ -155,13 +157,23 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             url = reverse_lazy('eventbro:register_badge')
         return url
 
-    def get_event_queryset(self):
-        queryset = Event.objects.filter(published=True)
-        queryset = queryset.order_by('name')
-        return queryset
+    def get_published_events(self):
+        badge = Badge.objects.get(user=self.request.user)
+        events = Event.objects.filter(published=True)
+        events = events.filter(valid_options=badge.ticket)
+        events = events.order_by('name')
+        return events
 
     def get_event_categories(self):
-        return Event.EVENT_TYPE_CHOICES
+        categories = Event.EVENT_TYPE_CHOICES
+        return categories
+
+    def get_registerations(self):
+        try:
+            events = Registration.objects.get(user=self.request.user).all()
+        except Registration.DoesNotExist:
+            events = None
+        return events
 
     @staticmethod
     def reset_context():
