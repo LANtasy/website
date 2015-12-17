@@ -1,10 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-event
-</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags %}
+
+{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
+{% block body_id %}category{% endblock %}
+
+<!--TODO: make sure this keywords is working-->
+{% block meta_keywords %}{% metablock %}
+{% for keyword in page.keywords.all %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this description is working-->
+{% block meta_description %}{% metablock %}
+{{ ticket.description }}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this breadcrumb menu is working-->
+{% block breadcrumb_menu %}
+{{ block.super }}
+<li>Registration</li>
+<li>Event Registration</li>
+{% endblock %}
+
+{% block title %}
+Event Registration
+{% endblock %}
+
+{% block main %}
+<form method="POST" action="." class="register-event-form" novalidate autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    Filter Events
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Boop</a></li>
+                    <li><a href="#">Boop2</a></li>
+                    <li><a href="#">Boop3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer-10"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><strong>Boop</strong></h3>
+                </div>
+            </div>
+
+            <!--Loop through all events for this category-->
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        thumb
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8"><h3>Dean is wonderful</h3></div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="btn-group-md">
+                                                {% if registered %}
+                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Unregister">
+                                                {% elif event_is_full %}
+                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist">
+                                                {% else %}
+                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Register">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>End Time</strong></div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>Available</strong></div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>Start Time:</strong> 9:30am 12/03/2015
+                                        </div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>End Time:</strong> 6:00pm 13/03/2015
+                                        </div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>Available:</strong> 23
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 hidden-xs">9:30am 12/03/2015</div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs">6:00pm 13/03/2015</div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs">23</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Lorem ipsum dolor sit amet, sea et alia definiebas, quo at placerat incorrupte intellegebat.
+                                    Ullum utroque mei eu. His ei dolorum indoctum tractatos, ad tamquam recusabo sed, case vidit
+                                    maiorum ad est. Est ea simul impedit, choro contentiones usu ne. Eum eu suscipit democritum
+                                    neglegentur, has ei case timeam.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="spacer-10"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><strong>Boop2</strong></h3>
+                </div>
+            </div>
+
+            <!--Loop through all events for this category-->
+        </div>
+    </div>
+
+</form>
+{% endblock main %}
