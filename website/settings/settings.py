@@ -298,6 +298,9 @@ EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
 MAILGUN_ACCESS_KEY = os.getenv('MAILGUN_ACCESS_KEY')
 MAILGUN_SERVER_NAME = os.getenv('MAILGUN_SERVER_NAME')
 
+# Thumbnails
+THUMBNAIL_CACHE_TIMEOUT = 3600 * 24 * 120
+
 ##################
 # LOCAL SETTINGS #
 ##################
