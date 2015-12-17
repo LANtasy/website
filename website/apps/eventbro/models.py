@@ -53,9 +53,7 @@ class Event(models.Model):
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
 
-    @property
     def available_spots(self):
-        print 'hi i did stuff'
         registered = Registration.objects.filter(event=self).count()
         available = self.size - registered
         return available

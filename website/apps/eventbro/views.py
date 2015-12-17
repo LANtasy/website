@@ -142,7 +142,7 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
 
     def display_page(self):
         context = self.reset_context()
-        context['event_formset'] = self.get_event_formset()
+        context['events'] = self.get_event_queryset()
         context['event_categories'] = self.get_event_categories()
         return self.render_to_response(context)
 
