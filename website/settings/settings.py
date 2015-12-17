@@ -217,6 +217,9 @@ INSTALLED_APPS = (
     'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
+
+    # --Utils--
+    'django_cleanup',
 )
 
 # List of processors used by RequestContext to populate the context.
