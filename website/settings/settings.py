@@ -220,6 +220,7 @@ INSTALLED_APPS = (
 
     # --Utils--
     'django_cleanup',
+    'sorl.thumbnail',
 )
 
 # List of processors used by RequestContext to populate the context.

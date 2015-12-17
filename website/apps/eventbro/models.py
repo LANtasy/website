@@ -5,6 +5,7 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models
 from website.apps.salesbro.models import Ticket, TicketOption
+from sorl.thumbnail import ImageField
 
 
 class Convention(models.Model):
@@ -50,28 +51,23 @@ class Event(models.Model):
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
-    thumbnail = models.ImageField(upload_to=rename_thumb, blank=True, null=True)
+    image = ImageField(upload_to=rename_thumb, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         super(Event, self).save()
 
         # Thumbnail all images
-        if self.thumbnail:
+        if self.image:
             # presets
             max_width = 200
             max_height = 100
             max_size = (max_width, max_height)
 
-            image = Image.open(self.thumbnail.path)
+            image = Image.open(self.image.path)
             width, height = image.size
             if height > max_height:
                 image.thumbnail(size=max_size, resample=Image.ANTIALIAS)
-                image.save(self.thumbnail.path)
-
-    def thumb_tag(self):
-        return u'<img src="%s" />' % self.thumbnail.url
-    thumb_tag.short_description = 'Image'
-    thumb_tag.allow_tags = True
+                image.save(self.image.path)
 
 
 class Registration(models.Model):

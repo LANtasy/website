@@ -2,6 +2,9 @@ from django.contrib import admin
 
 from website.apps.eventbro.models import Convention, Event
 
+from sorl.thumbnail.admin import AdminImageMixin
+
+
 
 class ConventionAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -21,11 +24,12 @@ class ConventionAdmin(admin.ModelAdmin):
     #list_filter = ("order", "ticket")
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
                ('name', 'convention', 'published',),
+               ('start', 'end',),
                ('description',),
             ),
         }),
@@ -38,20 +42,13 @@ class EventAdmin(admin.ModelAdmin):
         }),
         ('Image', {
             'fields': (
-                ('thumbnail',),
-                ('thumb_tag',),
-            ),
-        }),
-        ('Timing', {
-            'fields': (
-                ('start', 'end',),
+                ('image',),
             ),
         }),
     )
     list_display = ['name', 'convention', 'size']
 
     list_filter = ('name', 'convention',)
-    readonly_fields = ('thumb_tag',)
 
 admin.site.register(Convention, ConventionAdmin)
 admin.site.register(Event, EventAdmin)
