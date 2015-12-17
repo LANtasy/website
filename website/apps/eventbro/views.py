@@ -138,9 +138,17 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
 class RegisterEventView(LoginRequiredMixin, TemplateView):
     template_name = 'eventbro/registration/register_event.html'
 
+    # TODO: If time conflict display warning
     # TODO: Allow user to remove badge associated with their account
     # TODO: Allow user to unregister from an event
     # TODO: Allow user to generate their event calendar
+
+    # - Sort into the 4 different categories
+    # - Maybe add filter for categories
+    # - Show event, and time run
+    # - Lookup user's registrations, render unregister button
+    #       (registered - boolean? or just delete object?)
+    # - If event is full, render waitlist button
 
     # - Lookup conventions that are published
     #   - Lookup events that are published associated with those conventions

@@ -1,3 +1,7 @@
+import uuid
+
+import os
+from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models
 from website.apps.salesbro.models import Ticket, TicketOption
@@ -12,6 +16,12 @@ class Convention(models.Model):
 
     def __unicode__(self):
         return '{name}'.format(name=self.name)
+
+
+def rename_thumb(instance, filename):
+        extension = filename.split('.')[-1]
+        filename = '%s.%s' % (uuid.uuid4(), extension)
+        return os.path.join('eventbro/thumbs', filename)
 
 
 class Event(models.Model):
@@ -40,6 +50,28 @@ class Event(models.Model):
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
+    thumbnail = models.ImageField(upload_to=rename_thumb, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super(Event, self).save()
+
+        # Thumbnail all images
+        if self.thumbnail:
+            # presets
+            max_width = 200
+            max_height = 100
+            max_size = (max_width, max_height)
+
+            image = Image.open(self.thumbnail.path)
+            width, height = image.size
+            if height > max_height:
+                image.thumbnail(size=max_size, resample=Image.ANTIALIAS)
+                image.save(self.thumbnail.path)
+
+    def thumb_tag(self):
+        return u'<img src="%s" />' % self.thumbnail.url
+    thumb_tag.short_description = 'Image'
+    thumb_tag.allow_tags = True
 
 
 class Registration(models.Model):
@@ -47,4 +79,6 @@ class Registration(models.Model):
     event = models.ForeignKey(Event, related_name='registration_event')
     date_added = models.DateTimeField(auto_now_add=True)
     group_name = models.CharField(max_length=255, blank=True, null=True)
+    group_captain = models.BooleanField(default=False)
     game_id = models.CharField(max_length=255, blank=True, null=True)
+

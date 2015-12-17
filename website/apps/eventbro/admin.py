@@ -36,6 +36,12 @@ class EventAdmin(admin.ModelAdmin):
                 ('require_game_id', 'game_id_name',),
             ),
         }),
+        ('Image', {
+            'fields': (
+                ('thumbnail',),
+                ('thumb_tag',),
+            ),
+        }),
         ('Timing', {
             'fields': (
                 ('start', 'end',),
@@ -45,6 +51,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ['name', 'convention', 'size']
 
     list_filter = ('name', 'convention',)
+    readonly_fields = ('thumb_tag',)
 
 admin.site.register(Convention, ConventionAdmin)
 admin.site.register(Event, EventAdmin)
