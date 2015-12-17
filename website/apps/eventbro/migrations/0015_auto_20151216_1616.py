@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='thumbnail',
-            field=models.ImageField(null=True, upload_to=website.apps.eventbro.models.rename_thumb, blank=True),
+            field=models.ImageField(null=True, upload_to=website.apps.eventbro.models.rename_image, blank=True),
         ),
     ]
