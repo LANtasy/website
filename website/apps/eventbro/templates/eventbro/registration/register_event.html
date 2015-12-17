@@ -31,6 +31,7 @@ Event Registration
 {% block main %}
 <form method="POST" action="." class="register-event-form" novalidate autocomplete="off">
     {% csrf_token %}
+    {{ event_formset.management_form }}
     <div class="row">
         <div class="col-md-12">
             <div class="dropdown">
@@ -39,13 +40,15 @@ Event Registration
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Boop</a></li>
-                    <li><a href="#">Boop2</a></li>
-                    <li><a href="#">Boop3</a></li>
+                    {% for category in event_categories %}
+                        <li><a href="#">{{ category.1 }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
+
+
 
     <div class="spacer-10"></div>
 
