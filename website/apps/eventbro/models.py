@@ -53,21 +53,6 @@ class Event(models.Model):
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_thumb, blank=True, null=True)
 
-    def save(self, *args, **kwargs):
-        super(Event, self).save()
-
-        # Thumbnail all images
-        if self.image:
-            # presets
-            max_width = 200
-            max_height = 100
-            max_size = (max_width, max_height)
-
-            image = Image.open(self.image.path)
-            width, height = image.size
-            if height > max_height:
-                image.thumbnail(size=max_size, resample=Image.ANTIALIAS)
-                image.save(self.image.path)
 
     # annotate count
 
