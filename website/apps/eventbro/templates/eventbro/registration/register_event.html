@@ -67,11 +67,11 @@ Event Registration
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="panel panel-default">
-                                        {% thumbnail event.image "200x100" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                    {% if event.image %}
+                                        {% thumbnail event.image "200x115" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="center-block">
                                         {% endthumbnail %}
-                                    </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">

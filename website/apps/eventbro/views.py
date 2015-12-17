@@ -7,7 +7,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventFormSet
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm
 from website.apps.eventbro.models import Event
 
 
@@ -159,22 +159,6 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         queryset = Event.objects.filter(published=True)
         queryset = queryset.order_by('name')
         return queryset
-
-    def get_event_formset_kwargs(self):
-        queryset = self.get_event_queryset()
-
-        kwargs = {
-            'queryset': queryset,
-            'data': self.request.POST or None,
-            'prefix': 'event',
-        }
-
-        return kwargs
-
-    def get_event_formset(self):
-        kwargs = self.get_event_formset_kwargs()
-        formset = EventFormSet(**kwargs)
-        return formset
 
     def get_event_categories(self):
         return Event.EVENT_TYPE_CHOICES

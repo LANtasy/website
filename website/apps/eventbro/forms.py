@@ -24,15 +24,3 @@ class UpdateBadgeForm(forms.Form):
         fields = (
             'uid',
         )
-
-
-class EventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = (
-            'image', 'name',
-            'start', 'end',
-            'description',
-        )
-
-EventFormSet = modelformset_factory(Event, form=EventForm, extra=0, can_delete=False, can_order=True,)
