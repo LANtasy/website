@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles mezzanine_tags %}
+{% load staticfiles mezzanine_tags thumbnail %}
 
 {% block meta_title %}{{ ticket.meta_title }}{% endblock %}
 {% block body_id %}category{% endblock %}
@@ -59,7 +59,7 @@ Event Registration
                     <h3><strong>Boop</strong></h3>
                 </div>
             </div>
-
+            {% for event in event_formset %}
             <!--Loop through all events for this category-->
             <div class="row">
                 <div class="container-fluid">
@@ -68,12 +68,14 @@ Event Registration
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="panel panel-default">
-                                        thumb
+                                        {% thumbnail event.image "200x100" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
                                     </div>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">
-                                        <div class="col-md-8 col-sm-8"><h3>Dean is wonderful</h3></div>
+                                        <div class="col-md-8 col-sm-8"><h3>{{ event.name.value }}</h3></div>
                                         <div class="col-md-4 col-sm-4">
                                             <div class="btn-group-md">
                                                 {% if registered %}
@@ -83,6 +85,7 @@ Event Registration
                                                 {% else %}
                                                     <input type="submit" name="event-id" class="btn btn-primary" value="Register">
                                                 {% endif %}
+                                            <div class="spacer-10"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -91,34 +94,35 @@ Event Registration
                                         <div class="col-md-4 col-sm-4 hidden-xs"><strong>End Time</strong></div>
                                         <div class="col-md-4 col-sm-4 hidden-xs"><strong>Available</strong></div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>Start Time:</strong> 9:30am 12/03/2015
+                                            <strong>Start Time:</strong> {{ event.start.value }}
                                         </div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>End Time:</strong> 6:00pm 13/03/2015
+                                            <strong>End Time:</strong> {{ event.end.value }}
                                         </div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>Available:</strong> 23
+                                            <strong>Available:</strong> {{ event.available_spots }}
                                         </div>
+
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-4 hidden-xs">9:30am 12/03/2015</div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs">6:00pm 13/03/2015</div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs">23</div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.start.value }}</div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.end.value }}</div>
+                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="spacer-10"></div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    Lorem ipsum dolor sit amet, sea et alia definiebas, quo at placerat incorrupte intellegebat.
-                                    Ullum utroque mei eu. His ei dolorum indoctum tractatos, ad tamquam recusabo sed, case vidit
-                                    maiorum ad est. Est ea simul impedit, choro contentiones usu ne. Eum eu suscipit democritum
-                                    neglegentur, has ei case timeam.
+                                <div class="col-md-12 hidden-xs">
+                                    {{ event.description.value|linebreaks }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            <!--End loop-->
         </div>
     </div>
 

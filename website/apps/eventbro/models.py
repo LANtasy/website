@@ -19,10 +19,10 @@ class Convention(models.Model):
         return '{name}'.format(name=self.name)
 
 
-def rename_thumb(instance, filename):
-        extension = filename.split('.')[-1]
-        filename = '%s.%s' % (uuid.uuid4(), extension)
-        return os.path.join('eventbro/thumbs', filename)
+def rename_image(instance, filename):
+    extension = filename.split('.')[-1]
+    filename = '%s.%s' % (uuid.uuid4(), extension)
+    return os.path.join('eventbro/images', filename)
 
 
 class Event(models.Model):
@@ -51,9 +51,14 @@ class Event(models.Model):
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
-    image = ImageField(upload_to=rename_thumb, blank=True, null=True)
+    image = ImageField(upload_to=rename_image, blank=True, null=True)
 
-
+    @property
+    def available_spots(self):
+        print 'hi i did stuff'
+        registered = Registration.objects.filter(event=self).count()
+        available = self.size - registered
+        return available
     # annotate count
 
 
