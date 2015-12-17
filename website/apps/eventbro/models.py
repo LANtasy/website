@@ -69,6 +69,8 @@ class Event(models.Model):
                 image.thumbnail(size=max_size, resample=Image.ANTIALIAS)
                 image.save(self.image.path)
 
+    # annotate count
+
 
 class Registration(models.Model):
     user = models.ForeignKey(User, related_name='registration_user')

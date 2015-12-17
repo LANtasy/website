@@ -7,7 +7,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventFormSet
+from website.apps.eventbro.models import Event
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
@@ -27,16 +28,16 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
     template_name = 'eventbro/registration/register_badge.html'
 
     def get(self, request, *args, **kwargs):
-        already_registered = self.check_badges_for_user()
-        if already_registered:
-            return HttpResponseRedirect(already_registered)
+        url = self.check_badges_for_user()
+        if url:
+            return HttpResponseRedirect(url)
         else:
             return self.display_page()
 
     def post(self, request, *args, **kwargs):
-        already_registered = self.check_badges_for_user()
-        if already_registered:
-            return HttpResponseRedirect(already_registered)
+        url = self.check_badges_for_user()
+        if url:
+            return HttpResponseRedirect(url)
         else:
             return self.save_forms()
 
@@ -128,15 +129,67 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
         context = {}
         return context
 
-    # - On click next
-    #   - Look to see if Firstname/Lastname matches the logged in user, if not modify that record
-    #   - Lookup badge
-    #       - If invalid return to page with error
-    #       - If valid save user to badge record, forward to EventReg
-
 
 class RegisterEventView(LoginRequiredMixin, TemplateView):
     template_name = 'eventbro/registration/register_event.html'
+
+    def get(self, request, *args, **kwargs):
+        url = self.check_badges_for_user()
+        if url:
+            return HttpResponseRedirect(url)
+        else:
+            return self.display_page()
+
+    def display_page(self):
+        context = self.reset_context()
+        context['event_formset'] = self.get_event_formset()
+        context['event_categories'] = self.get_event_categories()
+        return self.render_to_response(context)
+
+    def check_badges_for_user(self):
+        user = self.request.user
+        try:
+            Badge.objects.get(user=user)
+            url = None
+        except Badge.DoesNotExist:
+            url = reverse_lazy('eventbro:register_badge')
+        return url
+
+    def get_event_queryset(self):
+        queryset = Event.objects.filter(published=True)
+        queryset = queryset.order_by('name')
+        return queryset
+
+    def get_event_formset_kwargs(self):
+        queryset = self.get_event_queryset()
+
+        kwargs = {
+            'queryset': queryset,
+            'data': self.request.POST or None,
+            'prefix': 'event',
+        }
+
+        return kwargs
+
+    def get_event_formset(self):
+        kwargs = self.get_event_formset_kwargs()
+        formset = EventFormSet(**kwargs)
+        return formset
+
+    def get_event_categories(self):
+        return Event.EVENT_TYPE_CHOICES
+
+    @staticmethod
+    def reset_context():
+        context = {}
+        return context
+
+    # return in context the registered events
+    # return in context all of the events (with some standard filters)
+    # write function on event - that checks if space available
+    # on template is the event open and is the event in the list of already registered
+
+    # post to eventID, check for room, then register
 
     # TODO: If time conflict display warning
     # TODO: Allow user to remove badge associated with their account

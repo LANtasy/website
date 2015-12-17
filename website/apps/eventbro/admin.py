@@ -28,14 +28,17 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-               ('name', 'convention', 'published',),
+               ('name',),
+               ('convention', 'event_type',),
+               ('published',),
                ('start', 'end',),
                ('description',),
             ),
         }),
         ('Details', {
             'fields': (
-                ('size', 'event_type', 'valid_options',),
+                ('size',),
+                ('valid_options',),
                 ('group_event',),
                 ('require_game_id', 'game_id_name',),
             ),
