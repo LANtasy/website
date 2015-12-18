@@ -144,11 +144,10 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         button = self.get_button_pressed(request)
         action, event_id = button.split('-')
 
-        if action is 'register':
+        if action == 'register':
             return self.register_for_event(event_id)
-        elif action is 'unregister':
-            pass
-
+        elif action == 'unregister':
+            return self.unregister_for_event(event_id)
 
     def display_page(self):
         context = self.reset_context()
@@ -158,8 +157,18 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
 
         return self.render_to_response(context)
 
+    def unregister_for_event(self, event_id):
+        reg = Registration.objects.get(user=self.request.user, event_id=event_id)
+        reg.delete()
+        return self.display_page()
+
     def register_for_event(self, event_id):
-        pass
+        reg = Registration(
+            user=self.request.user,
+            event=Event.objects.get(id=event_id),
+        )
+        reg.save()
+        return self.display_page()
 
     def get_button_pressed(self, request):
         key = next(key for (key, value) in request.POST.iteritems() if ('register-' in key or 'unregister' in key))
