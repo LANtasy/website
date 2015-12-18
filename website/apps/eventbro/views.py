@@ -140,13 +140,36 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         else:
             return self.display_page()
 
+    def post(self, request, *args, **kwargs):
+        button = self.get_button_pressed(request)
+        action, event_id = button.split('-')
+
+        if action == 'register':
+            return self.register_for_event(event_id)
+        elif action == 'unregister':
+            return self.unregister_for_event(event_id)
+
     def display_page(self):
         context = self.reset_context()
         context['event_categories'] = self.get_event_categories()
-        context['published_events'] = self.get_published_events()
-        context['registrations'] = self.get_registerations()
+        context['published_events'] = self.get_events()
+        context['registered_events'] = self.get_registered_events()
 
         return self.render_to_response(context)
+
+    def unregister_for_event(self, event_id):
+        reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
+        reg.delete()
+        return self.display_page()
+
+    def register_for_event(self, event_id):
+        reg = Registration(user=self.request.user, event_id=event_id,)
+        reg.save()
+        return self.display_page()
+
+    def get_button_pressed(self, request):
+        key = next(key for (key, value) in request.POST.iteritems() if ('register-' in key or 'unregister' in key))
+        return key
 
     def check_badges_for_user(self):
         user = self.request.user
@@ -157,20 +180,34 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             url = reverse_lazy('eventbro:register_badge')
         return url
 
-    def get_published_events(self):
-        badge = Badge.objects.get(user=self.request.user)
-        events = Event.objects.filter(published=True)
-        events = events.filter(valid_options=badge.ticket)
+    def get_events(self):
+        events = Event.objects.filter(valid_options__badges__user=self.request.user, published=True)
         events = events.order_by('name')
         return events
 
+    def get_empty_categories(self, categories):
+        empty = ''
+        events = self.get_events()
+
+        for category in categories:
+            events = events.filter(event_type=category[0])
+            if events is None:
+                empty += events
+        return empty
+
+    # Only returns categories based on get_events()
     def get_event_categories(self):
-        categories = Event.EVENT_TYPE_CHOICES
+        categories = ()
+        events = self.get_events()
+        for category in Event.EVENT_TYPE_CHOICES:
+            value = events.filter(event_type=category[0])
+            if value:
+                categories = categories + (category,)
         return categories
 
-    def get_registerations(self):
+    def get_registered_events(self):
         try:
-            events = Registration.objects.get(user=self.request.user).all()
+            events = Event.objects.filter(registration_event__user=self.request.user)
         except Registration.DoesNotExist:
             events = None
         return events
@@ -180,31 +217,14 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         context = {}
         return context
 
-    # return in context the registered events
-    # return in context all of the events (with some standard filters)
-    # write function on event - that checks if space available
-    # on template is the event open and is the event in the list of already registered
-
-    # post to eventID, check for room, then register
-
     # TODO: If time conflict display warning
     # TODO: Allow user to remove badge associated with their account
     # TODO: Allow user to unregister from an event
     # TODO: Allow user to generate their event calendar
+    # TODO: Limit based on published Conventions
 
-    # - Sort into the 4 different categories
     # - Maybe add filter for categories
-    # - Show event, and time run
-    # - Lookup user's registrations, render unregister button
-    #       (registered - boolean? or just delete object?)
-    # - If event is full, render waitlist button
 
-    # - Lookup conventions that are published
-    #   - Lookup events that are published associated with those conventions
-    #       -Lookup if event is available for the associated badge
-    #            -List all of the events that meet these criteria
-    #                -If regular event, display register button, if full display waitlist button
-    #                -if special event, display same as regular event, display additional required fields
 
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()

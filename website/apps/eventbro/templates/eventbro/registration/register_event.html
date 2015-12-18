@@ -67,7 +67,6 @@ Event Registration
                 <div class="container-fluid">
                     <div class="panel panel-default">
                         <div class="panel-body">
-
                             <div class="row">
                                 <div class="col-md-3">
                                     {% if event.image %}
@@ -80,12 +79,12 @@ Event Registration
                                     <div class="row">
                                         <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
                                         <div class="col-md-2 col-sm-4">
-                                        {% if registered %}
-                                            <input type="submit" name="event-id" class="btn btn-primary" value="Unregister" style="padding:6px 4px;">
+                                        {% if event in registered_events %}
+                                            <input type="submit" name="unregister-{{ event.id }}" class="btn btn-primary" value="Unregister">
                                         {% elif event.is_full %}
-                                            <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist" style="padding:6px 4px;">
+                                            <input type="submit" name="register-{{ event.id }}" class="btn btn-primary" value="Waitlist">
                                         {% else %}
-                                            <input type="submit" name="event-id" class="btn btn-primary" value="Register" style="padding:6px 4px;">
+                                            <input type="submit" name="register-{{ event.id }}" class="btn btn-primary" value="Register">
                                         {% endif %}
                                             <div class="spacer-10"></div>
                                         </div>
@@ -103,7 +102,6 @@ Event Registration
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
                                             <strong>Available:</strong> {{ event.available_spots }}
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-5 col-sm-4 hidden-xs">{{ event.start }}</div>
@@ -113,9 +111,8 @@ Event Registration
                                 </div>
                             </div>
 
-
-                        {% if event.group_event or event.require_game_id %}
-                            <div class="spacer-10"></div>
+                            {% if event.group_event or event.require_game_id %}
+                                <div class="spacer-10"></div>
 
                             {% if event.group_event %}
                             <div class="row">

@@ -52,6 +52,12 @@ class Event(models.Model):
                                     verbose_name='Unique identifier')
     event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
+    # prizes TextField
+    # rules TextField
+    # sponsor ForeignKey
+
+    def __unicode__(self):
+        return '{name}'.format(name=self.name)
 
     def available_spots(self):
         registered = Registration.objects.filter(event=self).count()
@@ -64,8 +70,6 @@ class Event(models.Model):
             return True
         else:
             return False
-
-    # annotate count
 
 
 class Registration(models.Model):
