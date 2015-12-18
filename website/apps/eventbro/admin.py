@@ -49,9 +49,9 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
             ),
         }),
     )
-    list_display = ['name', 'convention', 'size']
+    list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
 
-    list_filter = ('name', 'convention',)
+    list_filter = ('name', 'event_type', 'convention',)
 
 admin.site.register(Convention, ConventionAdmin)
 admin.site.register(Event, EventAdmin)
