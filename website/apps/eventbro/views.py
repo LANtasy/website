@@ -140,14 +140,30 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         else:
             return self.display_page()
 
+    def post(self, request, *args, **kwargs):
+        button = self.get_button_pressed(request)
+        action, event_id = button.split('-')
+
+        if action is 'register':
+            return self.register_for_event(event_id)
+        elif action is 'unregister':
+            pass
+
+
     def display_page(self):
         context = self.reset_context()
         context['event_categories'] = self.get_event_categories()
-        # context['event_categories_empty'] = self.get_empty_categories(categories)
         context['published_events'] = self.get_events()
         context['registered_events'] = self.get_registered_events()
 
         return self.render_to_response(context)
+
+    def register_for_event(self, event_id):
+        pass
+
+    def get_button_pressed(self, request):
+        key = next(key for (key, value) in request.POST.iteritems() if ('register-' in key or 'unregister' in key))
+        return key
 
     def check_badges_for_user(self):
         user = self.request.user
