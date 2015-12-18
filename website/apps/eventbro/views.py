@@ -158,15 +158,12 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def unregister_for_event(self, event_id):
-        reg = Registration.objects.get(user=self.request.user, event_id=event_id)
+        reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
         reg.delete()
         return self.display_page()
 
     def register_for_event(self, event_id):
-        reg = Registration(
-            user=self.request.user,
-            event=Event.objects.get(id=event_id),
-        )
+        reg = Registration(user=self.request.user, event_id=event_id,)
         reg.save()
         return self.display_page()
 
