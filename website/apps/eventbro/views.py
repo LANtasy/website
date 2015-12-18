@@ -143,8 +143,9 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
     def display_page(self):
         context = self.reset_context()
         context['event_categories'] = self.get_event_categories()
-        context['published_events'] = self.get_published_events()
-        context['registrations'] = self.get_registerations()
+        # context['event_categories_empty'] = self.get_empty_categories(categories)
+        context['published_events'] = self.get_events()
+        context['registered_events'] = self.get_registered_events()
 
         return self.render_to_response(context)
 
@@ -157,20 +158,37 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             url = reverse_lazy('eventbro:register_badge')
         return url
 
-    def get_published_events(self):
+    def get_events(self):
         badge = Badge.objects.get(user=self.request.user)
         events = Event.objects.filter(published=True)
         events = events.filter(valid_options=badge.ticket)
         events = events.order_by('name')
         return events
 
+    def get_empty_categories(self, categories):
+        empty = ''
+        events = self.get_events()
+
+        for category in categories:
+
+            events = Event.objects.filter(event_type=category[0])
+            if events is None:
+                empty += events
+        return empty
+
+    # Only returns categories based on get_events()
     def get_event_categories(self):
-        categories = Event.EVENT_TYPE_CHOICES
+        categories = ()
+        events = self.get_events()
+        for category in Event.EVENT_TYPE_CHOICES:
+            value = events.filter(event_type=category[0])
+            if value:
+                categories = categories + (category,)
         return categories
 
-    def get_registerations(self):
+    def get_registered_events(self):
         try:
-            events = Registration.objects.get(user=self.request.user).all()
+            events = Event.objects.filter(registration_event__user=self.request.user)
         except Registration.DoesNotExist:
             events = None
         return events
