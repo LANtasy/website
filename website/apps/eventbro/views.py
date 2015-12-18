@@ -220,31 +220,14 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         context = {}
         return context
 
-    # return in context the registered events
-    # return in context all of the events (with some standard filters)
-    # write function on event - that checks if space available
-    # on template is the event open and is the event in the list of already registered
-
-    # post to eventID, check for room, then register
-
     # TODO: If time conflict display warning
     # TODO: Allow user to remove badge associated with their account
     # TODO: Allow user to unregister from an event
     # TODO: Allow user to generate their event calendar
+    # TODO: Limit based on published Conventions
 
-    # - Sort into the 4 different categories
     # - Maybe add filter for categories
-    # - Show event, and time run
-    # - Lookup user's registrations, render unregister button
-    #       (registered - boolean? or just delete object?)
-    # - If event is full, render waitlist button
 
-    # - Lookup conventions that are published
-    #   - Lookup events that are published associated with those conventions
-    #       -Lookup if event is available for the associated badge
-    #            -List all of the events that meet these criteria
-    #                -If regular event, display register button, if full display waitlist button
-    #                -if special event, display same as regular event, display additional required fields
 
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()
