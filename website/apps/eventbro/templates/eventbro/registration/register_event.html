@@ -82,11 +82,11 @@ Event Registration
                                             <div class="btn-group-md">
 
                                                 {% if event in registered_events %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Unregister">
+                                                    <input type="submit" name="unregister-{{ event.id }}" class="btn btn-primary" value="Unregister">
                                                 {% elif event.is_full %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist">
+                                                    <input type="submit" name="register-{{ event.id }}" class="btn btn-primary" value="Waitlist">
                                                 {% else %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Register">
+                                                    <input type="submit" name="register-{{ event.id }}" class="btn btn-primary" value="Register">
                                                 {% endif %}
                                             <div class="spacer-10"></div>
                                             </div>
