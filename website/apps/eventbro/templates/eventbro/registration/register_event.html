@@ -67,34 +67,33 @@ Event Registration
                 <div class="container-fluid">
                     <div class="panel panel-default">
                         <div class="panel-body">
+
                             <div class="row">
                                 <div class="col-md-3">
                                     {% if event.image %}
                                         {% thumbnail event.image "200x115" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="center-block">
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                         {% endthumbnail %}
                                     {% endif %}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">
-                                        <div class="col-md-8 col-sm-8"><h3>{{ event.name }}</h3></div>
-                                        <div class="col-md-4 col-sm-4">
-                                            <div class="btn-group-md">
-                                                {% if registered %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Unregister">
-                                                {% elif event.is_full %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist">
-                                                {% else %}
-                                                    <input type="submit" name="event-id" class="btn btn-primary" value="Register">
-                                                {% endif %}
+                                        <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
+                                        <div class="col-md-2 col-sm-4">
+                                        {% if registered %}
+                                            <input type="submit" name="event-id" class="btn btn-primary" value="Unregister" style="padding:6px 4px;">
+                                        {% elif event.is_full %}
+                                            <input type="submit" name="event-id" class="btn btn-primary" value="Waitlist" style="padding:6px 4px;">
+                                        {% else %}
+                                            <input type="submit" name="event-id" class="btn btn-primary" value="Register" style="padding:6px 4px;">
+                                        {% endif %}
                                             <div class="spacer-10"></div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>End Time</strong></div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs"><strong>Available</strong></div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
+                                        <div class="col-md-2 col-sm-4 hidden-xs"><strong>Available</strong></div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
                                             <strong>Start Time:</strong> {{ event.start }}
                                         </div>
@@ -107,31 +106,33 @@ Event Registration
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.start }}</div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.end }}</div>
-                                        <div class="col-md-4 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.start }}</div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.end }}</div>
+                                        <div class="col-md-2 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
                                     </div>
                                 </div>
                             </div>
 
-                            {% if event.group_event or event.require_game_id %}
-                                <div class="spacer-10"></div>
 
-                                {% if event.group_event %}
-                                <div class="row">
-                                    <div class="col-md-12 hidden-xs">
-                                        group
-                                    </div>
+                        {% if event.group_event or event.require_game_id %}
+                            <div class="spacer-10"></div>
+
+                            {% if event.group_event %}
+                            <div class="row">
+                                <div class="col-md-12 hidden-xs">
+                                    group
                                 </div>
-                                {% endif %}
-                                {% if event.require_game_id %}
-                                <div class="row">
-                                    <div class="col-md-12 hidden-xs">
-                                        game id
-                                    </div>
-                                </div>
-                                {% endif %}
+                            </div>
                             {% endif %}
+                            {% if event.require_game_id %}
+                            <div class="row">
+                                <div class="col-md-12 hidden-xs">
+                                    game id
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+
                         </div>
                     </div>
                 </div>
