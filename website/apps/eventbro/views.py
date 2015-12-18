@@ -159,9 +159,7 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         return url
 
     def get_events(self):
-        badge = Badge.objects.get(user=self.request.user)
-        events = Event.objects.filter(published=True)
-        events = events.filter(valid_options=badge.ticket)
+        events = Event.objects.filter(valid_options__badges__user=self.request.user, published=True)
         events = events.order_by('name')
         return events
 
