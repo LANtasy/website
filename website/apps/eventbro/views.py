@@ -168,8 +168,7 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         events = self.get_events()
 
         for category in categories:
-
-            events = Event.objects.filter(event_type=category[0])
+            events = events.filter(event_type=category[0])
             if events is None:
                 empty += events
         return empty
