@@ -1,5 +1,5 @@
 from braces.views import LoginRequiredMixin
-from django.contrib.messages import error
+from django.contrib.messages import error, warning
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -165,10 +165,15 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         return self.display_page()
 
     def register_for_event(self, event_id):
-        # Check to see if registration is waitlisted, display warning
-        # Check for existing registration, don't allow another!
-        reg = Registration(user=self.request.user, event_id=event_id,)
-        reg.save()
+        event = Event.objects.get(id=event_id)
+        if event.is_full():
+            warning(self.request, 'Event was full when registered, you have been waitlisted')
+        try:
+            Registration.objects.get(user=self.request.user, event_id=event_id,)
+            # Do nothing since registration has already occured
+        except Registration.DoesNotExist:
+            reg = Registration(user=self.request.user, event_id=event_id,)
+            reg.save()
         return self.display_page()
 
     def check_badges_for_user(self):
