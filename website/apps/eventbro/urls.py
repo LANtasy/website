@@ -11,4 +11,5 @@ urlpatterns = patterns('website.apps.eventbro.views',
     url(r'^register/$', 'register_redirect', name='register_redirect'),
     url(r'^register/badge/$', 'register_badge', name='register_badge'),
     url(r'^register/event/$', 'register_event', name='register_event'),
+    url(r'^register/event/(?P<id>\d+)/$', 'register_event', name='register_event')
 )
