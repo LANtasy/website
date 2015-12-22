@@ -141,13 +141,13 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             return self.display_page()
 
     def post(self, request, *args, **kwargs):
-        button = self.get_button_pressed(request)
-        action, event_id = button.split('-')
-
-        if action == 'register':
-            return self.register_for_event(event_id)
-        elif action == 'unregister':
-            return self.unregister_for_event(event_id)
+        if 'register' in request.POST:
+            return self.register_for_event(request.POST.get('register'))
+        elif 'unregister' in request.POST:
+            return self.unregister_for_event(request.POST.get('unregister'))
+        else:
+            # This should never occur
+            return NotImplementedError
 
     def display_page(self):
         context = self.reset_context()
@@ -170,10 +170,6 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         reg = Registration(user=self.request.user, event_id=event_id,)
         reg.save()
         return self.display_page()
-
-    def get_button_pressed(self, request):
-        key = next(key for (key, value) in request.POST.iteritems() if ('register-' in key or 'unregister' in key))
-        return key
 
     def check_badges_for_user(self):
         user = self.request.user

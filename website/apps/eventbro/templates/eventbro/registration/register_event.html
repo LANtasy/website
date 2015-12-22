@@ -80,11 +80,11 @@ Event Registration
                                         <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
                                         <div class="col-md-2 col-sm-4">
                                         {% if event in registered_events %}
-                                            <input type="submit" name="unregister-{{ event.id }}" class="btn btn-primary align-right" value="Unregister" style="padding:10px 4px">
+                                            <button name="unregister" value="{{ event.id }}" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
                                         {% elif event.is_full %}
-                                            <input type="submit" name="register-{{ event.id }}" class="btn btn-primary align-right" value="Waitlist"  style="padding:10px 4px">
+                                            <button name="register" value="{{ event.id }}" class="btn btn-primary" style="padding:10px 4px">Waitlist</button>
                                         {% else %}
-                                            <input type="submit" name="register-{{ event.id }}" class="btn btn-primary align-right" value="Register"  style="padding:10px 4px">
+                                            <button name="register" value="{{ event.id }}" class="btn btn-primary" style="padding:10px 4px">Register</button>
                                         {% endif %}
                                             <div class="spacer-10"></div>
                                         </div>
