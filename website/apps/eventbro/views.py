@@ -158,10 +158,12 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
     def unregister_for_event(self, event_id):
-        # Add try/except to handle if for some reason reason the user hits an unregister
-        # button after they are already unregistered
-        reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
-        reg.delete()
+        try:
+            reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
+            reg.delete()
+        except Registration.DoesNotExist:
+            # Do nothing, user is already unregistered
+            pass
         return self.display_page()
 
     def register_for_event(self, event_id):
