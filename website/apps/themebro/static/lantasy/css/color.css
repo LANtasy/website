@@ -3,6 +3,11 @@ body {
     background-color: #535454;
     color: #FFFFFF;
 }
+
+.dropdown-menu li {
+    color:#000;
+}
+
 a {
     color: #FFFFFF;
 }
