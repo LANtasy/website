@@ -24,3 +24,16 @@ class UpdateBadgeForm(forms.Form):
         fields = (
             'uid',
         )
+
+
+class EventForm(forms.Form):
+    group_name = forms.CharField(label='Group/Team Name', max_length=255)
+    game_id_name = forms.CharField(max_length=255)
+    group_captain = forms.BooleanField(label='Are you the team captain?')
+
+    class meta:
+        fields = (
+            'group_name',
+            'game_id_name',
+            'group_captain'
+        )

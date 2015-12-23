@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views.generic import TemplateView, RedirectView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm
 from website.apps.eventbro.models import Event, Registration
 
 
@@ -158,6 +158,7 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         context = self.reset_context()
         context['event_categories'] = self.get_event_categories()
         context['published_events'] = self.modified_events()
+        #context['event_form'] = self.get_event_form()
 
         return self.render_to_response(context)
 
@@ -235,6 +236,10 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             except Registration.DoesNotExist:
                 # Do nothing, registration doesn't exist
                 pass
+
+            if event.group_event:
+                event.group_form = self.get_event_form()
+
             modified_events.append(event)
         return modified_events
 
@@ -257,6 +262,17 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             if value:
                 categories = categories + (category,)
         return categories
+
+    def get_event_form_kwargs(self):
+        kwargs = {
+            'data': self.request.POST or None
+        }
+        return kwargs
+
+    def get_event_form(self):
+        kwargs = self.get_event_form_kwargs()
+        form = EventForm(**kwargs)
+        return form
 
     @staticmethod
     def reset_context():

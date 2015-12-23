@@ -120,13 +120,18 @@ Event Registration
                                 {% if event.group_event %}
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <strong>Group/Team Name</strong>
+                                        {{ event.group_form.group_name.label_tag }}{{ event.group_form.group_name }}
+
+                                        <!--<strong>Group/Team Name</strong>
                                         <input id="group" maxlength="255" name="group" type="text"
                                         {% if event.group_name %}value="{{ event.group_name }}"{% endif %}>
                                         <label><input id="captain" name="captain" type="checkbox"
                                         {% if event.group_captain %}checked{% endif %}>
                                         Are you the team captain</label>
-
+                                        -->
+                                    </div>
+                                    <div class="form-group">
+                                        {{ event_form.group_captain }} {{ event_form.group_captain.label_tag }}
                                     </div>
                                 </div>
                                 {% endif %}
@@ -134,9 +139,12 @@ Event Registration
                                 {% if event.require_game_id %}
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <strong>{{ event.game_id_name }}</strong>
+                                        <label for="id_game_id_name">{{ event.game_id_name }}:</label>
+                                        {{ event_form.game_id_name }}
+                                        <!--<strong>{{ event.game_id_name }}</strong>
                                         <input id="game_id" maxlength="255" name="game_id" type="text"
                                         {% if event.game_id %}value="{{ event.game_id }}"{% endif %}>
+                                        -->
                                     </div>
                                 </div>
                                 {% endif %}
@@ -145,11 +153,9 @@ Event Registration
                             {% if event.registration %}
                             <div class="row">
                                 <div class="col-md-12">
-
-                                        <div class="form-group">
-                                    <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
-                                        </div>
-
+                                    <div class="form-group">
+                                        <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
+                                    </div>
                                 </div>
                             </div>
                             {% endif %}
