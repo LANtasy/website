@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from mezzanine.core.views import direct_to_template
 
@@ -36,3 +38,6 @@ urlpatterns = patterns('',
 # pages can use JS, CSS and images.
 handler404 = "mezzanine.core.views.page_not_found"
 handler500 = "mezzanine.core.views.server_error"
+
+if settings.DEBUG and not urlpatterns:
+    urlpatterns += staticfiles_urlpatterns()
