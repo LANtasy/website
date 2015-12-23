@@ -37,10 +37,12 @@ Event Registration
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                {% for category in event_categories %}
-                    <li><a href="#">{{ category.1 }}</a></li>
-                {% endfor %}
+                <li id="ALL">Display All</li>
+            {% for category in event_categories %}
+                <li id="{{ category.0 }}">{{ category.1 }}</li>
+            {% endfor %}
             </ul>
+
         </div>
     </div>
 </div>
@@ -48,120 +50,149 @@ Event Registration
 
 {# Loop through all categories #}
 {% for category in event_categories %}
-<div class="spacer-10"></div>
+<div class="reg-category" id="{{ category.0 }}">
+    <div class="spacer-10"></div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-12">
-                <h3><strong>{{ category.1 }}</strong></h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><strong>{{ category.1 }}</strong></h3>
+                </div>
             </div>
-        </div>
-        {# Loop through all events for this category #}
-        {% for event in published_events %}
-        {% if event.event_type == category.0 %}
-        <form method="POST" action="{% url 'eventbro:register_event' id=event.id %}" class="register-event-form" novalidate autocomplete="off">
-        {% csrf_token %}
-        <div class="row">
-            <div class="container-fluid">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                {% if event.image %}
-                                    {% thumbnail event.image "200x115" as im %}
-                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                    {% endthumbnail %}
-                                {% endif %}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
-                                    <div class="col-md-2 col-sm-4">
-                                    {% if event.registration %}
-                                        <button name="unregister" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
-                                    {% elif event.is_full %}
-                                        <button name="register" class="btn btn-primary" style="padding:10px 4px">Waitlist</button>
-                                    {% else %}
-                                        <button name="register" class="btn btn-primary" style="padding:10px 4px">Register</button>
+            {# Loop through all events for this category #}
+            {% for event in published_events %}
+            {% if event.event_type == category.0 %}
+            <form method="POST" action="{% url 'eventbro:register_event' id=event.id %}" class="register-event-form" novalidate autocomplete="off">
+            {% csrf_token %}
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {% if event.image %}
+                                        {% thumbnail event.image "200x115" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
                                     {% endif %}
-                                        <div class="spacer-10"></div>
-                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-5 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
-                                    <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
-                                    <div class="col-md-2 col-sm-4 hidden-xs"><strong>Available</strong></div>
-                                    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                        <strong>Start Time:</strong> {{ event.start }}
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
+                                        <div class="col-md-2 col-sm-4">
+                                        {% if event.registration %}
+                                            <button name="unregister" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
+                                        {% elif event.is_full %}
+                                            <button name="register" class="btn btn-primary" style="padding:10px 4px">Waitlist</button>
+                                        {% else %}
+                                            <button name="register" class="btn btn-primary" style="padding:10px 4px">Register</button>
+                                        {% endif %}
+                                            <div class="spacer-10"></div>
+                                        </div>
                                     </div>
-                                    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                        <strong>End Time:</strong> {{ event.end }}
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
+                                        <div class="col-md-2 col-sm-4 hidden-xs"><strong>Available</strong></div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>Start Time:</strong> {{ event.start }}
+                                        </div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>End Time:</strong> {{ event.end }}
+                                        </div>
+                                        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                            <strong>Available:</strong> {{ event.available_spots }}
+                                        </div>
                                     </div>
-                                    <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                        <strong>Available:</strong> {{ event.available_spots }}
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.start }}</div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.end }}</div>
+                                        <div class="col-md-2 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5 col-sm-4 hidden-xs">{{ event.start }}</div>
-                                    <div class="col-md-5 col-sm-4 hidden-xs">{{ event.end }}</div>
-                                    <div class="col-md-2 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
                                 </div>
                             </div>
-                        </div>
 
-                        {% if event.group_event or event.require_game_id %}
-                        <div class="spacer-10"></div>
+                            {% if event.group_event or event.require_game_id %}
+                            <div class="spacer-10"></div>
 
-                        <div class="row">
-                            {% if event.group_event %}
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <strong>Group/Team Name</strong>
-                                    <input id="group" maxlength="255" name="group" type="text"
-                                    {% if event.group_name %}value="{{ event.group_name }}"{% endif %}>
-                                    <label><input id="captain" name="captain" type="checkbox"
-                                    {% if event.group_captain %}checked{% endif %}>
-                                    Are you the team captain</label>
-
-                                </div>
-                            </div>
-                            {% endif %}
-
-                            {% if event.require_game_id %}
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <strong>{{ event.game_id_name }}</strong>
-                                    <input id="game_id" maxlength="255" name="game_id" type="text"
-                                    {% if event.game_id %}value="{{ event.game_id }}"{% endif %}>
-                                </div>
-                            </div>
-                            {% endif %}
-
-                        </div>
-                        {% if event.registration %}
-                        <div class="row">
-                            <div class="col-md-12">
-
+                            <div class="row">
+                                {% if event.group_event %}
+                                <div class="col-md-5">
                                     <div class="form-group">
-                                <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
+                                        <strong>Group/Team Name</strong>
+                                        <input id="group" maxlength="255" name="group" type="text"
+                                        {% if event.group_name %}value="{{ event.group_name }}"{% endif %}>
+                                        <label><input id="captain" name="captain" type="checkbox"
+                                        {% if event.group_captain %}checked{% endif %}>
+                                        Are you the team captain</label>
+
                                     </div>
+                                </div>
+                                {% endif %}
+
+                                {% if event.require_game_id %}
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <strong>{{ event.game_id_name }}</strong>
+                                        <input id="game_id" maxlength="255" name="game_id" type="text"
+                                        {% if event.game_id %}value="{{ event.game_id }}"{% endif %}>
+                                    </div>
+                                </div>
+                                {% endif %}
 
                             </div>
-                        </div>
-                        {% endif %}
-                    {% endif %}
+                            {% if event.registration %}
+                            <div class="row">
+                                <div class="col-md-12">
 
+                                        <div class="form-group">
+                                    <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
+                                        </div>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+
+                        </div>
                     </div>
                 </div>
             </div>
+            </form>
+            {% endif %}
+            {% endfor event %}
+            {# Endloop through all events in this category #}
         </div>
-        </form>
-        {% endif %}
-        {% endfor event %}
-        {# Endloop through all events in this category #}
     </div>
 </div>
 {% endfor category %}
 {# Endloop through all categories #}
+
+{# Script for jquery filtering #}
+<script type="application/javascript">
+    $(".dropdown-menu li").on("click", function(){
+        var category_list = document.querySelectorAll('.reg-category');
+
+        if (this.id == "ALL") {
+            /* Display everything */
+            for (var i= 0; i < category_list.length; ++i) {
+                $("div#"+category_list[i].id).show(1000);
+            }
+
+        } else {
+            for (var i= 0; i < category_list.length; ++i){
+                if (this.id == category_list[i].id){
+                    /* Make sure the element is visible */
+                    $("div#"+category_list[i].id).show(1000);
+                } else {
+                    /* Make sure everything else is hidden */
+                    $("div#"+category_list[i].id).hide(1000);
+                }
+            }
+        }
+
+
+    });
+</script>
 {% endblock main %}
