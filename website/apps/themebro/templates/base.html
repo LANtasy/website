@@ -133,7 +133,8 @@
         {% nevercache %}
         {% block right_panel %}
         {% include "includes/language_selector.html" %}
-        {% include "includes/user_panel.html" %}
+        {% include "lantasy/includes/user_panel.html" %}
+        {% block right_panel_include %}{% endblock right_panel_include %}
         {% endblock right_panel %}
         {% endnevercache %}
     </div>
