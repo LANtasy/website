@@ -50,7 +50,7 @@ class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, De
     @staticmethod
     def remove_registrations(user):
         try:
-            registrations = Registration.objects.get(user=user)
+            registrations = Registration.objects.filter(user=user)
         except Registration.DoesNotExist:
             registrations = None
 
