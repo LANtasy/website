@@ -4,6 +4,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, DetailView
+from website.apps.badgebro.models import Badge
+from website.apps.eventbro.models import Registration
 
 
 class UserView(object):
@@ -30,9 +32,33 @@ class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, De
     success_message = 'Successfully released badge'
 
     def post(self, request, *args, **kwargs):
-        # TODO: do de-reg
+        user = self.request.user
+        self.remove_badge_association(user=user)
+        self.remove_registrations(user=user)
 
         return redirect('userbro:user_detail')
+
+    @staticmethod
+    def remove_badge_association(user):
+        try:
+            badge = Badge.objects.get(user=user)
+            badge.user = None
+            badge.save()
+        except Badge.DoesNotExist:
+            pass
+
+    @staticmethod
+    def remove_registrations(user):
+        try:
+            registrations = Registration.objects.get(user=user)
+        except Registration.DoesNotExist:
+            registrations = None
+
+        for registration in registrations:
+            try:
+                registration.delete()
+            except Registration.DoesNotExist:
+                pass
 
 user_detail = UserDetailView.as_view()
 user_release_badge = UserReleaseBadgeView.as_view()
