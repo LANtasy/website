@@ -319,40 +319,9 @@ class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
         return registration
 
 
-class UserView(object):
-    queryset = User.objects.filter(is_active=True)
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-
-class UserDetailView(LoginRequiredMixin, SuccessMessageMixin, UserView, UpdateView):
-
-    template_name = 'eventbro/users/user_detail.html'
-    success_message = 'Successfully updated profile'
-    success_url = reverse_lazy('eventbro:user_detail')
-    fields = (
-        'first_name',
-        'last_name',
-        'email',
-    )
-
-
-class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, DetailView):
-    template_name = 'eventbro/users/user_badge_release.html'
-    success_message = 'Successfully released badge'
-
-    def post(self, request, *args, **kwargs):
-        # TODO: do de-reg
-
-        return redirect('eventbro:user_detail')
-
 
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
 
 registration_detail = RegistrationUpdateView.as_view()
-
-user_detail = UserDetailView.as_view()
-user_release_badge = UserReleaseBadgeView.as_view()

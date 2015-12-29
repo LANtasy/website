@@ -8,8 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 urlpatterns = patterns('website.apps.eventbro.views',
-    url(r'^profile/$', 'user_detail', name='user_detail'),
-    url(r'^profile/release-badge/$', 'user_release_badge', name='user_release_badge'),
 
     url(r'^register/$', 'register_redirect', name='register_redirect'),
     url(r'^register/badge/$', 'register_badge', name='register_badge'),

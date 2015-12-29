@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^shop/', include('cartridge.shop.urls')),
     url(r'^account/orders/$', 'cartridge.shop.views.order_history', name='shop_order_history'),
     url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
+    url(r'^profile/', include('website.apps.userbro.urls',  namespace='userbro')),
     url(r'^', include('website.apps.salesbro.urls',  namespace='salesbro')),
     url(r'^', include('website.apps.eventbro.urls',  namespace='eventbro')),
 

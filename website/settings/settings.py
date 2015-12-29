@@ -217,6 +217,7 @@ INSTALLED_APPS = (
     'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
+    'website.apps.userbro',
 
     # --Utils--
     'django_cleanup',
