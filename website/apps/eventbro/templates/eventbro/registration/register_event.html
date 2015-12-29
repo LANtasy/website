@@ -61,9 +61,9 @@ Event Registration
                 </div>
             </div>
             {# Loop through all events for this category #}
-            {% for event in published_events %}
-            {% if event.event_type == category.0 %}
-            <form method="POST" action="{% url 'eventbro:register_event' id=event.id %}" class="register-event-form" novalidate autocomplete="off">
+            {% for form in event_forms %}
+            {% if form.event.event_type == category.0 %}
+            <form method="POST" action="{% url 'eventbro:register_event' id=form.event.id %}" class="register-event-form" novalidate autocomplete="off">
             {% csrf_token %}
             <div class="row">
                 <div class="container-fluid">
@@ -71,19 +71,19 @@ Event Registration
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    {% if event.image %}
-                                        {% thumbnail event.image "200x115" as im %}
+                                    {% if form.event.image %}
+                                        {% thumbnail form.event.image "200x115" as im %}
                                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                         {% endthumbnail %}
                                     {% endif %}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">
-                                        <div class="col-md-10 col-sm-8"><h3>{{ event.name }}</h3></div>
+                                        <div class="col-md-10 col-sm-8"><h3>{{ form.event.name }}</h3></div>
                                         <div class="col-md-2 col-sm-4">
-                                        {% if event.registration %}
+                                        {% if form.event in user.events %}
                                             <button name="unregister" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
-                                        {% elif event.is_full %}
+                                        {% elif form.event.is_full %}
                                             <button name="register" class="btn btn-primary" style="padding:10px 4px">Waitlist</button>
                                         {% else %}
                                             <button name="register" class="btn btn-primary" style="padding:10px 4px">Register</button>
@@ -96,71 +96,68 @@ Event Registration
                                         <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
                                         <div class="col-md-2 col-sm-4 hidden-xs"><strong>Available</strong></div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>Start Time:</strong> {{ event.start }}
+                                            <strong>Start Time:</strong> {{ form.event.start }}
                                         </div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>End Time:</strong> {{ event.end }}
+                                            <strong>End Time:</strong> {{ form.event.end }}
                                         </div>
                                         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                            <strong>Available:</strong> {{ event.available_spots }}
+                                            <strong>Available:</strong> {{ form.event.available_spots }}
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.start }}</div>
-                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ event.end }}</div>
-                                        <div class="col-md-2 col-sm-4 hidden-xs">{{ event.available_spots }}</div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.start }}</div>
+                                        <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.end }}</div>
+                                        <div class="col-md-2 col-sm-4 hidden-xs">{{ form.event.available_spots }}</div>
                                     </div>
                                 </div>
                             </div>
+                            {% if form.event not in user.events %}
+                                {% if form.event.group_event or form.event.require_game_id %}
+                                <div class="spacer-10"></div>
 
-                            {% if event.group_event or event.require_game_id %}
-                            <div class="spacer-10"></div>
-
-                            <div class="row">
-                                {% if event.group_event %}
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        {{ event.group_form.group_name.label_tag }}{{ event.group_form.group_name }}
-
-                                        <!--<strong>Group/Team Name</strong>
-                                        <input id="group" maxlength="255" name="group" type="text"
-                                        {% if event.group_name %}value="{{ event.group_name }}"{% endif %}>
-                                        <label><input id="captain" name="captain" type="checkbox"
-                                        {% if event.group_captain %}checked{% endif %}>
-                                        Are you the team captain</label>
-                                        -->
+                                <div class="row">
+                                    {% if form.event.group_event %}
+                                    <div class="col-md-5">
+                                        <div class="form-group {% if form.group_name.errors %}has-error{% endif %}">
+                                            {{ form.group_name.label_tag }}{{ form.group_name }}
+                                            <div class="help-block">
+                                                {% for error in form.group_name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.group_captain }} {{ form.group_captain.label_tag }}
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        {{ event_form.group_captain }} {{ event_form.group_captain.label_tag }}
+                                    {% endif %}
+
+                                    {% if form.event.require_game_id %}
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="id_game_id_name">{{ form.event.game_id_name }}:</label>
+                                            {{ form.game_id_name }}
+                                            <!--<strong>{{ form.event.game_id_name }}</strong>
+                                            <input id="game_id" maxlength="255" name="game_id" type="text"
+                                            {% if form.event.game_id %}value="{{ form.event.game_id }}"{% endif %}>
+                                            -->
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                                {% if form.event.registration %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
+                                        </div>
                                     </div>
                                 </div>
                                 {% endif %}
-
-                                {% if event.require_game_id %}
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label for="id_game_id_name">{{ event.game_id_name }}:</label>
-                                        {{ event_form.game_id_name }}
-                                        <!--<strong>{{ event.game_id_name }}</strong>
-                                        <input id="game_id" maxlength="255" name="game_id" type="text"
-                                        {% if event.game_id %}value="{{ event.game_id }}"{% endif %}>
-                                        -->
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                            </div>
-                            {% if event.registration %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <button name="update" class="btn btn-primary" style="padding:10px 4px">Update</button>
-                                    </div>
-                                </div>
-                            </div>
                             {% endif %}
                         {% endif %}
-
                         </div>
                     </div>
                 </div>

@@ -123,4 +123,3 @@ class Registration(models.Model):
     group_name = models.CharField(max_length=255, blank=True, null=True)
     group_captain = models.BooleanField(default=False)
     game_id = models.CharField(max_length=255, blank=True, null=True)
-
