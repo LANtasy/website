@@ -54,40 +54,15 @@ class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, UserView, Form
         return HttpResponseRedirect(self.get_success_url())
 
 
-
-
 class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, DetailView):
     template_name = 'userbro/user_badge_release.html'
     success_message = 'Successfully released badge'
 
     def post(self, request, *args, **kwargs):
-        user = self.get_object()
-        self.remove_badge_association(user=user)
-        self.remove_registrations(user=user)
+        badge = Badge.objects.get(user=self.get_object())
+        badge.release()
 
         return redirect('userbro:user_detail')
-
-    @staticmethod
-    def remove_badge_association(user):
-        try:
-            badge = Badge.objects.get(user=user)
-            badge.user = None
-            badge.save()
-        except Badge.DoesNotExist:
-            pass
-
-    @staticmethod
-    def remove_registrations(user):
-        try:
-            registrations = Registration.objects.filter(user=user)
-        except Registration.DoesNotExist:
-            registrations = None
-
-        for registration in registrations:
-            try:
-                registration.delete()
-            except Registration.DoesNotExist:
-                pass
 
 user_detail = UserDetailView.as_view()
 user_release_badge = UserReleaseBadgeView.as_view()
