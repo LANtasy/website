@@ -3,6 +3,7 @@ import logging
 from braces.views import LoginRequiredMixin
 from django.contrib.messages import error, warning
 from django.core.urlresolvers import reverse_lazy
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
@@ -207,36 +208,28 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         """
         Un-registers a user from an event.  Does nothing if the user is not currently registered.
         """
-        try:
-            reg = Registration.objects.get(user=self.request.user, event=event)
-            reg.delete()
-        except Registration.DoesNotExist:
-            # Do nothing, user is already unregistered
-            pass
-
+        event.unregister(user=self.request.user)
         url = reverse_lazy('eventbro:register_event')
-
         return HttpResponseRedirect(url)
 
     def register_for_event(self, event):
         """
         Registers a user for an event.  If the event is full wait lists and informs the registrant.
         """
-        # DO THIS BETTER
-        group = self.request.POST.get('group', None)
-        game_id = self.request.POST.get('game_id', None)
-        captain = self.request.POST.get('captain', 'off')
-        captain = CHECKBOX_MAPPING.get(captain)
+        form_class = event.get_registration_form_class()
+        form = form_class(event=event, data=self.request.POST)
 
         if event.is_full():
+            logger.debug("Event %s full, waitlisting user %s", event.id, self.request.user.id)
             warning(self.request, 'Event was full when registering, you have been waitlisted')
-        try:
-            Registration.objects.get(user=self.request.user, event=event)
-            # Do nothing since registration has already occured
-        except Registration.DoesNotExist:
-            reg = Registration(user=self.request.user, event=event,
-                               group_name=group, game_id=game_id, group_captain=captain)
-            reg.save()
+
+        else:
+            if form.is_valid():
+                form.save(user=self.request.user)
+            else:
+                # TODO: swap out form in context with this already populated form + errors
+                logger.info(form.errors)
+
         url = reverse_lazy('eventbro:register_event')
 
         return HttpResponseRedirect(url)
