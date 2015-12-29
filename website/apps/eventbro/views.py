@@ -1,3 +1,5 @@
+import logging
+
 from braces.views import LoginRequiredMixin
 from django.contrib.messages import error, warning
 from django.core.urlresolvers import reverse_lazy
@@ -10,6 +12,7 @@ from website.apps.badgebro.models import Badge
 from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm
 from website.apps.eventbro.models import Event, Registration
 
+logger = logging.getLogger(__name__)
 
 CHECKBOX_MAPPING = {'on': True, 'off': False, }
 
@@ -136,6 +139,23 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
 class RegisterEventView(LoginRequiredMixin, TemplateView):
     template_name = 'eventbro/registration/register_event.html'
 
+    queryset = Event.objects.filter(published=True)
+    lookup_url_kwarg = 'id'
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return self.queryset
+
+    def get_event(self):
+        """
+        Fetches an event within the defined queryset using the defined lookup parameters
+        """
+        queryset = self.get_queryset()
+
+        filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
+
+        return get_object_or_404(queryset, **filter_kwargs)
+
     def get(self, request, *args, **kwargs):
         url = self.check_badges_for_user()
         if url:
@@ -144,12 +164,15 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
             return self.display_page()
 
     def post(self, request, *args, **kwargs):
+
+        event = self.get_event()
+
         if 'register' in request.POST:
-            return self.register_for_event(event_id=self.kwargs['id'])
+            return self.register_for_event(event=event)
         elif 'unregister' in request.POST:
-            return self.unregister_for_event(event_id=self.kwargs['id'])
+            return self.unregister_for_event(event=event)
         elif 'update' in request.POST:
-            return self.update_event(event_id=self.kwargs['id'])
+            return self.update_event(event=event)
         else:
             # This should never occur
             return NotImplementedError
@@ -162,13 +185,14 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
 
         return self.render_to_response(context)
 
-    def update_event(self, event_id):
+    def update_event(self, event):
         group = self.request.POST.get('group', None)
         game_id = self.request.POST.get('game_id', None)
         captain = self.request.POST.get('captain', 'off')
         captain = CHECKBOX_MAPPING.get(captain)
+
         try:
-            reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
+            reg = Registration.objects.get(user=self.request.user, event=event,)
             reg.group_name = group
             reg.group_captain = captain
             reg.game_id = game_id
@@ -179,18 +203,25 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         url = reverse_lazy('eventbro:register_event')
         return HttpResponseRedirect(url)
 
-    def unregister_for_event(self, event_id):
+    def unregister_for_event(self, event):
+        """
+        Un-registers a user from an event.  Does nothing if the user is not currently registered.
+        """
         try:
-            reg = Registration.objects.get(user=self.request.user, event_id=event_id,)
+            reg = Registration.objects.get(user=self.request.user, event=event)
             reg.delete()
         except Registration.DoesNotExist:
             # Do nothing, user is already unregistered
             pass
+
         url = reverse_lazy('eventbro:register_event')
+
         return HttpResponseRedirect(url)
 
-    def register_for_event(self, event_id):
-        event = Event.objects.get(id=event_id)
+    def register_for_event(self, event):
+        """
+        Registers a user for an event.  If the event is full wait lists and informs the registrant.
+        """
         # DO THIS BETTER
         group = self.request.POST.get('group', None)
         game_id = self.request.POST.get('game_id', None)
@@ -200,13 +231,14 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         if event.is_full():
             warning(self.request, 'Event was full when registering, you have been waitlisted')
         try:
-            Registration.objects.get(user=self.request.user, event_id=event_id,)
+            Registration.objects.get(user=self.request.user, event=event)
             # Do nothing since registration has already occured
         except Registration.DoesNotExist:
-            reg = Registration(user=self.request.user, event_id=event_id,
+            reg = Registration(user=self.request.user, event=event,
                                group_name=group, game_id=game_id, group_captain=captain)
             reg.save()
         url = reverse_lazy('eventbro:register_event')
+
         return HttpResponseRedirect(url)
 
     def check_badges_for_user(self):
