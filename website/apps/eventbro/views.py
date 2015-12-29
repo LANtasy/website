@@ -198,7 +198,7 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
         captain = CHECKBOX_MAPPING.get(captain)
 
         if event.is_full():
-            warning(self.request, 'Event was full when registered, you have been waitlisted')
+            warning(self.request, 'Event was full when registering, you have been waitlisted')
         try:
             Registration.objects.get(user=self.request.user, event_id=event_id,)
             # Do nothing since registration has already occured
