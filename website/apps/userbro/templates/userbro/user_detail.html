@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles mezzanine_tags crispy_forms_tags %}
 
-{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
-{% block body_id %}category{% endblock %}
+{% block title %}Profile{% endblock title %}
+{% block meta_title %}Profile{% endblock meta_title %}
+{% block meta_ogtitle %}Profile{% endblock meta_ogtitle %}
 
 <!--TODO: make sure this keywords is working-->
 {% block meta_keywords %}{% metablock %}
@@ -23,16 +24,14 @@
 <li>Profile</li>
 {% endblock %}
 
-{% block title %}
-Badge Registration
-{% endblock %}
+{% block body_id %}category{% endblock %}
 
 {% block main %}
     <div class="row">
         <div class="col-md-12">
 
             <div class="btn-toolbar pull-right">
-                <a href="#" class="btn btn-default"><i class="fa fa-lock"></i> Change Password</a>
+                <a href="{% url 'userbro:change_password' %}" class="btn btn-default"><i class="fa fa-lock"></i> Change Password</a>
                 <a href="{% url 'userbro:user_release_badge' %}" class="btn btn-warning"><i class="fa fa-exclamation-triangle"></i> Release Badge</a>
             </div>
 
@@ -42,7 +41,7 @@ Badge Registration
 
     <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-4">
 
             <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
                 {% csrf_token %}
@@ -51,7 +50,7 @@ Badge Registration
                 {{ form.last_name|as_crispy_field }}
                 {{ form.email|as_crispy_field }}
 
-                <hr>
+
                 <div class="spacer-10"></div>
 
                 <div class="btn-group-lg">
@@ -65,6 +64,3 @@ Badge Registration
     </div>
 {% endblock main %}
 
-{% block right_panel %}
-    ADD LOGOUT PLEZS
-{% endblock right_panel %}
