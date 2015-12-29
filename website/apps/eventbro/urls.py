@@ -8,10 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 urlpatterns = patterns('website.apps.eventbro.views',
+    url(r'^profile/$', 'user_detail', name='user_detail'),
+    url(r'^profile/release-badge/$', 'user_release_badge', name='user_release_badge'),
+
     url(r'^register/$', 'register_redirect', name='register_redirect'),
     url(r'^register/badge/$', 'register_badge', name='register_badge'),
-    url(r'^register/event/$', 'register_event', name='register_event'),
-    url(r'^register/event/(?P<id>\d+)/$', 'register_event', name='register_event'),
+    url(r'^register/events/$', 'register_event', name='register_event'),
+    url(r'^register/events/(?P<id>\d+)/$', 'register_event', name='register_event'),
 
-    url(r'^register/event/(?P<event_id>\d+)/update/$', 'registration_detail', name='registration_update')
+    url(r'^register/events/(?P<event_id>\d+)/update/$', 'registration_detail', name='registration_update')
 )
