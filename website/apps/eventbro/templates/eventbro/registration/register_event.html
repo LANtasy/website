@@ -138,10 +138,6 @@ Event Registration
                                         <div class="form-group">
                                             <label for="id_game_id_name">{{ form.event.game_id_name }}:</label>
                                             {{ form.game_id_name }}
-                                            <!--<strong>{{ form.event.game_id_name }}</strong>
-                                            <input id="game_id" maxlength="255" name="game_id" type="text"
-                                            {% if form.event.game_id %}value="{{ form.event.game_id }}"{% endif %}>
-                                            -->
                                         </div>
                                     </div>
                                     {% endif %}
@@ -157,6 +153,8 @@ Event Registration
                                 </div>
                                 {% endif %}
                             {% endif %}
+                        {% else %}
+                            <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_id=form.event.id %}">Edit Registration</a>
                         {% endif %}
                         </div>
                     </div>

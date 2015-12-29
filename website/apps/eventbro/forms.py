@@ -3,7 +3,7 @@ import logging
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import modelformset_factory
-
+from website.apps.eventbro.models import Registration
 
 logger = logging.getLogger(__name__)
 
@@ -73,3 +73,20 @@ class GroupEventRegistrationForm(IndividualEventRegistrationForm):
         is_captain = self.cleaned_data.get('group_captain')
         registrant = self.event.register(user=user, group=group_name, game_id=game_id, is_captain=is_captain)
         return registrant
+
+
+class RegistrationUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Registration
+
+        fields = (
+            'group_name',
+            'game_id',
+            'group_captain',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(RegistrationUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['game_id'].required = self.instance.event.require_game_id
+        self.fields['group_name'].required = self.instance.event.group_event

@@ -5,7 +5,7 @@ import logging
 from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models, transaction
-from website.apps.eventbro.forms import GroupEventRegistrationForm, IndividualEventRegistrationForm
+
 from website.apps.salesbro.models import Ticket, TicketOption
 from sorl.thumbnail import ImageField
 
@@ -76,6 +76,9 @@ class Event(models.Model):
             return False
 
     def get_registration_form_class(self):
+
+        from website.apps.eventbro.forms import GroupEventRegistrationForm, IndividualEventRegistrationForm
+
         if self.group_event:
             return GroupEventRegistrationForm
         else:
@@ -120,6 +123,7 @@ class Registration(models.Model):
     user = models.ForeignKey(User, related_name='registration_user')
     event = models.ForeignKey(Event, related_name='registrants')
     date_added = models.DateTimeField(auto_now_add=True)
-    group_name = models.CharField(max_length=255, blank=True, null=True)
+    group_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Group Name')
     group_captain = models.BooleanField(default=False)
-    game_id = models.CharField(max_length=255, blank=True, null=True)
+    game_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='Game ID',
+                               help_text='eg Battle.net ID, Summoner ID, etc')

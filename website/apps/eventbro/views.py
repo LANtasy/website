@@ -8,14 +8,30 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, UpdateView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm, RegistrationUpdateForm
 from website.apps.eventbro.models import Event, Registration
 
 logger = logging.getLogger(__name__)
 
 CHECKBOX_MAPPING = {'on': True, 'off': False, }
+
+
+class EventRegistrationMixin(object):
+
+    queryset = Event.objects.filter(published=True)
+    lookup_url_kwarg = 'id'
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return self.queryset
+
+    def get_events(self):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(valid_options__badges__user=self.request.user)
+        queryset = queryset.order_by('name')
+        return queryset
 
 
 class RegisterRedirectView(LoginRequiredMixin, RedirectView):
@@ -137,21 +153,8 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class RegisterEventView(LoginRequiredMixin, TemplateView):
+class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView):
     template_name = 'eventbro/registration/register_event.html'
-
-    queryset = Event.objects.filter(published=True)
-    lookup_url_kwarg = 'id'
-    lookup_field = 'id'
-
-    def get_queryset(self):
-        return self.queryset
-
-    def get_events(self):
-        queryset = self.get_queryset()
-        queryset = queryset.filter(valid_options__badges__user=self.request.user)
-        queryset = queryset.order_by('name')
-        return queryset
 
     def get_event(self):
         """
@@ -279,6 +282,30 @@ class RegisterEventView(LoginRequiredMixin, TemplateView):
     # - Maybe add filter for categories
 
 
+class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'eventbro/registration/registration_update.html'
+    queryset = Registration.objects.all()
+    lookup_field = 'event_id'
+    pk_url_kwarg = 'event_id'
+    form_class = RegistrationUpdateForm
+    success_url = reverse_lazy('eventbro:register_event')
+
+    def get_queryset(self):
+        queryset = super(RegistrationUpdateView, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+    def get_object(self, queryset=None):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.kwargs[self.pk_url_kwarg]}
+
+        registration = get_object_or_404(queryset, **filter_kwargs)
+
+        return registration
+
+
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
+
+registration_detail = RegistrationUpdateView.as_view()
