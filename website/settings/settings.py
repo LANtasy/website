@@ -217,10 +217,12 @@ INSTALLED_APPS = (
     'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
+    'website.apps.userbro',
 
     # --Utils--
     'django_cleanup',
     'sorl.thumbnail',
+    'crispy_forms',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -300,6 +302,9 @@ MAILGUN_SERVER_NAME = os.getenv('MAILGUN_SERVER_NAME')
 
 # Thumbnails
 THUMBNAIL_CACHE_TIMEOUT = 3600 * 24 * 120
+
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ##################
 # LOCAL SETTINGS #

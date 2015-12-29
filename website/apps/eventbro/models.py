@@ -1,11 +1,15 @@
-import uuid
-
 import os
+import uuid
+import logging
+
 from PIL import Image
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
+
 from website.apps.salesbro.models import Ticket, TicketOption
 from sorl.thumbnail import ImageField
+
+logger = logging.getLogger(__name__)
 
 
 class Convention(models.Model):
@@ -25,17 +29,25 @@ def rename_image(instance, filename):
     return os.path.join('eventbro/images', filename)
 
 
-class Event(models.Model):
+class EventType(object):
     BYOC_LAN = u'LAN'
     MINIATURES = u'MIN'
     TABLETOP = u'TAB'
     RPG = u'RPG'
-    EVENT_TYPE_CHOICES = (
+    CHOICES = (
         (BYOC_LAN, u'BYOC LAN'),
         (MINIATURES, u'Miniatures'),
-        (TABLETOP, u'Tabletop'),
         (RPG, u'RPG'),
+        (TABLETOP, u'Tabletop'),
     )
+
+
+class Event(models.Model):
+
+    BYOC_LAN = EventType.BYOC_LAN
+    MINIATURES = EventType.MINIATURES
+    TABLETOP = EventType.TABLETOP
+    RPG = EventType.RPG
 
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
@@ -50,7 +62,7 @@ class Event(models.Model):
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
-    event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
+    event_type = models.CharField(max_length=3, choices=EventType.CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
     # prizes TextField
     # rules TextField
@@ -71,12 +83,55 @@ class Event(models.Model):
         else:
             return False
 
+    def get_registration_form_class(self):
+
+        from website.apps.eventbro.forms import GroupEventRegistrationForm, IndividualEventRegistrationForm
+
+        if self.group_event:
+            return GroupEventRegistrationForm
+        else:
+            return IndividualEventRegistrationForm
+
+    def get_blank_registration_form(self):
+        form_class = self.get_registration_form_class()
+        return form_class(event=self)
+
+    def register(self, user, group=None, game_id=None, is_captain=None):
+        """
+        Registers a user for an event if they are not registered
+        """
+
+        defaults = {
+            'game_id': game_id,
+            'group_captain': is_captain,
+            'group_name': group,
+        }
+
+        registrant, created = Registration.objects.get_or_create(user=user, event=self, defaults=defaults)
+
+        return registrant
+
+    def unregister(self, user):
+        """
+        Un-registers a user from an event if they are registered
+        """
+        queryset = self.registrants.filter(user=user)
+
+        try:
+            reg = queryset.get()
+            reg.delete()
+            logger.debug("Unregistered user %s from event %s", user.id, self)
+
+        except Registration.DoesNotExist:
+            # Do nothing, user is already unregistered
+            pass
+
 
 class Registration(models.Model):
     user = models.ForeignKey(User, related_name='registration_user')
-    event = models.ForeignKey(Event, related_name='registration_event')
+    event = models.ForeignKey(Event, related_name='registrants')
     date_added = models.DateTimeField(auto_now_add=True)
-    group_name = models.CharField(max_length=255, blank=True, null=True)
+    group_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Group Name')
     group_captain = models.BooleanField(default=False)
-    game_id = models.CharField(max_length=255, blank=True, null=True)
-
+    game_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='Game ID',
+                               help_text='eg Battle.net ID, Summoner ID, etc')
