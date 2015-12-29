@@ -1,17 +1,19 @@
 import logging
 
 from braces.views import LoginRequiredMixin
-from django.contrib.messages import error, warning
+from django.contrib.auth.models import User
+from django.contrib.messages import error, warning, info, success
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView, UpdateView
+from django.views.generic import TemplateView, RedirectView, UpdateView, DetailView
 from website.apps.badgebro.models import Badge
 from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm, RegistrationUpdateForm
-from website.apps.eventbro.models import Event, Registration
+from website.apps.eventbro.models import Event, Registration, EventType
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +25,7 @@ class EventRegistrationMixin(object):
     queryset = Event.objects.filter(published=True)
     lookup_url_kwarg = 'id'
     lookup_field = 'id'
+    category = None
 
     def get_queryset(self):
         return self.queryset
@@ -30,7 +33,11 @@ class EventRegistrationMixin(object):
     def get_events(self):
         queryset = self.get_queryset()
         queryset = queryset.filter(valid_options__badges__user=self.request.user)
-        queryset = queryset.order_by('name')
+        queryset = queryset.order_by('event_type', 'name')
+
+        if self.category:
+            queryset = queryset.filter(event_type=self.category)
+
         return queryset
 
 
@@ -155,6 +162,11 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
 
 class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView):
     template_name = 'eventbro/registration/register_event.html'
+    category = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.category = request.GET.get('category', '')
+        return super(RegisterEventView, self).dispatch(request, *args, **kwargs)
 
     def get_event(self):
         """
@@ -188,18 +200,23 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 
     def get_context_data(self, **kwargs):
         context = dict()
-        context['event_categories'] = self.get_event_categories()
+        context['event_categories'] = EventType.CHOICES
         context['event_forms'] = self.get_event_forms()
+        context['filter_category'] = self.category
         context.update(**kwargs)
         return context
+
+    def get_success_url(self):
+        url = '%s?category=%s' % (reverse('eventbro:register_event'), self.category)
+        return url
 
     def unregister_for_event(self, event):
         """
         Un-registers a user from an event.  Does nothing if the user is not currently registered.
         """
         event.unregister(user=self.request.user)
-        url = reverse('eventbro:register_event')
-        return HttpResponseRedirect(url)
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def register_for_event(self, event):
         """
@@ -230,9 +247,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 
             return self.render_to_response(context=context)
 
-        url = reverse('eventbro:register_event')
-
-        return HttpResponseRedirect(url)
+        return HttpResponseRedirect(self.get_success_url())
 
     def check_badges_for_user(self):
         user = self.request.user
@@ -240,7 +255,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
             Badge.objects.get(user=user)
             url = None
         except Badge.DoesNotExist:
-            url = reverse('eventbro:register_badge')
+            url = self.get_success_url()
         return url
 
     def get_event_forms(self):
@@ -304,8 +319,40 @@ class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
         return registration
 
 
+class UserView(object):
+    queryset = User.objects.filter(is_active=True)
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class UserDetailView(LoginRequiredMixin, SuccessMessageMixin, UserView, UpdateView):
+
+    template_name = 'eventbro/users/user_detail.html'
+    success_message = 'Successfully updated profile'
+    success_url = reverse_lazy('eventbro:user_detail')
+    fields = (
+        'first_name',
+        'last_name',
+        'email',
+    )
+
+
+class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, DetailView):
+    template_name = 'eventbro/users/user_badge_release.html'
+    success_message = 'Successfully released badge'
+
+    def post(self, request, *args, **kwargs):
+        # TODO: do de-reg
+
+        return redirect('eventbro:user_detail')
+
+
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
 
 registration_detail = RegistrationUpdateView.as_view()
+
+user_detail = UserDetailView.as_view()
+user_release_badge = UserReleaseBadgeView.as_view()

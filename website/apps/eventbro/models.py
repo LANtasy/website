@@ -29,17 +29,25 @@ def rename_image(instance, filename):
     return os.path.join('eventbro/images', filename)
 
 
-class Event(models.Model):
+class EventType(object):
     BYOC_LAN = u'LAN'
     MINIATURES = u'MIN'
     TABLETOP = u'TAB'
     RPG = u'RPG'
-    EVENT_TYPE_CHOICES = (
+    CHOICES = (
         (BYOC_LAN, u'BYOC LAN'),
         (MINIATURES, u'Miniatures'),
-        (TABLETOP, u'Tabletop'),
         (RPG, u'RPG'),
+        (TABLETOP, u'Tabletop'),
     )
+
+
+class Event(models.Model):
+
+    BYOC_LAN = EventType.BYOC_LAN
+    MINIATURES = EventType.MINIATURES
+    TABLETOP = EventType.TABLETOP
+    RPG = EventType.RPG
 
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
@@ -54,7 +62,7 @@ class Event(models.Model):
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
-    event_type = models.CharField(max_length=3, choices=EVENT_TYPE_CHOICES, blank=True, null=True)
+    event_type = models.CharField(max_length=3, choices=EventType.CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
     # prizes TextField
     # rules TextField
