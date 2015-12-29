@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles mezzanine_tags thumbnail %}
 
-{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
-{% block body_id %}category{% endblock %}
+{% block title %}Event Registration{% endblock title %}
+{% block meta_title %}Event Registration{% endblock meta_title%}
+{% block meta_ogtitle %}Event Registration{% endblock meta_ogtitle %}
 
 <!--TODO: make sure this keywords is working-->
 {% block meta_keywords %}{% metablock %}
@@ -24,9 +25,7 @@
 <li>Event Registration</li>
 {% endblock %}
 
-{% block title %}
-Event Registration
-{% endblock %}
+{% block body_id %}category{% endblock %}
 
 {% block main %}
 <div class="row">

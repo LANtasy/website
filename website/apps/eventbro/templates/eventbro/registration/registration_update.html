@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles mezzanine_tags crispy_forms_tags %}
 
-{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
-{% block body_id %}category{% endblock %}
+{% block title %}Update Registration{% endblock title %}
+{% block meta_title %}Update Registration{% endblock meta_title %}
+{% block meta_ogtitle %}Update Registration{% endblock meta_ogtitle %}
 
 <!--TODO: make sure this keywords is working-->
 {% block meta_keywords %}{% metablock %}
@@ -24,9 +25,7 @@
 <li>Update Event Registration</li>
 {% endblock %}
 
-{% block title %}
-Badge Registration
-{% endblock %}
+{% block body_id %}category{% endblock %}
 
 {% block main %}
     <div class="row">

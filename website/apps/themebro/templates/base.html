@@ -23,7 +23,7 @@
     <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
     <!--FACEBOOK-->
     <meta property="og:url" content="https://www.lantasy.com" />
-    <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
+    <meta property="og:title" content="{% block meta_ogtitle %}{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}{% endblock meta_ogtitle %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}" />
     <meta property="og:url" content="{{ page.get_absolute_url_with_host }}" />

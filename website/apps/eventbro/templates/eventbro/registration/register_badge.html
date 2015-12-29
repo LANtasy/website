@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles mezzanine_tags %}
 
-{% block meta_title %}{{ ticket.meta_title }}{% endblock %}
-{% block body_id %}category{% endblock %}
+{% block title %}Badge Registration{% endblock title %}
+{% block meta_title %}Badge Registration{% endblock %}
+{% block meta_ogtitle %}Badge Registration{% endblock meta_ogtitle %}
 
 <!--TODO: make sure this keywords is working-->
 {% block meta_keywords %}{% metablock %}
@@ -24,9 +25,7 @@
 <li>Badge Registration</li>
 {% endblock %}
 
-{% block title %}
-Badge Registration
-{% endblock %}
+{% block body_id %}category{% endblock %}
 
 {% block main %}
     <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
