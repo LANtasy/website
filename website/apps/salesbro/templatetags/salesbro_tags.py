@@ -15,6 +15,6 @@ def _set_up_zebra_form(context):
     return context
 
 
-@register.inclusion_tag('salesbro/_set_stripe_key.html', takes_context=True)
+@register.inclusion_tag('salesbro/shop/_set_stripe_key.html', takes_context=True)
 def salesbro_head_and_stripe_key(context):
     return _set_up_zebra_form(context)
