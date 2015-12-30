@@ -112,7 +112,7 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
                 badge.save()
                 return True
             except Badge.DoesNotExist:
-                error(self.request, 'Could not find UID')
+                error(self.request, 'Could not find this badge')
                 return False
         else:
             return False
