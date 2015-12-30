@@ -105,6 +105,9 @@ class RegisterBadgeView(LoginRequiredMixin, TemplateView):
             try:
                 uid = badge_form.cleaned_data['uid']
                 badge = Badge.objects.get(uid=uid)
+                if badge.user is not None:
+                    error(self.request, 'This badge has already been associated')
+                    return False
                 badge.user = self.request.user
                 badge.save()
                 return True
