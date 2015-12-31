@@ -59,8 +59,12 @@ class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, De
     success_message = 'Successfully released badge'
 
     def post(self, request, *args, **kwargs):
-        badge = Badge.objects.get(user=self.get_object())
-        badge.release()
+        try:
+            badge = Badge.objects.get(user=self.get_object())
+            badge.release()
+        except Badge.DoesNotExist:
+            # Do nothing
+            pass
 
         return redirect('userbro:user_detail')
 
