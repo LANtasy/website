@@ -130,7 +130,7 @@
                                         {{ form.group_name.label_tag }}{{ form.group_name }}
                                         <div class="help-block">
                                             {% for error in form.group_name.errors %}
-                                                {{ error }}
+                                                <strong>{{ error }}</strong>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -142,9 +142,14 @@
 
                                 {% if form.event.require_game_id %}
                                 <div class="col-md-5">
-                                    <div class="form-group">
+                                    <div class="form-group {% if form.game_id_name.errors %}has-error{% endif %}">
                                         <label for="id_game_id_name">{{ form.event.game_id_name }}:</label>
                                         {{ form.game_id_name }}
+                                        <div class="help-block">
+                                            {% for error in form.game_id_name.errors %}
+                                                <strong>{{ error }}</strong>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
                                 {% endif %}
