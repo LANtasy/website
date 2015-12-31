@@ -41,8 +41,14 @@
 
     {% block nav-buttons %}
         {% if request.cart.has_items %}
+
             <div class="form-actions">
-                <input type="submit" class="btn btn-lg btn-primary pull-right" id="checkout_next" value="{% trans "Next" %}">
+                {% if step == 3 %}
+                    <input type="submit" class="btn btn-lg btn-primary pull-right" id="checkout_next" value="Pay Now">
+                {% else %}
+                    <input type="submit" class="btn btn-lg btn-primary pull-right" id="checkout_next" value="Next">
+                {% endif %}
+
                 {% if not CHECKOUT_STEP_FIRST %}
                 <input type="submit" class="btn btn-lg btn-primary pull-left" name="back" id="checkout_back" value="{% trans "Back" %}">
                 {% endif %}
