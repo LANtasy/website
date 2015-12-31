@@ -77,6 +77,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
+                            {% if form.event.image %}
                             <div class="col-md-3">
                                 {% if form.event.image %}
                                     {% thumbnail form.event.image "200x115" as im %}
@@ -84,10 +85,25 @@
                                     {% endthumbnail %}
                                 {% endif %}
                             </div>
+                            {% endif %}
+                            {% if form.event.image %}
                             <div class="col-md-9">
+                            {% else %}
+                                <div class="col-md-12">
+                            {% endif %}
                                 <div class="row">
                                     <div class="col-md-10 col-sm-8"><h3>{{ form.event.name }}</h3></div>
-                                    <div class="col-md-2 col-sm-4">
+                                    <div class="col-md-2 hidden-sm hidden-xs">
+                                    {% if form.event in user.events %}
+                                        <button name="unregister" class="btn btn-primary align-right" style="padding:10px 4px">Unregister</button>
+                                    {% elif form.event.is_full %}
+                                        <button name="register" class="btn btn-primary align-right" style="padding:10px 4px">Waitlist</button>
+                                    {% else %}
+                                        <button name="register" class="btn btn-primary align-right" style="padding:10px 4px">Register</button>
+                                    {% endif %}
+                                        <div class="spacer-10"></div>
+                                    </div>
+                                    <div class="hidden-lg hidden-md col-sm-4">
                                     {% if form.event in user.events %}
                                         <button name="unregister" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
                                     {% elif form.event.is_full %}
@@ -101,7 +117,9 @@
                                 <div class="row">
                                     <div class="col-md-5 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
                                     <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
-                                    <div class="col-md-2 col-sm-4 hidden-xs"><strong>Available</strong></div>
+                                    <div class="col-md-2 col-sm-4 hidden-xs">
+                                        <strong class="align-right">Available</strong>
+                                    </div>
                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12">
                                         <strong>Start Time:</strong> {{ form.event.start }}
                                     </div>
@@ -109,13 +127,27 @@
                                         <strong>End Time:</strong> {{ form.event.end }}
                                     </div>
                                     <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-                                        <strong>Available:</strong> {{ form.event.available_spots }}
+
+                                        <strong>Available:</strong>
+                                        {% if form.event.is_full %}
+                                            0
+                                        {% else %}
+                                            {{ form.event.available_spots }}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.start }}</div>
                                     <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.end }}</div>
-                                    <div class="col-md-2 col-sm-4 hidden-xs">{{ form.event.available_spots }}</div>
+                                    <div class="col-md-2 col-sm-4 hidden-xs">
+                                        <span class="align-right">
+                                            {% if form.event.is_full %}
+                                                0
+                                            {% else %}
+                                                {{ form.event.available_spots }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
