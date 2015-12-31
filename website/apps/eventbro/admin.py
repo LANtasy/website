@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from website.apps.eventbro.models import Convention, Event, Registration
+from website.apps.eventbro.models import Convention, Event, Registration, Sponsor
 
 from sorl.thumbnail.admin import AdminImageMixin
 
@@ -47,6 +47,14 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
                 ('image',),
             ),
         }),
+        ('Other Details', {
+            'fields': (
+                ('sponsor',),
+                ('organizer',),
+                ('prizes',),
+                ('rules',),
+            ),
+        }),
     )
     list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
 
@@ -76,6 +84,31 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_filter = ('user', 'event')
 
 
+class SponsorAdmin(AdminImageMixin, admin.ModelAdmin):
+    fieldsets = (
+        ('Required', {
+            'fields': (
+                ('name',),
+                ('description',),
+                ('logo',),
+                ('level',),
+                ('convention',),
+            )
+        }),
+        # ('Optional', {
+        #     'fields': (
+        #         ('group_name', 'group_captain',),
+        #         ('game_id',),
+        #     )
+        # }),
+    )
+
+    list_display = ('id', 'name', 'level', 'convention')
+
+    list_filter = ('level', 'convention')
+
+
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(Convention, ConventionAdmin)
 admin.site.register(Event, EventAdmin)
+admin.site.register(Sponsor, SponsorAdmin)

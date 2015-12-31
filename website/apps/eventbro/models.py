@@ -2,12 +2,12 @@ import os
 import uuid
 import logging
 
-from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models, transaction
 
 from website.apps.salesbro.models import Ticket, TicketOption
 from sorl.thumbnail import ImageField
+from sorl import thumbnail
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,30 @@ def rename_image(instance, filename):
     extension = filename.split('.')[-1]
     filename = '%s.%s' % (uuid.uuid4(), extension)
     return os.path.join('eventbro/images', filename)
+
+
+class SponsorLevel(object):
+    PLATINUM = 1
+    GOLD = 2
+    SILVER = 3
+    BRONZE = 4
+    CHOICES = (
+        (PLATINUM, 'Presenting'),
+        (GOLD, 'Gold'),
+        (SILVER, 'Silver'),
+        (BRONZE, 'Bronze'),
+    )
+
+
+class Sponsor(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    logo = ImageField(upload_to=rename_image, blank=True, null=True)
+    level = models.PositiveSmallIntegerField(blank=True, null=True, choices=SponsorLevel.CHOICES)
+    convention = models.ForeignKey(Convention, related_name='sponsor_convention')
+
+    def __unicode__(self):
+        return '{name}'.format(name=self.name)
 
 
 class EventType(object):
@@ -64,9 +88,13 @@ class Event(models.Model):
                                     verbose_name='Unique identifier')
     event_type = models.CharField(max_length=3, choices=EventType.CHOICES, blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
-    # prizes TextField
-    # rules TextField
-    # sponsor ForeignKey
+
+    # Missing fields (for page generation)
+    prizes = models.TextField(blank=True, null=True)
+    rules = models.TextField(blank=True, null=True)
+    sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
+    organizer = models.CharField(max_length=100, blank=True, null=True)
+
 
     def __unicode__(self):
         return '{name}'.format(name=self.name)
