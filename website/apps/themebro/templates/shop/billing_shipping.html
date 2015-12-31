@@ -29,7 +29,7 @@ If you have an existing account or would like to create one, please
 <fieldset>
     <legend>{% trans "Billing Details" %}</legend>
     {% for field in form.billing_detail_fields %}
-        <div class="form-group input_id_{{ field.label }}">
+        <div class="form-group input_id_{{ field.label }} {% if field.errors %}has-error{% endif %}">
             {% if field.label == "State/Region" %}
                 Province / State
             {% elif field.label == "City/Suburb" %}
@@ -40,6 +40,11 @@ If you have an existing account or would like to create one, please
                 {{ field.label }}
             {% endif %}
             {{ field }}
+            <div class="help-block">
+                {% for error in field.errors %}
+                    <strong>{{ error }}</strong>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 
