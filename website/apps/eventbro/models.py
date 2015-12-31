@@ -96,7 +96,7 @@ class Event(models.Model):
         form_class = self.get_registration_form_class()
         return form_class(event=self)
 
-    def register(self, user, group=None, game_id=None, is_captain=None):
+    def register(self, user, group=None, game_id=None, is_captain=False):
         """
         Registers a user for an event if they are not registered
         """
