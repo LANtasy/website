@@ -367,3 +367,12 @@ div.accordion-group.panel, img.game {
 .comment-author{
     color: #579bd3;
 }
+
+/*error colors*/
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    color: #E6504D;
+}
+
+.has-error > input[type="text"], .has-error > input[type="password"], .has-error > input[type="datetime"], .has-error > input[type="datetime-local"], .has-error > input[type="date"], .has-error > input[type="month"], .has-error > input[type="time"], .has-error > input[type="week"], .has-error > input[type="number"], .has-error > input[type="email"], .has-error > input[type="url"], .has-error > input[type="search"], .has-error > input[type="tel"], .has-error > input[type="color"], .has-error > select, .has-error > textarea {
+    border-color: #E6504D;
+}
