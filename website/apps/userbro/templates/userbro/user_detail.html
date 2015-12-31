@@ -31,8 +31,7 @@
         <div class="col-md-12">
 
             <div class="btn-toolbar pull-right">
-                <a href="{% url 'userbro:change_password' %}" class="btn btn-default"><i class="fa fa-lock"></i> Change Password</a>
-                <a href="{% url 'userbro:user_release_badge' %}" class="btn btn-warning"><i class="fa fa-exclamation-triangle"></i> Release Badge</a>
+
             </div>
 
             <div class="clearfix"></div>
@@ -63,4 +62,20 @@
         </div>
     </div>
 {% endblock main %}
+
+{% block right_panel_include %}
+    <div class="panel panel-default user-panel">
+        <div class="panel-body">
+            <a href="{% url 'userbro:change_password' %}" class="btn btn-default">
+                <i class="fa fa-lock"></i> Change Password
+            </a>
+            {% if user.badge %}
+                <a href="{% url 'userbro:user_release_badge' %}" class="btn btn-warning">
+                    <i class="fa fa-exclamation-triangle"></i> Release Badge
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock right_panel_include %}
 
