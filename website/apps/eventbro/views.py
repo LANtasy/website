@@ -33,7 +33,7 @@ class EventRegistrationMixin(object):
     def get_events(self):
         queryset = self.get_queryset()
         queryset = queryset.filter(valid_options__badges__user=self.request.user)
-        queryset = queryset.order_by('event_type', 'name')
+        queryset = queryset.order_by('event_type', 'start')
 
         if self.category:
             queryset = queryset.filter(event_type=self.category)
