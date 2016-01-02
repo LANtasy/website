@@ -86,7 +86,7 @@ class Event(models.Model):
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
-    event_type = models.CharField(max_length=3, choices=EventType.CHOICES, blank=True, null=True)
+    event_type = models.CharField(max_length=3, choices=EventType.CHOICES)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
 
     # Missing fields (for page generation)
