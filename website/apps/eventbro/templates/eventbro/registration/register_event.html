@@ -152,6 +152,16 @@
                             </div>
                         </div>
 
+                        {% if form.event.description %}
+                        <div class="spacer-10"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form.event.description|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+
                         {% if form.event.group_event or form.event.require_game_id %}
                             {% if form.event not in user.events or not user.events %}
                             <div class="spacer-10"></div>
