@@ -1,18 +1,15 @@
 import logging
 
 from braces.views import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib.messages import error, warning, info, success
-from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView, UpdateView, DetailView
+from django.views.generic import TemplateView, RedirectView, UpdateView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, EventForm, RegistrationUpdateForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm
 from website.apps.eventbro.models import Event, Registration, EventType
 
 logger = logging.getLogger(__name__)
@@ -36,8 +33,10 @@ class EventRegistrationMixin(object):
         queryset = queryset.order_by('event_type', 'start')
 
         if self.category:
-            queryset = queryset.filter(event_type=self.category)
-
+            if self.category == 'REG':
+                queryset = queryset.filter(registrants__user=self.request.user)
+            else:
+                queryset = queryset.filter(event_type=self.category)
         return queryset
 
 
