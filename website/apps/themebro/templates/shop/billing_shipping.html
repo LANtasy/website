@@ -31,13 +31,13 @@ If you have an existing account or would like to create one, please
     {% for field in form.billing_detail_fields %}
         <div class="form-group input_id_{{ field.label }} {% if field.errors %}has-error{% endif %}">
             {% if field.label == "State/Region" %}
-                Province / State
+                Province / State *
             {% elif field.label == "City/Suburb" %}
-                City
+                City *
             {% elif field.label == "Zip/Postcode" %}
-                Postal Code / Zip
+                Postal Code / Zip *
             {% else %}
-                {{ field.label }}
+                {{ field.label }} *
             {% endif %}
             {{ field }}
             <div class="help-block">
@@ -48,6 +48,7 @@ If you have an existing account or would like to create one, please
         </div>
     {% endfor %}
 
+    <p>* - Required fields</p>
 
 </fieldset>
 
