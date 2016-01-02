@@ -54,15 +54,19 @@ class Sponsor(models.Model):
 
 
 class EventType(object):
+    # Reserved: 'ALL', 'REG'
+
     BYOC_LAN = u'LAN'
     MINIATURES = u'MIN'
     TABLETOP = u'TAB'
     RPG = u'RPG'
+    BOARDGAME = u'BDG'
     CHOICES = (
         (BYOC_LAN, u'BYOC LAN'),
         (MINIATURES, u'Miniatures'),
         (RPG, u'RPG'),
         (TABLETOP, u'Tabletop'),
+        (BOARDGAME, u'Board Game')
     )
 
 
@@ -72,6 +76,7 @@ class Event(models.Model):
     MINIATURES = EventType.MINIATURES
     TABLETOP = EventType.TABLETOP
     RPG = EventType.RPG
+    BOARDGAME = EventType.BOARDGAME
 
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
