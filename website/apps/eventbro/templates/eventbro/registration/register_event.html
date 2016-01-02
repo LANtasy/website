@@ -151,8 +151,9 @@
                                 </div>
                             </div>
                         </div>
-                        {% if form.event not in user.events or not user.events %}
-                            {% if form.event.group_event or form.event.require_game_id %}
+
+                        {% if form.event.group_event or form.event.require_game_id %}
+                            {% if form.event not in user.events or not user.events %}
                             <div class="spacer-10"></div>
 
                             <div class="row">
@@ -188,11 +189,11 @@
 
                             </div>
 
+                            {% else %}
+                                <div class="spacer-10"></div>
+                                <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_id=form.event.id %}">Edit Registration</a>
+                            {% endif %}
                         {% endif %}
-                    {% else %}
-                        <div class="spacer-10"></div>
-                        <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_id=form.event.id %}">Edit Registration</a>
-                    {% endif %}
                     </div>
                 </div>
             </div>
