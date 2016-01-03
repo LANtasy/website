@@ -246,6 +246,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
                     break
 
             context['event_forms'] = forms
+            self.request.user.events = Event.objects.filter(registrants__user=self.request.user)
 
             return self.render_to_response(context=context)
 
