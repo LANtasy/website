@@ -24,7 +24,6 @@ class Migration(migrations.Migration):
             name='EventType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('uid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('name', models.CharField(max_length=100)),
                 ('overlapping', models.BooleanField(default=False, verbose_name=b'Overlapping event registration')),
             ],
