@@ -53,8 +53,14 @@ class Sponsor(models.Model):
         return '{name}'.format(name=self.name)
 
 
-class EventType(object):
+class EventType(models.Model):
     # Reserved: 'ALL', 'REG'
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    overlapping = models.BooleanField(verbose_name='Overlapping event registration', default=False)
+
+    def __unicode__(self):
+        return '{name}'.format(name=self.name)
 
     BYOC_LAN = u'LAN'
     MINIATURES = u'MIN'
@@ -71,13 +77,6 @@ class EventType(object):
 
 
 class Event(models.Model):
-
-    BYOC_LAN = EventType.BYOC_LAN
-    MINIATURES = EventType.MINIATURES
-    TABLETOP = EventType.TABLETOP
-    RPG = EventType.RPG
-    BOARDGAME = EventType.BOARDGAME
-
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
     description = models.TextField(blank=True, null=True)
@@ -91,15 +90,12 @@ class Event(models.Model):
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
-    event_type = models.CharField(max_length=3, choices=EventType.CHOICES)
+    event_type = models.ForeignKey(EventType, related_name='event_type_id', blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
-
-    # Missing fields (for page generation)
     prizes = models.TextField(blank=True, null=True)
     rules = models.TextField(blank=True, null=True)
     sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
-
 
     def __unicode__(self):
         return '{name}'.format(name=self.name)

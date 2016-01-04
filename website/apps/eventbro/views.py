@@ -30,7 +30,7 @@ class EventRegistrationMixin(object):
     def get_events(self):
         queryset = self.get_queryset()
         queryset = queryset.filter(valid_options__badges__user=self.request.user)
-        queryset = queryset.order_by('event_type', 'start')
+        queryset = queryset.order_by('start')
 
         if self.category:
             if self.category == 'REG':
@@ -202,7 +202,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 
     def get_context_data(self, **kwargs):
         context = dict()
-        context['event_categories'] = EventType.CHOICES
+        context['event_categories'] = EventType.objects.all()
         context['event_forms'] = self.get_event_forms()
         context['filter_category'] = self.category
         context.update(**kwargs)
