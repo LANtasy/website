@@ -55,7 +55,7 @@ class Sponsor(models.Model):
 
 class EventType(models.Model):
     # Reserved: 'ALL', 'REG'
-    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uid = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     overlapping = models.BooleanField(verbose_name='Overlapping event registration', default=False)
 
