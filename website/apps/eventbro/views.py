@@ -259,6 +259,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
             return False
 
         registered_events = Event.objects.filter(registrants__user=self.request.user)
+        registered_events = registered_events.filter(event_type=event.event_type)
         for registered_event in registered_events:
             if (registered_event.start <= event.end) and (event.start <= registered_event.end):
                 error(self.request, 'This event conflicts with another in your schedule')
