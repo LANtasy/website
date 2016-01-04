@@ -5,7 +5,7 @@ from django.db import migrations, models
 import uuid
 
 
-def null_existing_event(apps,schema_editor):
+def null_existing_event(apps, schema_editor):
     Event = apps.get_model('eventbro', 'Event')
     existing_events = Event.objects.all()
     for existing_event in existing_events:
@@ -23,7 +23,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EventType',
             fields=[
-                ('uid', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('uid', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('name', models.CharField(max_length=100)),
                 ('overlapping', models.BooleanField(default=False, verbose_name=b'Overlapping event registration')),
             ],
