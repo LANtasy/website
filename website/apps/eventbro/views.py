@@ -37,7 +37,7 @@ class EventRegistrationMixin(object):
                 self.filter = queryset.filter(registrants__user=self.request.user)
                 queryset = self.filter
             else:
-                queryset = queryset.filter(event_type=EventType.objects.get(uid=self.category))
+                queryset = queryset.filter(event_type=EventType.objects.get(id=self.category))
         return queryset
 
 

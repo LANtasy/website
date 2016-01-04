@@ -24,7 +24,7 @@ class ConventionAdmin(admin.ModelAdmin):
 
 
 class EventTypeAdmin(admin.ModelAdmin):
-    list_display = ('uid', 'name', 'overlapping')
+    list_display = ('id', 'name', 'overlapping')
 
 class EventAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
