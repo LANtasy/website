@@ -40,16 +40,18 @@
                     <a href="?category=">Display All</a>
                 </li>
                 <li class="divider"></li>
-            {% for category in event_categories %}
-                <li id="{{ category.0 }}">
-                    <a href="?category={{ category.0 }}">
-                        {{ category.1 }}
-                    </a>
-                </li>
-            {% endfor %}
                 <li id="REG">
                     <a href="?category=REG">Registered events</a>
                 </li>
+                <li class="divider"></li>
+            {% for category in event_categories %}
+                <li id="{{ category.uid }}">
+                    <a href="?category={{ category.uid }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% endfor %}
+
             </ul>
 
         </div>
@@ -65,10 +67,10 @@
     {# Loop through all events for this category #}
     {% for form in event_forms %}
 
-        {% ifchanged form.event.event_type %}
+        {% ifchanged form.event.event_type.name %}
         <div class="row">
             <div class="col-md-12">
-                <h3><strong>{{ form.event.get_event_type_display }}</strong></h3>
+                <h3><strong>{{ form.event.event_type.name }}</strong></h3>
             </div>
         </div>
         {% endifchanged %}
