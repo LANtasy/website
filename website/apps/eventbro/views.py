@@ -228,7 +228,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         form_class = event.get_registration_form_class()
         form = form_class(event=event, data=self.request.POST)
 
-        if form.is_valid():
+        if form.is_valid() and not self.check_overlapping(event):
 
             if event.is_full():
                 logger.debug("Event %s full, waitlisting user %s", event.id, self.request.user.id)
@@ -252,6 +252,21 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
             return self.render_to_response(context=context)
 
         return HttpResponseRedirect(self.get_success_url())
+
+    def check_overlapping(self, event):
+        # If overlapping is allowed/ignored
+        if event.event_type.overlapping is True:
+            return False
+
+        registered_events = Event.objects.filter(registrants__user=self.request.user)
+        for registered_event in registered_events:
+            if (registered_event.start <= event.end) and (event.start <= registered_event.end):
+                error(self.request, 'This event conflicts with another in your schedule')
+                return True
+
+        # If no overlapping events were found
+        return False
+
 
     def check_badges_for_user(self):
         user = self.request.user
