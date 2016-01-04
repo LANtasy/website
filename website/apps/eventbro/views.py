@@ -181,10 +181,10 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
     def get(self, request, *args, **kwargs):
         url = self.check_badges_for_user()
 
-        request.user.events = Event.objects.filter(registrants__user=request.user)
-
         if url:
             return HttpResponseRedirect(url)
+
+        request.user.events = Event.objects.filter(registrants__user=request.user)
 
         return self.render_to_response(context=self.get_context_data())
 
