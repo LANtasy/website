@@ -34,9 +34,4 @@ class Migration(migrations.Migration):
             field=models.CharField(blank=True, max_length=3, null=True, choices=[('LAN', 'BYOC LAN'), ('MIN', 'Miniatures'), ('RPG', 'RPG'), ('TAB', 'Tabletop'), ('BDG', 'Board Game')]),
         ),
         migrations.RunPython(null_existing_event, null_existing_event),
-        migrations.AlterField(
-            model_name='event',
-            name='event_type',
-            field=models.ForeignKey(related_name='event_type_id', blank=True, to='eventbro.EventType', null=True),
-        ),
     ]
