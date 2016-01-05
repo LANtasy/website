@@ -90,7 +90,7 @@ class Event(models.Model):
     require_game_id = models.BooleanField(default=False, verbose_name='Require special ID')
     game_id_name = models.CharField(max_length=100, blank=True, null=True,
                                     verbose_name='Unique identifier')
-    event_type = models.ForeignKey(EventType, related_name='event_type_id', blank=True, null=True)
+    #event_type = models.ForeignKey(EventType, related_name='event_type_id', blank=True, null=True)
     image = ImageField(upload_to=rename_image, blank=True, null=True)
     prizes = models.TextField(blank=True, null=True)
     rules = models.TextField(blank=True, null=True)
