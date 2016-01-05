@@ -25,14 +25,7 @@
     </li>
     {% endif %}
     {% endfor %}
-    {% if user.is_authenticated %}
-    <li class="dropdown ative" id="profile">
-        <a href="accounts/logout">Log out</a>
-    {% else %}
-    <li class="dropdown ative" id="profile">
-        <a href="accounts/login">Log in</a>
-    {% endif %}
-    </li>
+    {% include 'pages/menus/user_menu.html' %}
 </ul>
 
 {% else %}
@@ -47,14 +40,6 @@
     </li>
     {% endif %}
     {% endfor %}
-    {% if user.is_authenticated %}
-    <li class="dropdown ative" id="profile">
-        <a href="accounts/logout">Log out</a>
-    {% else %}
-    <li class="dropdown ative" id="profile">
-        <a href="accounts/login">Log in</a>
-    {% endif %}
-    </li>
 </ul>
 {% endif %}
 
