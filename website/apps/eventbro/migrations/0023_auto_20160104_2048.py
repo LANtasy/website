@@ -64,7 +64,7 @@ def remove_event_types(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('eventbro', '0022_auto_20160103_2014'),
+        ('eventbro', '0022_event_event_type'),
     ]
 
     operations = [

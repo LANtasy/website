@@ -31,7 +31,7 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
         (None, {
             'fields': (
                ('name',),
-               ('convention', ), #'event_type',
+               ('convention', 'event_type',),
                ('published',),
                ('start', 'end',),
                ('description',),
@@ -59,9 +59,9 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
             ),
         }),
     )
-    list_display = ('name', 'convention', 'size', 'start', 'end',) # 'event_type',
+    list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
 
-    list_filter = ('name', 'convention',) # 'event_type',
+    list_filter = ('name', 'event_type', 'convention',)
 
 
 class RegistrationAdmin(admin.ModelAdmin):
