@@ -37,7 +37,7 @@ class EventRegistrationMixin(object):
                 self.filter = queryset.filter(registrants__user=self.request.user)
                 queryset = self.filter
             else:
-                queryset = queryset.filter(event_type=EventType.objects.get(id=self.category))
+                queryset = queryset.filter(event_type=EventType.objects.get(uid=self.category))
         return queryset
 
 
@@ -309,8 +309,6 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         }
         return kwargs
 
-    # TODO: If time conflict display warning
-    # TODO: Allow user to remove badge associated with their account
     # TODO: Allow user to generate their event calendar
     # TODO: Limit based on published Conventions
 
