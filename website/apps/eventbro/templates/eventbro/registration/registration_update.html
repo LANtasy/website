@@ -7,22 +7,22 @@
 
 <!--TODO: make sure this keywords is working-->
 {% block meta_keywords %}{% metablock %}
-{% for keyword in page.keywords.all %}
-    {% if not forloop.first %}, {% endif %}
-    {{ keyword }}
-{% endfor %}
+    {% for keyword in page.keywords.all %}
+        {% if not forloop.first %}, {% endif %}
+        {{ keyword }}
+    {% endfor %}
 {% endmetablock %}{% endblock %}
 
 <!--TODO: make sure this description is working-->
 {% block meta_description %}{% metablock %}
-{{ ticket.description }}
+    {{ ticket.description }}
 {% endmetablock %}{% endblock %}
 
 <!--TODO: make sure this breadcrumb menu is working-->
 {% block breadcrumb_menu %}
-{{ block.super }}
-<li>Registration</li>
-<li>Update Event Registration</li>
+    {{ block.super }}
+    <li>Registration</li>
+    <li>Update Event Registration</li>
 {% endblock %}
 
 {% block body_id %}category{% endblock %}
@@ -35,12 +35,12 @@
                 {% csrf_token %}
 
                 {% if registration.event.require_game_id %}
-                {{ form.game_id|as_crispy_field }}
+                    {{ form.game_id|as_crispy_field }}
                 {% endif %}
 
                 {% if registration.event.group_event %}
-                {{ form.group_name|as_crispy_field }}
-                {{ form.group_captain|as_crispy_field }}
+                    {{ form.group_name|as_crispy_field }}
+                    {{ form.group_captain|as_crispy_field }}
                 {% endif %}
 
 
