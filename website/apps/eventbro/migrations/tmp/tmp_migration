@@ -5,6 +5,14 @@ from django.db import migrations, models
 import uuid
 
 
+def null_existing_event(apps, schema_editor):
+    Event = apps.get_model('eventbro', 'Event')
+    existing_events = Event.objects.all()
+    for existing_event in existing_events:
+        existing_event.event_type = None
+        existing_event.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,4 +28,10 @@ class Migration(migrations.Migration):
                 ('overlapping', models.BooleanField(default=False, verbose_name=b'Overlapping event registration')),
             ],
         ),
+        migrations.AlterField(
+            model_name='event',
+            name='event_type',
+            field=models.CharField(blank=True, max_length=3, null=True, choices=[('LAN', 'BYOC LAN'), ('MIN', 'Miniatures'), ('RPG', 'RPG'), ('TAB', 'Tabletop'), ('BDG', 'Board Game')]),
+        ),
+        migrations.RunPython(null_existing_event, null_existing_event),
     ]
