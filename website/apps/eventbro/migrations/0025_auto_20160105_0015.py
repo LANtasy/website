@@ -18,7 +18,7 @@ def modify_slugs(apps, schema_editor):
             model_object.save()
 
 
-def do_nothing():
+def do_nothing(apps, schema_editor):
     pass
 
 
