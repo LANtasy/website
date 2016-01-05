@@ -2,18 +2,32 @@ import os
 import uuid
 import logging
 
+from autoslug import AutoSlugField
+from autoslug.utils import slugify
 from django.contrib.auth.models import User
-from django.db import models, transaction
+from django.db import models
 
 from website.apps.salesbro.models import Ticket, TicketOption
 from sorl.thumbnail import ImageField
-from sorl import thumbnail
 
 logger = logging.getLogger(__name__)
 
 
+def generate_slug(instance):
+    name = instance.name
+    return slugify(name)
+
+
+def rename_image(instance, filename):
+    extension = filename.split('.')[-1]
+    filename = '%s.%s' % (uuid.uuid4(), extension)
+    return os.path.join('eventbro/images', filename)
+
+
 class Convention(models.Model):
+    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -23,30 +37,24 @@ class Convention(models.Model):
         return '{name}'.format(name=self.name)
 
 
-def rename_image(instance, filename):
-    extension = filename.split('.')[-1]
-    filename = '%s.%s' % (uuid.uuid4(), extension)
-    return os.path.join('eventbro/images', filename)
-
-
-class SponsorLevel(object):
+class Sponsor(models.Model):
     PLATINUM = 1
     GOLD = 2
     SILVER = 3
     BRONZE = 4
-    CHOICES = (
+    SPONSOR_LEVEL_CHOICES = (
         (PLATINUM, 'Presenting'),
         (GOLD, 'Gold'),
         (SILVER, 'Silver'),
         (BRONZE, 'Bronze'),
     )
 
-
-class Sponsor(models.Model):
-    name = models.CharField(max_length=255, blank=True, null=True)
+    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
+    name = models.CharField(max_length=255)
+    slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
     logo = ImageField(upload_to=rename_image, blank=True, null=True)
-    level = models.PositiveSmallIntegerField(blank=True, null=True, choices=SponsorLevel.CHOICES)
+    level = models.PositiveSmallIntegerField(blank=True, null=True, choices=SPONSOR_LEVEL_CHOICES)
     convention = models.ForeignKey(Convention, related_name='sponsor_convention')
 
     def __unicode__(self):
@@ -54,31 +62,20 @@ class Sponsor(models.Model):
 
 
 class EventType(models.Model):
-    # Reserved: 'ALL', 'REG'
-    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100)
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(max_length=100, unique=True)
+    slug = AutoSlugField(populate_from='name', unique=True,)
     overlapping = models.BooleanField(verbose_name='Overlapping event registration', default=False)
 
     def __unicode__(self):
         return '{name}'.format(name=self.name)
 
-    BYOC_LAN = u'LAN'
-    MINIATURES = u'MIN'
-    TABLETOP = u'TAB'
-    RPG = u'RPG'
-    BOARDGAME = u'BDG'
-    CHOICES = (
-        (BYOC_LAN, u'BYOC LAN'),
-        (MINIATURES, u'Miniatures'),
-        (RPG, u'RPG'),
-        (TABLETOP, u'Tabletop'),
-        (BOARDGAME, u'Board Game')
-    )
-
 
 class Event(models.Model):
+    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
     convention = models.ForeignKey(Convention, related_name='event_convention_id')
     name = models.CharField(verbose_name='Event Name', max_length=100)
+    slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
     start = models.DateTimeField(verbose_name='Start Time')
     end = models.DateTimeField(verbose_name='End Time')

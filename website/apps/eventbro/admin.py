@@ -11,6 +11,7 @@ class ConventionAdmin(admin.ModelAdmin):
             'fields': (
                 ('name', 'published',),
                 ('start', 'end',),
+                ('uid',),
             )
         }),
         ('Details', {
@@ -18,13 +19,14 @@ class ConventionAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ['name', 'start', 'end']
-
-    # list_filter = ("order", "ticket")
+    list_display = ('name', 'start', 'end')
+    readonly_fields = ('slug', 'uid',)
 
 
 class EventTypeAdmin(admin.ModelAdmin):
-    list_display = ('uid', 'name', 'overlapping')
+    list_display = ('name', 'overlapping')
+    readonly_fields = ('slug', 'uid',)
+
 
 class EventAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
@@ -60,8 +62,8 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
         }),
     )
     list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
-
     list_filter = ('name', 'event_type', 'convention',)
+    readonly_fields = ('slug', 'uid',)
 
 
 class RegistrationAdmin(admin.ModelAdmin):
@@ -81,9 +83,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ('date_added',)
-
     list_display = ('id', 'user', 'event', 'date_added', 'game_id', 'group_name', 'group_captain')
-
     list_filter = ('user', 'event')
 
 
@@ -98,17 +98,11 @@ class SponsorAdmin(AdminImageMixin, admin.ModelAdmin):
                 ('convention',),
             )
         }),
-        # ('Optional', {
-        #     'fields': (
-        #         ('group_name', 'group_captain',),
-        #         ('game_id',),
-        #     )
-        # }),
     )
 
-    list_display = ('id', 'name', 'level', 'convention')
-
+    list_display = ('name', 'level', 'convention')
     list_filter = ('level', 'convention')
+    readonly_fields = ('slug', 'uid',)
 
 
 admin.site.register(Registration, RegistrationAdmin)
