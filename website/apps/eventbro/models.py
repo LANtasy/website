@@ -34,7 +34,7 @@ class Convention(models.Model):
     published = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '{name}'.format(name=self.name)
+        return '{name}'.format(name=self.slug)
 
 
 class Sponsor(models.Model):
@@ -58,7 +58,7 @@ class Sponsor(models.Model):
     convention = models.ForeignKey(Convention, related_name='sponsor_convention_uid')
 
     def __unicode__(self):
-        return '{name}'.format(name=self.name)
+        return '{name}'.format(name=self.slug)
 
 
 class EventType(models.Model):
@@ -68,7 +68,7 @@ class EventType(models.Model):
     overlapping = models.BooleanField(verbose_name='Overlapping event registration', default=False)
 
     def __unicode__(self):
-        return '{name}'.format(name=self.name)
+        return '{name}'.format(name=self.slug)
 
 
 class Event(models.Model):
@@ -95,7 +95,7 @@ class Event(models.Model):
     organizer = models.CharField(max_length=100, blank=True, null=True)
 
     def __unicode__(self):
-        return '{name}'.format(name=self.name)
+        return '{name}'.format(name=self.slug)
 
     def available_spots(self):
         registered = Registration.objects.filter(event=self).count()
