@@ -20,8 +20,8 @@ CHECKBOX_MAPPING = {'on': True, 'off': False, }
 class EventRegistrationMixin(object):
 
     queryset = Event.objects.filter(published=True).defer('prizes', 'rules', 'sponsor', 'organizer')
-    lookup_url_kwarg = 'id'
-    lookup_field = 'uid'
+    lookup_url_kwarg = 'slug'
+    lookup_field = 'slug'
     category = None
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class EventRegistrationMixin(object):
                 self.filter = queryset.filter(registrants__user=self.request.user)
                 queryset = self.filter
             else:
-                queryset = queryset.filter(event_type=EventType.objects.get(uid=self.category))
+                queryset = queryset.filter(event_type=EventType.objects.get(slug=self.category))
         return queryset
 
 
@@ -242,7 +242,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 
             # Replace blank event form with filled out form + errors
             for index, reg_form in enumerate(forms):
-                if reg_form.event.id == event.id:
+                if reg_form.event.slug == event.slug:
                     forms[index] = form
                     break
 
@@ -319,14 +319,15 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'eventbro/registration/registration_update.html'
     queryset = Registration.objects.all()
-    lookup_field = 'event_id'
-    pk_url_kwarg = 'event_id'
+    lookup_field = 'event_id__slug'
+    pk_url_kwarg = 'event_slug'
     form_class = RegistrationUpdateForm
     success_url = reverse_lazy('eventbro:register_event')
 
     def get_queryset(self):
         queryset = super(RegistrationUpdateView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user)
+
         return queryset
 
     def get_object(self, queryset=None):
@@ -336,7 +337,6 @@ class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
         registration = get_object_or_404(queryset, **filter_kwargs)
 
         return registration
-
 
 
 register_redirect = RegisterRedirectView.as_view()

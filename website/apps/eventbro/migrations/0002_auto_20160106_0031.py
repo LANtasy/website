@@ -7,12 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('eventbro', '0037_auto_20160105_2143'),
+        ('eventbro', '0001_initial'),
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.AlterField(
             model_name='registration',
             name='event',
+            field=models.ForeignKey(related_name='registrants', blank=True, to='eventbro.Event', null=True),
         ),
     ]

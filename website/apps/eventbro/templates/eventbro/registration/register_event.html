@@ -46,7 +46,7 @@
                     <li class="divider"></li>
                     {% for category in event_categories %}
                         <li id="{{ category.uid }}">
-                            <a href="?category={{ category.uid }}">
+                            <a href="?category={{ category.slug }}">
                                 {{ category.name }}
                             </a>
                         </li>
@@ -75,7 +75,7 @@
                     </div>
                 {% endifchanged %}
 
-                <form method="POST" action="{% url 'eventbro:register_event' id=form.event.id %}?category={{ filter_category }}" class="register-event-form" novalidate autocomplete="off">
+                <form method="POST" action="{% url 'eventbro:register_event' slug=form.event.slug %}?category={{ filter_category }}" class="register-event-form" novalidate autocomplete="off">
                     {% csrf_token %}
                     <div class="row">
                         <div class="container-fluid">
@@ -206,7 +206,7 @@
 
                                             {% else %}
                                                 <div class="spacer-10"></div>
-                                                <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_id=form.event.id %}">Edit Registration</a>
+                                                <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_slug=form.event.slug %}">Edit Registration</a>
                                             {% endif %}
                                         {% endif %}
                                     </div>
