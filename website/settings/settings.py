@@ -214,8 +214,15 @@ INSTALLED_APPS = (
     'debug_toolbar',
 
     # --Core--
+    'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
+    'website.apps.userbro',
+
+    # --Utils--
+    'django_cleanup',
+    'sorl.thumbnail',
+    'crispy_forms',
 )
 
 # List of processors used by RequestContext to populate the context.
@@ -292,6 +299,12 @@ STRIPE_PUBLISHABLE = os.getenv('DJANGO_STRIPE_PUBLISHABLE')
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
 MAILGUN_ACCESS_KEY = os.getenv('MAILGUN_ACCESS_KEY')
 MAILGUN_SERVER_NAME = os.getenv('MAILGUN_SERVER_NAME')
+
+# Thumbnails
+THUMBNAIL_CACHE_TIMEOUT = 3600 * 24 * 120
+
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ##################
 # LOCAL SETTINGS #

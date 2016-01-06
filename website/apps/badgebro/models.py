@@ -1,7 +1,7 @@
 import uuid
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 
 from cartridge.shop.models import Order, OrderItem
 from website.apps.salesbro.models import TicketOption
@@ -36,3 +36,8 @@ class Badge(models.Model):
     def generate_uid(self):
         return 'BA{uid}'.format(uid=uuid.uuid4().hex)
 
+    def release(self):
+        with transaction.atomic():
+            self.user.registration_user.all().delete()
+            self.user = None
+            self.save()

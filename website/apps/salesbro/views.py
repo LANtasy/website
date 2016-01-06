@@ -28,11 +28,12 @@ logger = logging.getLogger(__name__)
 
 class TicketListView(ListView):
     model = Ticket
-    template_name = 'salesbro/ticket_list.html'
+    template_name = 'salesbro/shop/ticket_list.html'
 
 
 class TicketDetailView(DetailView):
     queryset = Ticket.objects.filter(available=True)
+    template_name = 'salesbro/shop/ticket_detail.html'
     slug_url_kwarg = 'slug'
     slug_field = 'slug'
     form_class = AddTicketForm

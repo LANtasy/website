@@ -17,13 +17,13 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="copyright" content="LANtasy Gaming Society">
-    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+    <title>{% block meta_title_override %}{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}{% endblock meta_title_override %}</title>
     <!--BASIC-->
     <meta name="keywords" content="{% block meta_keywords %}{% endblock meta_keywords %}">
     <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
     <!--FACEBOOK-->
     <meta property="og:url" content="https://www.lantasy.com" />
-    <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
+    <meta property="og:title" content="{% block meta_ogtitle %}{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}{% endblock meta_ogtitle %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ settings.SITE_TAGLINE }}{% endif %}" />
     <meta property="og:url" content="{{ page.get_absolute_url_with_host }}" />
@@ -133,7 +133,8 @@
         {% nevercache %}
         {% block right_panel %}
         {% include "includes/language_selector.html" %}
-        {% include "includes/user_panel.html" %}
+        {% include "lantasy/includes/user_panel.html" %}
+        {% block right_panel_include %}{% endblock right_panel_include %}
         {% endblock right_panel %}
         {% endnevercache %}
     </div>
