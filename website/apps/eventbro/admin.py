@@ -15,14 +15,37 @@ class ConventionAdmin(ImportExportModelAdmin):
         ('Details', {
             'fields': ('description',)
         }),
+        ('Read-Only', {
+            'fields': (
+                ('slug',),
+                ('uid',),
+            )
+        }),
     )
 
-    list_display = ('name', 'start', 'end')
-    readonly_fields = ('slug',)
+    list_display = ('slug', 'name', 'published', 'start', 'end',)
+    list_filter = ('start',)
+    readonly_fields = ('slug', 'uid')
 
 
 class EventTypeAdmin(ImportExportModelAdmin):
-    list_display = ('name', 'overlapping')
+    fieldsets = (
+        (None, {
+            'fields': (
+                ('name',),
+                ('overlapping',),
+            )
+        }),
+        ('Read-Only', {
+            'fields': (
+                ('slug',),
+                ('uid',),
+            )
+        }),
+    )
+
+    list_display = ('slug', 'name', 'overlapping')
+    list_filter = ()
     readonly_fields = ('slug', 'uid',)
 
 
@@ -58,11 +81,40 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
                 ('rules',),
             ),
         }),
+        ('Read-Only', {
+            'fields': (
+                ('slug',),
+                ('uid',),
+            )
+        }),
     )
-    list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
+    list_display = ('slug', 'published', 'event_type', 'convention', 'size', 'start', 'end',)
+    list_filter = ('event_type', 'convention',)
+    readonly_fields = ('slug', 'uid',)
 
-    list_filter = ('name', 'event_type', 'convention',)
-    readonly_fields = ('slug', )    # 'uid',
+
+class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
+    fieldsets = (
+        ('Required', {
+            'fields': (
+                ('name',),
+                ('description',),
+                ('logo',),
+                ('level',),
+                ('convention',),
+            )
+        }),
+        ('Read-Only', {
+            'fields': (
+                ('slug',),
+                ('uid',),
+            )
+        }),
+    )
+
+    list_display = ('slug', 'name', 'level', 'convention')
+    list_filter = ('level', 'convention')
+    readonly_fields = ('slug', 'uid')
 
 
 class RegistrationAdmin(ImportExportModelAdmin):
@@ -82,26 +134,8 @@ class RegistrationAdmin(ImportExportModelAdmin):
     )
 
     readonly_fields = ('date_added',)
-    list_display = ('id', 'user', 'date_added', 'game_id', 'group_name', 'group_captain') # 'event',
-    list_filter = ('user', ) # 'event'
-
-
-class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
-    fieldsets = (
-        ('Required', {
-            'fields': (
-                ('name',),
-                ('description',),
-                ('logo',),
-                ('level',),
-                ('convention',),
-            )
-        }),
-    )
-
-    list_display = ('name', 'level', 'convention')
-    list_filter = ('level', 'convention')
-    readonly_fields = ('slug', 'uid')
+    list_display = ('id', 'user', 'event', 'date_added', 'game_id', 'group_name', 'group_captain')
+    list_filter = ('user', 'event',)
 
 
 admin.site.register(Registration, RegistrationAdmin)
