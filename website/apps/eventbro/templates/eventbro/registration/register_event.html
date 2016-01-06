@@ -85,7 +85,7 @@
                                         {% if form.event.image %}
                                             <div class="col-md-3">
                                                 {% if form.event.image %}
-                                                    {% thumbnail form.event.image "200x115" as im %}
+                                                    {% thumbnail form.event.image "200x115" format="PNG" as im %}
                                                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                                                     {% endthumbnail %}
                                                 {% endif %}
