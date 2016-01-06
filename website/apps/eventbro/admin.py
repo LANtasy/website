@@ -1,8 +1,7 @@
 from django.contrib import admin
-
 from website.apps.eventbro.models import Convention, Event, Registration, Sponsor, EventType
-
 from sorl.thumbnail.admin import AdminImageMixin
+from import_export.admin import ImportExportModelAdmin
 
 
 class ConventionAdmin(admin.ModelAdmin):
@@ -23,10 +22,10 @@ class ConventionAdmin(admin.ModelAdmin):
     # list_filter = ("order", "ticket")
 
 
-class EventTypeAdmin(admin.ModelAdmin):
+class EventTypeAdmin(ImportExportModelAdmin):
     list_display = ('uid', 'name', 'overlapping')
 
-class EventAdmin(AdminImageMixin, admin.ModelAdmin):
+class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (

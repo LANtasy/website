@@ -223,6 +223,7 @@ INSTALLED_APPS = (
     'django_cleanup',
     'sorl.thumbnail',
     'crispy_forms',
+    'import_export',
 )
 
 # List of processors used by RequestContext to populate the context.
