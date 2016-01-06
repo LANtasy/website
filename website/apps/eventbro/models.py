@@ -155,7 +155,7 @@ class Event(models.Model):
 
 class Registration(models.Model):
     user = models.ForeignKey(User, related_name='registration_user')
-    event = models.ForeignKey(Event, related_name='registrats', blank=True, null=True)
+    event = models.ForeignKey(Event, related_name='registrants', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     group_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Group Name')
     group_captain = models.BooleanField(default=False)
