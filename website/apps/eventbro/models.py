@@ -71,10 +71,9 @@ class EventType(models.Model):
         return '{name}'.format(name=self.name)
 
 
-#uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
 class Event(models.Model):
-
-    convention = models.ForeignKey(Convention, related_name='event_convention_uid', to_field='uid')
+    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    convention = models.ForeignKey(Convention, related_name='event_convention_uid')
     name = models.CharField(verbose_name='Event Name', max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
@@ -92,7 +91,7 @@ class Event(models.Model):
     image = ImageField(upload_to=rename_image, blank=True, null=True)
     prizes = models.TextField(blank=True, null=True)
     rules = models.TextField(blank=True, null=True)
-    sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True, to_field='uid')
+    sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
 
     def __unicode__(self):
@@ -156,7 +155,7 @@ class Event(models.Model):
 
 class Registration(models.Model):
     user = models.ForeignKey(User, related_name='registration_user')
-    event = models.ForeignKey(Event, related_name='registrants')
+    event = models.ForeignKey(Event, related_name='registrats', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     group_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Group Name')
     group_captain = models.BooleanField(default=False)

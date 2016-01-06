@@ -69,7 +69,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
-                ('user', 'event',),
+                ('user', ), # 'event',
                 ('date_added',),
             )
         }),
@@ -82,8 +82,8 @@ class RegistrationAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ('date_added',)
-    list_display = ('id', 'user', 'event', 'date_added', 'game_id', 'group_name', 'group_captain')
-    list_filter = ('user', 'event')
+    list_display = ('id', 'user', 'date_added', 'game_id', 'group_name', 'group_captain') # 'event',
+    list_filter = ('user', ) # 'event'
 
 
 class SponsorAdmin(AdminImageMixin, admin.ModelAdmin):

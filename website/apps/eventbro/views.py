@@ -19,9 +19,9 @@ CHECKBOX_MAPPING = {'on': True, 'off': False, }
 
 class EventRegistrationMixin(object):
 
-    queryset = Event.objects.filter(published=True)
+    queryset = Event.objects.filter(published=True).defer('prizes', 'rules', 'sponsor', 'organizer')
     lookup_url_kwarg = 'id'
-    lookup_field = 'id'
+    lookup_field = 'uid'
     category = None
 
     def get_queryset(self):
@@ -253,6 +253,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
 
         return HttpResponseRedirect(self.get_success_url())
 
+    # todo: put this in the eventtype model
     def check_overlapping(self, event):
         # If overlapping is allowed/ignored
         if event.event_type.overlapping is True:
