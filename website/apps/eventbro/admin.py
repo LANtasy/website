@@ -4,7 +4,7 @@ from sorl.thumbnail.admin import AdminImageMixin
 from import_export.admin import ImportExportModelAdmin
 
 
-class ConventionAdmin(admin.ModelAdmin):
+class ConventionAdmin(ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
@@ -65,7 +65,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     readonly_fields = ('slug', )    # 'uid',
 
 
-class RegistrationAdmin(admin.ModelAdmin):
+class RegistrationAdmin(ImportExportModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
@@ -86,7 +86,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_filter = ('user', ) # 'event'
 
 
-class SponsorAdmin(AdminImageMixin, admin.ModelAdmin):
+class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
