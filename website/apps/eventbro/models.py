@@ -25,7 +25,7 @@ def rename_image(instance, filename):
 
 
 class Convention(models.Model):
-    uid = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False,) #
+    uid = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False,)
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
@@ -37,7 +37,6 @@ class Convention(models.Model):
         return '{name}'.format(name=self.name)
 
 
-#uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
 class Sponsor(models.Model):
     PLATINUM = 1
     GOLD = 2
@@ -50,7 +49,7 @@ class Sponsor(models.Model):
         (BRONZE, 'Bronze'),
     )
 
-
+    uid = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False,)
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
@@ -93,7 +92,7 @@ class Event(models.Model):
     image = ImageField(upload_to=rename_image, blank=True, null=True)
     prizes = models.TextField(blank=True, null=True)
     rules = models.TextField(blank=True, null=True)
-    sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
+    sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True, to_field='uid')
     organizer = models.CharField(max_length=100, blank=True, null=True)
 
     def __unicode__(self):

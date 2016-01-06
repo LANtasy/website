@@ -11,7 +11,6 @@ class ConventionAdmin(admin.ModelAdmin):
             'fields': (
                 ('name', 'published',),
                 ('start', 'end',),
-                ('uid',),
             )
         }),
         ('Details', {
@@ -20,7 +19,7 @@ class ConventionAdmin(admin.ModelAdmin):
     )
 
     list_display = ('name', 'start', 'end')
-    readonly_fields = ('slug', 'uid')
+    readonly_fields = ('slug',)
 
 
 class EventTypeAdmin(admin.ModelAdmin):
@@ -61,8 +60,8 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
             ),
         }),
     )
-    list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',) #
-    list_filter = ('name', 'event_type', 'convention',) #
+    list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
+    list_filter = ('name', 'event_type', 'convention',)
     readonly_fields = ('slug', )    # 'uid',
 
 
@@ -91,18 +90,18 @@ class SponsorAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
-                ('name', 'tmp'),
+                ('name',),
                 ('description',),
                 ('logo',),
                 ('level',),
-                #('convention',),
+                ('convention',),
             )
         }),
     )
 
-    list_display = ('name', 'level', 'convention') #
-    list_filter = ('level', 'convention') #
-    readonly_fields = ('slug', )    # 'uid',
+    list_display = ('name', 'level', 'convention')
+    list_filter = ('level', 'convention')
+    readonly_fields = ('slug', 'uid')
 
 
 admin.site.register(Registration, RegistrationAdmin)
