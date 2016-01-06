@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import uuid
+
 from django.db import migrations, models
-import autoslug.fields
 
 
 class Migration(migrations.Migration):
 
+
     dependencies = [
-        ('eventbro', '0029_auto_20160105_0138'),
+        ('eventbro', '0027_auto_20160105_0124'),
     ]
 
     operations = [
-        migrations.AlterField(
+        # Step 1 - Create field
+        migrations.AddField(
             model_name='convention',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(populate_from=b'name', unique=True, editable=False),
+            name='uid',
+            field=models.UUIDField(default=uuid.uuid4, null=True, unique=True),
         ),
     ]

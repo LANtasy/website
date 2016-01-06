@@ -8,7 +8,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('eventbro', '0028_auto_20160105_0051'),
+        ('eventbro', '0032_auto_20160105_2110'),
     ]
 
     operations = [
@@ -16,14 +16,6 @@ class Migration(migrations.Migration):
             model_name='convention',
             name='id',
         ),
-        migrations.RemoveField(
-            model_name='event',
-            name='id',
-        ),
-        migrations.RemoveField(
-            model_name='sponsor',
-            name='id',
-        ),
         migrations.AlterField(
             model_name='convention',
             name='uid',
@@ -31,12 +23,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='event',
-            name='uid',
-            field=models.UUIDField(primary_key=True, default=uuid.uuid4, serialize=False, editable=False, unique=True),
+            name='convention',
+            field=models.ForeignKey(related_name='event_convention_uid', blank=True, to='eventbro.Convention', null=True),
         ),
         migrations.AlterField(
             model_name='sponsor',
-            name='uid',
-            field=models.UUIDField(primary_key=True, default=uuid.uuid4, serialize=False, editable=False, unique=True),
+            name='convention',
+            field=models.ForeignKey(related_name='sponsor_convention_uid', blank=True, to='eventbro.Convention', null=True),
         ),
     ]

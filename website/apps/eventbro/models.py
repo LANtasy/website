@@ -25,7 +25,7 @@ def rename_image(instance, filename):
 
 
 class Convention(models.Model):
-    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
+    uid = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False,) #
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
@@ -37,6 +37,7 @@ class Convention(models.Model):
         return '{name}'.format(name=self.name)
 
 
+#uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
 class Sponsor(models.Model):
     PLATINUM = 1
     GOLD = 2
@@ -49,13 +50,13 @@ class Sponsor(models.Model):
         (BRONZE, 'Bronze'),
     )
 
-    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
+
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
     logo = ImageField(upload_to=rename_image, blank=True, null=True)
     level = models.PositiveSmallIntegerField(blank=True, null=True, choices=SPONSOR_LEVEL_CHOICES)
-    convention = models.ForeignKey(Convention, related_name='sponsor_convention')
+    convention = models.ForeignKey(Convention, related_name='sponsor_convention_uid')
 
     def __unicode__(self):
         return '{name}'.format(name=self.name)
@@ -71,9 +72,10 @@ class EventType(models.Model):
         return '{name}'.format(name=self.name)
 
 
+#uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
 class Event(models.Model):
-    uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4, unique=True)
-    convention = models.ForeignKey(Convention, related_name='event_convention_id')
+
+    convention = models.ForeignKey(Convention, related_name='event_convention_uid', to_field='uid')
     name = models.CharField(verbose_name='Event Name', max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
