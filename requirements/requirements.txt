@@ -56,3 +56,6 @@ wsgiref==0.1.2
 xhtml2pdf==0.0.6
 django_braces==1.8.1
 sorl-thumbnail==12.3
+django-import-export==0.4.2
+tablib==0.10.0
+diff-match-patch==20110725.1

@@ -1,8 +1,7 @@
 from django.contrib import admin
-
 from website.apps.eventbro.models import Convention, Event, Registration, Sponsor, EventType
-
 from sorl.thumbnail.admin import AdminImageMixin
+from import_export.admin import ImportExportModelAdmin
 
 
 class ConventionAdmin(admin.ModelAdmin):
@@ -22,17 +21,17 @@ class ConventionAdmin(admin.ModelAdmin):
     readonly_fields = ('slug',)
 
 
-class EventTypeAdmin(admin.ModelAdmin):
+class EventTypeAdmin(ImportExportModelAdmin):
     list_display = ('name', 'overlapping')
     readonly_fields = ('slug', 'uid',)
 
 
-class EventAdmin(AdminImageMixin, admin.ModelAdmin):
+class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
                ('name',),
-               ( 'event_type', 'convention',),
+               ('convention', 'event_type',),
                ('published',),
                ('start', 'end',),
                ('description',),
@@ -61,6 +60,7 @@ class EventAdmin(AdminImageMixin, admin.ModelAdmin):
         }),
     )
     list_display = ('name', 'event_type', 'convention', 'size', 'start', 'end',)
+
     list_filter = ('name', 'event_type', 'convention',)
     readonly_fields = ('slug', )    # 'uid',
 
@@ -69,7 +69,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
-                ('user', ), # 'event',
+                ('user', 'event',),
                 ('date_added',),
             )
         }),
