@@ -97,11 +97,11 @@ class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
     fieldsets = (
         ('Required', {
             'fields': (
+                ('convention', 'level',),
                 ('name',),
+                ('url',),
                 ('description',),
                 ('logo',),
-                ('level',),
-                ('convention',),
             )
         }),
         ('Read-Only', {

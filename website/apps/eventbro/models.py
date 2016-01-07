@@ -56,6 +56,7 @@ class Sponsor(models.Model):
     logo = ImageField(upload_to=rename_image, blank=True, null=True)
     level = models.PositiveSmallIntegerField(blank=True, null=True, choices=SPONSOR_LEVEL_CHOICES)
     convention = models.ForeignKey(Convention, related_name='sponsor_convention_uid')
+    url = models.URLField(max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
