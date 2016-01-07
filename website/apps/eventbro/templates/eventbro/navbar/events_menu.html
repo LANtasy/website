@@ -1,22 +1,30 @@
+{% if navbar_conventions.count > 0 %}
 <li class="dropdown active" id="events">
-    {% if get_events.count > 0 %}
-        <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
-            Events
-            <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-            {% for event in get_events %}
-                {% ifchanged event.convention %}
-                    <li class="dropdown" id="{{ event.convention.slug }}">
-                        <a href="#">{{ event.convention }}</a>
-                    </li>
-                {% endifchanged event.convention %}
+    <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
+        Events
+        <b class="caret"></b>
+    </a>
 
-            {% endfor event %}
-        </ul>
+    <ul class="dropdown-menu">
+    {% for convention in navbar_conventions %}
+        <li class="{% if convention.has_events %}dropdown-submenu{% endif %}" id="{{ convention.slug }}">
+            <a href="#">{{ convention.name }}</a>
+            {% if convention.has_events %}
+            <ul class="dropdown-menu">
+                {% for event in convention.get_events %}
+                    {% ifchanged event.event_type.slug %}
+                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
+                    {% endifchanged %}
+                            <a href="#">{{ event.event_type.name }}</a>
 
-
-    {% else %}
-        <a href="accounts/login">Log in</a>
-    {% endif %}
+                    {% ifchanged event.event_type.slug %}
+                        </li>
+                    {% endifchanged %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
 </li>
+{% endif %}

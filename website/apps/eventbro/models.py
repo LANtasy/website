@@ -36,6 +36,19 @@ class Convention(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
+    def has_events(self):
+        events = Event.objects.filter(convention=self).count()
+        if events > 0:
+            return True
+        else:
+            return False
+
+    def get_events(self):
+        events = Event.objects.filter(convention=self, published=True)
+        events.only('convention', 'event_type', 'name', 'slug', 'start')
+        events.order_by('event_type', 'name')
+        return events
+
 
 class Sponsor(models.Model):
     PLATINUM = 1
