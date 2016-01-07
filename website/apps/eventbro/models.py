@@ -45,9 +45,13 @@ class Convention(models.Model):
 
     def get_events(self):
         events = Event.objects.filter(convention=self, published=True)
-        events.only('convention', 'event_type', 'name', 'slug', 'start')
-        events.order_by('event_type', 'name')
+        events = events.only('event_type', 'name', 'slug')
+        events = events.order_by('event_type')
         return events
+
+    def get_event_types(self):
+        event_types = EventType.objects.filter(event_type_id__convention=self, event_type_id__published=True).distinct()
+        return event_types
 
 
 class Sponsor(models.Model):

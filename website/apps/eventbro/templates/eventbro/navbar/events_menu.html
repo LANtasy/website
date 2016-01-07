@@ -11,16 +11,26 @@
             <a href="#">{{ convention.name }}</a>
             {% if convention.has_events %}
             <ul class="dropdown-menu">
-                {% for event in convention.get_events %}
-                    {% ifchanged event.event_type.slug %}
+            {% for event in convention.get_events %}
+                {% ifchanged event.event_type %}
+                    {% if forloop.first %}
                         <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
-                    {% endifchanged %}
                             <a href="#">{{ event.event_type.name }}</a>
-
-                    {% ifchanged event.event_type.slug %}
+                            <ul class="dropdown-menu">
+                    {% else %}
+                            </ul>
                         </li>
-                    {% endifchanged %}
-                {% endfor %}
+                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
+                            <a href="#">{{ event.event_type.name }}</a>
+                            <ul class="dropdown-menu">
+                    {% endif %}
+                {% endifchanged %}
+                                <li id="{{ event.slug }}">
+                                    <a href="#">{{ event.name }}</a>
+                                </li>
+            {% endfor %}
+                            </ul>
+                        </li>
             </ul>
             {% endif %}
         </li>
@@ -28,3 +38,12 @@
     </ul>
 </li>
 {% endif %}
+
+{#{% if navbar_events.conventions.count > 0 %}#}
+{#    <li class="dropdown active" id="events">#}
+{#        <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">#}
+{#            Events#}
+{#            <b class="caret"></b>#}
+{#        </a>#}
+{#    </li>#}
+{#{% endif %}#}
