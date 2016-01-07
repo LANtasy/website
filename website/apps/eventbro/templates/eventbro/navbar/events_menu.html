@@ -1,0 +1,22 @@
+<li class="dropdown active" id="events">
+    {% if get_events.count > 0 %}
+        <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
+            Events
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            {% for event in get_events %}
+                {% ifchanged event.convention %}
+                    <li class="dropdown" id="{{ event.convention.slug }}">
+                        <a href="#">{{ event.convention }}</a>
+                    </li>
+                {% endifchanged event.convention %}
+
+            {% endfor event %}
+        </ul>
+
+
+    {% else %}
+        <a href="accounts/login">Log in</a>
+    {% endif %}
+</li>
