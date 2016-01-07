@@ -1,10 +1,12 @@
 from django.contrib import admin
+from website.apps.eventbro.forms import DateAdminForm
 from website.apps.eventbro.models import Convention, Event, Registration, Sponsor, EventType
 from sorl.thumbnail.admin import AdminImageMixin
 from import_export.admin import ImportExportModelAdmin
 
 
 class ConventionAdmin(ImportExportModelAdmin):
+    form = DateAdminForm
     fieldsets = (
         (None, {
             'fields': (
@@ -50,6 +52,7 @@ class EventTypeAdmin(ImportExportModelAdmin):
 
 
 class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
+    form = DateAdminForm
     fieldsets = (
         (None, {
             'fields': (

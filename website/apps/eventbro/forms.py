@@ -2,10 +2,20 @@ import logging
 
 from django import forms
 from django.contrib.auth.models import User
-from django.forms import modelformset_factory
 from website.apps.eventbro.models import Registration
 
 logger = logging.getLogger(__name__)
+
+
+class DateAdminForm(forms.ModelForm):
+    def clean(self):
+        cleaned_data = super(DateAdminForm, self).clean()
+        start = cleaned_data.get('start')
+        end = cleaned_data.get('end')
+        if start > end:
+            msg = 'Start date must be before End date'
+            self.add_error('start', msg)
+            self.add_error('end', msg)
 
 
 class UpdateUserForm(forms.ModelForm):
