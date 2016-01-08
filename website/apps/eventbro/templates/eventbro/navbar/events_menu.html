@@ -6,9 +6,15 @@
     </a>
 
     <ul class="dropdown-menu">
+        <li id="register">
+            <a href="{% url "eventbro:register_redirect" %}">
+                <strong>Register for Events</strong>
+            </a>
+        </li>
+        <div class="spacer-10"></div>
     {% for convention in navbar_conventions %}
         <li class="{% if convention.has_events %}dropdown-submenu{% endif %}" id="{{ convention.slug }}">
-            <a href="#">{{ convention.name }}</a>
+            <a href="{% url "eventbro:convention_detail" convention=convention.slug %}">{{ convention.name }}</a>
             {% if convention.has_events %}
             <ul class="dropdown-menu">
             {% for event in convention.get_events %}
