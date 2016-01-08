@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 
-{% block meta_title_override %}{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} - {% endif %}Western Canada's largest game convention{% endblock meta_title_override %}
-{% block meta_title %}Western Canada's largest game convention{% endblock meta_title %}
-{% block title %}Western Canada's largest game convention{% endblock title %}
+{% block meta_title_override %}{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} - {% endif %}Play Games. Have Fun.{% endblock meta_title_override %}
+{% block meta_title %}Play Games. Have Fun.{% endblock meta_title %}
+{% block title %}Play Games. Have Fun.{% endblock title %}
 {% block meta_keywords %}{% trans settings.SITE_TAGLINE %} {{ settings.SITE_TITLE }}{% endblock meta_keywords %}
 {% block meta_description %}{% trans settings.SITE_TAGLINE %}{% endblock meta_description %}
 
@@ -41,6 +41,7 @@
             <ul class="slides">
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/LANtasy-2016-Promo-LAN-Still.jpg" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/LANtasy-2016-Promo-Wargame-Still.jpg" %}');"></li>
+                <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/LANtasy-2016-Promo-RPG-Still.jpg" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/LANtasy-2016-Promo-BGs-Still.jpg" %}');"></li>
                 <li class=" parallax parallax1 wheighter" style="background-image:url('{% static "lantasy/img/flexslider/LANtasy-2016-Promo-FemShep-Still.jpg" %}');"></li>
             </ul>
@@ -138,14 +139,15 @@
                 	<header class="onepage-section-headers text-align-center">
                     	<h3 class="page-title text-align-center">About</h3>
                     	<!--<h2 class="page-stitle">Some Information about BCGamer and past events</h2>-->
-                        <p>Local Victoria-based nonprofit organization, LANtasy, has been running community events for
-                            over a decade. Last year, we ran western Canada's largest LAN event at one of Victoria's
-                            premiere multi-spectrum gaming productions. It is our mission to throw inclusive, all-ages
-                            gaming events. To that end, we present LANtasy 2016.</p>
-                        <p>LANtasy 2016 is being held March 12/13 at Pearkes Arena in Victoria BC. It is an event
-                            that hosts a LAN Party, Tabletop Gaming, RPG’s, and boardgames! Expect local cosplayers
-                            to be in full force and for local vendors to be offering awesome deals to LANtasy
-                            participants.</p>
+                        <p>A local Victoria-based nonprofit organization, LANtasy Gaming Society (previously BC Gamer)
+                        is a collection of groups that come together to throw gaming events. We have been active within
+                        the community running events for over a decade. Our members have previously worked for GottaCon
+                        events, and the last event we worked on was GottaCon 2015 at the Victoria Conference Center. It
+                        is our core mission to throw inclusive, all-ages gaming events. To that end, we present LANtasy
+                        2016.</p>
+                        <p>LANtasy 2016 is being held March 12th and 13th at Pearkes arena in Victoria BC. It is an event
+                        that hosts a LAN Party, Tabletop Gaming, RPG's, and Boardgames! Expect local cosplayers to be in
+                        full force and for local vendors to be offering awesome deals to LANtasy participants.</p>
                    	</header>
                	</div>
                 <div class="container">
