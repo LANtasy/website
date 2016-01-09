@@ -43,5 +43,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_event_editor, remove_event_editor),
+        # migrations.RunPython(add_event_editor, remove_event_editor),
     ]
