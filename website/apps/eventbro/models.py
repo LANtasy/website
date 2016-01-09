@@ -5,6 +5,7 @@ import logging
 from autoslug import AutoSlugField
 from autoslug.utils import slugify
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from website.apps.salesbro.models import Ticket, TicketOption
@@ -24,6 +25,14 @@ def rename_image(instance, filename):
     return os.path.join('eventbro/images', filename)
 
 
+class ConventionManager(models.Manager):
+
+    def get_active_convention(self):
+        queryset = super(ConventionManager, self).get_queryset()
+        queryset = queryset.filter(active=True)
+        return queryset.first()
+
+
 class Convention(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False,)
     name = models.CharField(max_length=100)
@@ -33,8 +42,17 @@ class Convention(models.Model):
     end = models.DateTimeField()
     published = models.BooleanField(default=False)
 
+    active = models.BooleanField(default=False)
+
+    objects = ConventionManager()
+
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
+
+    def clean(self):
+
+        if self.active and Convention.objects.filter(active=True).exists():
+            raise ValidationError("Active convention already exists.  Must not be active.")
 
 
 class Sponsor(models.Model):
