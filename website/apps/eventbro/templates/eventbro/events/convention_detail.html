@@ -1,2 +1,58 @@
 {% extends "base.html" %}
 {% load staticfiles mezzanine_tags %}
+
+{% block title %}{{ convention.name }}{% endblock title %}
+{% block meta_title %}{{ convention.name }}{% endblock %}
+{% block meta_ogtitle %}{{ convention.name }}{% endblock meta_ogtitle %}
+
+<!--TODO: make sure this keywords is working-->
+{% block meta_keywords %}{% metablock %}
+    {% for keyword in page.keywords.all %}
+        {% if not forloop.first %}, {% endif %}
+        {{ keyword }}
+    {% endfor %}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this description is working-->
+{% block meta_description %}{% metablock %}
+    {{ convention.description }}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this breadcrumb menu is working-->
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li>Conventions</li>
+    <li>{{ convention.name }}</li>
+{% endblock %}
+
+{% block body_id %}convention{% endblock %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            {{ convention.name }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ convention.description }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ convention.start }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ convention.end }}
+        </div>
+    </div>
+
+
+
+{% endblock main  %}
