@@ -1,6 +1,6 @@
 import logging
 
-from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
+from braces.views import LoginRequiredMixin, GroupRequiredMixin
 from django.contrib.messages import error, warning, info, success
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
@@ -346,7 +346,8 @@ register_event = RegisterEventView.as_view()
 registration_detail = RegistrationUpdateView.as_view()
 
 
-class EventImportView(StaffuserRequiredMixin, FormView):
+class EventImportView(GroupRequiredMixin, FormView):
+    group_required = 'Event editor'
     form_class = EventImportForm
     template_name = 'eventbro/event_import.html'
     raise_exception = True
@@ -356,9 +357,7 @@ class EventImportView(StaffuserRequiredMixin, FormView):
         return reverse('eventbro:event_import')
 
     def form_valid(self, form):
-
         form.save()
-
         return super(EventImportView, self).form_valid(form=form)
 
 
