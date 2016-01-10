@@ -130,7 +130,6 @@ class EventImportForm(forms.Form):
         'published',
         'require game id',
         'game id',
-        'valid participants',
     )
 
     event_csv = forms.FileField(required=True)
