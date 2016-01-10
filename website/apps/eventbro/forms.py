@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from website.apps.eventbro.models import Registration, Event, Convention, EventType
+from website.apps.salesbro.models import TicketOption
 
 logger = logging.getLogger(__name__)
 
@@ -111,6 +112,8 @@ class RegistrationUpdateForm(forms.ModelForm):
 class EventImportForm(forms.Form):
 
     events = None
+    ticket_types = None
+    event_types = None
 
     required_fields = (
         'name',
@@ -122,10 +125,12 @@ class EventImportForm(forms.Form):
     )
 
     optional_fields = (
+        'ticket types',
         'description',
         'published',
         'require game id',
         'game id',
+        'valid participants',
     )
 
     event_csv = forms.FileField(required=True)
@@ -140,8 +145,19 @@ class EventImportForm(forms.Form):
 
         for event in self.events:
             event.save()
+            event.valid_options = event.ticket_types
 
         return self.events
+
+    def get_ticket_types(self):
+        self.ticket_types = {}
+        ticket_option_queryset = TicketOption.objects.all()
+        self.ticket_types = {ticket_option.id: ticket_option for ticket_option in ticket_option_queryset}
+
+    def get_event_types(self):
+        event_types_queryset = EventType.objects.all()
+
+        self.event_types = {event_type.name: event_type for event_type in event_types_queryset}
 
     def parse_csv(self, csv_file):
         """
@@ -149,9 +165,9 @@ class EventImportForm(forms.Form):
         """
 
         convention = Convention.objects.get_active_convention()
-        event_types = EventType.objects.values('uid', 'name')
 
-        event_types = {event_type['name']: event_type['uid'] for event_type in event_types}
+        self.get_ticket_types()
+        self.get_event_types()
 
         if not convention:
             raise ValidationError("Could not find active Convention")
@@ -175,7 +191,7 @@ class EventImportForm(forms.Form):
                     message = 'Missing value for required field %s on row %s' % (field, index+2)
                     raise ValidationError(message)
 
-            if row['type'] not in event_types:
+            if row['type'] not in self.event_types:
                 message = "Event Type %s on row %s not found" % (row['type'], index+2)
                 raise ValidationError(message)
 
@@ -185,12 +201,33 @@ class EventImportForm(forms.Form):
             event = Event()
             event.name = row['name']
             event.size = row['size']
-            event.description = row['description']
             event.organizer = row['organizer']
-            event.event_type_id = event_types[row['type']]
+            event.event_type = self.event_types[row['type']]
             event.start = event_start
             event.end = event_end
             event.convention = convention
+            event.ticket_types = []
+
+            try:
+                description = row.get('description', '').encode('utf8')
+                encoded_desc = unicode(description, errors='ignore')
+                event.description = encoded_desc
+            except UnicodeDecodeError:
+                message = 'Invalid character encoding detected in description on line %s' % (index + 2, )
+                raise ValidationError(message)
+
+            if 'ticket types' in reader.fieldnames:
+
+                ticket_type_ids = map(int, row['ticket types'].split(','))
+
+                for ticket_type_id in ticket_type_ids:
+                    try:
+                        ticket_type = self.ticket_types[ticket_type_id]
+                    except KeyError:
+                        message = "Invalid ticket type %s on row %s" % (ticket_type_id, index+2)
+                        raise ValidationError(message)
+
+                    event.ticket_types.append(ticket_type)
 
             events.append(event)
 
