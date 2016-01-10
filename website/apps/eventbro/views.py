@@ -1,15 +1,15 @@
 import logging
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, GroupRequiredMixin
 from django.contrib.messages import error, warning, info, success
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView, UpdateView
+from django.views.generic import TemplateView, RedirectView, UpdateView, FormView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm, EventImportForm
 from website.apps.eventbro.models import Event, Registration, EventType
 
 logger = logging.getLogger(__name__)
@@ -344,3 +344,21 @@ register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
 
 registration_detail = RegistrationUpdateView.as_view()
+
+
+class EventImportView(GroupRequiredMixin, FormView):
+    group_required = 'Event editor'
+    form_class = EventImportForm
+    template_name = 'eventbro/event_import.html'
+    raise_exception = True
+
+    def get_success_url(self):
+        success(self.request, "Successfully imported events.")
+        return reverse('eventbro:event_import')
+
+    def form_valid(self, form):
+        form.save()
+        return super(EventImportView, self).form_valid(form=form)
+
+
+event_import = EventImportView.as_view()
