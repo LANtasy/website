@@ -100,3 +100,8 @@ class RegistrationUpdateForm(forms.ModelForm):
         super(RegistrationUpdateForm, self).__init__(*args, **kwargs)
         self.fields['game_id'].required = self.instance.event.require_game_id
         self.fields['group_name'].required = self.instance.event.group_event
+
+
+class EventImportForm(forms.Form):
+
+    event_file = forms.FileField(required=True)

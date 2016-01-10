@@ -10,7 +10,7 @@ class ConventionAdmin(ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                ('name', 'published',),
+                ('name', 'published', 'active',),
                 ('start', 'end',),
             )
         }),
