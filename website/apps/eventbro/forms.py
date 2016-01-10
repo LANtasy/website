@@ -1,8 +1,14 @@
+from __future__ import absolute_import, unicode_literals
+
+import csv
 import logging
+from dateutil import parser
 
 from django import forms
 from django.contrib.auth.models import User
-from website.apps.eventbro.models import Registration
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from website.apps.eventbro.models import Registration, Event, Convention, EventType
 
 logger = logging.getLogger(__name__)
 
@@ -104,4 +110,98 @@ class RegistrationUpdateForm(forms.ModelForm):
 
 class EventImportForm(forms.Form):
 
-    event_file = forms.FileField(required=True)
+    events = None
+
+    required_fields = (
+        'name',
+        'start',
+        'end',
+        'size',
+        'type',
+        'organizer',
+    )
+
+    optional_fields = (
+        'description',
+        'published',
+        'require game id',
+        'game id',
+    )
+
+    event_csv = forms.FileField(required=True)
+
+    def clean(self):
+        csv_file = self.cleaned_data['event_csv']
+        events = self.parse_csv(csv_file)
+
+        self.events = events
+
+    def save(self):
+
+        for event in self.events:
+            event.save()
+
+        return self.events
+
+    def parse_csv(self, csv_file):
+        """
+        Parses the csv into a list of dictionaries
+        """
+
+        convention = Convention.objects.get_active_convention()
+        event_types = EventType.objects.values('uid', 'name')
+
+        event_types = {event_type['name']: event_type['uid'] for event_type in event_types}
+
+        if not convention:
+            raise ValidationError("Could not find active Convention")
+
+        reader = csv.DictReader(csv_file)
+
+        for field in self.required_fields:
+            if field not in reader.fieldnames:
+                message = 'Missing required field: %s' % field
+                raise ValidationError(message)
+
+        events = []
+
+        for index, row in enumerate(reader):
+
+            for field in self.required_fields:
+
+                value = row.get(field)
+
+                if not value:
+                    message = 'Missing value for required field %s on row %s' % (field, index+2)
+                    raise ValidationError(message)
+
+            if row['type'] not in event_types:
+                message = "Event Type %s on row %s not found" % (row['type'], index+2)
+                raise ValidationError(message)
+
+            event_start = self.string_to_datetime(row['start'])
+            event_end = self.string_to_datetime(row['end'])
+
+            event = Event()
+            event.name = row['name']
+            event.size = row['size']
+            event.description = row['description']
+            event.organizer = row['organizer']
+            event.event_type_id = event_types[row['type']]
+            event.start = event_start
+            event.end = event_end
+            event.convention = convention
+
+            events.append(event)
+
+        return events
+
+    def string_to_datetime(self, date_string, tz=None):
+        try:
+            dt = parser.parse(date_string)
+        except ValueError:
+            raise ValidationError("Invalid date time detected: %s" % date_string)
+
+        dt = timezone.make_aware(dt, timezone=tz)
+
+        return dt

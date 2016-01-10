@@ -349,10 +349,17 @@ registration_detail = RegistrationUpdateView.as_view()
 class EventImportView(StaffuserRequiredMixin, FormView):
     form_class = EventImportForm
     template_name = 'eventbro/event_import.html'
+    raise_exception = True
 
     def get_success_url(self):
         success(self.request, "Successfully imported events.")
         return reverse('eventbro:event_import')
+
+    def form_valid(self, form):
+
+        form.save()
+
+        return super(EventImportView, self).form_valid(form=form)
 
 
 event_import = EventImportView.as_view()

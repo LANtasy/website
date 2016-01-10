@@ -28,13 +28,20 @@
 {% block body_id %}category{% endblock %}
 
 {% block main %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger margin-top5">
+            {{ error }}
+        </div>
+    {% endfor %}
+
     <div class="row">
         <div class="col-md-4">
 
             <form method="POST" action="." novalidate autocomplete="off" enctype="multipart/form-data">
+
                 {% csrf_token %}
 
-                {{ form.event_file|as_crispy_field }}
+                {{ form.event_csv|as_crispy_field }}
 
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit">Upload</button>
