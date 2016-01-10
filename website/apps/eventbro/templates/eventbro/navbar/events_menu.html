@@ -14,7 +14,7 @@
         <div class="spacer-10"></div>
     {% for convention in navbar_conventions %}
         <li class="{% if convention.has_events %}dropdown-submenu{% endif %}" id="{{ convention.slug }}">
-            <a href="{% url "eventbro:convention_detail" convention=convention.slug %}">{{ convention.name }}</a>
+            <a href="{% url "eventbro:convention_detail" slug=convention.slug %}">{{ convention.name }}</a>
             {% if convention.has_events %}
             <ul class="dropdown-menu">
             {% for event in convention.get_events %}
@@ -32,7 +32,7 @@
                     {% endif %}
                 {% endifchanged %}
                                 <li id="{{ event.slug }}">
-                                    <a href="#">{{ event.name }}</a>
+                                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">{{ event.name }}</a>
                                 </li>
             {% endfor %}
                             </ul>
@@ -44,12 +44,3 @@
     </ul>
 </li>
 {% endif %}
-
-{#{% if navbar_events.conventions.count > 0 %}#}
-{#    <li class="dropdown active" id="events">#}
-{#        <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">#}
-{#            Events#}
-{#            <b class="caret"></b>#}
-{#        </a>#}
-{#    </li>#}
-{#{% endif %}#}

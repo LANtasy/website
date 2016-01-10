@@ -342,9 +342,9 @@ class ConventionDetailView(DetailView):
     model = Convention
 
 
-class EventTypeDetailView(DetailView):
-    template_name = 'eventbro/events/event_type_detail.html'
-    model = EventType
+# class EventTypeDetailView(DetailView):
+#     template_name = 'eventbro/events/event_type_detail.html'
+#     model = EventType
 
 
 class EventDetailView(DetailView):
@@ -357,5 +357,5 @@ register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
 registration_detail = RegistrationUpdateView.as_view()
 convention_detail = ConventionDetailView.as_view()
-event_type_detail = EventTypeDetailView.as_view()
+# event_type_detail = EventTypeDetailView.as_view()
 event_detail = EventDetailView.as_view()
