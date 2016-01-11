@@ -58,7 +58,7 @@ class Convention(models.Model):
 
     def get_events(self):
         events = Event.objects.filter(convention=self, published=True)
-        events = events.only('event_type', 'name', 'slug')
+        events = events.only('event_type', 'name', 'slug', 'image')
         events = events.order_by('event_type')
         return events
 
