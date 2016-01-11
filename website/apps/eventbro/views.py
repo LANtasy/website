@@ -1,15 +1,15 @@
 import logging
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, GroupRequiredMixin
 from django.contrib.messages import error, warning, info, success
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView, UpdateView, DetailView
+from django.views.generic import TemplateView, RedirectView, UpdateView, FormView, DetailView
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm
+from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm, EventImportForm
 from website.apps.eventbro.models import Event, Registration, EventType, Convention
 
 logger = logging.getLogger(__name__)
@@ -262,7 +262,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         registered_events = registered_events.filter(event_type=event.event_type)
         for registered_event in registered_events:
             if (registered_event.start <= event.end) and (event.start <= registered_event.end):
-                error(self.request, 'This event conflicts with another in your schedule')
+                error(self.request, 'This event conflicts with another in your schedule, you were NOT registered')
                 return True
 
         # If no overlapping events were found
@@ -359,3 +359,21 @@ registration_detail = RegistrationUpdateView.as_view()
 convention_detail = ConventionDetailView.as_view()
 # event_type_detail = EventTypeDetailView.as_view()
 event_detail = EventDetailView.as_view()
+
+
+class EventImportView(GroupRequiredMixin, FormView):
+    group_required = 'Event editor'
+    form_class = EventImportForm
+    template_name = 'eventbro/event_import.html'
+    raise_exception = True
+
+    def get_success_url(self):
+        success(self.request, "Successfully imported events.")
+        return reverse('eventbro:event_import')
+
+    def form_valid(self, form):
+        form.save()
+        return super(EventImportView, self).form_valid(form=form)
+
+
+event_import = EventImportView.as_view()
