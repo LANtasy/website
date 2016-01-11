@@ -1,2 +1,156 @@
 {% extends "base.html" %}
-{% load staticfiles mezzanine_tags %}
+{% load staticfiles mezzanine_tags thumbnail %}
+
+{% block title %}{{ event.name }}{% endblock title %}
+{% block meta_title %}{{ event.name }}{% endblock %}
+{% block meta_ogtitle %}{{ event.name }}{% endblock meta_ogtitle %}
+
+<!--TODO: make sure this keywords is working-->
+{% block meta_keywords %}{% metablock %}
+    {% for keyword in page.keywords.all %}
+        {% if not forloop.first %}, {% endif %}
+        {{ keyword }}
+    {% endfor %}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this description is working-->
+{% block meta_description %}{% metablock %}
+    {{ event.description }}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this breadcrumb menu is working-->
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li>Events</li>
+    <li>{{ event.convention.name }}</li>
+    <li>{{ event.event_type.name }}</li>
+    <li>{{ event.name }}</li>
+{% endblock %}
+
+{% block body_id %}event{% endblock %}
+
+{% block main %}
+    {% if event.image %}
+    <div class="row">
+        <div class="col-md-2"><strong>Event:</strong></div>
+        <div class="col-md-10">
+            {% thumbnail event.image "x115" format="PNG" padding=True as im %}
+                <img src="{{ im.url }}">
+            {% endthumbnail %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if event.sponsor %}
+    <div class="row">
+        <div class="col-md-2"><strong>Sponsor:</strong></div>
+        <div class="col-md-10">
+            {% if event.sponsor.url %}<a href="{{ event.sponsor.url }}">{% endif %}
+                {% if event.sponsor.logo %}
+                    {% thumbnail event.sponsor.logo "x115" format="PNG" padding=True as im %}
+                        <img src="{{ im.url }}">
+                    {% endthumbnail %}
+                {% else %}
+                    {{ event.sponsor.name }}
+                {% endif %}
+            {% if event.sponsor.url %}</a>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if event.organizer %}
+    <div class="row">
+        <div class="col-md-2"><strong>Organizer:</strong></div>
+        <div class="col-md-10">
+            {{ event.organizer }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.description %}
+    <div class="row">
+        <div class="col-md-2"><strong>Description:</strong></div>
+        <div class="col-md-10">
+            {{ event.description|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.start %}
+    <div class="row">
+        <div class="col-md-2"><strong>Start:</strong></div>
+        <div class="col-md-10">
+            {{ event.start }}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if event.end %}
+    <div class="row">
+        <div class="col-md-2"><strong>End:</strong></div>
+        <div class="col-md-10">
+            {{ event.end }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    <div class="row">
+        <div class="col-md-2"><strong>Size:</strong></div>
+        <div class="col-md-10">
+            {{ event.size }} participants
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"><strong>Available:</strong></div>
+        <div class="col-md-10">
+            {% if event.is_full %}
+                0 (Waitlisting)
+            {% else %}
+                {{ event.available_spots }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="spacer-10"></div>
+
+    {% if event.valid_options %}
+    <div class="row">
+        <div class="col-md-2"><strong>Ticket Type(s):</strong></div>
+        <div class="col-md-10">
+            {% for option in event.valid_options.all %}
+                {{ option }}<br>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.prizes %}
+        <div class="row">
+            <div class="col-md-2"><strong>Prizing:</strong></div>
+            <div class="col-md-10">
+                {{ event.prizes|linebreaks }}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.rules %}
+        <div class="row">
+            <div class="col-md-2"><strong>Rules:</strong></div>
+            <div class="col-md-10">
+                {{ event.rules|linebreaks }}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock main  %}
