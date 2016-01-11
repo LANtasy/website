@@ -263,7 +263,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         registered_events = registered_events.filter(event_type=event.event_type)
         for registered_event in registered_events:
             if (registered_event.start <= event.end) and (event.start <= registered_event.end):
-                error(self.request, 'This event conflicts with another in your schedule')
+                error(self.request, 'This event conflicts with another in your schedule, you were NOT registered')
                 return True
 
         # If no overlapping events were found
