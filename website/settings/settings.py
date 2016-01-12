@@ -224,6 +224,8 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'crispy_forms',
     'import_export',
+    'rest_framework',
+    'rest_framework.authtoken',
 )
 
 # List of processors used by RequestContext to populate the context.
