@@ -59,7 +59,7 @@ class Convention(models.Model):
     def get_events(self):
         events = Event.objects.filter(convention=self, published=True)
         events = events.only('event_type', 'name', 'slug', 'image')
-        events = events.order_by('event_type', 'name')
+        events = events.order_by('event_type', '-showcase', 'name')
         return events
 
     def get_event_types(self):
@@ -129,6 +129,7 @@ class Event(models.Model):
     rules = models.TextField(blank=True, null=True)
     sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
+    showcase = models.BooleanField(default=False, verbose_name='Showcase event')
 
     def __unicode__(self):
         return '{name}'.format(name=self.slug)

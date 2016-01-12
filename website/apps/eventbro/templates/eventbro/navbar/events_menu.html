@@ -33,8 +33,15 @@
                             <ul class="dropdown-menu">
                     {% endif %}
                 {% endifchanged %}
+                                {% ifchanged event.showcase %}
+                                    {% if event.showcase == False %}
+                                        <li class="divider"></li>
+                                    {% endif %}
+                                {% endifchanged event.showcase%}
                                 <li id="{{ event.slug }}">
-                                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">{{ event.name }}</a>
+                                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">
+                                        {{ event.name }}
+                                    </a>
                                 </li>
             {% endfor %}
                             </ul>

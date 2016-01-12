@@ -58,7 +58,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
             'fields': (
                ('name',),
                ('convention', 'event_type',),
-               ('published',),
+               ('published', 'showcase',),
                ('start', 'end',),
                ('description',),
             ),
