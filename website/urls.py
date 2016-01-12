@@ -14,6 +14,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('website.apps.apibro.urls')),
 
     # Shop URLs.
     url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
