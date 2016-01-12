@@ -1,3 +1,5 @@
+{% load cache %}
+{% cache 500 event_bar %}
 {% if navbar_conventions.count > 0 %}
 <li class="dropdown active" id="events">
     <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
@@ -44,3 +46,4 @@
     </ul>
 </li>
 {% endif %}
+{% endcache event_bar %}
