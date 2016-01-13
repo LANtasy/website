@@ -1,10 +1,10 @@
 {% load cache %}
 {% cache 500 event_bar %}
-{% if navbar_conventions.count > 0 %}
+{% if navbar_convention %}
 <li class="dropdown active" id="events">
-    <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
+    <a href="{% url "eventbro:convention_detail" slug=navbar_convention.slug %}" class="dropdown-toggle disabled" data-toggle="dropdown">
         Events
-        <b class="caret"></b>
+        {% if navbar_events %}<b class="caret"></b>{% endif %}
     </a>
 
     <ul class="dropdown-menu">
@@ -13,43 +13,40 @@
                 <strong>Register for Events</strong>
             </a>
         </li>
-        <div class="spacer-10"></div>
-    {% for convention in navbar_conventions %}
-        <li class="{% if convention.has_events %}dropdown-submenu{% endif %}" id="{{ convention.slug }}">
-            <a href="{% url "eventbro:convention_detail" slug=convention.slug %}">{{ convention.name }}</a>
-            {% if convention.has_events %}
-            <ul class="dropdown-menu">
-            {% for event in convention.get_events %}
-                {% ifchanged event.event_type %}
-                    {% if forloop.first %}
-                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
-                            <a href="#">{{ event.event_type.name }}</a>
-                            <ul class="dropdown-menu">
-                    {% else %}
+        {% if navbar_events.count > 0 %}
+            <li class="divider"></li>
+            {% for event in navbar_events %}
+                {% ifchanged event.event_type.slug %}
+                    {% if not forloop.first %}
                             </ul>
                         </li>
-                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
-                            <a href="#">{{ event.event_type.name }}</a>
-                            <ul class="dropdown-menu">
                     {% endif %}
+                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
+                            <a href="#">{{ event.event_type.name }}</a>
+                            <ul class="dropdown-menu">
                 {% endifchanged %}
-                                {% ifchanged event.showcase %}
-                                    {% if event.showcase == False %}
-                                        <li class="divider"></li>
-                                    {% endif %}
-                                {% endifchanged event.showcase%}
-                                <li id="{{ event.slug }}">
-                                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">
-                                        {{ event.name }}
-                                    </a>
-                                </li>
-            {% endfor %}
-                            </ul>
-                        </li>
+                {% if not forloop.first %}
+                    {% ifchanged event.showcase %}
+                        {% if event.showcase == False %}
+                            <li class="divider"></li>
+                        {% endif %}
+                    {% endifchanged event.showcase%}
+                {% endif %}
+                <li id="{{ event.slug }}">
+                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">
+                        {{ event.name }}
+                    </a>
+                </li>
+
+                {% if forloop.last %}
+                    </ul>
+                </li>
             </ul>
-            {% endif %}
-        </li>
-    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
     </ul>
 </li>
 {% endif %}
