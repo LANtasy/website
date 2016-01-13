@@ -25,7 +25,7 @@ class ConventionAdmin(ImportExportModelAdmin):
         }),
     )
 
-    list_display = ('slug', 'name', 'published', 'start', 'end',)
+    list_display = ('slug', 'name', 'published', 'active', 'start', 'end',)
     list_filter = ('start',)
     readonly_fields = ('slug', 'uid')
 
