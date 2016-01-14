@@ -5,6 +5,16 @@ from sorl.thumbnail.admin import AdminImageMixin
 from import_export.admin import ImportExportModelAdmin
 
 
+def make_published(modeladmin, request, queryset):
+    queryset.update(published=True)
+make_published.short_description = 'Mark selected as published'
+
+
+def make_unpublished(modeladmin, request, queryset):
+    queryset.update(published=False)
+make_published.short_description = 'Mark selected as unpublished'
+
+
 class ConventionAdmin(ImportExportModelAdmin):
     form = DateAdminForm
     fieldsets = (
@@ -28,6 +38,7 @@ class ConventionAdmin(ImportExportModelAdmin):
     list_display = ('slug', 'name', 'published', 'start', 'end',)
     list_filter = ('start',)
     readonly_fields = ('slug', 'uid')
+    actions = (make_published, make_unpublished,)
 
 
 class EventTypeAdmin(ImportExportModelAdmin):
@@ -94,6 +105,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     list_display = ('slug', 'published', 'event_type', 'convention', 'size', 'start', 'end',)
     list_filter = ('event_type', 'convention',)
     readonly_fields = ('slug', 'uid',)
+    actions = (make_published, make_unpublished,)
 
 
 class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
