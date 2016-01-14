@@ -21,41 +21,6 @@
                 </li>
             {% endfor %}
         {% endif %}
-
-{#        {% if navbar_events.count > 0 %}#}
-
-{#            {% for event in navbar_events %}#}
-{#                {% ifchanged event.event_type.slug %}#}
-{#                    {% if not forloop.first %}#}
-{#                            </ul>#}
-{#                        </li>#}
-{#                    {% endif %}#}
-{#                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">#}
-{#                            <a href="#">{{ event.event_type.name }}</a>#}
-{#                            <ul class="dropdown-menu">#}
-{#                {% endifchanged %}#}
-{#                {% if not forloop.first %}#}
-{#                    {% ifchanged event.showcase %}#}
-{#                        {% if event.showcase == False %}#}
-{#                            <li class="divider"></li>#}
-{#                        {% endif %}#}
-{#                    {% endifchanged event.showcase%}#}
-{#                {% endif %}#}
-{#                <li id="{{ event.slug }}">#}
-{#                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">#}
-{#                        {{ event.name }}#}
-{#                    </a>#}
-{#                </li>#}
-{##}
-{#                {% if forloop.last %}#}
-{#                    </ul>#}
-{#                </li>#}
-{#            </ul>#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{##}
-{#        {% endif %}#}
-
     </ul>
 </li>
 {% endif %}
