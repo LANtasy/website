@@ -11,7 +11,6 @@
 
 {% block breadcrumb_menu %}
     {{ block.super }}
-    <li><a href="#">Events</a></li>
     <li><a href="{% url "eventbro:convention_detail" slug=convention.slug %}">{{ convention.name }}</a></li>
 {% endblock %}
 

@@ -11,83 +11,90 @@
 
 {% block breadcrumb_menu %}
     {{ block.super }}
-    <li><a href="#">Events</a></li>
-    <li><a href="{% url "eventbro:convention_detail" slug=convention.slug %}">{{ convention.name }}</a></li>
+    {% with convention=eventtype.get_convention %}
+        <li><a href="{% url "eventbro:convention_detail" slug=convention.slug %}">{{ convention.name }}</a></li>
+    {% endwith %}
+    <li><a href="{% url "eventbro:event_type_detail" slug=eventtype.slug %}">{{ eventtype.name }}</a></li>
 {% endblock %}
 
-{% block body_id %}convention{% endblock %}
+{% block body_id %}event_type{% endblock %}
 
 
 {% block main %}
-    <div class="row">
-        <div class="col-md-2"><strong>Name:</strong></div>
-        <div class="col-md-10">
-            {{ convention.name }}
-        </div>
-    </div>
+    {% with convention=eventtype.get_convention %}
+        {% if convention %}
 
-    <div class="row">
-        <div class="col-md-2"><strong>Description:</strong></div>
-        <div class="col-md-10">
-            {{ convention.description|linebreaks }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2"><strong>Start:</strong></div>
-        <div class="col-md-10">
-            {{ convention.start }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2"><strong>End:</strong></div>
-        <div class="col-md-10">
-            {{ convention.end }}
-        </div>
-    </div>
-
-    <div class="spacer-30"></div>
-    <div class="row">
-        <div class="col-md-12">
-
-        </div>
-    </div>
-    {% if convention.has_events %}
-        <div class="row">
-        {% for event in convention.get_events %}
-            {% ifchanged event.event_type %}
-                {% if forloop.first %}
-                <div class="col-md-3">
-                {% else %}
-                </div>
-                <div class="col-md-3">
-                {% endif %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="text-align-center">{{ event.event_type.name }}</h3>
-                        </div>
-                    </div>
-            {% endifchanged %}
-                    {% ifchanged event.event_type %}{% else %}
-                        <div class="spacer-10"></div>
-                    {% endifchanged %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{% url "eventbro:event_detail" slug=event.slug %}">
-                            {% if event.image %}
-                                {% thumbnail event.image "x115" format="PNG" padding=True as im %}
-                                    <img src="{{ im.url }}" class="center-block">
-                                {% endthumbnail %}
-                            {% else %}
-                                <strong>{{ event.name }}</strong>
-                            {% endif %}
-                            </a>
-                        </div>
-                    </div>
-        {% endfor %}
-                </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    {% endwith %}
+{#    <div class="row">#}
+{#        <div class="col-md-2"><strong>Name:</strong></div>#}
+{#        <div class="col-md-10">#}
+{#            {{ convention.name }}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="row">#}
+{#        <div class="col-md-2"><strong>Description:</strong></div>#}
+{#        <div class="col-md-10">#}
+{#            {{ convention.description|linebreaks }}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="row">#}
+{#        <div class="col-md-2"><strong>Start:</strong></div>#}
+{#        <div class="col-md-10">#}
+{#            {{ convention.start }}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="row">#}
+{#        <div class="col-md-2"><strong>End:</strong></div>#}
+{#        <div class="col-md-10">#}
+{#            {{ convention.end }}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="spacer-30"></div>#}
+{#    <div class="row">#}
+{#        <div class="col-md-12">#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    {% if convention.has_events %}#}
+{#        <div class="row">#}
+{#        {% for event in convention.get_events %}#}
+{#            {% ifchanged event.event_type %}#}
+{#                {% if forloop.first %}#}
+{#                <div class="col-md-3">#}
+{#                {% else %}#}
+{#                </div>#}
+{#                <div class="col-md-3">#}
+{#                {% endif %}#}
+{#                    <div class="row">#}
+{#                        <div class="col-md-12">#}
+{#                            <h3 class="text-align-center">{{ event.event_type.name }}</h3>#}
+{#                        </div>#}
+{#                    </div>#}
+{#            {% endifchanged %}#}
+{#                    {% ifchanged event.event_type %}{% else %}#}
+{#                        <div class="spacer-10"></div>#}
+{#                    {% endifchanged %}#}
+{#                    <div class="row">#}
+{#                        <div class="col-md-12">#}
+{#                            <a href="{% url "eventbro:event_detail" slug=event.slug %}">#}
+{#                            {% if event.image %}#}
+{#                                {% thumbnail event.image "x115" format="PNG" padding=True as im %}#}
+{#                                    <img src="{{ im.url }}" class="center-block">#}
+{#                                {% endthumbnail %}#}
+{#                            {% else %}#}
+{#                                <strong>{{ event.name }}</strong>#}
+{#                            {% endif %}#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#        {% endfor %}#}
+{#                </div>#}
+{#        </div>#}
+{#    {% endif %}#}
 
 {% endblock main  %}
