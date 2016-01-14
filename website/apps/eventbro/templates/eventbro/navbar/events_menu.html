@@ -4,7 +4,7 @@
 <li class="dropdown active" id="events">
     <a href="{% url "eventbro:convention_detail" slug=navbar_convention.slug %}" class="dropdown-toggle disabled" data-toggle="dropdown">
         Events
-        {% if navbar_events %}<b class="caret"></b>{% endif %}
+        <b class="caret"></b>
     </a>
 
     <ul class="dropdown-menu">
@@ -13,39 +13,48 @@
                 <strong>Register for Events</strong>
             </a>
         </li>
-        {% if navbar_events.count > 0 %}
+        {% if navbar_event_types.exists %}
             <li class="divider"></li>
-            {% for event in navbar_events %}
-                {% ifchanged event.event_type.slug %}
-                    {% if not forloop.first %}
-                            </ul>
-                        </li>
-                    {% endif %}
-                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">
-                            <a href="#">{{ event.event_type.name }}</a>
-                            <ul class="dropdown-menu">
-                {% endifchanged %}
-                {% if not forloop.first %}
-                    {% ifchanged event.showcase %}
-                        {% if event.showcase == False %}
-                            <li class="divider"></li>
-                        {% endif %}
-                    {% endifchanged event.showcase%}
-                {% endif %}
-                <li id="{{ event.slug }}">
-                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">
-                        {{ event.name }}
-                    </a>
+            {% for event_type in navbar_event_types %}
+                <li id="{{ event_type.slug }}">
+                    <a href="{% url "eventbro:event_type_detail" slug=event_type.slug %}">{{ event_type.name }}</a>
                 </li>
-
-                {% if forloop.last %}
-                    </ul>
-                </li>
-            </ul>
-                {% endif %}
             {% endfor %}
-
         {% endif %}
+
+{#        {% if navbar_events.count > 0 %}#}
+
+{#            {% for event in navbar_events %}#}
+{#                {% ifchanged event.event_type.slug %}#}
+{#                    {% if not forloop.first %}#}
+{#                            </ul>#}
+{#                        </li>#}
+{#                    {% endif %}#}
+{#                        <li class="dropdown-submenu" id="{{ event.event_type.slug }}">#}
+{#                            <a href="#">{{ event.event_type.name }}</a>#}
+{#                            <ul class="dropdown-menu">#}
+{#                {% endifchanged %}#}
+{#                {% if not forloop.first %}#}
+{#                    {% ifchanged event.showcase %}#}
+{#                        {% if event.showcase == False %}#}
+{#                            <li class="divider"></li>#}
+{#                        {% endif %}#}
+{#                    {% endifchanged event.showcase%}#}
+{#                {% endif %}#}
+{#                <li id="{{ event.slug }}">#}
+{#                    <a href="{% url "eventbro:event_detail" slug=event.slug %}">#}
+{#                        {{ event.name }}#}
+{#                    </a>#}
+{#                </li>#}
+{##}
+{#                {% if forloop.last %}#}
+{#                    </ul>#}
+{#                </li>#}
+{#            </ul>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+{#        {% endif %}#}
 
     </ul>
 </li>
