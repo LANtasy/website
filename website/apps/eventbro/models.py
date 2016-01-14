@@ -106,6 +106,13 @@ class EventType(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
+    def get_convention(self):
+        try:
+            convention = Convention.objects.get(active=True, published=True)
+            return convention
+        except Convention.DoesNotExist:
+            return None
+
 
 class Event(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
