@@ -113,6 +113,17 @@ class EventType(models.Model):
         except Convention.DoesNotExist:
             return None
 
+    def get_events(self):
+        convention = self.get_convention()
+        try:
+            print convention
+            events = Event.objects.filter(convention=convention.uid, published=True, event_type=self)
+            events = events.order_by('name').distinct('name')
+            events = events.only('event_type', 'name', 'slug', 'image')
+            return events
+        except Event.DoesNotExist:
+            return None
+
 
 class Event(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
