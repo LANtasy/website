@@ -152,6 +152,18 @@ class Event(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
+    def check_for_duplicates(self):
+        number = Event.objects.values('name').filter(name=self.name).count()
+        if number > 1:
+            return True
+        else:
+            return False
+
+    def get_duplicates(self):
+        events = Event.objects.filter(name=self.name)
+        events = events.order_by('start')
+        return events
+
     def available_spots(self):
         registered = Registration.objects.filter(event=self).count()
         available = self.size - registered

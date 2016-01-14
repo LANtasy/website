@@ -9,7 +9,6 @@
     {{ event.description }}
 {% endmetablock %}{% endblock %}
 
-<!--TODO: make sure this breadcrumb menu is working-->
 {% block breadcrumb_menu %}
     {{ block.super }}
     <li><a href="{% url "eventbro:convention_detail" slug=event.convention.slug %}">{{ event.convention.name }}</a></li>
@@ -48,15 +47,6 @@
     </div>
     {% endif %}
 
-    {% if event.organizer %}
-    <div class="row">
-        <div class="col-md-2"><strong>Organizer:</strong></div>
-        <div class="col-md-10">
-            {{ event.organizer }}
-        </div>
-    </div>
-    {% endif %}
-
     <div class="spacer-10"></div>
 
     {% if event.description %}
@@ -70,43 +60,17 @@
 
     <div class="spacer-10"></div>
 
-    {% if event.start %}
-    <div class="row">
-        <div class="col-md-2"><strong>Start:</strong></div>
-        <div class="col-md-10">
-            {{ event.start }}
-        </div>
-    </div>
-    {% endif %}
-
-    {% if event.end %}
-    <div class="row">
-        <div class="col-md-2"><strong>End:</strong></div>
-        <div class="col-md-10">
-            {{ event.end }}
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="spacer-10"></div>
-
-    <div class="row">
-        <div class="col-md-2"><strong>Size:</strong></div>
-        <div class="col-md-10">
-            {{ event.size }} participants
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2"><strong>Available:</strong></div>
-        <div class="col-md-10">
-            {% if event.is_full %}
-                0 (Waitlisting)
-            {% else %}
-                {{ event.available_spots }}
-            {% endif %}
-        </div>
-    </div>
+    {% with has_duplicates=event.check_for_duplicates %}
+        {% if has_duplicates %}
+            {% with events=event.get_duplicates %}
+                {% for event in events %}
+                    {% include "eventbro/events/event_instance.html" %}
+                {% endfor %}
+            {% endwith %}
+        {% else %}
+            {% include "eventbro/events/event_instance.html" %}
+        {% endif %}
+    {% endwith %}
 
     <div class="spacer-10"></div>
 
