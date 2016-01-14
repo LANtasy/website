@@ -223,7 +223,7 @@ body{
 	color: #FFFFFF;
 }
 
-div.accordion-group.panel, img.game {
+div.accordion-group.panel, img.game, strong.game {
     background:#4f4f4f;
     border: 1px solid white;
     padding: 5px;
