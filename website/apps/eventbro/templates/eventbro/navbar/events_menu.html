@@ -1,0 +1,27 @@
+{% load cache %}
+{% cache 500 event_bar %}
+{% if navbar_convention %}
+<li class="dropdown active" id="events">
+    <a href="{% url "eventbro:convention_detail" slug=navbar_convention.slug %}" class="dropdown-toggle disabled" data-toggle="dropdown">
+        Events
+        <b class="caret"></b>
+    </a>
+
+    <ul class="dropdown-menu">
+        <li id="register">
+            <a href="{% url "eventbro:register_redirect" %}">
+                <strong>Register for Events</strong>
+            </a>
+        </li>
+        {% if navbar_event_types.exists %}
+            <li class="divider"></li>
+            {% for event_type in navbar_event_types %}
+                <li id="{{ event_type.slug }}">
+                    <a href="{% url "eventbro:event_type_detail" slug=event_type.slug %}">{{ event_type.name }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</li>
+{% endif %}
+{% endcache event_bar %}

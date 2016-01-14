@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags thumbnail %}
+
+{% block title %}{{ event.name }}{% endblock title %}
+{% block meta_title %}{{ event.name }}{% endblock %}
+{% block meta_ogtitle %}{{ event.name }}{% endblock meta_ogtitle %}
+
+{% block meta_description %}{% metablock %}
+    {{ event.description }}
+{% endmetablock %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li><a href="{% url "eventbro:convention_detail" slug=event.convention.slug %}">{{ event.convention.name }}</a></li>
+    <li><a href="#">{{ event.event_type.name }}</a></li>
+    <li><a href="{% url "eventbro:event_detail" slug=event.slug %}">{{ event.name }}</a></li>
+{% endblock %}
+
+{% block body_id %}event{% endblock %}
+
+{% block main %}
+    {% if event.image %}
+    <div class="row">
+        <div class="col-md-2"><strong>Event:</strong></div>
+        <div class="col-md-10">
+            {% thumbnail event.image "x115" format="PNG" padding=True as im %}
+                <img src="{{ im.url }}">
+            {% endthumbnail %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if event.sponsor %}
+    <div class="row">
+        <div class="col-md-2"><strong>Sponsor:</strong></div>
+        <div class="col-md-10">
+            {% if event.sponsor.url %}<a href="{{ event.sponsor.url }}">{% endif %}
+                {% if event.sponsor.logo %}
+                    {% thumbnail event.sponsor.logo "x115" format="PNG" padding=True as im %}
+                        <img src="{{ im.url }}">
+                    {% endthumbnail %}
+                {% else %}
+                    {{ event.sponsor.name }}
+                {% endif %}
+            {% if event.sponsor.url %}</a>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.description %}
+    <div class="row">
+        <div class="col-md-2"><strong>Description:</strong></div>
+        <div class="col-md-10">
+            {{ event.description|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% with has_duplicates=event.check_for_duplicates %}
+        {% if has_duplicates %}
+            {% with events=event.get_duplicates %}
+                {% for event in events %}
+                    {% include "eventbro/events/event_instance.html" %}
+                {% endfor %}
+            {% endwith %}
+        {% else %}
+            {% include "eventbro/events/event_instance.html" %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.valid_options %}
+    <div class="row">
+        <div class="col-md-2"><strong>Ticket Type(s):</strong></div>
+        <div class="col-md-10">
+            {% for option in event.valid_options.all %}
+                {{ option }}<br>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.prizes %}
+        <div class="row">
+            <div class="col-md-2"><strong>Prizing:</strong></div>
+            <div class="col-md-10">
+                {{ event.prizes|linebreaks }}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="spacer-10"></div>
+
+    {% if event.rules %}
+        <div class="row">
+            <div class="col-md-2"><strong>Rules:</strong></div>
+            <div class="col-md-10">
+                {{ event.rules|linebreaks }}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock main  %}

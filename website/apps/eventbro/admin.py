@@ -35,7 +35,7 @@ class ConventionAdmin(ImportExportModelAdmin):
         }),
     )
 
-    list_display = ('slug', 'name', 'published', 'start', 'end',)
+    list_display = ('slug', 'name', 'published', 'active', 'start', 'end',)
     list_filter = ('start',)
     readonly_fields = ('slug', 'uid')
     actions = (make_published, make_unpublished,)
@@ -69,7 +69,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
             'fields': (
                ('name',),
                ('convention', 'event_type',),
-               ('published',),
+               ('published', 'showcase',),
                ('start', 'end',),
                ('description',),
             ),
@@ -102,6 +102,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
             )
         }),
     )
+    filter_horizontal = ('valid_options',)
     list_display = ('slug', 'published', 'event_type', 'convention', 'size', 'start', 'end',)
     list_filter = ('event_type', 'convention',)
     readonly_fields = ('slug', 'uid',)

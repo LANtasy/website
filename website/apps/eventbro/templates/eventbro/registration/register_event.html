@@ -5,24 +5,10 @@
 {% block meta_title %}Event Registration{% endblock meta_title%}
 {% block meta_ogtitle %}Event Registration{% endblock meta_ogtitle %}
 
-<!--TODO: make sure this keywords is working-->
-{% block meta_keywords %}{% metablock %}
-    {% for keyword in page.keywords.all %}
-        {% if not forloop.first %}, {% endif %}
-        {{ keyword }}
-    {% endfor %}
-{% endmetablock %}{% endblock %}
-
-<!--TODO: make sure this description is working-->
-{% block meta_description %}{% metablock %}
-    {{ ticket.description }}
-{% endmetablock %}{% endblock %}
-
-<!--TODO: make sure this breadcrumb menu is working-->
 {% block breadcrumb_menu %}
     {{ block.super }}
-    <li>Registration</li>
-    <li>Event Registration</li>
+    <li><a href="{% url "eventbro:register_redirect" %}">Registration</a></li>
+    <li><a href="{% url "eventbro:register_event" %}">Event Registration</a></li>
 {% endblock %}
 
 {% block body_id %}category{% endblock %}

@@ -49,6 +49,23 @@ class Convention(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
+    def has_events(self):
+        events = Event.objects.filter(convention=self).count()
+        if events > 0:
+            return True
+        else:
+            return False
+
+    def get_events(self):
+        events = Event.objects.filter(convention=self, published=True)
+        events = events.only('event_type', 'name', 'slug', 'image')
+        events = events.order_by('event_type', '-showcase', 'name')
+        return events
+
+    def get_event_types(self):
+        event_types = EventType.objects.filter(event_type_id__convention=self, event_type_id__published=True).distinct()
+        return event_types
+
     def clean(self):
 
         if self.active and Convention.objects.filter(active=True).exists():
@@ -89,6 +106,24 @@ class EventType(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
+    def get_convention(self):
+        try:
+            convention = Convention.objects.get(active=True, published=True)
+            return convention
+        except Convention.DoesNotExist:
+            return None
+
+    def get_events(self):
+        convention = self.get_convention()
+        try:
+            print convention
+            events = Event.objects.filter(convention=convention.uid, published=True, event_type=self)
+            events = events.order_by('name').distinct('name')
+            events = events.only('event_type', 'name', 'slug', 'image')
+            return events
+        except Event.DoesNotExist:
+            return None
+
 
 class Event(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -112,9 +147,22 @@ class Event(models.Model):
     rules = models.TextField(blank=True, null=True)
     sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
+    showcase = models.BooleanField(default=False, verbose_name='Showcase event')
 
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
+
+    def check_for_duplicates(self):
+        number = Event.objects.values('name').filter(name=self.name).count()
+        if number > 1:
+            return True
+        else:
+            return False
+
+    def get_duplicates(self):
+        events = Event.objects.filter(name=self.name)
+        events = events.order_by('start')
+        return events
 
     def available_spots(self):
         registered = Registration.objects.filter(event=self).count()

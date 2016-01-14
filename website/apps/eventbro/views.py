@@ -7,10 +7,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import TemplateView, RedirectView, UpdateView, FormView
+from django.views.generic import TemplateView, RedirectView, UpdateView, FormView, DetailView
 from website.apps.badgebro.models import Badge
 from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm, EventImportForm
-from website.apps.eventbro.models import Event, Registration, EventType
+from website.apps.eventbro.models import Event, Registration, EventType, Convention
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,6 @@ CHECKBOX_MAPPING = {'on': True, 'off': False, }
 
 
 class EventRegistrationMixin(object):
-
     queryset = Event.objects.filter(published=True).defer('prizes', 'rules', 'sponsor', 'organizer')
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
@@ -269,7 +268,6 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         # If no overlapping events were found
         return False
 
-
     def check_badges_for_user(self):
         user = self.request.user
         try:
@@ -339,11 +337,28 @@ class RegistrationUpdateView(LoginRequiredMixin, UpdateView):
         return registration
 
 
+class ConventionDetailView(DetailView):
+    template_name = 'eventbro/events/convention_detail.html'
+    model = Convention
+
+
+class EventTypeDetailView(DetailView):
+    template_name = 'eventbro/events/event_type_detail.html'
+    model = EventType
+
+
+class EventDetailView(DetailView):
+    template_name = 'eventbro/events/event_detail.html'
+    model = Event
+
+
 register_redirect = RegisterRedirectView.as_view()
 register_badge = RegisterBadgeView.as_view()
 register_event = RegisterEventView.as_view()
-
 registration_detail = RegistrationUpdateView.as_view()
+convention_detail = ConventionDetailView.as_view()
+event_type_detail = EventTypeDetailView.as_view()
+event_detail = EventDetailView.as_view()
 
 
 class EventImportView(GroupRequiredMixin, FormView):
