@@ -91,6 +91,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
             )
         }),
     )
+    filter_horizontal = ('valid_options',)
     list_display = ('slug', 'published', 'event_type', 'convention', 'size', 'start', 'end',)
     list_filter = ('event_type', 'convention',)
     readonly_fields = ('slug', 'uid',)
