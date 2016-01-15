@@ -109,6 +109,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     list_filter = ('event_type', 'convention',)
     readonly_fields = ('slug', 'uid',)
     actions = (make_published, make_unpublished,)
+    save_as = True
 
 
 class SponsorAdmin(AdminImageMixin, ImportExportModelAdmin):
