@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('website.apps.apibro.urls')),
 
+    url(r'^accounts/login/$', 'website.apps.userbro.views.login', name='login'),
+
     # Shop URLs.
     url(r'^shop/checkout/$', 'cartridge.shop.views.checkout_steps', name='checkout_steps',
         kwargs=dict(form_class=OrderForm)),
