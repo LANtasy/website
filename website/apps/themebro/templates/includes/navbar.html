@@ -12,7 +12,15 @@
             <a class="navbar-brand" href="/"><img src="{% static "lantasy/img/logo/Lantasy_Logo_white_h100px.png" %}"></a>
         </div>
         <div class="navbar-collapse collapse">
-            {% page_menu "pages/menus/dropdown.html" %}
+
+            <ul class="nav navbar-nav">
+                <li{% if on_home %} class="active"{% endif %} id="dropdown-menu-home">
+                    <a href="{% url "home" %}">Home</a>
+                </li>
+                {% include 'userbro/navbar/user_menu.html' %}
+                {% include 'eventbro/navbar/events_menu.html' %}
+                {% page_menu "themebro/navbar/mezzanine_menu.html" %}
+            </ul>
         </div>
 
 
