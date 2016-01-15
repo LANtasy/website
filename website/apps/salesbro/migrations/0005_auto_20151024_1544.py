@@ -38,5 +38,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_ticket_link, remove_ticket_link),
+        # migrations.RunPython(add_ticket_link, remove_ticket_link),
     ]
