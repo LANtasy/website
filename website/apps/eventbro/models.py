@@ -44,6 +44,8 @@ class Convention(models.Model):
 
     active = models.BooleanField(default=False)
 
+    registration = models.BooleanField(default=False, verbose_name='Registration')
+
     objects = ConventionManager()
 
     def __unicode__(self):
@@ -63,9 +65,10 @@ class Convention(models.Model):
         return event_types
 
     def clean(self):
-
         if self.active and Convention.objects.filter(active=True).exists():
-            raise ValidationError("Active convention already exists.  Must not be active.")
+            convention = Convention.objects.get(active=True)
+            if convention != self:
+                raise ValidationError("Active convention already exists.  Must not be active.")
 
 
 class Sponsor(models.Model):

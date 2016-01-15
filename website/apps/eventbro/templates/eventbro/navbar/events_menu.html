@@ -8,13 +8,17 @@
     </a>
 
     <ul class="dropdown-menu">
+        {% if navbar_convention.registration %}
         <li id="register">
             <a href="{% url "eventbro:register_redirect" %}">
                 <strong>Register for Events</strong>
             </a>
         </li>
-        {% if navbar_event_types.exists %}
+        {% endif %}
+        {% if navbar_convention.registration and navbar_event_types.exists %}
             <li class="divider"></li>
+        {% endif %}
+        {% if navbar_event_types.exists %}
             {% for event_type in navbar_event_types %}
                 <li id="{{ event_type.slug }}">
                     <a href="{% url "eventbro:event_type_detail" slug=event_type.slug %}">{{ event_type.name }}</a>

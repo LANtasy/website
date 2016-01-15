@@ -14,68 +14,77 @@
 {% block body_id %}category{% endblock %}
 
 {% block main %}
-    <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
-        {% csrf_token %}
-        {{ user_form.management_form }}
+    {% if navbar_convention.registration %}
+        <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
+            {% csrf_token %}
+            {{ user_form.management_form }}
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Confirm user details</h5>
+                    <p>
+                        The following details will be used to help locate your badge at the door.
+                        First name and Last name will be printed on the badges.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <strong>{{ user_form.first_name.label }}</strong>
+                        {{ user_form.first_name }}
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <strong>{{ user_form.last_name.label }}</strong>
+                        {{ user_form.last_name }}
+                    </div>
+                </div>
+            </div>
+
+            <hr><div class="spacer-10"></div>
+
+            {{ badge_form.management_form }}
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Enter badge ID</h5>
+                    <p>
+                        Once submitted this badge will be a digital representation of your physical ticket.
+                        It will be associated with your account. This will then be used for event registration purpose.
+                    </p>
+                    <p>
+                        This ID can be located on your ticket receipt<br>
+                        e.g. BAfa18b9f5b4b14f9a927a88da231f7119
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <strong>{{ badge_form.uid.label }}</strong>
+                        {{ badge_form.uid }}
+                    </div>
+                </div>
+            </div>
+
+            <hr><div class="spacer-10"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group-lg">
+                        <input type="submit" name="save" class="btn btn-primary" value="Save">
+                    </div>
+                </div>
+            </div>
+            <div class="spacer-30"></div>
+        </form>
+    {% else %}
         <div class="row">
             <div class="col-md-12">
-                <h5>Confirm user details</h5>
-                <p>
-                    The following details will be used to help locate your badge at the door.
-                    First name and Last name will be printed on the badges.
-                </p>
+                <p>Sorry, we are not allowing registrations at this time</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="form-group">
-                    <strong>{{ user_form.first_name.label }}</strong>
-                    {{ user_form.first_name }}
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="form-group">
-                    <strong>{{ user_form.last_name.label }}</strong>
-                    {{ user_form.last_name }}
-                </div>
-            </div>
-        </div>
+    {% endif %}
 
-        <hr><div class="spacer-10"></div>
-
-        {{ badge_form.management_form }}
-        <div class="row">
-            <div class="col-md-12">
-                <h5>Enter badge ID</h5>
-                <p>
-                    Once submitted this badge will be a digital representation of your physical ticket.
-                    It will be associated with your account. This will then be used for event registration purpose.
-                </p>
-                <p>
-                    This ID can be located on your ticket receipt<br>
-                    e.g. BAfa18b9f5b4b14f9a927a88da231f7119
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="form-group">
-                    <strong>{{ badge_form.uid.label }}</strong>
-                    {{ badge_form.uid }}
-                </div>
-            </div>
-        </div>
-
-        <hr><div class="spacer-10"></div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="btn-group-lg">
-                    <input type="submit" name="save" class="btn btn-primary" value="Save">
-                </div>
-            </div>
-        </div>
-        <div class="spacer-30"></div>
-    </form>
 {% endblock main %}
 

@@ -20,8 +20,10 @@ class ConventionAdmin(ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                ('name', 'published', 'active',),
+                ('name',),
+                ('published', 'active', 'registration',),
                 ('start', 'end',),
+
             )
         }),
         ('Details', {
@@ -35,7 +37,7 @@ class ConventionAdmin(ImportExportModelAdmin):
         }),
     )
 
-    list_display = ('slug', 'name', 'published', 'active', 'start', 'end',)
+    list_display = ('slug', 'name', 'published', 'active', 'registration', 'start', 'end',)
     list_filter = ('start',)
     readonly_fields = ('slug', 'uid')
     actions = (make_published, make_unpublished,)
