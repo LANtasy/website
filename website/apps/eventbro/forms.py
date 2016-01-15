@@ -8,7 +8,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from website.apps.eventbro.models import Registration, Event, Convention, EventType
+from website.apps.eventbro.models import Registration, Event, Convention, EventType, Sponsor
 from website.apps.salesbro.models import TicketOption
 
 logger = logging.getLogger(__name__)
@@ -114,6 +114,8 @@ class EventImportForm(forms.Form):
     events = None
     ticket_types = None
     event_types = None
+    sponsors = None
+    convention = None
 
     required_fields = (
         'name',
@@ -130,6 +132,9 @@ class EventImportForm(forms.Form):
         'published',
         'require game id',
         'game id',
+        'sponsor',
+        'prizes',
+        'rules',
     )
 
     event_csv = forms.FileField(required=True)
@@ -158,12 +163,19 @@ class EventImportForm(forms.Form):
 
         self.event_types = {event_type.name: event_type for event_type in event_types_queryset}
 
+    def get_sponsors(self):
+        sponsor_queryset = Sponsor.objects.filter(convention=self.convention)
+
+        self.sponsors = {sponsor.name: sponsor for sponsor in sponsor_queryset}
+
     def parse_csv(self, csv_file):
         """
         Parses the csv into a list of dictionaries
         """
 
         convention = Convention.objects.get_active_convention()
+
+        self.convention = convention
 
         self.get_ticket_types()
         self.get_event_types()
@@ -201,11 +213,16 @@ class EventImportForm(forms.Form):
             event.name = row['name']
             event.size = row['size']
             event.organizer = row['organizer']
+            event.prizes = row.get('prizes', '')
+            event.rules = row.get('rules', '')
             event.event_type = self.event_types[row['type']]
             event.start = event_start
             event.end = event_end
             event.convention = convention
             event.ticket_types = []
+
+            if row.get('sponsor'):
+                event.sponsor = self.sponsors.get(row['sponsor'])
 
             try:
                 description = row.get('description', '').encode('utf8')
