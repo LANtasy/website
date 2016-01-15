@@ -29,10 +29,11 @@ logger = logging.getLogger(__name__)
 class TicketListView(ListView):
     model = Ticket
     template_name = 'salesbro/shop/ticket_list.html'
+    queryset = Ticket.objects.filter(available=True, status=2)
 
 
 class TicketDetailView(DetailView):
-    queryset = Ticket.objects.filter(available=True)
+    queryset = Ticket.objects.filter(available=True, status=2)
     template_name = 'salesbro/shop/ticket_detail.html'
     slug_url_kwarg = 'slug'
     slug_field = 'slug'
