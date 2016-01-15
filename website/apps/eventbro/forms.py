@@ -177,11 +177,12 @@ class EventImportForm(forms.Form):
 
         self.convention = convention
 
-        self.get_ticket_types()
-        self.get_event_types()
-
         if not convention:
             raise ValidationError("Could not find active Convention")
+
+        self.get_ticket_types()
+        self.get_event_types()
+        self.get_sponsors()
 
         reader = csv.DictReader(csv_file)
 
