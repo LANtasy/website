@@ -1,5 +1,7 @@
 from braces.views import LoginRequiredMixin
+from django.contrib.messages import info
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
@@ -7,8 +9,13 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, DetailView, FormView
+from django.utils.translation import ugettext_lazy as _
+
+from mezzanine.utils.urls import login_redirect
+
 from website.apps.badgebro.models import Badge
 from website.apps.eventbro.models import Registration
+from website.apps.userbro.forms import LoginForm
 
 
 class UserView(object):
@@ -67,6 +74,24 @@ class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, De
             pass
 
         return redirect('userbro:user_detail')
+
+
+def login(request, template="accounts/account_login.html", extra_context=None):
+    """
+    Login form.
+    """
+    form = LoginForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+
+        authenticated_user = form.save()
+        info(request, _("Successfully logged in"))
+        auth_login(request, authenticated_user)
+        return login_redirect(request)
+
+    context = {"form": form, "title": _("Log in")}
+    context.update(extra_context or {})
+    return render(request, template, context)
 
 user_detail = UserDetailView.as_view()
 user_release_badge = UserReleaseBadgeView.as_view()
