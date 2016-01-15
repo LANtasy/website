@@ -25,6 +25,7 @@
             </div>
         </div>
 
+        {% if not event.disable_registration %}
         <div class="row">
             <div class="col-md-2 col-sm-2 col-xs-12">
                 <strong>Size:</strong>
@@ -43,5 +44,6 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
