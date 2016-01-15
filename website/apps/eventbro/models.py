@@ -49,19 +49,6 @@ class Convention(models.Model):
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
 
-    # def has_events(self):
-    #     events = Event.objects.filter(convention=self).count()
-    #     if events > 0:
-    #         return True
-    #     else:
-    #         return False
-
-    # def get_events(self):
-    #     events = Event.objects.filter(convention=self, published=True)
-    #     events = events.only('event_type', 'name', 'slug', 'image')
-    #     events = events.order_by('event_type', 'name')
-    #     return events
-
     def get_events(self):
         try:
             events = Event.objects.filter(convention=self, published=True)
@@ -70,7 +57,6 @@ class Convention(models.Model):
             return events
         except Event.DoesNotExist:
             return None
-
 
     def get_event_types(self):
         event_types = EventType.objects.filter(event_type_id__convention=self, event_type_id__published=True).distinct()
