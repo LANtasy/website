@@ -135,6 +135,7 @@ class EventImportForm(forms.Form):
         'sponsor',
         'prizes',
         'rules',
+        'disable registration'
     )
 
     event_csv = forms.FileField(required=True)
@@ -221,6 +222,13 @@ class EventImportForm(forms.Form):
             event.end = event_end
             event.convention = convention
             event.ticket_types = []
+
+            try:
+                disable_reg = int(row.get('disable registration', 0))
+            except ValueError:
+                raise ValidationError("Invalid value for disable registration on row %s" % index+2)
+
+            event.disable_registration = (disable_reg == 1)
 
             if row.get('sponsor'):
                 event.sponsor = self.sponsors.get(row['sponsor'])
