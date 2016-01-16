@@ -135,7 +135,8 @@ class EventImportForm(forms.Form):
         'sponsor',
         'prizes',
         'rules',
-        'disable registration'
+        'disable registration',
+        'group event',
     )
 
     event_csv = forms.FileField(required=True)
@@ -229,6 +230,13 @@ class EventImportForm(forms.Form):
                 raise ValidationError("Invalid value for disable registration on row %s" % index+2)
 
             event.disable_registration = (disable_reg == 1)
+
+            try:
+                group_event = int(row.get('group event', 0))
+            except ValueError:
+                raise ValidationError("Invalid value for group event on row %s" % index+2)
+
+            event.group_event = (group_event == 1)
 
             if row.get('sponsor'):
                 event.sponsor = self.sponsors.get(row['sponsor'])
