@@ -61,7 +61,8 @@ class Convention(models.Model):
             return None
 
     def get_event_types(self):
-        event_types = EventType.objects.filter(event_type_id__convention=self, event_type_id__published=True).distinct()
+        event_types = EventType.objects.filter(event_type_id__convention=self)
+        event_types = event_types.values('name', 'slug').distinct()
         return event_types
 
     def clean(self):
