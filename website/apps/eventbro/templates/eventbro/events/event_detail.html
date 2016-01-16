@@ -74,19 +74,6 @@
 
     <div class="spacer-10"></div>
 
-    {% if event.valid_options %}
-    <div class="row">
-        <div class="col-md-2"><strong>Ticket Type(s):</strong></div>
-        <div class="col-md-10">
-            {% for option in event.valid_options.all %}
-                {{ option }}<br>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="spacer-10"></div>
-
     {% if event.prizes %}
         <div class="row">
             <div class="col-md-2"><strong>Prizing:</strong></div>

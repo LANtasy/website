@@ -33,7 +33,6 @@
             <div class="col-md-4 col-md-4 col-xs-12">
                 {% if event.disable_registration or event.size == 0 %}
                     Drop in event <br>
-                    Registration is not required
                 {% else %}
                     {{ event.size }} participants
                 {% endif %}
@@ -50,7 +49,20 @@
                     {{ event.available_spots }}
                 {% endif %}
             </div>
+        {% else %}
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                Registration is not required
+            </div>
         {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"><strong>Ticket Type(s):</strong></div>
+            <div class="col-md-10">
+                {% for option in event.valid_options.all %}
+                    {{ option }}<br>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
