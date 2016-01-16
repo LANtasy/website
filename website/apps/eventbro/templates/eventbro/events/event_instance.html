@@ -25,14 +25,21 @@
             </div>
         </div>
 
-        {% if not event.disable_registration %}
+
         <div class="row">
             <div class="col-md-2 col-sm-2 col-xs-12">
                 <strong>Size:</strong>
             </div>
             <div class="col-md-4 col-md-4 col-xs-12">
-                {{ event.size }} participants
+                {% if event.disable_registration or event.size == 0 %}
+                    Drop in event <br>
+                    Registration is not required
+                {% else %}
+                    {{ event.size }} participants
+                {% endif %}
             </div>
+
+        {% if not event.disable_registration and event.size != 0 %}
             <div class="col-md-2 col-sm-2 col-xs-12">
                 <strong>Available:</strong>
             </div>
@@ -43,7 +50,7 @@
                     {{ event.available_spots }}
                 {% endif %}
             </div>
-        </div>
         {% endif %}
+        </div>
     </div>
 </div>
