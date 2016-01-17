@@ -1,0 +1,23 @@
+@media print {
+  @page {
+      size: 92mm 133mm;
+  }
+}
+
+
+#first-name {
+    position: absolute;
+    display: inline-block;
+    top: 120px;
+    left: 80px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+#qr-code {
+    position: absolute;
+    display: inline-block;
+    top: 150px;
+    left: 100px;
+}
+

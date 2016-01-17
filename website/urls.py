@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^profile/', include('website.apps.userbro.urls',  namespace='userbro')),
     url(r'^', include('website.apps.salesbro.urls',  namespace='salesbro')),
     url(r'^', include('website.apps.eventbro.urls',  namespace='eventbro')),
+    url(r'^', include('website.apps.badgebro.urls',  namespace='badgebro')),
 
     # Temporary shop redirect
     url(r'^shop$', RedirectView.as_view(url='tickets/', permanent=False)),

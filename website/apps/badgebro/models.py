@@ -1,6 +1,9 @@
 import uuid
 
+import StringIO
+import qrcode
 from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models, transaction
 
 from cartridge.shop.models import Order, OrderItem
@@ -46,6 +49,8 @@ class Badge(models.Model):
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30, blank=True, null=True)
 
+    qr_code = models.ImageField(blank=True, null=True, upload_to='badges/qrcodes/%Y')
+
     def save(self, *args, **kwargs):
 
         if not self.uid:
@@ -65,3 +70,25 @@ class Badge(models.Model):
             self.user.registration_user.all().delete()
             self.user = None
             self.save()
+
+    def create_qr_code(self):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(self.object.uid)
+
+        qr.make(fit=True)
+
+        img = qr.make_image()
+
+        tempfile_io =StringIO.StringIO()
+        img.save(tempfile_io, kind='JPEG')
+
+        image_file = InMemoryUploadedFile(tempfile_io, None, 'rotate.jpg','image/jpeg', tempfile_io.len, None)
+
+        file_name = 'badge_%s.jpg' % self.object.id
+        self.object.qr_code.save(file_name , image_file)
+        self.object.save()
