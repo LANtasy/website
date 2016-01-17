@@ -66,6 +66,9 @@
 {% block right_panel_include %}
     <div class="panel panel-default user-panel">
         <div class="panel-body">
+            <a href="{% url 'userbro:schedule' %}" class="btn btn-default">
+                <i class="fa fa-calendar"></i> Event Schedule
+            </a>
             <a href="{% url 'userbro:change_password' %}" class="btn btn-default">
                 <i class="fa fa-lock"></i> Change Password
             </a>
