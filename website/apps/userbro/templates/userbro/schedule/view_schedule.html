@@ -14,6 +14,7 @@
 
 {% block main %}
     <div class="container-fluid">
+        {% if registrations.exists %}
         <div class="row">
             <div class="col-md-12">
                 <a href="{% url "userbro:schedule" action="print" %}" class="btn btn-default" target="_blank">
@@ -30,5 +31,12 @@
                 {% include 'userbro/schedule/schedule_detail.html' %}
             </div>
         </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    You haven't signed up for any events yet.
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock main %}
