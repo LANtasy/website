@@ -18,15 +18,25 @@
                             <!-- Details --><tr><td style="font-family: Helvetica, arial, sans-serif; font-size: 14px; line-height:24px; color: #666666; text-align:left;" st-conteent="2colcontent1">
                                 {% if order_billing_detail_fields %}
                                 {% for field, value in order_billing_detail_fields %}
-                                    <span style="color: #545554"><b>{{ field }}:</b> {{ value }}<br/></span>
+                                    <span style="color: #545554"><b>
+                                        {% if field == "State/Region" %}
+                                            Province / State:
+                                        {% elif field == "City/Suburb" %}
+                                            City:
+                                        {% elif field == "Zip/Postcode" %}
+                                            Postal Code / Zip:
+                                        {% else %}
+                                            {{ field }}:
+                                        {% endif %}
+                                    </b> {{ value }}<br/></span>
                                 {% endfor %}
                                 {% else %}
                                     <span style="color: #545554"><b>First name:</b> Test<br/></span>
                                     <span style="color: #545554"><b>Last name:</b> Person<br/></span>
                                     <span style="color: #545554"><b>Street:</b> 100 Test Road<br/></span>
-                                    <span style="color: #545554"><b>City/Suburb:</b> Victoria<br/></span>
-                                    <span style="color: #545554"><b>State/Region:</b> British Columbia<br/></span>
-                                    <span style="color: #545554"><b>Zip/Postcode:</b> A0A 0A0<br/></span>
+                                    <span style="color: #545554"><b>City:</b> Victoria<br/></span>
+                                    <span style="color: #545554"><b>Province/State:</b> British Columbia<br/></span>
+                                    <span style="color: #545554"><b>Postal Code / Zip:</b> A0A 0A0<br/></span>
                                     <span style="color: #545554"><b>Country:</b> Canada<br/></span>
                                     <span style="color: #545554"><b>Phone:</b> 2501234567<br/></span>
                                     <span style="color: #545554"><b>Email:</b> test@person.com<br/></span>

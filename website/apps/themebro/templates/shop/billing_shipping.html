@@ -28,7 +28,28 @@ If you have an existing account or would like to create one, please
 
 <fieldset>
     <legend>{% trans "Billing Details" %}</legend>
-    {% fields_for form.billing_detail_fields %}
+    {% for field in form.billing_detail_fields %}
+        <div class="form-group input_id_{{ field.label }} {% if field.errors %}has-error{% endif %}">
+            {% if field.label == "State/Region" %}
+                Province / State *
+            {% elif field.label == "City/Suburb" %}
+                City *
+            {% elif field.label == "Zip/Postcode" %}
+                Postal Code / Zip *
+            {% else %}
+                {{ field.label }} *
+            {% endif %}
+            {{ field }}
+            <div class="help-block">
+                {% for error in field.errors %}
+                    <strong>{{ error }}</strong>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <p>* - Required fields</p>
+
 </fieldset>
 
 <fieldset style="display:none;">

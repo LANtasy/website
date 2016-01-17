@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 
+{% block meta_title_override %}{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} - {% endif %}Play Games. Have Fun.{% endblock meta_title_override %}
 {% block meta_title %}Play Games. Have Fun.{% endblock meta_title %}
 {% block title %}Play Games. Have Fun.{% endblock title %}
 {% block meta_keywords %}{% trans settings.SITE_TAGLINE %} {{ settings.SITE_TITLE }}{% endblock meta_keywords %}
@@ -83,6 +84,7 @@
                                     <div class="sponsor-logo-minor"><a href="http://www.steelswordsproductions.com" target="_blank"><img src="{% static "lantasy/img/sponsors/steelswordprod_logo_100px.png" %}" alt=""></a></div>
                                     <div class="sponsor-logo-minor"><a href="http://uvicgamesclub.proboards.com/" target="_blank"><img src="{% static "lantasy/img/sponsors/uvic-games-club_logo_100px.png" %}" alt=""></a></div>
                                     <div class="sponsor-logo-minor"><a href="http://www.computerpoweruser.com/" target="_blank"><img src="{% static "lantasy/img/sponsors/cpu_logo_100px.png" %}" alt=""></a></div>
+                                    <div class="sponsor-logo-minor"><a href="http://www.curiouscomics.com/" target="_blank"><img src="{% static "lantasy/img/sponsors/curious-too_logo_100px.png" %}" alt=""></a></div>
                                 </div>
                             </div>
                         </div>
@@ -136,11 +138,11 @@
             	<div class="container">
                 	<header class="onepage-section-headers text-align-center">
                     	<h3 class="page-title text-align-center">About</h3>
-                    	<p>A local Victoria-based nonprofit organization, LANtasy Gaming Society (previously BC Gamer) 
-                        is a collection of groups that come together to throw gaming events. We have been active within 
-                        the community running events for over a decade. Our members have previously worked for GottaCon 
-                        Conventions, and the last event we collaborated with was GottaCon 2015 at the Victoria Conference Center. It 
-                        is our core mission to throw inclusive, all-ages gaming events. To that end, we present 
+                    	<p>A local Victoria-based nonprofit organization, LANtasy Gaming Society (previously BC Gamer)
+                        is a collection of groups that come together to throw gaming events. We have been active within
+                        the community running events for over a decade. Our members have previously worked for GottaCon
+                        Conventions, and the last event we collaborated with was GottaCon 2015 at the Victoria Conference Center. It
+                        is our core mission to throw inclusive, all-ages gaming events. To that end, we present
                         LANtasy 2016.</p>
                         <p>LANtasy 2016 is being held March 12th and 13th at Pearkes arena in Victoria BC. It is an event 
                         that hosts a LAN Party, Tabletop Gaming, RPG's, and Boardgames! Expect local cosplayers to be in 

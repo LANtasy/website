@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags crispy_forms_tags %}
+
+{% block title %}Update Registration{% endblock title %}
+{% block meta_title %}Update Registration{% endblock meta_title %}
+{% block meta_ogtitle %}Update Registration{% endblock meta_ogtitle %}
+
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li><a href="{% url "eventbro:register_redirect" %}">Registration</a></li>
+    <li><a href="{% url "eventbro:registration_update" event_slug=registration.event.slug %}">Update Event Registration</a></li>
+{% endblock %}
+
+{% block body_id %}category{% endblock %}
+
+{% block main %}
+    {% if navbar_convention.registration %}
+        <div class="row">
+            <div class="col-md-4">
+                <form method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
+                    {% csrf_token %}
+
+                    {% if registration.event.require_game_id %}
+                        {{ form.game_id|as_crispy_field }}
+                    {% endif %}
+
+                    {% if registration.event.group_event %}
+                        {{ form.group_name|as_crispy_field }}
+                        {{ form.group_captain|as_crispy_field }}
+                    {% endif %}
+
+                    <div class="spacer-10"></div>
+
+                    <div class="btn-group-lg">
+                        <input type="submit" name="save" class="btn btn-primary" value="Save">
+                        <a class="btn btn-default" href="{% url 'eventbro:register_event' %}">Cancel</a>
+                    </div>
+                    <div class="spacer-30"></div>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <p>Sorry, we are not allowing registrations at this time</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock main %}
+

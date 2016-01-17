@@ -1,0 +1,8 @@
+{% load mezzanine_tags %}
+<div class="panel panel-default user-panel">
+<div class="panel-body">
+{% ifinstalled mezzanine.accounts %}
+{% include "accounts/includes/user_panel.html" %}
+{% endifinstalled %}
+</div>
+</div>

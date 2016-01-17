@@ -13,7 +13,17 @@
                         <ul class="list-unstyled">
 
                             {% for field, value in form.billing_detail_fields.values %}
-                                <li><label>{{ field }}:</label> {{ value }}</li>
+                                <li><label>
+                                    {% if field == "State/Region" %}
+                                        Province / State:
+                                    {% elif field == "City/Suburb" %}
+                                        City:
+                                    {% elif field == "Zip/Postcode" %}
+                                        Postal Code / Zip:
+                                    {% else %}
+                                        {{ field }}:
+                                    {% endif %}
+                                </label> {{ value }}</li>
                             {% endfor %}
 
                         </ul>

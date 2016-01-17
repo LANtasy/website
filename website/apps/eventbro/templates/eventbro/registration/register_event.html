@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags thumbnail %}
+
+{% block title %}Event Registration{% endblock title %}
+{% block meta_title %}Event Registration{% endblock meta_title%}
+{% block meta_ogtitle %}Event Registration{% endblock meta_ogtitle %}
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li><a href="{% url "eventbro:register_redirect" %}">Registration</a></li>
+    <li><a href="{% url "eventbro:register_event" %}">Event Registration</a></li>
+{% endblock %}
+
+{% block body_id %}category{% endblock %}
+
+{% block main %}
+    {% if navbar_convention.registration %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        Filter Events
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li id="ALL">
+                            <a href="?category=">Display All</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li id="REG">
+                            <a href="?category=REG">Registered events</a>
+                        </li>
+                        <li class="divider"></li>
+                        {% for category in event_categories %}
+                            <li id="{{ category.uid }}">
+                                <a href="?category={{ category.slug }}">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="spacer-10"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                {# Loop through all events for this category #}
+                {% for form in event_forms %}
+
+                    {% ifchanged form.event.event_type.name %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3><strong>{{ form.event.event_type.name }}</strong></h3>
+                            </div>
+                        </div>
+                    {% endifchanged %}
+
+                    <form method="POST" action="{% url 'eventbro:register_event' slug=form.event.slug %}?category={{ filter_category }}" class="register-event-form" novalidate autocomplete="off">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="container-fluid">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            {% if form.event.image %}
+                                                <div class="col-md-4">
+                                                    {% if form.event.image %}
+                                                        {% thumbnail form.event.image "x115" format="PNG" padding=True as im %}
+                                                            <img src="{{ im.url }}">
+                                                        {% endthumbnail %}
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                            {% if form.event.image %}
+                                                <div class="col-md-8">
+                                            {% else %}
+                                                <div class="col-md-12">
+                                            {% endif %}
+                                            <div class="row">
+                                                <div class="col-md-10 col-sm-8"><h3>{{ form.event.name }}</h3></div>
+                                                <div class="col-md-2 hidden-sm hidden-xs">
+                                                    {% if form.event in user.events %}
+                                                        <button name="unregister" class="btn btn-primary align-right" style="padding:10px 4px">Unregister</button>
+                                                    {% elif form.event.is_full %}
+                                                        <button name="register" class="btn btn-primary align-right" style="padding:10px 4px">Waitlist</button>
+                                                    {% else %}
+                                                        <button name="register" class="btn btn-primary align-right" style="padding:10px 4px">Register</button>
+                                                    {% endif %}
+                                                    <div class="spacer-10"></div>
+                                                </div>
+                                                <div class="hidden-lg hidden-md col-sm-4">
+                                                    {% if form.event in user.events %}
+                                                        <button name="unregister" class="btn btn-primary" style="padding:10px 4px">Unregister</button>
+                                                    {% elif form.event.is_full %}
+                                                        <button name="register" class="btn btn-primary" style="padding:10px 4px">Waitlist</button>
+                                                    {% else %}
+                                                        <button name="register" class="btn btn-primary" style="padding:10px 4px">Register</button>
+                                                    {% endif %}
+                                                    <div class="spacer-10"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5 col-sm-4 hidden-xs"><strong>Start Time</strong></div>
+                                                <div class="col-md-5 col-sm-4 hidden-xs"><strong>End Time</strong></div>
+                                                <div class="col-md-2 col-sm-4 hidden-xs">
+                                                    <strong class="align-right">Available</strong>
+                                                </div>
+                                                <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                                    <strong>Start Time:</strong> {{ form.event.start }}
+                                                </div>
+                                                <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                                                    <strong>End Time:</strong> {{ form.event.end }}
+                                                </div>
+                                                <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+
+                                                    <strong>Available:</strong>
+                                                    {% if form.event.is_full %}
+                                                        0
+                                                    {% else %}
+                                                        {{ form.event.available_spots }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.start }}</div>
+                                                <div class="col-md-5 col-sm-4 hidden-xs">{{ form.event.end }}</div>
+                                                <div class="col-md-2 col-sm-4 hidden-xs">
+                                            <span class="align-right">
+                                                {% if form.event.is_full %}
+                                                    0
+                                                {% else %}
+                                                    {{ form.event.available_spots }}
+                                                {% endif %}
+                                            </span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                            {% if form.event.description %}
+                                                <div class="spacer-10"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {{ form.event.description|linebreaks }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+
+                                            {% if form.event.group_event or form.event.require_game_id %}
+                                                {% if form.event not in user.events or not user.events %}
+                                                    <div class="spacer-10"></div>
+
+                                                    <div class="row">
+                                                        {% if form.event.group_event %}
+                                                            <div class="col-md-5">
+                                                                <div class="form-group {% if form.group_name.errors %}has-error{% endif %}">
+                                                                    {{ form.group_name.label_tag }}{{ form.group_name }}
+                                                                    <div class="help-block">
+                                                                        {% for error in form.group_name.errors %}
+                                                                            <strong>{{ error }}</strong>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    {{ form.group_captain }} {{ form.group_captain.label_tag }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+
+                                                        {% if form.event.require_game_id %}
+                                                            <div class="col-md-5">
+                                                                <div class="form-group {% if form.game_id_name.errors %}has-error{% endif %}">
+                                                                    <label for="id_game_id_name">{{ form.event.game_id_name }}:</label>
+                                                                    {{ form.game_id_name }}
+                                                                    <div class="help-block">
+                                                                        {% for error in form.game_id_name.errors %}
+                                                                            <strong>{{ error }}</strong>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="spacer-10"></div>
+                                                    <a class="btn btn-default" href="{% url 'eventbro:registration_update' event_slug=form.event.slug %}">Edit Registration</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </form> {# Ignore this error #}
+                {% empty %}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            No events in this category
+                        </div>
+                    </div>
+
+                {% endfor event %}
+                {# Endloop through all events in this category #}
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <p>Sorry, we are not allowing registrations at this time</p>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock main %}

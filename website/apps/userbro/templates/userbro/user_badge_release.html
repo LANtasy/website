@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load staticfiles mezzanine_tags crispy_forms_tags %}
+
+{% block title %}Release Badge{% endblock title %}
+{% block meta_title %}Release Badge{% endblock meta_title %}
+{% block meta_ogtitle %}Release Badge{% endblock meta_ogtitle %}
+
+<!--TODO: make sure this keywords is working-->
+{% block meta_keywords %}{% metablock %}
+{% for keyword in page.keywords.all %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this description is working-->
+{% block meta_description %}{% metablock %}
+{{ ticket.description }}
+{% endmetablock %}{% endblock %}
+
+<!--TODO: make sure this breadcrumb menu is working-->
+{% block breadcrumb_menu %}
+{{ block.super }}
+<li>Profile / Unassign Badge</li>
+{% endblock %}
+
+{% block body_id %}category{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="alert alert-warning">
+                Warning!  This will release your badge from your user account and un-register you from all events.
+                <br />
+
+                <strong>This action is not reversible.</strong>
+            </div>
+
+            <form id="release-form" method="POST" action="." class="register-badge-form" novalidate autocomplete="off">
+                {% csrf_token %}
+
+                <hr>
+                <div class="spacer-10"></div>
+
+                <div class="btn-group-lg">
+                    <button type="submit" class="btn btn-warning">Release Badge</button>
+                    <a class="btn btn-default" href="{% url 'userbro:user_detail' %}">Cancel</a>
+                </div>
+
+                <div class="spacer-30"></div>
+            </form>
+
+        </div>
+    </div>
+{% endblock main %}
+
+
+{% block extra_js %}
+    <script type="text/javascript">
+
+        $(function(){
+            $("#release-form").on("submit", function(e){
+                if(!confirm("Are you sure?")) return false;
+                return true;
+            });
+        });
+
+    </script>
+{% endblock extra_js %}

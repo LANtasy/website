@@ -1,0 +1,12 @@
+{% load cache %}
+{% cache 500 navbar_tickets %}
+{% if navbar_tickets %}
+<li class="dropdown active" id="events">
+    <a href="{% url "salesbro:ticket_list" %}" class="dropdown-toggle disabled" data-toggle="dropdown">
+        Tickets
+    </a>
+
+
+</li>
+{% endif %}
+{% endcache navbar_tickets %}
