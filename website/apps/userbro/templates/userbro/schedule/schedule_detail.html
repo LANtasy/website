@@ -2,11 +2,13 @@
 {% for registration in registrations %}
 {% with event=registration.event %}
     {% ifchanged event.start|date:"M d, Y" %}
-        <h3>{{ event.start|date:"M d, Y" }}</h3>
         {% if forloop.first %}
+            <h3>{{ event.start|date:"M d, Y" }}</h3>
             <div class="table-bordered">
         {% else %}
             </div>
+            <div class="spacer-20"></div>
+            <h3>{{ event.start|date:"M d, Y" }}</h3>
             <div class="table-bordered">
         {% endif %}
         <div class="row">
@@ -19,16 +21,17 @@
             </div>
         </div>
     {% endifchanged %}
-
         <hr style="padding: 0;margin:0;">
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-3">
-                <div class="container-fluid">{{ event.start|date:"h:m A" }}</div>
+                <div class="container-fluid">{{ event.start|date:"h:i A" }}</div>
             </div>
             <div class="col-md-9 col-sm-9 col-xs-9">
                 <div class="container-fluid">{{ event.name }}</div>
             </div>
         </div>
+
+
 
 
     {% if forloop.last %}
