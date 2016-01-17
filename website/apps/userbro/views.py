@@ -8,13 +8,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import UpdateView, DetailView, FormView
+from django.views.generic import UpdateView, DetailView, FormView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.utils.urls import login_redirect
 
 from website.apps.badgebro.models import Badge
-from website.apps.eventbro.models import Registration
+from website.apps.eventbro.models import Registration, Convention
 from website.apps.userbro.forms import LoginForm
 
 
@@ -76,6 +76,38 @@ class UserReleaseBadgeView(LoginRequiredMixin, SuccessMessageMixin, UserView, De
         return redirect('userbro:user_detail')
 
 
+class UserScheduleView(LoginRequiredMixin, TemplateView):
+    success_message = 'Successfully printed schedule'
+
+    # On view page there should be a printer friendly button
+    #  - Button will set some url or session key or flag
+    # Both pages use schedule_detail.html to display the schedule
+
+    def get_template_names(self):
+        if self.is_printer_friendly():
+            return ['userbro/schedule/print_schedule.html']
+        else:
+            return ['userbro/schedule/view_schedule.html']
+
+    def get_context_data(self, **kwargs):
+        registrations = Registration.objects.filter(user=self.request.user)
+        registrations = registrations.order_by('event__start')
+        kwargs['registrations'] = registrations
+        kwargs['convention'] = Convention.objects.get(active=True)
+        return kwargs
+
+    def is_printer_friendly(self):
+        try:
+            action = self.kwargs['action']
+        except KeyError:
+            return False
+
+        if action == 'print':
+            return True
+        else:
+            return False
+
+
 def login(request, template="accounts/account_login.html", extra_context=None):
     """
     Login form.
@@ -96,3 +128,4 @@ def login(request, template="accounts/account_login.html", extra_context=None):
 user_detail = UserDetailView.as_view()
 user_release_badge = UserReleaseBadgeView.as_view()
 change_password = ChangePasswordView.as_view()
+schedule = UserScheduleView.as_view()
