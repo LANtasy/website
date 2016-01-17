@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Schedule{% endblock title %}
+{% block meta_title %}Schedule{% endblock meta_title %}
+{% block meta_ogtitle %}Schedule{% endblock meta_ogtitle %}
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li><a href="{% url "userbro:user_detail" %}">Profile</a></li>
+    <li><a href="{% url "userbro:schedule" %}">Schedule</a></li>
+{% endblock breadcrumb_menu %}
+
+{% block body_id %}schedule{% endblock body_id %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="" class="btn btn-default">
+                    <i class="fa fa-print"></i>
+                    Print Friendly
+                </a>
+            </div>
+        </div>
+
+        <div class="spacer-10"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'userbro/schedule/schedule_detail.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}

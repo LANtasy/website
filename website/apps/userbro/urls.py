@@ -10,4 +10,6 @@ urlpatterns = patterns('website.apps.userbro.views',
     url(r'^$', 'user_detail', name='user_detail'),
     url(r'^change-password/$', 'change_password', name='change_password'),
     url(r'^release-badge/$', 'user_release_badge', name='user_release_badge'),
+    url(r'^schedule/$', 'schedule', name='schedule'),
+    url(r'^schedule/(?P<action>\w+)/$', 'schedule', name='schedule'),
 )

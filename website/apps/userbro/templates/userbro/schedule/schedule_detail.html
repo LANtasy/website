@@ -1,0 +1,57 @@
+
+{% for registration in registrations %}
+{% with event=registration.event %}
+    {% ifchanged event.start|date:"M d, Y" %}
+        <h3>{{ event.start|date:"M d, Y" }}</h3>
+        {% if forloop.first %}
+            <div class="table-bordered">
+        {% else %}
+            </div>
+            <div class="table-bordered">
+        {% endif %}
+        <div class="row">
+
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="container-fluid"><strong>Time</strong></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-9">
+                <div class="container-fluid"><strong>Event</strong></div>
+            </div>
+        </div>
+    {% endifchanged %}
+
+        <hr style="padding: 0;margin:0;">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="container-fluid">{{ event.start|date:"h:m A" }}</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-9">
+                <div class="container-fluid">{{ event.name }}</div>
+            </div>
+        </div>
+
+
+    {% if forloop.last %}
+        </div>
+    {% endif %}
+{% endwith %}
+{% endfor %}
+
+
+
+{#<div class="table-reponsive">#}
+{#    <table class="table table-bordered table-condensed">#}
+{#        <thead>#}
+{#            <th>Day</th>#}
+{#            <th>Time</th>#}
+{#            <th>Event</th>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                <td>March 12, 2015</td>#}
+{#                <td>10:00am</td>#}
+{#                <td>Happy fun times</td>#}
+{#            </tr>#}
+{#        </tbody>#}
+{#    </table>#}
+{#</div>#}
