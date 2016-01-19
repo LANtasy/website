@@ -4,16 +4,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static "css/badge-print.css" %}" type="text/css">
+    <title>Badge</title>
+    <link rel="stylesheet" href="{% static "badgebro/css/badge-print.css" %}" type="text/css">
 
 </head>
 <body>
-    <div id="first-name">
-        {{ badge.first_name }}
+    <div id="event-identifier">
+        <div id="event-year">
+            {{ badge.get_active_convention_year }}
+        </div>
     </div>
-    {% thumbnail badge.qr_code "250x250" crop="center" as im %}
-        <img id="qr-code" src="{{ im.url }}">
-    {% endthumbnail %}
+
+    <div id="main">
+        <div id="first-last-name">
+            {{ badge.first_name }} {{ badge.last_name }}
+        </div>
+        <div id="badge-id">
+            {{ badge.get_partial_badge_id }}
+        </div>
+        <div id="ticket-option">
+            {{ badge.ticket.title }}
+        </div>
+        {% thumbnail badge.qr_code "225x225" as im %}
+            <img id="qr-code" src="{{ im.url }}">
+        {% endthumbnail %}
+    </div>
+
+    <div id="badge-identifier">
+        <div id="badge-type">
+            {{ badge.ticket.ticket|cut:"Pass"|upper }}
+        </div>
+    </div>
+
 </body>
 </html>
