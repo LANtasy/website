@@ -1,13 +1,13 @@
 import logging
 
-from braces.views import LoginRequiredMixin, GroupRequiredMixin
 from django.contrib.messages import error, warning, info, success
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-
-# Create your views here.
 from django.views.generic import TemplateView, RedirectView, UpdateView, FormView, DetailView
+
+from braces.views import LoginRequiredMixin, GroupRequiredMixin
+
 from website.apps.badgebro.models import Badge
 from website.apps.eventbro.forms import UpdateUserForm, UpdateBadgeForm, RegistrationUpdateForm, EventImportForm
 from website.apps.eventbro.models import Event, Registration, EventType, Convention
@@ -261,7 +261,7 @@ class RegisterEventView(LoginRequiredMixin, EventRegistrationMixin, TemplateView
         registered_events = Event.objects.filter(registrants__user=self.request.user)
         registered_events = registered_events.filter(event_type=event.event_type)
         for registered_event in registered_events:
-            if (registered_event.start <= event.end) and (event.start <= registered_event.end):
+            if (registered_event.start < event.end) and (event.start < registered_event.end):
                 error(self.request, 'This event conflicts with another in your schedule, you were NOT registered')
                 return True
 
