@@ -145,6 +145,7 @@ class Event(models.Model):
     prizes = models.TextField(blank=True, null=True)
     rules = models.TextField(blank=True, null=True)
     sponsor = models.ForeignKey(Sponsor, related_name='event_sponsor', blank=True, null=True)
+    sponsors = models.ManyToManyField(Sponsor, related_name='event_sponsors', blank=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
     disable_registration = models.BooleanField(default=False, verbose_name='Disable Event Registration')
 
