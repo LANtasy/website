@@ -30,43 +30,6 @@
     </div>
     {% endif %}
 
-    {% if event.sponsors %}
-    <div class="row">
-        <div class="col-md-2">
-            <strong>
-                Sponsor{% if event.sponsors.all > 1 %}s{% endif %}:
-            </strong>
-        </div>
-        <div class="col-md-10">
-        {% for sponsor in event.sponsors.all %}
-            {% if not forloop.first %}<br>{% endif %}
-            {% if sponsor.url %}<a href="{{ sponsor.url }}">{% endif %}
-                {% if sponsor.logo %}
-                    {% thumbnail sponsor.logo "x115" format="PNG" padding=True as im %}
-                        <img src="{{ im.url }}">
-                    {% endthumbnail %}
-                {% else %}
-                    {{ sponsor.name }}
-                {% endif %}
-            {% if sponsor.url %}</a>{% endif %}
-        {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="spacer-10"></div>
-
-    {% if event.description %}
-    <div class="row">
-        <div class="col-md-2"><strong>Description:</strong></div>
-        <div class="col-md-10">
-            {{ event.description|linebreaks }}
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="spacer-10"></div>
-
     {% with has_duplicates=event.check_for_duplicates %}
         {% if has_duplicates %}
             {% with events=event.get_duplicates %}
@@ -79,26 +42,5 @@
         {% endif %}
     {% endwith %}
 
-    <div class="spacer-10"></div>
-
-    {% if event.prizes %}
-        <div class="row">
-            <div class="col-md-2"><strong>Prizing:</strong></div>
-            <div class="col-md-10">
-                {{ event.prizes|linebreaks }}
-            </div>
-        </div>
-    {% endif %}
-
-    <div class="spacer-10"></div>
-
-    {% if event.rules %}
-        <div class="row">
-            <div class="col-md-2"><strong>Rules:</strong></div>
-            <div class="col-md-10">
-                {{ event.rules|linebreaks }}
-            </div>
-        </div>
-    {% endif %}
 
 {% endblock main  %}
