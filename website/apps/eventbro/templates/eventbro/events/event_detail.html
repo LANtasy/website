@@ -30,19 +30,26 @@
     </div>
     {% endif %}
 
-    {% if event.sponsor %}
+    {% if event.sponsors %}
     <div class="row">
-        <div class="col-md-2"><strong>Sponsor:</strong></div>
+        <div class="col-md-2">
+            <strong>
+                Sponsor{% if event.sponsors.all > 1 %}s{% endif %}:
+            </strong>
+        </div>
         <div class="col-md-10">
-            {% if event.sponsor.url %}<a href="{{ event.sponsor.url }}">{% endif %}
-                {% if event.sponsor.logo %}
-                    {% thumbnail event.sponsor.logo "x115" format="PNG" padding=True as im %}
+        {% for sponsor in event.sponsors.all %}
+            {% if not forloop.first %}<br>{% endif %}
+            {% if sponsor.url %}<a href="{{ sponsor.url }}">{% endif %}
+                {% if sponsor.logo %}
+                    {% thumbnail sponsor.logo "x115" format="PNG" padding=True as im %}
                         <img src="{{ im.url }}">
                     {% endthumbnail %}
                 {% else %}
-                    {{ event.sponsor.name }}
+                    {{ sponsor.name }}
                 {% endif %}
-            {% if event.sponsor.url %}</a>{% endif %}
+            {% if sponsor.url %}</a>{% endif %}
+        {% endfor %}
         </div>
     </div>
     {% endif %}
