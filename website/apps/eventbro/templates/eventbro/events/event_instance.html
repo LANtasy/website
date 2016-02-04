@@ -91,7 +91,7 @@
             <div class="col-md-10 col-sm-10">
             {% for sponsor in sponsors %}
                 {% if not forloop.first %}<br>{% endif %}
-                {% if sponsor.url %}<a href="{{ sponsor.url }}">{% endif %}
+                {% if sponsor.url %}<a href="{{ sponsor.url }}" target="_blank">{% endif %}
                     {% if sponsor.logo %}
                         {% thumbnail sponsor.logo "x115" format="PNG" padding=True as im %}
                             <img src="{{ im.url }}">
