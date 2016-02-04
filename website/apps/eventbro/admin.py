@@ -69,7 +69,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-               ('name',),
+               ('name', 'subname',),
                ('convention', 'event_type',),
                ('published', 'disable_registration',),
                ('start', 'end',),
