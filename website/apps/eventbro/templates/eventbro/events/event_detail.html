@@ -30,15 +30,16 @@
     </div>
     {% endif %}
 
-    {% if event.sponsors %}
+    {% with sponsors=event.sponsors.all %}
+    {% if sponsors %}
     <div class="row">
         <div class="col-md-2">
             <strong>
-                Sponsor{% if event.sponsors.all > 1 %}s{% endif %}:
+                Sponsor{% if sponsors.count > 1 %}s{% endif %}:
             </strong>
         </div>
         <div class="col-md-10">
-        {% for sponsor in event.sponsors.all %}
+        {% for sponsor in sponsors %}
             {% if not forloop.first %}<br>{% endif %}
             {% if sponsor.url %}<a href="{{ sponsor.url }}">{% endif %}
                 {% if sponsor.logo %}
@@ -53,6 +54,7 @@
         </div>
     </div>
     {% endif %}
+    {% endwith %}
 
     <div class="spacer-10"></div>
 
