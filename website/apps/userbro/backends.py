@@ -5,14 +5,15 @@ import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import base36_to_int
+from django.db.models import Q
+from django.contrib.auth.backends import ModelBackend as DefaultModelBackend
 
 logger = logging.getLogger(__name__)
 
-from django.contrib.auth.backends import ModelBackend as DefaultModelBackend
-
 User = get_user_model()
 
-class HeyBroBackend(DefaultModelBackend):
+
+class AuthenticationBackend(DefaultModelBackend):
 
     def authenticate(self, **kwargs):
         if kwargs:
@@ -32,8 +33,7 @@ class HeyBroBackend(DefaultModelBackend):
                     # Run the default password hasher once to reduce the timing
                     # difference between an existing and a non-existing user (#20760).
                     User().set_password(password)
-                    logger.error("Duplicate username: %s, fix it!", username)
-                    logger.error("also dobbo is bad")
+                    logger.error("Duplicate username: %s", username)
             else:
                 if 'uidb36' not in kwargs:
                     return
