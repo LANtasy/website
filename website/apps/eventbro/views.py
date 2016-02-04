@@ -18,7 +18,7 @@ CHECKBOX_MAPPING = {'on': True, 'off': False, }
 
 
 class EventRegistrationMixin(object):
-    queryset = Event.objects.filter(published=True).defer('prizes', 'rules', 'sponsor', 'organizer')
+    queryset = Event.objects.filter(published=True).defer('prizes', 'rules', 'sponsors', 'organizer')
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
     category = None
