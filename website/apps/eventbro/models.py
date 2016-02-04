@@ -128,6 +128,7 @@ class Event(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     convention = models.ForeignKey(Convention, related_name='event_convention_uid')
     name = models.CharField(verbose_name='Event Name', max_length=100)
+    subname = models.CharField(verbose_name='Event Subname', max_length=100, blank=True, null=True)
     slug = AutoSlugField(populate_from='name', unique=True,)
     description = models.TextField(blank=True, null=True)
     start = models.DateTimeField(verbose_name='Start Time')
