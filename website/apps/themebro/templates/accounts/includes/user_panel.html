@@ -11,7 +11,10 @@
     <a href="{% url "login" %}?next={{ request.path }}" class="btn btn-primary btn-sm btn-account">
         <i class="fa fa-sign-in"></i> Log in
     </a>
-    &nbsp;or&nbsp;
+
     <a href="{% url "signup" %}?next={{ request.path }}" class="btn btn-primary btn-sm btn-account">
         <i class="fa fa-user-plus"></i> Sign up</a>
+    <br>
+    <a href="{% url "mezzanine_password_reset" %}?next={% url "profile_update" %}" class="btn btn-primary btn-sm btn-account">
+        <i class="fa fa-refresh"></i> Forgot your Password</a>
 {% endif %}
