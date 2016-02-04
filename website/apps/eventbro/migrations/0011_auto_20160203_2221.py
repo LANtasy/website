@@ -8,7 +8,8 @@ def make_many_sponsors(apps, schema_editor):
     Event = apps.get_model('eventbro', 'Event')
 
     for event in Event.objects.all():
-        event.sponsors.add(event.sponsor)
+        if event.sponsor:
+            event.sponsors.add(event.sponsor)
 
 
 class Migration(migrations.Migration):
