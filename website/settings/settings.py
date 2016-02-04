@@ -97,7 +97,8 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = False
 
-AUTHENTICATION_BACKENDS = ('mezzanine.core.auth_backends.MezzanineBackend',)
+# AUTHENTICATION_BACKENDS = ('mezzanine.core.auth_backends.MezzanineBackend',)
+AUTHENTICATION_BACKENDS = ('website.apps.authBro.backends.HeyBroBackend',)
 
 # The numeric mode to set newly-uploaded files to. The value should be
 # a mode you'd pass directly to os.chmod.
