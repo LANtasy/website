@@ -91,7 +91,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
         }),
         ('Other Details', {
             'fields': (
-                ('sponsor',),
+                ('sponsors',),
                 ('organizer',),
                 ('prizes',),
                 ('rules',),
@@ -104,7 +104,7 @@ class EventAdmin(AdminImageMixin, ImportExportModelAdmin):
             )
         }),
     )
-    filter_horizontal = ('valid_options',)
+    filter_horizontal = ('valid_options', 'sponsors',)
     list_display = ('slug', 'published', 'event_type', 'convention', 'size', 'start', 'end',)
     list_filter = ('event_type', 'convention',)
     readonly_fields = ('slug', 'uid',)
