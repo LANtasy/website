@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block breadcrumb_full %}{% endblock breadcrumb_full %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row" style="margin-top: 30px;">
+
+            <h4>Badge {{ badge.uid }}</h4>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        {{ form.first_name|as_crispy_field }}
+                        {{ form.last_name|as_crispy_field }}
+                        {{ form.type|as_crispy_field }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary pull-right">Save</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">Printed</label>
+                        <p class="form-control-static">
+                            {{ badge.printed|default_if_none:"Not yet" }}
+                        </p>
+                        <label class="control-label">Collected</label>
+                        <p class="form-control-static">
+                            {{ badge.collected|default_if_none:"Not yet" }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+
+
+                    <a class="btn btn-default btn-block" href="{% url 'badge_upgrade' uid=badge.uid %}">Upgrade</a>
+                    <button class="btn btn-default btn-block">Print</button>
+                    <button class="btn btn-default btn-block">Collect</button>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock content %}

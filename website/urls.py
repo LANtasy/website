@@ -25,6 +25,12 @@ urlpatterns = patterns('',
     url(r'^account/orders/$', 'cartridge.shop.views.order_history', name='shop_order_history'),
     url(r'^zebra/', include('zebra.urls',  namespace="zebra",  app_name='zebra')),
     url(r'^profile/', include('website.apps.userbro.urls',  namespace='userbro')),
+
+    url(r'^frontdesk/$', 'website.apps.badgebro.views.front_desk', name='frontdesk'),
+    url(r'^frontdesk/(?P<uid>BA\w{32})/$', 'website.apps.badgebro.views.badge_detail', name='badge_detail'),
+    url(r'^frontdesk/(?P<uid>BA\w{32})/upgrade/$', 'website.apps.badgebro.views.badge_upgrade', name='badge_upgrade'),
+    url(r'^badgebro/(?P<uid>BA\w{32})/difference/(?P<ticket_id>\d+)/$', 'website.apps.badgebro.views.badge_difference', name='badge_difference'),
+
     url(r'^', include('website.apps.salesbro.urls',  namespace='salesbro')),
     url(r'^', include('website.apps.eventbro.urls',  namespace='eventbro')),
 

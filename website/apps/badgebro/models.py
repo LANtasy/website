@@ -39,6 +39,9 @@ class Badge(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    printed = models.DateTimeField(blank=True, null=True)
+    collected = models.DateTimeField(blank=True, null=True)
+
     type = models.CharField(max_length=20, default=BadgeGroup.GENERAL, choices=BadgeGroup.CHOCIES)
 
     # Need to add denormalized first/last name for the user onto the badge as
@@ -65,3 +68,40 @@ class Badge(models.Model):
             self.user.registration_user.all().delete()
             self.user = None
             self.save()
+
+
+class PaymentMethod(object):
+
+    VISA = 'visa'
+    MASTERCARD = 'mastercard'
+    AMEX = 'amex'
+    DISCOVER = 'discover'
+    DEBIT = 'debit'
+    CASH = 'cash'
+
+    CHOICES = (
+        (VISA, 'Visa'),
+        (MASTERCARD, 'Mastercard'),
+        (DISCOVER, 'Discover'),
+        (AMEX, 'American Express'),
+        (DEBIT, 'Debit'),
+        (CASH, 'Cash')
+    )
+
+
+class UpgradeTransaction(models.Model):
+
+
+    old_ticket = models.ForeignKey(TicketOption, related_name='+')
+    new_ticket = models.ForeignKey(TicketOption, related_name='+')
+
+    badge = models.ForeignKey(Badge, related_name='upgrades')
+
+    payment_method = models.CharField(max_length=10, choices=PaymentMethod.CHOICES)
+
+    difference = models.DecimalField(max_digits=10, decimal_places=2)
+    tax = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
