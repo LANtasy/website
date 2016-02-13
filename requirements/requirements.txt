@@ -53,6 +53,7 @@ reportlab==3.2.0
 six==1.9.0
 sqlparse==0.1.16
 stripe==1.25.0
+qrcode==5.1
 wsgiref==0.1.2
 xhtml2pdf==0.0.6
 django_braces==1.8.1
