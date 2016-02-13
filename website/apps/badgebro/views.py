@@ -1,17 +1,12 @@
-from decimal import Decimal
-
-import django_filters
-import math
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, UpdateView
-from django_filters.views import FilterView
+from django.views.generic import ListView, UpdateView, DetailView
 
 from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm
 from website.apps.badgebro.models import Badge, UpgradeTransaction
@@ -119,6 +114,17 @@ def badge_difference(request, uid, ticket_id):
     return JsonResponse(data=data)
 
 
+class BadgePrintView(DetailView):
+    queryset = Badge.objects.all()
+    template_name = 'badgebro/badge_print.html'
+
+    def get(self, request, *args, **kwargs):
+
+        response = super(BadgePrintView, self).get(request, *args, **kwargs)
+
+        return response
+
 front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
+badge_print = BadgePrintView.as_view()
