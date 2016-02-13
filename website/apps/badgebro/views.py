@@ -14,7 +14,7 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm
-from website.apps.badgebro.models import Badge
+from website.apps.badgebro.models import Badge, UpgradeTransaction
 from website.apps.salesbro.models import TicketOption
 
 
@@ -73,14 +73,17 @@ class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
 
         if form.is_valid():
 
-            context = {}
-            context['form'] = form
+            old_ticket = self.object.ticket
+            new_ticket = form.cleaned_data['new_ticket_option']
 
-            if 'calculate' in request.POST:
-                context['difference'] = form.cleaned_data['new_ticket_option'].price() - self.object.ticket.price()
-                context['new_ticket'] = form.cleaned_data['new_ticket_option']
+            upgrade = UpgradeTransaction()
+            upgrade.old_ticket = old_ticket
+            upgrade.new_ticket = new_ticket
+            upgrade.badge = self.object
+            upgrade.payment_method = form.cleaned_data['payment_method']
+            upgrade.save()
 
-            return self.render_to_response(context=self.get_context_data(**context))
+            return self.form_valid(form=form)
 
         else:
             return self.form_invalid(form)

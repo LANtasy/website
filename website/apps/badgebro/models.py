@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from django.conf import settings
 from django.db import models, transaction
@@ -91,7 +92,6 @@ class PaymentMethod(object):
 
 class UpgradeTransaction(models.Model):
 
-
     old_ticket = models.ForeignKey(TicketOption, related_name='+')
     new_ticket = models.ForeignKey(TicketOption, related_name='+')
 
@@ -99,9 +99,24 @@ class UpgradeTransaction(models.Model):
 
     payment_method = models.CharField(max_length=10, choices=PaymentMethod.CHOICES)
 
-    difference = models.DecimalField(max_digits=10, decimal_places=2)
-    tax = models.DecimalField(max_digits=10, decimal_places=2)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    difference = models.IntegerField()
+    tax = models.IntegerField()
+    total = models.IntegerField()
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def save(self, **kwargs):
+
+        with transaction.atomic():
+            old_price = int(self.old_ticket.price() * 100)
+            new_price = int(self.new_ticket.price() * 100)
+
+            self.difference = new_price - old_price
+            self.tax = int(self.difference * 0.05)
+            self.total = self.tax + self.difference
+
+            super(UpgradeTransaction, self).save(**kwargs)
+
+            self.badge.ticket = self.new_ticket
+            self.badge.save()

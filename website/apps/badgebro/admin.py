@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from website.apps.badgebro.models import Badge
+from website.apps.badgebro.models import Badge, UpgradeTransaction
 
 
 class BadgeAdmin(admin.ModelAdmin):
@@ -10,4 +10,9 @@ class BadgeAdmin(admin.ModelAdmin):
     list_filter = ("order", "ticket")
     readonly_fields = ('uid', )
 
+
+class UpgradeTransactionAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Badge, BadgeAdmin)
+admin.site.register(UpgradeTransaction, UpgradeTransactionAdmin)
