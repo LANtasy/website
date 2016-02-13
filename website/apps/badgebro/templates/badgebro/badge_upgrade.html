@@ -14,7 +14,7 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <form action="." method="post">
+                    <form action="." method="post" id="id_upgrade_form">
                         {% csrf_token %}
                         <div class="form-group">
                             <label class="control-label">Current</label>
@@ -25,7 +25,7 @@
                         {{ form.new_ticket_option|as_crispy_field }}
                         {{ form.payment_method|as_crispy_field }}
                         <div class="form-group">
-                            <button type="submit" name="calculate" class="btn btn-default pull-right">Calculate</button>
+                            <button type="submit" name="calculate" class="btn btn-danger pull-right">Payment Collected</button>
                         </div>
                     </form>
                 </div>
@@ -100,6 +100,16 @@
                         $total.text("$" + data.total);
                     }
                 });
+
+            });
+
+            $("#id_upgrade_form").on("submit", function(e){
+
+                if(confirm("Have you collected payment?")){
+                    return true;
+                } else {
+                    return false;
+                }
 
             });
 
