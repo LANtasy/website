@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags thumbnail %}
 
 {% block breadcrumb_full %}
 
@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container hidden-print">
 
         <div class="row" style="margin-top: 30px;">
 
@@ -41,9 +41,9 @@
                 <div class="col-lg-2">
 
 
-                    <a class="btn btn-default btn-block" href="{% url 'badge_upgrade' uid=badge.uid %}">Upgrade</a>
-                    <button class="btn btn-default btn-block">Print</button>
-                    <button class="btn btn-default btn-block">Collect</button>
+                    <a class="btn btn-default btn-block" href="{% url 'badge_upgrade' uid=badge.uid %}"><i class="fa fa-arrow-up"></i> Upgrade</a>
+                    <button class="btn btn-default btn-block" id="id_print"><i class="fa fa-print"></i> Print</button>
+                    <button class="btn btn-default btn-block"><i class="fa fa-tag"></i> Collect</button>
 
 
                 </div>
@@ -52,5 +52,28 @@
 
     </div>
 
+    <div class="container visible-print">
+        <div id="first-name">
+            {{ badge.first_name }}
+        </div>
+        {% thumbnail badge.qr_code "250x250" crop="center" as im %}
+            <img id="qr-code" src="{{ im.url }}">
+        {% endthumbnail %}
+    </div>
+
 
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    $(function(){
+
+        var $print = $("#id_print");
+
+        $print.on("click", function(e){
+            window.print();
+        });
+
+    });
+</script>
+{% endblock extra_js %}
