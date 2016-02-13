@@ -82,7 +82,7 @@ class Badge(models.Model):
             box_size=10,
             border=4,
         )
-        qr.add_data(self.object.uid)
+        qr.add_data(self.uid)
 
         qr.make(fit=True)
 
@@ -93,9 +93,9 @@ class Badge(models.Model):
 
         image_file = InMemoryUploadedFile(tempfile_io, None, 'rotate.jpg','image/jpeg', tempfile_io.len, None)
 
-        file_name = 'badge_%s.jpg' % self.object.id
-        self.object.qr_code.save(file_name , image_file)
-        self.object.save()
+        file_name = 'badge_%s.jpg' % self.id
+        self.qr_code.save(file_name, image_file)
+        self.save()
 
 
 class PaymentMethod(object):
