@@ -98,9 +98,9 @@
                         </button>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg print-btn" type="button">
+                        <a class="btn btn-default btn-block btn-lg print-btn" href="{% url "badgebro:badge_print" uid=form.instance.uid %}">
                             <i class="glyphicon glyphicon-print"></i> Print
-                        </button>
+                        </a>
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-default btn-block btn-lg" href="{% url 'badgebro:badge_order_upgrade' order_pk=order.id uid=form.instance.uid %}">
@@ -131,7 +131,7 @@
 
     function markBadgePrinted(badgeId, callback){
 
-        var url = "/frontdesk/" + badgeId + "/print/";
+        var url = "/frontdesk/" + badgeId + "/printed/";
 
         $.ajax({
             url: url,
@@ -142,7 +142,7 @@
 
     function markBadgeCollected(badgeId, callback){
 
-        var url = "/frontdesk/" + badgeId + "/collect/";
+        var url = "/frontdesk/" + badgeId + "/collected/";
 
         $.ajax({
             url: url,
@@ -161,12 +161,14 @@
             $collect = $(".collect-btn");
 
         $print.on("click", function(e){
-
+            e.preventDefault();
             var badgeId = getBadgeId(this);
-
+            var printUrl = $(this).attr("href");
+            console.info("Dostuff");
             markBadgePrinted(badgeId, function(data){
-                window.print();
+                window.open(printUrl, "Print Badge", "width=500,height=500");
             });
+
         });
 
         $collect.on("click", function(e){

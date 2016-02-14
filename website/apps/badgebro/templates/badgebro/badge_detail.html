@@ -111,9 +111,11 @@
 
     var badgeId = "{{ badge.uid }}";
 
+    var printUrl = "{% url 'badgebro:badge_print' uid=badge.uid %}";
+
     function markBadgePrinted(callback){
 
-        var url = "/frontdesk/" + badgeId + "/print/";
+        var url = "/frontdesk/" + badgeId + "/printed/";
 
         $.ajax({
             url: url,
@@ -124,7 +126,7 @@
 
     function markBadgeCollected(callback){
 
-        var url = "/frontdesk/" + badgeId + "/collect/";
+        var url = "/frontdesk/" + badgeId + "/collected/";
 
         $.ajax({
             url: url,
@@ -140,7 +142,7 @@
 
         $print.on("click", function(e){
             markBadgePrinted(function(data){
-                window.print();
+                window.open(printUrl, "Print Badge", "width=500,height=500");
             });
         });
 

@@ -183,12 +183,21 @@ def badge_difference(request, uid, ticket_id):
 class BadgePrintView(DetailView):
     queryset = Badge.objects.all()
     template_name = 'badgebro/badge_print.html'
+    slug_field = 'uid'
+    slug_url_kwarg = 'uid'
 
     def get(self, request, *args, **kwargs):
 
         response = super(BadgePrintView, self).get(request, *args, **kwargs)
 
         return response
+
+
+class BadgePrintCloseView(BadgePrintView):
+    queryset = Badge.objects.all()
+    template_name = 'badgebro/badge_print_close.html'
+    slug_field = 'uid'
+    slug_url_kwarg = 'uid'
 
 
 class BadgeSetPrintedView(DetailView):
@@ -199,6 +208,7 @@ class BadgeSetPrintedView(DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.mark_printed()
+
         return JsonResponse({})
 
 
@@ -219,6 +229,8 @@ front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
+badge_print_close = BadgePrintCloseView.as_view()
+
 
 badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()
