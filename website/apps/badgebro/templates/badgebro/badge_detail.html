@@ -2,12 +2,9 @@
 
 {% load crispy_forms_tags thumbnail %}
 
-
-
 {% block breadcrumb_menu %}
-    {{ block.super }}
-    <li><a href="{% url "badgebro:front_desk" %}">Front Desk</a></li>
-    <li><a href="{% url "badgebro:badge_detail" uid=badge.uid %}">Badge Detail - {{ badge.uid }}</a></li>
+    <li><a href="{% url "badgebro:front_desk" %}">Badge List</a></li>
+    <li class="active">Badge - {{ badge.uid }}</li>
 {% endblock %}
 
 {% block content %}
