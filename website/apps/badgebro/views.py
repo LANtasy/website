@@ -23,23 +23,21 @@ logger = logging.getLogger(__name__)
 
 class FrontDeskListView(ListView):
     template_name = 'badgebro/frontdesk.html'
-    queryset = Badge.objects.all().order_by('order_id')
+    queryset = Badge.objects.all().order_by('order_id').only('order', 'first_name', 'last_name', 'uid')
     paginate_by = 25
 
     def get_queryset(self):
         query = self.request.GET.get('search')
-        order = self.request.GET.get('order')
         queryset = super(FrontDeskListView, self).get_queryset()
 
         if query:
-            filters = Q(first_name__icontains=query)
-            filters |= Q(last_name__icontains=query)
-            filters |= Q(uid__icontains=query)
-
-            queryset = queryset.filter(filters)
-
-        if order:
-            queryset = queryset.filter(order__id__iexact=order)
+            if query[:1] == '#':
+                queryset = queryset.filter(order__id__iexact=query[1:])
+            else:
+                filters = Q(first_name__icontains=query)
+                filters |= Q(last_name__icontains=query)
+                filters |= Q(uid__icontains=query)
+                queryset = queryset.filter(filters)
 
         return queryset
 

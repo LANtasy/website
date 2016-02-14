@@ -9,14 +9,11 @@
     <div class="container">
         <div class="row" style="margin-top: 30px;">
             <div class="col-lg-12">
-                <form class="form-inline" action="" method="get">
-                    <div class="form-group">
-                        <label class="control-label">Order</label>
-                        <input type="text" class="form-control" name="order" value="{{ request.GET.order|default_if_none:"" }}">
-                    </div>
+                <form class="form-inline" action="." method="get">
                     <div class="form-group">
                         <label class="control-label">Search</label>
-                        <input type="text" class="form-control" name="search" value="{{ request.GET.search|default_if_none:"" }}">
+                        <input type="text" autofocus class="form-control input-lg"
+                               name="search" value="{{ request.GET.search|default_if_none:"" }}">
                     </div>
 
                     <button class="btn btn-primary" type="submit">Search</button>
@@ -26,28 +23,34 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-condensed">
                     <thead>
                         <tr>
-                            <td>Order</td>
-                            <td>First Name</td>
-                            <td>Last Name</td>
-                            <td>Badge #</td>
+                            <td class="text-align-center"><h3>Order</h3></td>
+                            <td class="text-align-center"><h3>Name</h3></td>
+                            <td class="text-align-center"><h3>Badge</h3></td>
                         </tr>
                     </thead>
                     <tbody>
                         {% for badge in badge_list %}
                         <tr>
-                            <td>
+                            <td class="text-align-center">
                                 {% if badge.order_id %}
-                                    <a href="{% url "badgebro:badge_order_detail" order_pk=badge.order_id %}">{{ badge.order_id }}</a>
+                                    <a href="{% url "badgebro:badge_order_detail" order_pk=badge.order_id %}">
+                                        #{{ badge.order_id }}
+                                    </a>
                                 {% else %}
                                     N/A
                                 {% endif %}
                             </td>
-                            <td>{{ badge.first_name }}</td>
-                            <td>{{ badge.last_name }}</td>
-                            <td><a href="{% url 'badgebro:badge_detail' uid=badge.uid %}">{{ badge.uid }}</a></td>
+                            <td class="text-align-center">
+                                {{ badge.last_name }}, {{ badge.first_name }}
+                            </td>
+                            <td class="text-align-center">
+                                <a href="{% url 'badgebro:badge_detail' uid=badge.uid %}">
+                                    {{ badge.uid }}
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
