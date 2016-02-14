@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('website.apps.badgebro.views',
-    url(r'^frontdesk/$', 'front_desk', name='frontdesk'),
+    url(r'^frontdesk/$', 'front_desk', name='front_desk'),
     url(r'^frontdesk/(?P<uid>BA\w{32})/$', 'badge_detail', name='badge_detail'),
     url(r'^frontdesk/(?P<uid>BA\w{32})/upgrade/$', 'badge_upgrade', name='badge_upgrade'),
     url(r'^frontdesk/(?P<uid>BA\w{32})/print/$', 'badge_printed', name='badge_printed'),
