@@ -103,7 +103,7 @@
                         </button>
                     </div>
                     <div class="col-md-3">
-                        <a class="btn btn-default btn-block btn-lg" href="{% url 'badgebro:badge_upgrade' uid=form.instance.uid %}">
+                        <a class="btn btn-default btn-block btn-lg" href="{% url 'badgebro:badge_order_upgrade' order_pk=order.id uid=form.instance.uid %}">
                             <i class="glyphicon glyphicon-arrow-up"></i> Upgrade
                         </a>
                     </div>

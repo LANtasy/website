@@ -115,7 +115,7 @@ class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
     success_message = 'Successfully upgraded badge'
 
     def get_success_url(self):
-        return reverse('badge_detail', kwargs={'uid': self.object.uid})
+        return reverse('badgebro:badge_detail', kwargs={'uid': self.object.uid})
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -138,6 +138,16 @@ class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
 
         else:
             return self.form_invalid(form)
+
+
+class BadgeOrderUgradeView(BadgeUpgradeView):
+
+    def get_success_url(self):
+        kwargs = {
+            'order_pk': self.object.order_id,
+        }
+
+        return reverse('badgebro:badge_order_detail', kwargs=kwargs)
 
 
 def badge_difference(request, uid, ticket_id):
@@ -210,5 +220,6 @@ badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
 
+badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()
 badge_collected = BadgeSetCollectedView.as_view()
