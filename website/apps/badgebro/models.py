@@ -8,6 +8,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models, transaction
 
 from cartridge.shop.models import Order, OrderItem
+from django.utils import timezone
 
 from website.apps.salesbro.models import TicketOption
 
@@ -65,6 +66,16 @@ class Badge(models.Model):
     def __unicode__(self):
         # return '{user}'.format(user=self.user_id)
         return '{uid}'.format(uid=self.uid)
+
+    def mark_printed(self):
+        if not self.printed:
+            self.printed = timezone.now()
+            self.save()
+
+    def mark_collected(self):
+        if not self.collected:
+            self.collected = timezone.now()
+            self.save()
 
     def generate_uid(self):
         return 'BA{uid}'.format(uid=uuid.uuid4().hex)

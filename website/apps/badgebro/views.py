@@ -124,7 +124,35 @@ class BadgePrintView(DetailView):
 
         return response
 
+
+class BadgeSetPrintedView(DetailView):
+    queryset = Badge.objects.all()
+    slug_url_kwarg = 'uid'
+    slug_field = 'uid'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.mark_printed()
+        return JsonResponse({})
+
+
+class BadgeSetCollectedView(DetailView):
+    queryset = Badge.objects.all()
+    slug_url_kwarg = 'uid'
+    slug_field = 'uid'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.mark_collected()
+        return JsonResponse({})
+
+
+
+
 front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
+
+badge_printed = BadgeSetPrintedView.as_view()
+badge_collected = BadgeSetCollectedView.as_view()

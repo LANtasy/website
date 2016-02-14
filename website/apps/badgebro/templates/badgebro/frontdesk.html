@@ -17,7 +17,7 @@
                     </div>
 
                     <button class="btn btn-primary" type="submit">Search</button>
-                    <a class="btn btn-default" href="{% url 'frontdesk' %}">Clear</a>
+                    <a class="btn btn-default" href="{% url 'badgebro:frontdesk' %}">Clear</a>
                 </form>
             </div>
         </div>
@@ -44,7 +44,7 @@
                             </td>
                             <td>{{ badge.first_name }}</td>
                             <td>{{ badge.last_name }}</td>
-                            <td><a href="{% url 'badge_detail' uid=badge.uid %}">{{ badge.uid }}</a></td>
+                            <td><a href="{% url 'badgebro:badge_detail' uid=badge.uid %}">{{ badge.uid }}</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

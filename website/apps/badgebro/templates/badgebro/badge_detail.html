@@ -41,9 +41,9 @@
                 <div class="col-lg-2">
 
 
-                    <a class="btn btn-default btn-block" href="{% url 'badge_upgrade' uid=badge.uid %}"><i class="fa fa-arrow-up"></i> Upgrade</a>
+                    <a class="btn btn-default btn-block" href="{% url 'badgebro:badge_upgrade' uid=badge.uid %}"><i class="fa fa-arrow-up"></i> Upgrade</a>
                     <button class="btn btn-default btn-block" id="id_print"><i class="fa fa-print"></i> Print</button>
-                    <button class="btn btn-default btn-block"><i class="fa fa-tag"></i> Collect</button>
+                    <button class="btn btn-default btn-block" id="id_collect"><i class="fa fa-tag"></i> Collect</button>
 
 
                 </div>
@@ -66,12 +66,46 @@
 
 {% block extra_js %}
 <script type="text/javascript">
+
+    var badgeId = "{{ badge.uid }}";
+
+    function markBadgePrinted(callback){
+
+        var url = "/frontdesk/" + badgeId + "/print/";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            success: callback
+        });
+    }
+
+    function markBadgeCollected(callback){
+
+        var url = "/frontdesk/" + badgeId + "/collect/";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            success: callback
+        });
+    }
+
     $(function(){
 
-        var $print = $("#id_print");
+        var $print = $("#id_print"),
+            $collect = $("#id_collect");
 
         $print.on("click", function(e){
-            window.print();
+            markBadgePrinted(function(data){
+                window.print();
+            });
+        });
+
+        $collect.on("click", function(e){
+            markBadgeCollected(function(data){
+                location.reload();
+            });
         });
 
     });
