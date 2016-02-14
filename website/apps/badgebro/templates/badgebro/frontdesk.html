@@ -7,6 +7,7 @@
 {% block content %}
 
     <div class="container">
+
         <div class="row" style="margin-top: 30px;">
             <div class="col-lg-12">
                 <form class="form-inline" action="." method="get">
@@ -24,6 +25,7 @@
                 </form>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered table-condensed">
@@ -59,29 +61,30 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    {% if is_paginated %}
-                        <ul class="pagination pagination-centered">
-                            {% if page_obj.has_previous %}
-                                <li><a href="?page=1"><<</a></li>
-                                <li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
-                            {% endif %}
+        </div>
 
-                            {% for i in paginator.page_range %}
-                                <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
-                            {% endfor %}
+        <div class="row">
+            <div class="col-lg-12">
+                {% if is_paginated %}
+                    <ul class="pagination pagination-centered">
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page=1"><<</a></li>
+                            <li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
+                        {% endif %}
 
-                            {% if page_obj.has_next %}
-                                <li><a href="?page={{ page_obj.next_page_number }}">></a></li>
-                                <li><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>
-                            {% endif %}
-                        </ul>
-                    {% endif %}
-                </div>
+                        {% for i in paginator.page_range %}
+                            <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}">></a></li>
+                            <li><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
-    </div>
 
+    </div>
 
 {% endblock content %}
