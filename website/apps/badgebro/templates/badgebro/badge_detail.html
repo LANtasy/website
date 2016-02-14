@@ -8,48 +8,89 @@
 
 {% block content %}
 
-    <div class="container hidden-print">
-
-        <div class="row" style="margin-top: 30px;">
-
-            <h4>Badge {{ badge.uid }}</h4>
+    <div class="container hidden-print" style="margin-top: 30px;">
+        <form action="." method="post">
+            {% csrf_token %}
 
             <div class="row">
-                <div class="col-lg-6">
-                    <form action="." method="post">
-                        {% csrf_token %}
-                        {{ form.first_name|as_crispy_field }}
-                        {{ form.last_name|as_crispy_field }}
-                        {{ form.type|as_crispy_field }}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary pull-right">Save</button>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.first_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.last_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.type|as_crispy_field }}
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label class="control-label">Printed</label>
-                        <p class="form-control-static">
-                            {{ badge.printed|default_if_none:"Not yet" }}
-                        </p>
-                        <label class="control-label">Collected</label>
-                        <p class="form-control-static">
-                            {{ badge.collected|default_if_none:"Not yet" }}
-                        </p>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_ticket" class="form-group">
+                                        <label for="id_ticket" class="control-label">Ticket</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_ticket" type="text" readonly="" value="{{ badge.ticket }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_printed" class="form-group">
+                                        <label for="id_printed" class="control-label">Printed</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_printed" type="text" readonly="" value="{{ badge.printed|default_if_none:"Not yet" }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_collected" class="form-group">
+                                        <label for="id_collected" class="control-label">Collected</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_collected" type="text" readonly="" value="{{ badge.collected|default_if_none:"Not yet" }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-2">
+            </div>
 
-
-                    <a class="btn btn-default btn-block" href="{% url 'badgebro:badge_upgrade' uid=badge.uid %}"><i class="fa fa-arrow-up"></i> Upgrade</a>
-                    <button class="btn btn-default btn-block" id="id_print"><i class="fa fa-print"></i> Print</button>
-                    <button class="btn btn-default btn-block" id="id_collect"><i class="fa fa-tag"></i> Collect</button>
-
-
+            <div class="row">
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-block btn-lg" type="submit">
+                        <i class="glyphicon glyphicon-floppy-saved"></i> Save
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-default btn-block btn-lg" id="id_collect" type="button">
+                        <i class="glyphicon glyphicon-tag"> </i> Pick Up
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-default btn-block btn-lg" id="id_print" type="button">
+                        <i class="glyphicon glyphicon-print"></i> Print
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-default btn-block btn-lg" href="{% url 'badgebro:badge_upgrade' uid=badge.uid %}">
+                        <i class="glyphicon glyphicon-arrow-up"></i> Upgrade
+                    </a>
                 </div>
             </div>
-        </div>
-
+        </form>
     </div>
 
     <div class="container visible-print">
