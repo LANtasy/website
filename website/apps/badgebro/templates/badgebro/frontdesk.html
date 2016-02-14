@@ -40,7 +40,7 @@
                         <tr>
                             <td>
                                 {% if badge.order_id %}
-                                    <a href="#">{{ badge.order_id }}</a>
+                                    <a href="{% url "badgebro:badge_order_detail" order_pk=badge.order_id %}">{{ badge.order_id }}</a>
                                 {% else %}
                                     N/A
                                 {% endif %}

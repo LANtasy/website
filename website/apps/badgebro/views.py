@@ -1,16 +1,24 @@
+import logging
+
+from cartridge.shop.models import Order
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import JsonResponse
+from django.forms import modelformset_factory
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
 from django.views.generic import ListView, UpdateView, DetailView
+from extra_views import ModelFormSetView
 
 from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm
 from website.apps.badgebro.models import Badge, UpgradeTransaction
 from website.apps.salesbro.models import TicketOption
+
+logger = logging.getLogger(__name__)
 
 
 class FrontDeskListView(ListView):
@@ -47,6 +55,54 @@ class BadgeDetailView(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('badge_detail', kwargs={'uid': self.object.uid})
+
+
+class BadgeOrderDetailView(SuccessMessageMixin, ModelFormSetView):
+    queryset = Badge.objects.all()
+    order_queryet = Order.objects.all()
+    form_class = BadgeUpdateForm
+    template_name = 'badgebro/badge_order_detail.html'
+    model = Badge
+    success_message = 'Successfully updated badges'
+    extra = 0
+    fields = (
+        'first_name',
+        'last_name',
+        'type'
+    )
+
+    def formset_valid(self, formset):
+
+        response = super(BadgeOrderDetailView, self).formset_valid(formset)
+        success_message = self.get_success_message({})
+        if success_message:
+            messages.success(self.request, success_message)
+
+        return response
+
+    def get_order(self):
+        queryset = self.order_queryet
+        filter_kwargs = {'id': self.kwargs['order_pk']}
+        order = get_object_or_404(queryset, **filter_kwargs)
+        return order
+
+    def get_queryset(self):
+        self.order = self.get_order()
+        queryset = super(BadgeOrderDetailView, self).get_queryset()
+        filter_kwargs = {'order': self.order}
+        queryset = queryset.filter(**filter_kwargs)
+
+        if len(queryset) == 0:
+            raise Http404
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(BadgeOrderDetailView, self).get_context_data(**kwargs)
+        context['order'] = self.order
+        return context
+
+badge_order_detail = BadgeOrderDetailView.as_view()
 
 
 class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
