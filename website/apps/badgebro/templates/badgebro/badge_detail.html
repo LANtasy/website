@@ -2,13 +2,17 @@
 
 {% load crispy_forms_tags thumbnail %}
 
-{% block breadcrumb_full %}
 
-{% endblock breadcrumb_full %}
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li><a href="{% url "badgebro:front_desk" %}">Front Desk</a></li>
+    <li><a href="{% url "badgebro:badge_detail" uid=badge.uid %}">Badge Detail - {{ badge.uid }}</a></li>
+{% endblock %}
 
 {% block content %}
 
-    <div class="container hidden-print" style="margin-top: 30px;">
+    <div class="container hidden-print">
         <form action="." method="post">
             {% csrf_token %}
 
