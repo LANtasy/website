@@ -24,9 +24,9 @@ class TicketOptionChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
         if obj.on_sale():
-            return '{name} {price} (On Sale)'.format(name=obj.title, price=obj.get_price_difference)
+            return '{name} ${price} (On Sale)'.format(name=obj.title, price=obj.sale_price)
         else:
-            return '{name} {price}'.format(name=obj.title, price=obj.get_price_difference)
+            return '{name} ${price}'.format(name=obj.title, price=obj.unit_price)
 
     def __init__(self, *args, **kwargs):
         queryset = TicketOption.objects.available()
