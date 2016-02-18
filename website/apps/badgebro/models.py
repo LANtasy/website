@@ -54,6 +54,9 @@ class Badge(models.Model):
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30, blank=True, null=True)
     qr_code = models.ImageField(blank=True, null=True, upload_to='badges/qrcodes/%Y')
+    # Future fields, for denormalizing 'ticket' object
+    #type = ''
+    #option = models.CharField(max_length=20)
 
 
 
