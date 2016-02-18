@@ -52,7 +52,7 @@ class BadgeDetailView(SuccessMessageMixin, UpdateView):
     success_message = 'Successfully updated badge'
 
     def get_success_url(self):
-        return reverse('badge_detail', kwargs={'uid': self.object.uid})
+        return reverse('badgebro:badge_detail', kwargs={'uid': self.object.uid})
 
 
 class BadgeOrderDetailView(SuccessMessageMixin, ModelFormSetView):
