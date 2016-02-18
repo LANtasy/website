@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('badgebro', '0008_auto_20160111_1949'),
+        ('badgebro', '0012_auto_20160215_1448'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.RenameField(
             model_name='badge',
-            name='qr_code',
-            field=models.ImageField(null=True, upload_to=b'badges/qrcodes/%Y', blank=True),
+            old_name='type',
+            new_name='network',
         ),
     ]

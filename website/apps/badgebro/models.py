@@ -30,6 +30,8 @@ class BadgeGroup(object):
 
 class Badge(models.Model):
 
+    uid = models.CharField(max_length=34, unique=True)
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True)
 
     # We don't necessarily need order/order items for a badge.
@@ -39,22 +41,21 @@ class Badge(models.Model):
 
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 
-    uid = models.CharField(max_length=34, unique=True)
-
+    # Date/Time tracking
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
     printed = models.DateTimeField(blank=True, null=True)
     collected = models.DateTimeField(blank=True, null=True)
 
-    type = models.CharField(verbose_name='Customer Type', max_length=20, default=BadgeGroup.GENERAL, choices=BadgeGroup.CHOCIES)
+    network = models.CharField(verbose_name='Customer Type', max_length=20, default=BadgeGroup.GENERAL, choices=BadgeGroup.CHOCIES)
 
     # Need to add denormalized first/last name for the user onto the badge as
     # badges purchased at event may not have a user object to associate
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30, blank=True, null=True)
-
     qr_code = models.ImageField(blank=True, null=True, upload_to='badges/qrcodes/%Y')
+
+
 
     def save(self, *args, **kwargs):
 

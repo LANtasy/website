@@ -66,7 +66,7 @@ class BadgeOrderDetailView(SuccessMessageMixin, ModelFormSetView):
     fields = (
         'first_name',
         'last_name',
-        'type'
+        'network'
     )
 
     def formset_valid(self, formset):

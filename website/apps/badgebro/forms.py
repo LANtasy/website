@@ -14,7 +14,7 @@ class BadgeUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Badge
-        fields = ('first_name', 'last_name', 'type', )
+        fields = ('first_name', 'last_name', 'network', )
 
     def __init__(self, *args, **kwargs):
         super(BadgeUpdateForm, self).__init__(*args, **kwargs)
