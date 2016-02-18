@@ -47,7 +47,7 @@ class Badge(models.Model):
     printed = models.DateTimeField(blank=True, null=True)
     collected = models.DateTimeField(blank=True, null=True)
 
-    network = models.CharField(verbose_name='Customer Type', max_length=20, default=BadgeGroup.GENERAL, choices=BadgeGroup.CHOCIES)
+    network = models.CharField(max_length=20, default=BadgeGroup.GENERAL, choices=BadgeGroup.CHOCIES)
 
     # Need to add denormalized first/last name for the user onto the badge as
     # badges purchased at event may not have a user object to associate
