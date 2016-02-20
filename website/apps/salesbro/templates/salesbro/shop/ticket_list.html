@@ -29,15 +29,15 @@
         <div class="caption">
         <h6>{{ ticket }}</h6>
         <div class="price-info">
-        {% if ticket.has_price %}
-            {% if ticket.on_sale %}
-            <span class="old-price">{{ ticket.unit_price|currency }}</span>
-            {% trans "On sale:" %}
-            {% endif %}
-            <span class="price">{{ ticket.price|currency }}</span>
-        {% else %}
-            <span class="coming-soon">{% trans "Coming soon" %}</span>
-        {% endif %}
+{#        {% if ticket.has_price %}#}
+{#            {% if ticket.on_sale %}#}
+{#            <span class="old-price">{{ ticket.unit_price|currency }}</span>#}
+{#            {% trans "On sale:" %}#}
+{#            {% endif %}#}
+{#            <span class="price">{{ ticket.price|currency }}</span>#}
+{#        {% else %}#}
+{#            <span class="coming-soon">{% trans "Coming soon" %}</span>#}
+{#        {% endif %}#}
         </div>
         </div>
     </a>
