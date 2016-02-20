@@ -53,12 +53,13 @@ class Badge(models.Model):
     # badges purchased at event may not have a user object to associate
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30, blank=True, null=True)
+
+    # Denormalizing 'ticket option' values on the badge as the ticket
+    # might be different if the person is an exhibitor/staff
+    type = models.CharField(max_length=30, blank=True, null=True)
+    option = models.CharField(max_length=30, blank=True, null=True)
+
     qr_code = models.ImageField(blank=True, null=True, upload_to='badges/qrcodes/%Y')
-    # Future fields, for denormalizing 'ticket' object
-    #type = ''
-    #option = models.CharField(max_length=20)
-
-
 
     def save(self, *args, **kwargs):
 
