@@ -1,0 +1,26 @@
+{% load static %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static "css/badge-print.css" %}" type="text/css">
+    <script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
+</head>
+<body>
+    <div id="first-name">
+        {{ badge.first_name }}
+    </div>
+    {% thumbnail badge.qr_code "250x250" crop="center" as im %}
+        <img id="qr-code" src="{{ im.url }}">
+    {% endthumbnail %}
+
+    <script type="text/javascript">
+        window.onload = function () {
+          window.print();
+          setTimeout(function(){ window.close(); }, 1);
+        }
+    </script>
+</body>
+</html>

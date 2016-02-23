@@ -43,6 +43,8 @@ django-merchant==0.2
 django-zebra==0.4.5
 django-cleanup==0.4.1
 django-autoslug==1.9.3
+django-filter==0.11.0
+django-extra-views==0.7.1
 ecdsa==0.13
 future==0.15.0
 html5lib==0.999999
@@ -52,6 +54,7 @@ reportlab==3.2.0
 six==1.9.0
 sqlparse==0.1.16
 stripe==1.25.0
+qrcode==5.1
 wsgiref==0.1.2
 xhtml2pdf==0.0.6
 django_braces==1.8.1

@@ -51,6 +51,12 @@ class TicketOption(Product):
     def get_absolute_url(self):
         return ("salesbro:ticket_detail", (), {"slug": self.ticket.slug})
 
+    def upgradeable_to(self):
+        options = TicketOption.objects.all()
+        current_price = self.price()
+        option_ids = [option.id for option in options if option.price() >= current_price]
+        return TicketOption.objects.filter(id__in=option_ids).exclude(id=self.id)
+
 
 class Ticket(Product):
 
