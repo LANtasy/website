@@ -12,14 +12,58 @@ logger = logging.getLogger(__name__)
 
 class BadgeUpdateForm(forms.ModelForm):
 
+    option = forms.ChoiceField(choices=(), required=True)
+    type = forms.ChoiceField(choices=(), required=True)
+
     class Meta:
         model = Badge
-        fields = ('first_name', 'last_name', 'network', )
+        fields = ('first_name', 'last_name', 'network', 'option', 'type')
 
     def __init__(self, *args, **kwargs):
         super(BadgeUpdateForm, self).__init__(*args, **kwargs)
+
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+
+        self.fields['option'].choices = self.get_option_choices()
+        self.fields['type'].choices = self.get_type_choices()
+
+    def get_option_choices(self):
+        """
+        Get the choices for the badge option
+        """
+        STAFF = 'staff'
+        EXHIBITOR = 'exhibitor'
+
+        choices = [
+            (STAFF, STAFF.title()),
+            (EXHIBITOR, EXHIBITOR.title()),
+        ]
+
+        option_choices = Badge.objects.option_choices()
+
+        for choice in option_choices:
+            if choice == STAFF or choice == EXHIBITOR:
+                continue
+
+            choices.append((choice, choice.title()))
+
+        return choices
+
+    def get_type_choices(self):
+        """
+        Get the choices for the badge type
+        """
+
+        choices = []
+
+        option_choices = Badge.objects.type_choices()
+
+        for choice in option_choices:
+
+            choices.append((choice, choice.title()))
+
+        return choices
 
 
 class BadgeUpgradeForm(forms.ModelForm):

@@ -55,6 +55,28 @@ class BadgeManager(models.Manager):
 
         return badge
 
+    def option_choices(self):
+        """
+        Get all distinct existing non-null values for option
+        """
+        queryset = self.get_queryset()
+        queryset = queryset.distinct()
+        queryset = queryset.values_list('option', flat=True)
+        queryset = queryset.exclude(option__isnull=True)
+
+        return queryset
+
+    def type_choices(self):
+        """
+        Get all distinct existing non-null values for type
+        """
+        queryset = self.get_queryset()
+        queryset = queryset.distinct()
+        queryset = queryset.values_list('type', flat=True)
+        queryset = queryset.exclude(type__isnull=True)
+
+        return queryset
+
 
 class Badge(models.Model):
 
@@ -190,4 +212,11 @@ class UpgradeTransaction(models.Model):
             super(UpgradeTransaction, self).save(**kwargs)
 
             self.badge.ticket = self.new_ticket
+            self.badge.option = self.new_ticket.title
+
+            if self.new_ticket.title.endswith(' Pass'):
+                self.badge.type = self.new_ticket.title[:-5]
+            else:
+                self.badge.type = self.new_ticket.title
+
             self.badge.save()
