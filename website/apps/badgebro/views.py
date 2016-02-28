@@ -1,5 +1,6 @@
 import logging
 
+from braces.views import GroupRequiredMixin
 from cartridge.shop.models import Order
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -21,7 +22,8 @@ from website.apps.salesbro.models import TicketOption
 logger = logging.getLogger(__name__)
 
 
-class FrontDeskListView(ListView):
+class FrontDeskListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
     template_name = 'badgebro/frontdesk.html'
     queryset = Badge.objects.all().order_by('order_id').only('order', 'first_name', 'last_name', 'uid')
     paginate_by = 25
@@ -42,8 +44,8 @@ class FrontDeskListView(ListView):
         return queryset
 
 
-class BadgeDetailView(SuccessMessageMixin, UpdateView):
-
+class BadgeDetailView(GroupRequiredMixin, SuccessMessageMixin, UpdateView):
+    group_required = u'frontdesk'
     slug_field = 'uid'
     slug_url_kwarg = 'uid'
     form_class = BadgeUpdateForm
@@ -55,7 +57,8 @@ class BadgeDetailView(SuccessMessageMixin, UpdateView):
         return reverse('badgebro:badge_detail', kwargs={'uid': self.object.uid})
 
 
-class BadgeOrderDetailView(SuccessMessageMixin, ModelFormSetView):
+class BadgeOrderDetailView(GroupRequiredMixin, SuccessMessageMixin, ModelFormSetView):
+    group_required = u'frontdesk'
     queryset = Badge.objects.all()
     order_queryet = Order.objects.all()
     form_class = BadgeUpdateForm
@@ -103,8 +106,8 @@ class BadgeOrderDetailView(SuccessMessageMixin, ModelFormSetView):
 badge_order_detail = BadgeOrderDetailView.as_view()
 
 
-class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
-
+class BadgeUpgradeView(GroupRequiredMixin, SuccessMessageMixin, UpdateView):
+    group_required = u'frontdesk'
     slug_field = 'uid'
     slug_url_kwarg = 'uid'
     form_class = BadgeUpgradeForm
@@ -139,6 +142,7 @@ class BadgeUpgradeView(SuccessMessageMixin, UpdateView):
 
 
 class BadgeOrderUgradeView(BadgeUpgradeView):
+    group_required = u'frontdesk'
 
     def get_success_url(self):
         kwargs = {
@@ -178,7 +182,8 @@ def badge_difference(request, uid, ticket_id):
     return JsonResponse(data=data)
 
 
-class BadgePrintView(DetailView):
+class BadgePrintView(GroupRequiredMixin, DetailView):
+    group_required = u'frontdesk'
     queryset = Badge.objects.all()
     template_name = 'badgebro/badge_print.html'
     slug_field = 'uid'
@@ -192,13 +197,15 @@ class BadgePrintView(DetailView):
 
 
 class BadgePrintCloseView(BadgePrintView):
+    group_required = u'frontdesk'
     queryset = Badge.objects.all()
     template_name = 'badgebro/badge_print_close.html'
     slug_field = 'uid'
     slug_url_kwarg = 'uid'
 
 
-class BadgeSetPrintedView(DetailView):
+class BadgeSetPrintedView(GroupRequiredMixin, DetailView):
+    group_required = u'frontdesk'
     queryset = Badge.objects.all()
     slug_url_kwarg = 'uid'
     slug_field = 'uid'
@@ -210,7 +217,8 @@ class BadgeSetPrintedView(DetailView):
         return JsonResponse({})
 
 
-class BadgeSetCollectedView(DetailView):
+class BadgeSetCollectedView(GroupRequiredMixin, DetailView):
+    group_required = u'frontdesk'
     queryset = Badge.objects.all()
     slug_url_kwarg = 'uid'
     slug_field = 'uid'
