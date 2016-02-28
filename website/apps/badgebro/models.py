@@ -28,6 +28,34 @@ class BadgeGroup(object):
     )
 
 
+class BadgeManager(models.Manager):
+
+    def create_badge(self, order, item, ticket_option):
+        """
+        Creates a badge for a given order
+        """
+
+        ticket_option = TicketOption.objects.get(sku=item.sku)
+        ticket = ticket_option.ticket
+
+        badge = self.model()
+        badge.order = order
+        badge.order_item = item
+        badge.ticket = ticket_option
+        badge.first_name = order.billing_detail_first_name
+        badge.last_name = order.billing_detail_last_name
+        badge.option = ticket_option.title
+
+        if ticket.title.endswith(' Pass'):
+            badge.type = ticket.title[:-5]
+        else:
+            badge.type = ticket.title
+
+        badge.save()
+
+        return badge
+
+
 class Badge(models.Model):
 
     uid = models.CharField(max_length=34, unique=True)
@@ -60,6 +88,8 @@ class Badge(models.Model):
     option = models.CharField(max_length=30, blank=True, null=True)
 
     qr_code = models.ImageField(blank=True, null=True, upload_to='badges/qrcodes/%Y')
+
+    objects = BadgeManager()
 
     def save(self, *args, **kwargs):
 
