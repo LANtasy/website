@@ -44,11 +44,13 @@ class BadgeManager(models.Manager):
         badge.ticket = ticket_option
         badge.first_name = order.billing_detail_first_name
         badge.last_name = order.billing_detail_last_name
+        badge.option = ticket_option.title
+
         if ticket.title.endswith(' Pass'):
             badge.type = ticket.title[:-5]
         else:
             badge.type = ticket.title
-        badge.option = ticket_option.title
+
         badge.save()
 
         return badge
