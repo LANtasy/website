@@ -2,9 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 from website.apps.badgebro.models import Badge, UpgradeTransaction
+from import_export.admin import ExportMixin
 
 
-class BadgeAdmin(admin.ModelAdmin):
+class BadgeAdmin(ExportMixin, admin.ModelAdmin):
     #list_display = product_list_display = ['uid', 'ticket', 'order', 'user']
     list_display = product_list_display = ['uid', 'order', 'user', 'type', 'option', 'network']
 
