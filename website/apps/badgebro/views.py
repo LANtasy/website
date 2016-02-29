@@ -1,3 +1,4 @@
+import csv
 import logging
 
 from braces.views import GroupRequiredMixin
@@ -8,15 +9,17 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.forms import modelformset_factory
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
 from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic.list import BaseListView
 from extra_views import ModelFormSetView
 
 from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm
 from website.apps.badgebro.models import Badge, UpgradeTransaction
+from website.apps.eventbro.models import Convention, Event, Registration
 from website.apps.salesbro.models import TicketOption
 
 logger = logging.getLogger(__name__)
@@ -229,6 +232,85 @@ class BadgeSetCollectedView(GroupRequiredMixin, DetailView):
         return JsonResponse({})
 
 
+class OrganizeConventionListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Convention.objects.all()
+    template_name = 'badgebro/organize/conventions.html'
+
+
+class OrganizeEventListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Event.objects.all()
+    convention_queryset = Convention.objects.all()
+    slug_url_kwarg = 'convention'
+    slug_field = 'convention'
+    template_name = 'badgebro/organize/events.html'
+
+    def get_convention(self):
+        queryset = self.convention_queryset
+        filter_kwargs = {'slug': self.kwargs['convention']}
+        convention = get_object_or_404(queryset, **filter_kwargs)
+        return convention
+
+    def get_queryset(self):
+        convention = self.get_convention()
+        queryset = super(OrganizeEventListView, self).get_queryset()
+        filter_kwargs = {'convention': convention}
+        queryset = queryset.filter(**filter_kwargs)
+
+        if len(queryset) == 0:
+            raise Http404
+
+        return queryset
+
+
+class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Registration.objects.all()
+    event_queryset = Event.objects.all()
+    template_name = 'badgebro/organize/registrations.html'
+
+    def get_event(self):
+        queryset = self.event_queryset
+        filter_kwargs = {'slug': self.kwargs['event']}
+        event = get_object_or_404(queryset, **filter_kwargs)
+        return event
+
+    def get_queryset(self):
+        event = self.get_event()
+        queryset = super(OrganizeRegistrationsListView, self).get_queryset()
+        filter_kwargs = {'event': event}
+        queryset = queryset.filter(**filter_kwargs)
+
+        return queryset
+
+
+class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
+    def render_to_response(self, context, **response_kwargs):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="%s-%s.csv"' % (
+            self.kwargs['convention'], self.kwargs['event']
+        )
+
+        object_list = self.object_list
+
+        writer = csv.writer(response)
+        writer.writerow(['Date', 'Time',
+                         'First Name',
+                         'Last Name',
+                         'Email',
+                         'Group Name',
+                         'Group Captain'])
+        for registration in object_list:
+            writer.writerow([registration.date_added.date(),
+                             registration.date_added.time(),
+                             registration.user.first_name or 'None',
+                             registration.user.last_name or 'None',
+                             registration.user.email or 'None',
+                             registration.group_name or 'None',
+                             registration.group_captain or 'None'])
+
+        return response
 
 
 front_desk = FrontDeskListView.as_view()
@@ -237,7 +319,11 @@ badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
 badge_print_close = BadgePrintCloseView.as_view()
 
-
 badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()
 badge_collected = BadgeSetCollectedView.as_view()
+
+organize_conventions = OrganizeConventionListView.as_view()
+organize_events = OrganizeEventListView.as_view()
+organize_registrations = OrganizeRegistrationsListView.as_view()
+organize_registrations_export = OrganizeRegistrationsExportView.as_view()
