@@ -16,7 +16,8 @@ urlpatterns = patterns('website.apps.badgebro.views',
     url(r'^badgebro/(?P<uid>BA\w{32})/difference/(?P<ticket_id>\d+)/$', 'badge_difference', name='badge_difference'),
 
     url(r'^frontdesk/organize/$', 'organize_conventions', name='organize_conventions'),
+    url(r'^frontdesk/organize/(?P<convention>[-\w]+)/badges/export$', 'organize_badges_export', name='organize_badges_export'),
     url(r'^frontdesk/organize/(?P<convention>[-\w]+)/$', 'organize_events', name='organize_events'),
-    url(r'^frontdesk/organize/(?P<convention>[-\w]+)/(?P<event>[-\w]+)/$', 'organize_registrations', name='organize_registrations'),
-    url(r'^frontdesk/organize/(?P<convention>[-\w]+)/(?P<event>[-\w]+)/export/$', 'organize_registrations_export', name='organize_registrations_export'),
+    url(r'^frontdesk/organize/(?P<convention>[-\w]+)/events/(?P<event>[-\w]+)/$', 'organize_registrations', name='organize_registrations'),
+    url(r'^frontdesk/organize/(?P<convention>[-\w]+)/events/(?P<event>[-\w]+)/export/$', 'organize_registrations_export', name='organize_registrations_export'),
 )
