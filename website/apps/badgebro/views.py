@@ -242,8 +242,6 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Event.objects.all()
     convention_queryset = Convention.objects.all()
-    slug_url_kwarg = 'convention'
-    slug_field = 'convention'
     template_name = 'badgebro/organize/events.html'
 
     def get_convention(self):
@@ -313,6 +311,58 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
         return response
 
 
+class OrganizeBadgesListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Badge.objects.all()
+    template_name = 'badgebro/organize/events.html'
+
+    def get_queryset(self):
+        queryset = super(OrganizeBadgesListView, self).get_queryset()
+
+        if self.kwargs['filter'] == 'unregistered':
+            filter_kwargs = {'user': None}
+            queryset = queryset.filter(**filter_kwargs)
+
+        return queryset
+
+
+class OrganizeBadgesExportView(OrganizeBadgesListView):
+    def render_to_response(self, context, **response_kwargs):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="%s-%s.csv"' % (
+            self.kwargs['convention'], 'badges'
+        )
+
+        object_list = self.object_list
+
+        writer = csv.writer(response)
+        writer.writerow(['Order ID', 'Badge ID', 'User', 'Email', 'First Name', 'Last Name'
+                         'Ticket Type', 'Ticket Option', 'Network'])
+        for badge in object_list:
+            if badge.order:
+                order_id = badge.order.id
+            else:
+                order_id = 'None'
+
+            if badge.user:
+                username = badge.user.username
+                email = badge.user.email
+            else:
+                username = email = 'None'
+
+            writer.writerow([order_id,
+                             badge.uid,
+                             username,
+                             email or 'None',
+                             badge.first_name or 'None',
+                             badge.last_name or 'None',
+                             badge.type or 'None',
+                             badge.option or 'None',
+                             badge.network])
+
+        return response
+
+
 front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
@@ -327,3 +377,5 @@ organize_conventions = OrganizeConventionListView.as_view()
 organize_events = OrganizeEventListView.as_view()
 organize_registrations = OrganizeRegistrationsListView.as_view()
 organize_registrations_export = OrganizeRegistrationsExportView.as_view()
+organize_badges = OrganizeBadgesListView.as_view()
+organize_badges_export = OrganizeBadgesExportView.as_view()
