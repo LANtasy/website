@@ -321,9 +321,10 @@ class OrganizeBadgesListView(GroupRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super(OrganizeBadgesListView, self).get_queryset()
 
-        if self.kwargs['filter'] == 'unregistered':
-            filter_kwargs = {'user': None}
-            queryset = queryset.filter(**filter_kwargs)
+        if self.kwargs.get('filter'):
+            if self.kwargs['filter'] == 'unregistered':
+                filter_kwargs = {'user': None}
+                queryset = queryset.filter(**filter_kwargs)
 
         return queryset
 
