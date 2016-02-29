@@ -1,0 +1,46 @@
+@media print {
+  @page {
+      size: 92mm 133mm;
+  }
+}
+
+body {
+    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+}
+
+#main {
+    position: absolute;
+    font-size: 2em;
+    font-weight: 800;
+    text-align: center;
+    left:140px;
+    width: 345px;
+    top: 170px;
+}
+
+#event-identifier {
+    transform: rotate(90deg);
+    position: absolute;
+    top: 270px;
+    left: -130px;
+    font-size: 150px;
+    font-weight: 900;
+}
+
+#badge-type {
+    position: absolute;
+    /*top: 520px;*/
+    top:600px;
+    width: 500px;
+    font-size: 4.5em;
+    font-weight: 900;
+    text-align: center;
+
+
+    transform:scale(1,2); /* W3C */
+    -webkit-transform:scale(1,2); /* Safari and Chrome */
+    -moz-transform:scale(1,2); /* Firefox */
+    -ms-transform:scale(1,2); /* IE 9 */
+    -o-transform:scale(1,2); /* Opera */
+}
+

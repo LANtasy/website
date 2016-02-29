@@ -30,4 +30,4 @@ class AuthenticatedBadgeSerializer(serializers.Serializer):
 
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    type = serializers.CharField()
+    network = serializers.CharField()

@@ -23,13 +23,9 @@ def salesbro_order_handler(request, order_form, order):
 
         for item in order.items.all():
             ticket_option = TicketOption.objects.get(sku=item.sku)
-            for x in range(0, item.quantity):
 
-                badge = Badge()
-                badge.order = order
-                badge.order_item = item
-                badge.ticket = ticket_option
-                badge.save()
+            for x in range(0, item.quantity):
+                Badge.objects.create_badge(order=order, item=item, ticket_option=ticket_option)
 
         order.status = 2
         order.save()

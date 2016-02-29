@@ -26,3 +26,7 @@ Install the required python components
 
 Migrate the database schema
 > python manage.py syncdb
+
+
+## Badge printing
+Ensure Margins are set to None or print will not work correctly.

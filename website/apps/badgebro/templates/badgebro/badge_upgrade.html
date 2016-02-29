@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block breadcrumb_menu %}
+    <li><a href="{% url "badgebro:front_desk" %}">Badge List</a></li>
+    <li><a href="{% url "badgebro:badge_detail" uid=badge.uid %}">Badge {{ badge.uid }}</a></li>
+    <li class="active">Upgrade</li>
+{% endblock breadcrumb_menu %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row" style="margin-top: 30px;">
+
+            <h4>Badge {{ badge.uid }}</h4>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="." method="post" id="id_upgrade_form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="control-label">Current</label>
+                            <p class="form-control-static">
+                                {{ badge.ticket }}
+                            </p>
+                        </div>
+                        {{ form.new_ticket_option|as_crispy_field }}
+                        {{ form.payment_method|as_crispy_field }}
+                        <div class="form-group">
+                            <button type="submit" name="calculate" class="btn btn-danger pull-right">Payment Collected</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="control-label">
+                            Price
+                        </label>
+                        <p class="form-control-static">
+                            ${{ badge.ticket.price }}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            New Price
+                        </label>
+                        <p class="form-control-static"  id="id_newprice">
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Difference
+                        </label>
+                        <p class="form-control-static"  id="id_difference">
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            GST
+                        </label>
+                        <p class="form-control-static"  id="id_gst">
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">
+                            Total
+                        </label>
+                        <p class="form-control-static"  id="id_total">
+                            &nbsp;
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+
+        var badgeId = "{{ badge.uid }}";
+
+        $(function(){
+
+            var $newPrice = $("#id_newprice"),
+                $difference = $("#id_difference"),
+                $gst = $("#id_gst"),
+                $total = $("#id_total");
+
+            $("#id_new_ticket_option").on("change", function(e){
+
+                $.ajax({
+                    url: "/badgebro/" + badgeId + "/difference/" + $(this).val() + "/",
+                    method: "GET",
+                    success: function(data){
+                        $newPrice.text("$" + data.new_price);
+                        $difference.text("$" + data.difference);
+                        $gst.text("$" + data.gst);
+                        $total.text("$" + data.total);
+                    }
+                });
+
+            });
+
+            $("#id_upgrade_form").on("submit", function(e){
+
+                if(confirm("Have you collected payment?")){
+                    return true;
+                } else {
+                    return false;
+                }
+
+            });
+
+        });
+    </script>
+{% endblock extra_js %}

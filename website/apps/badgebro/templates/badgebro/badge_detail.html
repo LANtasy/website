@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags thumbnail %}
+
+{% block breadcrumb_menu %}
+    <li><a href="{% url "badgebro:front_desk" %}">Badge List</a></li>
+    <li class="active">Badge - {{ badge.uid }}</li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container hidden-print">
+        <form action="." method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.first_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.last_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.network|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.option|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.type|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_ticket" class="form-group">
+                                        <label for="id_ticket" class="control-label">Ticket</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_ticket" type="text" readonly="" value="{{ badge.ticket }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_printed" class="form-group">
+                                        <label for="id_printed" class="control-label">Printed</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_printed" type="text" readonly="" value="{{ badge.printed|default_if_none:"Not yet" }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div_id_collected" class="form-group">
+                                        <label for="id_collected" class="control-label">Collected</label>
+                                        <div class="controls">
+                                            <input class="form-control" id="id_collected" type="text" readonly="" value="{{ badge.collected|default_if_none:"Not yet" }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-block btn-lg" type="submit">
+                        <i class="glyphicon glyphicon-floppy-saved"></i> Save
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-default btn-block btn-lg" id="id_collect" type="button">
+                        <i class="glyphicon glyphicon-tag"> </i> Pick Up
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-default btn-block btn-lg" id="id_print" type="button">
+                        <i class="glyphicon glyphicon-print"></i> Print
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-default btn-block btn-lg" href="{% url 'badgebro:badge_upgrade' uid=badge.uid %}">
+                        <i class="glyphicon glyphicon-arrow-up"></i> Upgrade
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container visible-print">
+        <div id="first-name">
+            {{ badge.first_name }}
+        </div>
+        {% thumbnail badge.qr_code "250x250" crop="center" as im %}
+            <img id="qr-code" src="{{ im.url }}">
+        {% endthumbnail %}
+    </div>
+
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+    var badgeId = "{{ badge.uid }}";
+
+    var printUrl = "{% url 'badgebro:badge_print' uid=badge.uid %}";
+
+    function markBadgePrinted(callback){
+
+        var url = "/frontdesk/" + badgeId + "/printed/";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            success: callback
+        });
+    }
+
+    function markBadgeCollected(callback){
+
+        var url = "/frontdesk/" + badgeId + "/collected/";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            success: callback
+        });
+    }
+
+    $(function(){
+
+        var $print = $("#id_print"),
+            $collect = $("#id_collect");
+
+        $print.on("click", function(e){
+            markBadgePrinted(function(data){
+                window.open(printUrl, "Print Badge", "width=500,height=500");
+            });
+        });
+
+        $collect.on("click", function(e){
+            markBadgeCollected(function(data){
+                location.reload();
+            });
+        });
+
+    });
+</script>
+{% endblock extra_js %}
