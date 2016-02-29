@@ -4,6 +4,7 @@ import logging
 from braces.views import GroupRequiredMixin
 from cartridge.shop.models import Order
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -270,6 +271,7 @@ class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
 
     def get_event(self):
         queryset = self.event_queryset
+
         filter_kwargs = {'slug': self.kwargs['event']}
         event = get_object_or_404(queryset, **filter_kwargs)
         return event
@@ -319,9 +321,10 @@ class OrganizeBadgesListView(GroupRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super(OrganizeBadgesListView, self).get_queryset()
 
-        if self.kwargs['filter'] == 'unregistered':
-            filter_kwargs = {'user': None}
-            queryset = queryset.filter(**filter_kwargs)
+        if self.kwargs.get('filter'):
+            if self.kwargs['filter'] == 'unregistered':
+                filter_kwargs = {'user': None}
+                queryset = queryset.filter(**filter_kwargs)
 
         return queryset
 
@@ -336,24 +339,27 @@ class OrganizeBadgesExportView(OrganizeBadgesListView):
         object_list = self.object_list
 
         writer = csv.writer(response)
-        writer.writerow(['Order ID', 'Badge ID', 'User', 'Email', 'First Name', 'Last Name'
+        writer.writerow(['Order ID', 'Badge ID', 'User', 'Order Email', 'User Email',
+                         'First Name', 'Last Name',
                          'Ticket Type', 'Ticket Option', 'Network'])
         for badge in object_list:
             if badge.order:
                 order_id = badge.order.id
+                order_email = User.objects.get(id=badge.order.user_id).email
             else:
-                order_id = 'None'
+                order_id = order_email = 'None'
 
             if badge.user:
-                username = badge.user.username
-                email = badge.user.email
+                user_name = badge.user.username
+                user_email = badge.user.email
             else:
-                username = email = 'None'
+                user_name = user_email = 'None'
 
             writer.writerow([order_id,
                              badge.uid,
-                             username,
-                             email or 'None',
+                             user_name,
+                             order_email,
+                             user_email,
                              badge.first_name or 'None',
                              badge.last_name or 'None',
                              badge.type or 'None',
