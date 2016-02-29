@@ -101,8 +101,8 @@ class Badge(models.Model):
 
     # Need to add denormalized first/last name for the user onto the badge as
     # badges purchased at event may not have a user object to associate
-    first_name = models.CharField(max_length=30, blank=True, null=True)
-    last_name = models.CharField(max_length=30, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
 
     # Denormalizing 'ticket option' values on the badge as the ticket
     # might be different if the person is an exhibitor/staff
@@ -154,7 +154,7 @@ class Badge(models.Model):
 
         img = qr.make_image()
 
-        tempfile_io =StringIO.StringIO()
+        tempfile_io = StringIO.StringIO()
         img.save(tempfile_io, kind='JPEG')
 
         image_file = InMemoryUploadedFile(tempfile_io, None, 'rotate.jpg','image/jpeg', tempfile_io.len, None)
