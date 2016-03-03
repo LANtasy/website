@@ -6,6 +6,20 @@
 
 {% block content %}
     <div class="container">
-        {{ object_list }}
+        {% for convention in object_list %}
+{#                        <a href="{% url "badgebro:organize" %}" class="list-group-item">{{ convention.name }}</a>#}
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <h3 class="text-center">{{ convention.name }}</h3>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-default btn-block btn-lg" role="button" href="{% url "badgebro:organize_events" convention=convention.slug %}">Events</a>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-default btn-block btn-lg" role="button" href="{% url "badgebro:organize_badges" convention=convention.slug %}">Badges</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}

@@ -233,10 +233,15 @@ class BadgeSetCollectedView(GroupRequiredMixin, DetailView):
         return JsonResponse({})
 
 
-class OrganizeConventionListView(GroupRequiredMixin, ListView):
+class OrganizeListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Convention.objects.all()
     template_name = 'badgebro/organize/conventions.html'
+
+    def get_queryset(self):
+        queryset = super(OrganizeListView, self).get_queryset()
+        queryset = queryset.order_by('start')
+        return queryset
 
 
 class OrganizeEventListView(GroupRequiredMixin, ListView):
@@ -379,7 +384,7 @@ badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()
 badge_collected = BadgeSetCollectedView.as_view()
 
-organize_conventions = OrganizeConventionListView.as_view()
+organize = OrganizeListView.as_view()
 organize_events = OrganizeEventListView.as_view()
 organize_registrations = OrganizeRegistrationsListView.as_view()
 organize_registrations_export = OrganizeRegistrationsExportView.as_view()
