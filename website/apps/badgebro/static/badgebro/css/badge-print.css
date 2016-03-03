@@ -23,24 +23,24 @@ body {
     /*left:5mm;*/
     /*top:5mm;*/
     width:82.075mm;
-    height:123.35mm;
+    height:120.35mm;
 }
 
 #type {
     position: absolute;
     /*border:1px dashed black;*/
     left:0;
-    top:92.5125mm;
+    top:94.5125mm;
     width:82.075mm;
-    height:30.8375mm;
+    height:20.8375mm;
 }
 
 #type > p {
     display: table-cell;
     vertical-align:middle;
     text-align:center;
-    height:30.8375mm;
     width:82.075mm;
+    height:18.8375mm;
 
     font-size: 13mm;
     font-weight: 900;
@@ -55,7 +55,7 @@ body {
 #year {
     position: absolute;
     /*border:1px dashed black;*/
-    left:0;
+    left:3mm;
     top:30.8375mm;
     width:18.3583mm;
     height:61.675mm;
@@ -100,7 +100,7 @@ body {
 #option {
     position: absolute;
     /*border:1px dashed black;*/
-    left:18.3583mm;
+    left:20.3583mm;
     top:53.9657mm;
     width:27.3583mm;
     height:38.5469mm;
@@ -116,9 +116,9 @@ body {
 #firstname {
     position: absolute;
     /*border:1px dashed black;*/
-    left:18.3583mm;
+    left:20.3583mm;
     top:30.8375mm;
-    width:63.7166mm;
+    width:58.7166mm;
     height:7.7094mm;
     text-align:right;
 }
@@ -126,9 +126,9 @@ body {
 #lastname {
     position: absolute;
     /*border:1px dashed black;*/
-    left:18.3583mm;
+    left:20.3583mm;
     top:38.5469mm;
-    width:63.7166mm;
+    width:58.7166mm;
     height:7.7094mm;
     text-align:right;
 }
@@ -136,9 +136,9 @@ body {
 #code {
     position: absolute;
     /*border:1px dashed black;*/
-    left:18.3583mm;
+    left:20.3583mm;
     top:46.2563mm;
-    width:63.7166mm;
+    width:58.7166mm;
     height:7.7094mm;
     text-align:right;
 }
