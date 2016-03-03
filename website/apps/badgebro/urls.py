@@ -15,7 +15,7 @@ urlpatterns = patterns('website.apps.badgebro.views',
     url(r'^badgebro/print/(?P<uid>BA\w{32})/$', 'badge_print', name='print'),
     url(r'^badgebro/(?P<uid>BA\w{32})/difference/(?P<ticket_id>\d+)/$', 'badge_difference', name='badge_difference'),
 
-    url(r'^frontdesk/organize/$', 'organize_conventions', name='organize_conventions'),
+    url(r'^frontdesk/organize/$', 'organize', name='organize'),
     url(r'^frontdesk/organize/(?P<convention>[-\w]+)/badges/$', 'organize_badges', name='organize_badges'),
     url(r'^frontdesk/export/(?P<convention>[-\w]+)/badges/$', 'organize_badges_export', name='organize_badges_export'),
     url(r'^frontdesk/organize/(?P<convention>[-\w]+)/badges/(?P<filter>[-\w]+)/$', 'organize_badges', name='organize_badges'),

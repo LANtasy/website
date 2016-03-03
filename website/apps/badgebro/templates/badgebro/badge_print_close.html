@@ -5,16 +5,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="{% static "css/badge-print.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "badgebro/css/badge-print.css" %}" type="text/css">
     <script src="{% static "common/jquery/jquery-1.11.3.min.js" %}"></script>
 </head>
 <body>
-    <div id="first-name">
-        {{ badge.first_name }}
+    <div id="badge">
+        <div id="year">
+            <span>
+            <p>{{ badge.get_convention_year }}</p>
+                </span>
+        </div>
+        <div id="firstname">{{ badge.first_name }}</div>
+        <div id="lastname">{{ badge.last_name }}</div>
+        <div id="code">{{ badge.get_partial_badge_id }}</div>
+        <div id="option"><p>{{ badge.option }}</p></div>
+        <div id="qrcode">
+            <span>
+                {% thumbnail badge.qr_code "137x137" as im %}
+                    <img id="qr-code" src="{{ im.url }}">
+                {% endthumbnail %}
+            </span>
+        </div>
+        <div id="type">
+            <p>{{ badge.type|cut:"Pass"|upper }}</p>
+        </div>
     </div>
-    {% thumbnail badge.qr_code "250x250" crop="center" as im %}
-        <img id="qr-code" src="{{ im.url }}">
-    {% endthumbnail %}
 
     <script type="text/javascript">
         window.onload = function () {
