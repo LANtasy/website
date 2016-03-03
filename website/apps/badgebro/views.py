@@ -301,6 +301,7 @@ class OrganizeEventRegistrationsExportView(OrganizeEventRegistrationsListView):
 
         writer = csv.writer(response)
         writer.writerow(['Date', 'Time',
+                         'User Name',
                          'First Name',
                          'Last Name',
                          'Email',
@@ -309,6 +310,7 @@ class OrganizeEventRegistrationsExportView(OrganizeEventRegistrationsListView):
         for registration in object_list:
             writer.writerow([registration.date_added.date(),
                              registration.date_added.time(),
+                             registration.user.username or 'None',
                              registration.user.first_name or 'None',
                              registration.user.last_name or 'None',
                              registration.user.email or 'None',
@@ -336,6 +338,7 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
         writer = csv.writer(response)
         writer.writerow(['Category', 'Event',
                          'Date', 'Time',
+                         'User Name'
                          'First Name',
                          'Last Name',
                          'Email',
@@ -346,6 +349,7 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
                              registration.event,
                              registration.date_added.date(),
                              registration.date_added.time(),
+                             registration.user.username or 'None',
                              registration.user.first_name or 'None',
                              registration.user.last_name or 'None',
                              registration.user.email or 'None',
