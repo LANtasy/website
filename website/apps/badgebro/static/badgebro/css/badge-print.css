@@ -1,41 +1,49 @@
 @media print {
-  @page {
-      size: 92mm 133mm;
-  }
+    @page {
+        size: 92.075mm 133.35mm;
+    }
 }
 
 body {
     font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
 }
 
-#main {
-    position: absolute;
-    font-size: 2em;
-    font-weight: 800;
-    text-align: center;
-    left:140px;
-    width: 345px;
-    top: 170px;
+
+#page {
+    position: relative;
+    border:1px dashed black;
+    width:92.075mm;
+    height:133.35mm;
+
 }
 
-#event-identifier {
-    transform: rotate(90deg);
-    position: absolute;
-    top: 270px;
-    left: -130px;
-    font-size: 150px;
-    font-weight: 900;
+#badge {
+    position: relative;
+    /*border:1px dashed black;*/
+    /*left:5mm;*/
+    /*top:5mm;*/
+    width:82.075mm;
+    height:120.35mm;
 }
 
-#badge-type {
+#type {
     position: absolute;
-    /*top: 520px;*/
-    top:600px;
-    width: 500px;
-    font-size: 4.5em;
-    font-weight: 900;
-    text-align: center;
+    /*border:1px dashed black;*/
+    left:0;
+    top:94.5125mm;
+    width:82.075mm;
+    height:20.8375mm;
+}
 
+#type > p {
+    display: table-cell;
+    vertical-align:middle;
+    text-align:center;
+    width:82.075mm;
+    height:18.8375mm;
+
+    font-size: 13mm;
+    font-weight: 900;
 
     transform:scale(1,2); /* W3C */
     -webkit-transform:scale(1,2); /* Safari and Chrome */
@@ -44,3 +52,93 @@ body {
     -o-transform:scale(1,2); /* Opera */
 }
 
+#year {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:3mm;
+    top:30.8375mm;
+    width:18.3583mm;
+    height:61.675mm;
+}
+#year > span {
+    position: relative;
+    width:18.3583mm;
+    height:61.675mm;
+    display: table-cell;
+    text-align: center;
+    vertical-align:middle;
+    /*border:1px dashed black;*/
+}
+#year > span > p {
+    font-size: 21mm;
+    transform: rotate(90deg);
+    /*border:1px dashed black;*/
+    top:-5mm;
+    left:-19mm;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    /*white-space:nowrap;*/
+    position: absolute;
+}
+
+#qrcode {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:45.7166mm;
+    top:56.1542mm;
+    width:36.3583mm;
+    height:36.3583mm;
+}
+#qrcode > span {
+    display: table-cell;
+    vertical-align:middle;
+    width:36.3583mm;
+    height:36.3583mm;
+}
+
+#option {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:20.3583mm;
+    top:53.9657mm;
+    width:27.3583mm;
+    height:38.5469mm;
+}
+#option > p {
+    display: table-cell;
+    vertical-align:middle;
+    text-align:center;
+    height:38.5469mm;
+    width:27.3583mm;
+}
+
+#firstname {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:20.3583mm;
+    top:30.8375mm;
+    width:58.7166mm;
+    height:7.7094mm;
+    text-align:right;
+}
+
+#lastname {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:20.3583mm;
+    top:38.5469mm;
+    width:58.7166mm;
+    height:7.7094mm;
+    text-align:right;
+}
+
+#code {
+    position: absolute;
+    /*border:1px dashed black;*/
+    left:20.3583mm;
+    top:46.2563mm;
+    width:58.7166mm;
+    height:7.7094mm;
+    text-align:right;
+}

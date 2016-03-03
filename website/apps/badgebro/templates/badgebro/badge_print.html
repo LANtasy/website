@@ -9,30 +9,55 @@
 
 </head>
 <body>
+{#    <div id="page">#}
+{##}
+{#    </div>#}
+
+    <div id="badge">
+        <div id="year">
+            <span>
+            <p>{{ badge.get_convention_year }}</p>
+                </span>
+        </div>
+        <div id="firstname">{{ badge.first_name }}</div>
+        <div id="lastname">{{ badge.last_name }}</div>
+        <div id="code">{{ badge.get_partial_badge_id }}</div>
+        <div id="option"><p>{{ badge.option }}</p></div>
+        <div id="qrcode">
+            <span>
+                {% thumbnail badge.qr_code "137x137" as im %}
+                    <img id="qr-code" src="{{ im.url }}">
+                {% endthumbnail %}
+            </span>
+        </div>
+        <div id="type">
+            <p>{{ badge.type|cut:"Pass"|upper }}</p>
+        </div>
+    </div>
+
+
     <div id="event-identifier">
         <div id="event-year">
-            {{ badge.get_active_convention_year }}
+
         </div>
     </div>
 
     <div id="main">
         <div id="first-last-name">
-            {{ badge.first_name }} {{ badge.last_name }}
+
         </div>
         <div id="badge-id">
-            {{ badge.get_partial_badge_id }}
+
         </div>
         <div id="ticket-option">
-            {{ badge.ticket.title }}
+
         </div>
-        {% thumbnail badge.qr_code "225x225" as im %}
-            <img id="qr-code" src="{{ im.url }}">
-        {% endthumbnail %}
+
     </div>
 
     <div id="badge-identifier">
         <div id="badge-type">
-            {{ badge.ticket.ticket|cut:"Pass"|upper }}
+
         </div>
     </div>
 

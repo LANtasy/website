@@ -131,7 +131,8 @@
 
     function markBadgePrinted(badgeId, callback){
 
-        var url = "/frontdesk/" + badgeId + "/printed/";
+
+        var url = "/frontdesk/badge/" + badgeId + "/printed/";
 
         $.ajax({
             url: url,
@@ -142,7 +143,7 @@
 
     function markBadgeCollected(badgeId, callback){
 
-        var url = "/frontdesk/" + badgeId + "/collected/";
+        var url = "/frontdesk/badge/" + badgeId + "/collected/";
 
         $.ajax({
             url: url,

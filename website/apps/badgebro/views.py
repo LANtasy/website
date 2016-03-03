@@ -233,10 +233,15 @@ class BadgeSetCollectedView(GroupRequiredMixin, DetailView):
         return JsonResponse({})
 
 
-class OrganizeConventionListView(GroupRequiredMixin, ListView):
+class OrganizeListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Convention.objects.all()
     template_name = 'badgebro/organize/conventions.html'
+
+    def get_queryset(self):
+        queryset = super(OrganizeListView, self).get_queryset()
+        queryset = queryset.order_by('start')
+        return queryset
 
 
 class OrganizeEventListView(GroupRequiredMixin, ListView):
@@ -263,11 +268,11 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
         return queryset
 
 
-class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
+class OrganizeEventRegistrationsListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Registration.objects.all()
     event_queryset = Event.objects.all()
-    template_name = 'badgebro/organize/registrations.html'
+    template_name = 'badgebro/organize/event_registrations.html'
 
     def get_event(self):
         queryset = self.event_queryset
@@ -278,17 +283,17 @@ class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
 
     def get_queryset(self):
         event = self.get_event()
-        queryset = super(OrganizeRegistrationsListView, self).get_queryset()
+        queryset = super(OrganizeEventRegistrationsListView, self).get_queryset()
         filter_kwargs = {'event': event}
         queryset = queryset.filter(**filter_kwargs)
 
         return queryset
 
 
-class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
+class OrganizeEventRegistrationsExportView(OrganizeEventRegistrationsListView):
     def render_to_response(self, context, **response_kwargs):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="%s-%s.csv"' % (
+        response['Content-Disposition'] = 'attachment; filename="%s-%s-registrations.csv"' % (
             self.kwargs['convention'], self.kwargs['event']
         )
 
@@ -296,6 +301,7 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
 
         writer = csv.writer(response)
         writer.writerow(['Date', 'Time',
+                         'User Name',
                          'First Name',
                          'Last Name',
                          'Email',
@@ -304,6 +310,46 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
         for registration in object_list:
             writer.writerow([registration.date_added.date(),
                              registration.date_added.time(),
+                             registration.user.username or 'None',
+                             registration.user.first_name or 'None',
+                             registration.user.last_name or 'None',
+                             registration.user.email or 'None',
+                             registration.group_name or 'None',
+                             registration.group_captain or 'None'])
+
+        return response
+
+
+class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Registration.objects.all()
+    template_name = 'badgebro/organize/all_registrations.html'
+
+
+class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
+    def render_to_response(self, context, **response_kwargs):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="%s-registrations.csv"' % (
+            self.kwargs['convention']
+        )
+
+        object_list = self.object_list
+
+        writer = csv.writer(response)
+        writer.writerow(['Category', 'Event',
+                         'Date', 'Time',
+                         'User Name'
+                         'First Name',
+                         'Last Name',
+                         'Email',
+                         'Group Name',
+                         'Group Captain'])
+        for registration in object_list:
+            writer.writerow([registration.event.event_type,
+                             registration.event,
+                             registration.date_added.date(),
+                             registration.date_added.time(),
+                             registration.user.username or 'None',
                              registration.user.first_name or 'None',
                              registration.user.last_name or 'None',
                              registration.user.email or 'None',
@@ -379,9 +425,11 @@ badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()
 badge_collected = BadgeSetCollectedView.as_view()
 
-organize_conventions = OrganizeConventionListView.as_view()
+organize = OrganizeListView.as_view()
 organize_events = OrganizeEventListView.as_view()
-organize_registrations = OrganizeRegistrationsListView.as_view()
-organize_registrations_export = OrganizeRegistrationsExportView.as_view()
+organize_event_registrations = OrganizeEventRegistrationsListView.as_view()
+organize_event_registrations_export = OrganizeEventRegistrationsExportView.as_view()
 organize_badges = OrganizeBadgesListView.as_view()
 organize_badges_export = OrganizeBadgesExportView.as_view()
+organize_registrations = OrganizeRegistrationsListView.as_view()
+organize_registrations_export = OrganizeRegistrationsExportView.as_view()

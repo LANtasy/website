@@ -163,6 +163,13 @@ class Badge(models.Model):
         self.qr_code.save(file_name, image_file)
         self.save()
 
+    def get_convention_year(self):
+        # replace this next year this is bad :)
+        return '2016'
+
+    def get_partial_badge_id(self):
+        return '{uid}'.format(uid=self.uid[-12:])
+
 
 class PaymentMethod(object):
 

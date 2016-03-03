@@ -124,8 +124,8 @@
     var printUrl = "{% url 'badgebro:badge_print' uid=badge.uid %}";
 
     function markBadgePrinted(callback){
-
-        var url = "/frontdesk/" + badgeId + "/printed/";
+        var url = "{% url 'badgebro:badge_printed' uid=badge.uid %}";
+{#        var url = "/frontdesk/badge/" + badgeId + "/printed/";#}
 
         $.ajax({
             url: url,
@@ -135,8 +135,8 @@
     }
 
     function markBadgeCollected(callback){
-
-        var url = "/frontdesk/" + badgeId + "/collected/";
+        var url = "{% url 'badgebro:badge_collected' uid=badge.uid %}";
+{#        var url = "/frontdesk/badge/" + badgeId + "/collected/";#}
 
         $.ajax({
             url: url,
