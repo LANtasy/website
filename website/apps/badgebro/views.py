@@ -338,7 +338,7 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
         writer = csv.writer(response)
         writer.writerow(['Category', 'Event',
                          'Date', 'Time',
-                         'User Name'
+                         'User Name',
                          'First Name',
                          'Last Name',
                          'Email',
