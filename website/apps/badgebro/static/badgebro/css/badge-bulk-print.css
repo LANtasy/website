@@ -1,7 +1,7 @@
 @media print {
     @page {
-        /*size: 215.9mm 279.4mm;*/
-        size: 230mm 300mm;
+        size: 215.9mm 279.4mm;
+        /*size: 230mm 300mm;*/
     }
 
     .break {
@@ -17,11 +17,9 @@ body {
 .badge {
     position: relative;
     /*border:1px dashed black;*/
-    /*left:5mm;*/
-    /*top:5mm;*/
     width:82.075mm;
     height:120.35mm;
-    display: table-cell;
+    display: inline-block;
 }
 
 .badge.badge-1 {
@@ -31,17 +29,17 @@ body {
 
 .badge.badge-2 {
     top: 6.35mm;
-    left: 107.95mm;
+    left: 14.2mm;
 }
 
 .badge.badge-3 {
-    top: 139.7mm;
+    top: 5.2mm;
     left: 15.875mm;
 }
 
 .badge.badge-4 {
-    top: 139.7mm;
-    left: 107.95mm;
+    top: 5.2mm;
+    left: 14.2mm;
 }
 
 #type {
