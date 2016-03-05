@@ -118,7 +118,10 @@ class Badge(models.Model):
         if not self.uid:
             self.uid = self.generate_uid()
 
-        return super(Badge, self).save(*args, **kwargs)
+        super(Badge, self).save(*args, **kwargs)
+
+        if not self.qr_code:
+            self.create_qr_code()
 
     def __unicode__(self):
         # return '{user}'.format(user=self.user_id)
