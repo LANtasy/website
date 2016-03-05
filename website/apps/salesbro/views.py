@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView, RedirectView, TemplateVie
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.messages import info, error, warning
 
-from cartridge.shop.forms import CartItemFormSet, OrderForm
+from cartridge.shop.forms import CartItemFormSet
 from cartridge.shop.views import tax_handler
 from cartridge.shop.utils import recalculate_cart
 from cartridge.shop.models import ProductVariation, Product, Order
@@ -20,8 +20,8 @@ from braces.views import GroupRequiredMixin
 import itertools
 from website.apps.salesbro.checkout import salesbro_order_handler
 
-from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet
-from website.apps.salesbro.models import Ticket, TicketOption
+from website.apps.salesbro.forms import AddTicketForm, TicketOptionFormSet, ProductVariationFormSet, OrderForm
+from website.apps.salesbro.models import Ticket, TicketOption, Transaction
 
 logger = logging.getLogger(__name__)
 
@@ -257,15 +257,19 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             return redirect('salesbro:portal_cart')
 
         if order_form.is_valid():
-            order = order_form.save(commit=False)
-            order.setup(self.request)
-            # TODO: Make transaction_id link to payment type somehow
-            order.transaction_id = None
-            order.complete(self.request)
-            salesbro_order_handler(request=self.request, order_form=order, order=order)
-            checkout.send_order_email(request=self.request, order=order)
+            transaction = order_form.save(commit=False)
+
+            transaction.setup(self.request)
+            # # TODO: Make transaction_id link to payment type somehow
+            # order.transaction_id = None
+            transaction.complete(self.request)
+            salesbro_order_handler(request=self.request, order_form=transaction, order=transaction)
+            # checkout.send_order_email(request=self.request, order=order)
 
             return redirect('salesbro:portal_complete')
+
+        else:
+            return self.render_to_response(context=context)
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()
@@ -307,33 +311,10 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         return formset
 
     def get_order_form_kwargs(self, step):
-        try:
-            initial = self.request.session['order']
-        except KeyError:
-            initial = {'remember': False,
-                       'same_billing_shipping': True,
-                       'shipping_detail_first_name': 'N/A',
-                       'shipping_detail_last_name': 'N/A',
-                       'shipping_detail_street': 'N/A',
-                       'shipping_detail_city': 'N/A',
-                       'shipping_detail_state': 'N/A',
-                       'shipping_detail_postcode': 'N/A',
-                       'shipping_detail_country': 'N/A',
-                       'shipping_detail_phone': 'N/A',
-                       'shipping_detail_email': 'N/A',
-                       'billing_detail_street': 'N/A',
-                       'billing_detail_city': 'N/A',
-                       'billing_detail_state': 'N/A',
-                       'billing_detail_postcode': 'N/A',
-                       'billing_detail_country': 'N/A',
-                       'additional_instructions': 'N/A',
-                       }
 
         kwargs = {
-            'initial': initial,
             'request': self.request or None,
             'data': self.request.POST or None,
-            'step': step or None,
         }
         return kwargs
 
@@ -352,19 +333,22 @@ class PortalComplete(GroupRequiredMixin, TemplateView):
     template_name = 'salesbro/portal/complete.html'
 
     def get_context_data(self, **kwargs):
-        order = self.get_order()
+        transaction = self.get_transaction()
 
-        context = {'order': order, 'has_pdf': False}
+        context = {
+            'transaction': transaction,
+            'has_pdf': False,
+        }
 
         return context
 
-    def get_order(self):
+    def get_transaction(self):
         try:
-            order = Order.objects.from_request(self.request)
-        except Order.DoesNotExist:
+            transaction = Transaction.objects.from_request(self.request)
+        except Transaction.DoesNotExist:
             raise NotImplementedError
 
-        return order
+        return transaction
 
 
 ticket_detail = TicketDetailView.as_view()

@@ -4,10 +4,12 @@ import logging
 
 from django import forms
 
-from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm, OrderForm
+from cartridge.shop.forms import AddProductForm, ADD_PRODUCT_ERRORS, ProductAdminForm, FormsetForm, \
+    DiscountForm
 from cartridge.shop.models import ProductVariation, Order
+from django.contrib.sites.models import get_current_site
 from django.forms import modelformset_factory, CharField, EmailField
-from website.apps.salesbro.models import TicketOption, Ticket
+from website.apps.salesbro.models import TicketOption, Ticket, Transaction
 
 from django.utils.translation import ugettext as _
 
@@ -146,3 +148,31 @@ class ProductVariationForm(forms.ModelForm):
 ProductVariationFormSet = modelformset_factory(ProductVariation, form=ProductVariationForm, extra=0, can_delete=False,
                                                can_order=False, )
 
+
+class OrderForm(forms.ModelForm):
+
+    class Meta:
+        model = Transaction
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'payment_type',
+            'phone',
+        )
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(OrderForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+
+        transaction = super(OrderForm, self).save(commit=False)
+        transaction.key = self.request.session.session_key
+        transaction.site = get_current_site(request=self.request)
+        transaction.user = self.request.user
+
+        if commit:
+            transaction.save()
+
+        return transaction

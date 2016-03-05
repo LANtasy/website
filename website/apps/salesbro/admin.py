@@ -13,7 +13,7 @@ from django.utils.translation import ugettext as _
 from mezzanine.core.admin import DisplayableAdmin
 from website.apps.salesbro.forms import TicketOptionAdminForm
 
-from website.apps.salesbro.models import Ticket, TicketOption
+from website.apps.salesbro.models import Ticket, TicketOption, Transaction
 
 logger = logging.getLogger(__name__)
 
@@ -130,7 +130,12 @@ class CustomOrderAdmin(OrderAdmin):
     list_filter = ('status', 'time', 'user_id')
 
 
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'payment_type', )
+
+
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketOption, TicketOptionAdmin)
 admin.site.unregister(Order)
 admin.site.register(Order, CustomOrderAdmin)
+admin.site.register(Transaction, TransactionAdmin)

@@ -30,7 +30,7 @@ class BadgeGroup(object):
 
 class BadgeManager(models.Manager):
 
-    def create_badge(self, order, item, ticket_option):
+    def create_badge(self, order, item, ticket_option, transaction=None):
         """
         Creates a badge for a given order
         """
@@ -40,6 +40,7 @@ class BadgeManager(models.Manager):
 
         badge = self.model()
         badge.order = order
+        badge.transaction = transaction
         badge.order_item = item
         badge.ticket = ticket_option
         badge.first_name = order.billing_detail_first_name
@@ -88,6 +89,8 @@ class Badge(models.Model):
     # eg. Dobbo's badge would not have an order associated with it
     order = models.ForeignKey(Order, related_name='badge_order_id', blank=True, null=True)
     order_item = models.ForeignKey(OrderItem, related_name='badge_order_item', blank=True, null=True)
+
+    transaction = models.ForeignKey('salesbro.Transaction', blank=True, null=True)
 
     ticket = models.ForeignKey(TicketOption, related_name='badges')
 

@@ -1,5 +1,5 @@
 {% extends "salesbro/portal/base.html" %}
-{% load mezzanine_tags shop_tags i18n %}
+{% load mezzanine_tags shop_tags i18n crispy_forms_tags %}
 
 {% block body_id %}sales_portal_cart{% endblock %}
 
@@ -28,28 +28,22 @@
                             </div>
                         </div>
                         <div class="row">
-                        {% for field in order_form %}
 
-                            {% if field.name == "billing_detail_first_name" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ order_form.first_name|as_crispy_field }}
                             </div>
-                            {% elif field.name == "billing_detail_last_name" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ order_form.last_name|as_crispy_field }}
                             </div>
-                            {% elif field.name == "billing_detail_phone" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ order_form.email|as_crispy_field }}
                             </div>
-                            {% elif field.name == "billing_detail_email" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ order_form.phone|as_crispy_field }}
                             </div>
-                            {% else %}
-                                {{ field.as_hidden }}
-                            {% endif %}
-                        {% endfor %}
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
+                                {{ order_form.payment_type|as_crispy_field }}
+                            </div>
 
                         </div>
 
