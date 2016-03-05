@@ -121,6 +121,9 @@
 
     var badgeId = "{{ badge.uid }}";
 
+    var printed = {% if badge.printed %}true{% else %}false{% endif %};
+    var collected = {% if badge.collected %}true{% else %}false{% endif %};
+
     var printUrl = "{% url 'badgebro:badge_print' uid=badge.uid %}";
 
     function markBadgePrinted(callback){
@@ -150,13 +153,25 @@
         var $print = $("#id_print"),
             $collect = $("#id_collect");
 
-        $print.on("click", function(e){
+        $print.on("click", function(e) {
+            if (printed){
+                if (!confirm("This badge is already printed, are you sure?")) {
+                    return;
+                }
+            }
+
             markBadgePrinted(function(data){
                 window.open(printUrl, "Print Badge", "width=500,height=500");
             });
         });
 
         $collect.on("click", function(e){
+            if (collected){
+                if (!confirm("This badge has already been collected, are you sure?")) {
+                    return;
+                }
+            }
+
             markBadgeCollected(function(data){
                 location.reload();
             });
