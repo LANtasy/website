@@ -1,5 +1,5 @@
 {% extends "salesbro/portal/base.html" %}
-{% load mezzanine_tags shop_tags i18n %}
+{% load mezzanine_tags shop_tags i18n crispy_forms_tags %}
 
 {% block body_id %}sales_portal_cart{% endblock %}
 
@@ -32,19 +32,23 @@
 
                             {% if field.name == "billing_detail_first_name" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ field|as_crispy_field }}
                             </div>
                             {% elif field.name == "billing_detail_last_name" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ field|as_crispy_field }}
                             </div>
                             {% elif field.name == "billing_detail_phone" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ field|as_crispy_field }}
                             </div>
                             {% elif field.name == "billing_detail_email" %}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
-                                {{ field.label }}{{ field }}
+                                {{ field|as_crispy_field }}
+                            </div>
+                            {% elif field.name == "payment_type" %}
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-group">
+                                {{ field|as_crispy_field }}
                             </div>
                             {% else %}
                                 {{ field.as_hidden }}
