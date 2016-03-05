@@ -200,6 +200,12 @@ class BadgePrintView(GroupRequiredMixin, DetailView):
         return response
 
 
+class BadgeBulkPrintView(GroupRequiredMixin, ListView):
+    group_required = u'frontdesk'
+    queryset = Badge.objects.filter(user__isnull=False)
+    template_name = 'badgebro/badge_bulk_print.html'
+
+
 class BadgePrintCloseView(BadgePrintView):
     group_required = u'frontdesk'
     queryset = Badge.objects.all()
@@ -419,6 +425,7 @@ front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
+badge_print_bulk = BadgeBulkPrintView.as_view()
 badge_print_close = BadgePrintCloseView.as_view()
 
 badge_order_upgrade = BadgeOrderUgradeView.as_view()

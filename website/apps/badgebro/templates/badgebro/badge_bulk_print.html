@@ -5,12 +5,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Badge</title>
-    <link rel="stylesheet" href="{% static "badgebro/css/badge-print.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "badgebro/css/badge-bulk-print.css" %}" type="text/css">
 
 </head>
 <body>
+{#    <div id="page">#}
+{##}
+{#    </div>#}
 
-    <div id="badge">
+    {% for badge in badge_list %}
+
+    <div class="badge badge-{% cycle '1' '2' '3' '4'%}">
+        
         <div id="year">
             <span>
             <p>{{ badge.get_convention_year }}</p>
@@ -32,5 +38,11 @@
         </div>
     </div>
 
+
+    {% if forloop.counter|divisibleby:4 %}
+        <div class="break"></div>
+    {% endif %}
+
+    {% endfor %}
 </body>
 </html>
