@@ -215,10 +215,10 @@ INSTALLED_APPS = (
     'debug_toolbar',
 
     # --Core--
+    'website.apps.userbro',
     'website.apps.eventbro',
     'website.apps.salesbro',
     'website.apps.badgebro',
-    'website.apps.userbro',
 
     # --Utils--
     'django_cleanup',
