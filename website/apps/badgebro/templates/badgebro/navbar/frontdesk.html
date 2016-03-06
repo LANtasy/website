@@ -1,0 +1,23 @@
+{% load user_tags %}
+
+{% ifusergroup frontdesk %}
+<li class="dropdown active" id="frontdesk">
+    <a href="#" class="dropdown-toggle disabled" data-toggle="dropdown">
+        Front Desk
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="dropdown" id="badges">
+            <a href="{% url "badgebro:front_desk" %}">Badges</a>
+        </li>
+        <li class="dropdown" id="sales">
+            <a href="{% url "salesbro:portal_logon" %}">Sales</a>
+        </li>
+        <li class="dropdown" id="organize">
+            <a href="{% url "badgebro:organize" %}">Organize</a>
+        </li>
+    </ul>
+
+
+</li>
+{% endifusergroup frontdesk %}

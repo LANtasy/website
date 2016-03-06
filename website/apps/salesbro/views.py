@@ -3,6 +3,7 @@ from __future__ import unicode_literals, absolute_import
 import logging
 from cartridge.shop import checkout
 from cartridge_stripe import billship_handler
+from django import forms
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
@@ -260,12 +261,13 @@ class PortalCart(GroupRequiredMixin, TemplateView):
             order = order_form.save(commit=False)
             order.setup(self.request)
             # TODO: Make transaction_id link to payment type somehow
-            order.transaction_id = None
+            order.transaction_id = self.request.POST.get('payment_type')
             order.complete(self.request)
             salesbro_order_handler(request=self.request, order_form=order, order=order)
             checkout.send_order_email(request=self.request, order=order)
-
             return redirect('salesbro:portal_complete')
+        else:
+            return self.render_to_response(context=context)
 
     def update_formset(self):
         cart_formset = self.get_cart_formset()
@@ -310,24 +312,25 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         try:
             initial = self.request.session['order']
         except KeyError:
-            initial = {'remember': False,
-                       'same_billing_shipping': True,
-                       'shipping_detail_first_name': 'N/A',
-                       'shipping_detail_last_name': 'N/A',
-                       'shipping_detail_street': 'N/A',
-                       'shipping_detail_city': 'N/A',
-                       'shipping_detail_state': 'N/A',
-                       'shipping_detail_postcode': 'N/A',
-                       'shipping_detail_country': 'N/A',
-                       'shipping_detail_phone': 'N/A',
-                       'shipping_detail_email': 'N/A',
-                       'billing_detail_street': 'N/A',
-                       'billing_detail_city': 'N/A',
-                       'billing_detail_state': 'N/A',
-                       'billing_detail_postcode': 'N/A',
-                       'billing_detail_country': 'N/A',
-                       'additional_instructions': 'N/A',
-                       }
+            initial = {
+                   'remember': False,
+                'same_billing_shipping': True,
+                'shipping_detail_first_name': 'N/A',
+                'shipping_detail_last_name': 'N/A',
+                'shipping_detail_street': 'N/A',
+                'shipping_detail_city': 'N/A',
+                'shipping_detail_state': 'N/A',
+                'shipping_detail_postcode': 'N/A',
+                'shipping_detail_country': 'N/A',
+                'shipping_detail_phone': 'N/A',
+                'shipping_detail_email': 'N/A',
+                'billing_detail_street': 'N/A',
+                'billing_detail_city': 'N/A',
+                'billing_detail_state': 'N/A',
+                'billing_detail_postcode': 'N/A',
+                'billing_detail_country': 'N/A',
+                'additional_instructions': 'N/A',
+           }
 
         kwargs = {
             'initial': initial,
@@ -337,9 +340,31 @@ class PortalCart(GroupRequiredMixin, TemplateView):
         }
         return kwargs
 
+    def get_form_class(self):
+        return OrderForm
+
     def get_order_form(self, step):
+
+        VISA = 'visa'
+        MASTERCARD = 'mastercard'
+        AMEX = 'amex'
+        DISCOVER = 'discover'
+        DEBIT = 'debit'
+        CASH = 'cash'
+
+        PAYMENT_CHOICES = (
+            (None, '---------'),
+            (CASH, 'Cash'),
+            (DEBIT, 'Debit'),
+            (VISA, 'Visa'),
+            (MASTERCARD, 'Mastercard'),
+            (DISCOVER, 'Discover'),
+            (AMEX, 'American Express'),
+        )
+
         kwargs = self.get_order_form_kwargs(step)
         form = OrderForm(**kwargs)
+        form.fields['payment_type'] = forms.ChoiceField(choices=PAYMENT_CHOICES)
         return form
 
     def get_context_data(self, **kwargs):
