@@ -85,12 +85,12 @@ class Command(BaseCommand):
 
         for badge in queryset:
 
-            badge.option = badge.ticket.ticket.title
+            badge.type = badge.ticket.ticket.title
 
             if badge.ticket.title.endswith(' Pass'):
-                badge.type = badge.ticket.title[:-5]
+                badge.option = badge.ticket.title[:-5]
             else:
-                badge.type = badge.ticket.title
+                badge.option = badge.ticket.title
 
             badge.save()
 
