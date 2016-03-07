@@ -73,7 +73,9 @@ class BadgeOrderDetailView(GroupRequiredMixin, SuccessMessageMixin, ModelFormSet
     fields = (
         'first_name',
         'last_name',
-        'network'
+        'network',
+        'type',
+        'option'
     )
 
     def formset_valid(self, formset):

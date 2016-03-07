@@ -17,7 +17,7 @@ class BadgeUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Badge
-        fields = ('first_name', 'last_name', 'network', 'option', 'type')
+        fields = ('first_name', 'last_name', 'network', 'type', 'option')
 
     def __init__(self, *args, **kwargs):
         super(BadgeUpdateForm, self).__init__(*args, **kwargs)
@@ -25,8 +25,8 @@ class BadgeUpdateForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
 
-        self.fields['option'].choices = self.get_option_choices()
         self.fields['type'].choices = self.get_type_choices()
+        self.fields['option'].choices = self.get_option_choices()
 
     def get_type_choices(self):
         """
