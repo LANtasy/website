@@ -18,7 +18,6 @@
         <div id="firstname">{{ badge.first_name }}</div>
         <div id="lastname">{{ badge.last_name }}</div>
         <div id="code">{{ badge.get_partial_badge_id }}</div>
-        <div id="option"><p>{{ badge.option }}</p></div>
         <div id="qrcode">
             <span>
                 {% thumbnail badge.qr_code "137x137" as im %}
@@ -26,6 +25,7 @@
                 {% endthumbnail %}
             </span>
         </div>
+        <div id="option"><p>{{ badge.option }}</p></div>
         <div id="type">
             <p>{{ badge.type|cut:"Pass"|upper }}</p>
         </div>

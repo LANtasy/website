@@ -23,3 +23,10 @@ deployment:
     commands:
       - pip install fabric jinja2
       - fab staging deploy
+
+  prod:
+    branch: master
+    owner: BCGamer
+    commands:
+      - pip install fabric jinja2
+      - fab production deploy
