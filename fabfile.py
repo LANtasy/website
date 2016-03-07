@@ -46,6 +46,43 @@ def staging():
     env.celery_beat_job = 'lantasy_beat'
 
 
+def production():
+    env.name = 'production'
+    env.user = 'bcgamer'
+
+    env.VARS = {
+        'DJANGO_DB_USER': os.getenv('DJANGO_DB_USER'),
+        'DJANGO_DB_PASS': os.getenv('DJANGO_DB_PASS'),
+        'DJANGO_SECRET_KEY': os.getenv('DJANGO_SECRET_KEY'),
+    }
+
+    env.roledefs = {
+        'webservers': ['www.lantasy.com', ],
+        'workers': ['www.lantasy.com', ],
+        'beat': ['www.lantasy.com', ],
+    }
+
+    env.repo_name = os.getenv('CIRCLE_PROJECT_REPONAME')
+    env.branch = os.getenv('CIRCLE_BRANCH')
+    env.sha1 = os.getenv('CIRCLE_SHA1')
+    env.circle_build_num = os.getenv('CIRCLE_BUILD_NUM')
+
+    env.home = '/home/%(user)s' % env
+    env.project_root = '%(home)s/www.lantasy.com/website' % env
+    env.venv_path = '%(home)s/www.lantasy.com/env' % env
+    env.python_path = '%(venv_path)s/bin/python' % env
+    # env.settings_module = 'website.settings.%(name)s' % env
+    env.settings_module = 'website.settings.settings'
+
+    env.build_dir = '%(home)s/builds'
+
+    env.activate = '%(venv_path)s/bin/activate' % env
+
+    env.uwsgi_job = 'lantasy_uwsgi'
+    env.celery_worker_job = 'lantasy_worker'
+    env.celery_beat_job = 'lantasy_beat'
+
+
 def success():
     print(green('Success!'))
 
