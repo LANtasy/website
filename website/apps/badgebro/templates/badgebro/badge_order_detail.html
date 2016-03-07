@@ -22,7 +22,9 @@
                         <h4>{{ form.instance.uid }}</h4>
                     </div>
                 </div>
-                <div class="badge-row" data-badge-id="{{ form.instance.uid }}">
+                <div class="badge-row" data-badge-id="{{ form.instance.uid }}"
+                     data-printed="{% if form.instance.printed %}true{% else %}false{% endif %}"
+                     data-collected="{% if form.instance.collected %}true{% else %}false{% endif %}">
 
                     <div class="row">
                     <div class="col-md-12">
@@ -156,6 +158,14 @@
         return $(el).parents(".badge-row").data('badge-id');
     }
 
+    function getBadgePrinted(el){
+        return $(el).parents(".badge-row").data('printed');
+    }
+
+    function getBadgeCollected(el){
+        return $(el).parents(".badge-row").data('collected');
+    }
+
     $(function(){
 
         var $print = $(".print-btn"),
@@ -165,7 +175,13 @@
             e.preventDefault();
             var badgeId = getBadgeId(this);
             var printUrl = $(this).attr("href");
-            console.info("Dostuff");
+
+            if (getBadgePrinted(this) == true ){
+                if (!confirm("This badge is already printed, are you sure?")) {
+                    return;
+                }
+            }
+
             markBadgePrinted(badgeId, function(data){
                 window.open(printUrl, "Print Badge", "width=500,height=500");
             });
@@ -175,6 +191,12 @@
         $collect.on("click", function(e){
 
             var badgeId = getBadgeId(this);
+
+            if (getBadgeCollected(this) == true ){
+                if (!confirm("This badge has already been collected, are you sure?")) {
+                    return;
+                }
+            }
 
             markBadgeCollected(badgeId, function(data){
                 location.reload();
