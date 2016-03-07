@@ -33,17 +33,17 @@ class BadgeUpdateForm(forms.ModelForm):
         Get the choices for the badge option
         """
         STAFF = 'staff'
-        EXHIBITOR = 'exhibitor'
+        VENDOR = 'vendor'
 
         choices = [
             (STAFF, STAFF.title()),
-            (EXHIBITOR, EXHIBITOR.title()),
+            (VENDOR, VENDOR.title()),
         ]
 
         option_choices = Badge.objects.option_choices()
 
         for choice in option_choices:
-            if choice == STAFF or choice == EXHIBITOR:
+            if choice == STAFF or choice == VENDOR:
                 continue
 
             choices.append((choice, choice.title()))
