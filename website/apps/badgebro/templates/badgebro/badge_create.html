@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags thumbnail %}
+
+{% block breadcrumb_menu %}
+    <li><a href="{% url "badgebro:front_desk" %}">Badge List</a></li>
+    <li class="active">New Badge</li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container hidden-print">
+        <form action="." method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                <strong>Note:</strong> This utility is intended to be used to create incidental badges for staff and
+                                vendors without the complexity that's necessary for regular sales.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.first_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.last_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.network|as_crispy_field }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.ticket|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.option|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.type|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-block btn-lg" type="submit">
+                        <i class="fa fa-plus"></i> Add
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

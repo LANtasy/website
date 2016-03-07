@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load user_tags %}
 
 {% block breadcrumb_menu %}
     <li class="active">Badge List</li>
@@ -17,9 +18,18 @@
                                name="search" value="{{ request.GET.search|default_if_none:"" }}"
                                placeholder="Search" style="width:100%">
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-primary btn-lg" type="submit">Search</button>
-                            <a class="btn btn-default btn-lg" href="{% url 'badgebro:front_desk' %}">Clear</a>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                            <a class="btn btn-default btn-lg" href="{% url 'badgebro:front_desk' %}">
+                                <i class="fa fa-times"></i> Clear
+                            </a>
+                            {% ifusergroup trusted %}
+                                <a class="btn btn-default btn-lg" href="{% url 'badgebro:badge_create' %}">
+                                    <i class="fa fa-plus"></i> New
+                                </a>
+                            {% endifusergroup trusted %}
                         </div>
                     </div>
                 </form>
