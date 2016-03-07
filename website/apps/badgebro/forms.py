@@ -28,7 +28,7 @@ class BadgeUpdateForm(forms.ModelForm):
         self.fields['option'].choices = self.get_option_choices()
         self.fields['type'].choices = self.get_type_choices()
 
-    def get_option_choices(self):
+    def get_type_choices(self):
         """
         Get the choices for the badge option
         """
@@ -40,7 +40,7 @@ class BadgeUpdateForm(forms.ModelForm):
             (VENDOR, VENDOR.title()),
         ]
 
-        option_choices = Badge.objects.option_choices()
+        option_choices = Badge.objects.type_choices()
 
         for choice in option_choices:
             if choice == STAFF or choice == VENDOR:
@@ -50,14 +50,14 @@ class BadgeUpdateForm(forms.ModelForm):
 
         return choices
 
-    def get_type_choices(self):
+    def get_option_choices(self):
         """
         Get the choices for the badge type
         """
 
         choices = []
 
-        option_choices = Badge.objects.type_choices()
+        option_choices = Badge.objects.option_choices()
 
         for choice in option_choices:
 
