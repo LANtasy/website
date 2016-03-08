@@ -34,10 +34,12 @@ class BadgeUpdateForm(forms.ModelForm):
         """
         STAFF = 'staff'
         VENDOR = 'vendor'
+        MEDIA = 'media'
 
         choices = [
             (STAFF, STAFF.title()),
             (VENDOR, VENDOR.title()),
+            (MEDIA, MEDIA.title()),
         ]
 
         option_choices = Badge.objects.type_choices()
