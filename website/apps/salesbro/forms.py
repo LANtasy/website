@@ -41,7 +41,14 @@ class AddTicketForm(AddProductForm):
         super(AddTicketForm, self).__init__(*args, **kwargs)
         if self._product is not None:
             self.fields['ticket_option'].label = "Ticket options"
-            self.fields['ticket_option'].queryset = TicketOption.objects.available().filter(ticket=self._product)
+            ticket_options = TicketOption.objects.available().filter(ticket=self._product)
+
+            for product_variation in ProductVariation.objects.filter(product=ticket_options):
+                if not getattr(product_variation, 'has_stock')():
+                    ticket_options = ticket_options.exclude(variations=product_variation)
+
+            self.fields['ticket_option'].queryset = ticket_options
+
 
     def clean(self):
         """

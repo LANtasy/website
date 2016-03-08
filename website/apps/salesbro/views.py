@@ -66,8 +66,37 @@ class TicketDetailView(DetailView):
         context = super(TicketDetailView, self).get_context_data(**kwargs)
         context['has_available_variations'] = any([v.has_price() for v in self.variations])
         context['images'] = self.object.images.all()
-        context['ticket_options'] = TicketOption.objects.available().filter(ticket=self.object)
+        context['is_stock_available'] = self.is_stock_available()
+        # ticket_options = TicketOption.objects.available().filter(ticket=self.object)
+        # for product_variation in ProductVariation.objects.filter(product=ticket_options):
+        #         if not getattr(product_variation, 'has_stock')():
+        #             ticket_options = ticket_options.exclude(variations=product_variation)
+
+        # valid_ticket_options = []
+        # for ticket_option in ticket_options:
+        #     variations = ProductVariation.objects.filter(product=ticket_option)
+        #     for variation in variations:
+        #         if variation.has_stock():
+        #             print variation
+        #     # if any([v.has_stock() for v in variations]):
+        #     #     valid_ticket_options.append(ticket_option)
+        #
+        #     # if any([v.has_stock() for v in ticket_option.variations]):
+        #
+        # context['ticket_options'] = ticket_options
         return context
+
+    def is_stock_available(self):
+        ticket_options = TicketOption.objects.available().filter(ticket=self.object)
+
+        for product_variation in ProductVariation.objects.filter(product=ticket_options):
+            if not getattr(product_variation, 'has_stock')():
+                ticket_options = ticket_options.exclude(variations=product_variation)
+
+        if ticket_options.count() > 0:
+            return True
+        else:
+            return False
 
     def get_queryset(self):
         qs = super(TicketDetailView, self).get_queryset()
