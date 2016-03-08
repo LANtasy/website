@@ -14,6 +14,7 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
+from django.utils import timezone
 from django.views.generic import ListView, UpdateView, DetailView, CreateView
 from django.views.generic.list import BaseListView
 from extra_views import ModelFormSetView
@@ -357,18 +358,21 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
                          'Date Added', 'Time Added',
                          ])
         for registration in object_list:
+            event_start = timezone.localtime(registration.event.start)
+            reg_added = timezone.localtime(registration.date_added)
+
             writer.writerow([unicode(registration.event.event_type).encode('utf-8'),
                              unicode(registration.event.name).encode('utf-8'),
-                             unicode(registration.event.start.date()).encode('utf-8'),
-                             unicode(registration.event.start.time()).encode('utf-8'),
+                             unicode(event_start.date()).encode('utf-8'),
+                             unicode(event_start.time()).encode('utf-8'),
                              unicode(registration.user.username).encode('utf-8') or 'None',
                              unicode(registration.user.first_name).encode('utf-8') or 'None',
                              unicode(registration.user.last_name).encode('utf-8') or 'None',
                              unicode(registration.user.email).encode('utf-8') or 'None',
                              unicode(registration.group_name).encode('utf-8') or 'None',
                              unicode(registration.group_captain).encode('utf-8') or 'None',
-                             unicode(registration.date_added.date()).encode('utf-8'),
-                             unicode(registration.date_added.time()).encode('utf-8'),
+                             unicode(reg_added.date()).encode('utf-8'),
+                             unicode(reg_added.time()).encode('utf-8'),
                              ])
 
         return response
