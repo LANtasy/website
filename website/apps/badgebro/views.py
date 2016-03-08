@@ -356,18 +356,18 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
                          'Date Added', 'Time Added',
                          ])
         for registration in object_list:
-            writer.writerow([registration.event.event_type,
-                             registration.event.name,
-                             registration.event.start.date(),
-                             registration.event.start.time(),
-                             registration.user.username or 'None',
-                             registration.user.first_name or 'None',
-                             registration.user.last_name or 'None',
-                             registration.user.email or 'None',
-                             registration.group_name or 'None',
-                             registration.group_captain or 'None',
-                             registration.date_added.date(),
-                             registration.date_added.time(),
+            writer.writerow([unicode(registration.event.event_type),
+                             unicode(registration.event.name),
+                             unicode(registration.event.start.date()),
+                             unicode(registration.event.start.time()),
+                             unicode(registration.user.username) or 'None',
+                             unicode(registration.user.first_name) or 'None',
+                             unicode(registration.user.last_name) or 'None',
+                             unicode(registration.user.email) or 'None',
+                             unicode(registration.group_name) or 'None',
+                             unicode(registration.group_captain) or 'None',
+                             unicode(registration.date_added.date()),
+                             unicode(registration.date_added.time()),
                              ])
 
         return response
