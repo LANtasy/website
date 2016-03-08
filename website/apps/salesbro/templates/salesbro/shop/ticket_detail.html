@@ -78,31 +78,10 @@ $(document).ready(function() {
 
 {{ ticket.content|richtext_filters|safe }}
 
-{% if ticket_options.count > 0 %}
-    <div class="row">
-        <div class="container-fluid">
-            <strong>Ticket Options:</strong>
-        </div>
-    </div>
-    <ul>
-    {% for ticket_option in ticket_options %}
-        <li>
-            {{ ticket_option.title }} <br>
-            - Total price:
-            {% if ticket_option.on_sale %}
-                ${{ ticket_option.price }} (<s>${{ ticket_option.unit_price }}</s>)
-            {% else %}
-                ${{ ticket_option.price }}
-            {% endif %}
-            {{ ticket_option.description|linebreaksbr }}
-        </li>
-    {% endfor %}
-    </ul>
-{% endif %}
+
 <br />
 
-{% if ticket.available and has_available_variations %}
-
+{% if ticket.available and has_available_variations and is_stock_available %}
 
 {% errors_for add_product_form %}
 
@@ -114,7 +93,7 @@ $(document).ready(function() {
     </div>
 </form>
 {% else %}
-<p class="error-msg">{% trans "This product is currently unavailable." %}</p>
+<p class="error-msg">{% trans "This product is currently unavailable or out of stock." %}</p>
 {% endif %}
 
 {% endblock %}
