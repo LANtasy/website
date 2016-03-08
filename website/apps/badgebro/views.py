@@ -356,18 +356,18 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
                          'Date Added', 'Time Added',
                          ])
         for registration in object_list:
-            writer.writerow([unicode(registration.event.event_type),
-                             unicode(registration.event.name),
-                             unicode(registration.event.start.date()),
-                             unicode(registration.event.start.time()),
-                             unicode(registration.user.username) or 'None',
-                             unicode(registration.user.first_name) or 'None',
-                             unicode(registration.user.last_name) or 'None',
-                             unicode(registration.user.email) or 'None',
-                             unicode(registration.group_name) or 'None',
-                             unicode(registration.group_captain) or 'None',
-                             unicode(registration.date_added.date()),
-                             unicode(registration.date_added.time()),
+            writer.writerow([unicode(registration.event.event_type).encode('utf-8'),
+                             unicode(registration.event.name).encode('utf-8'),
+                             unicode(registration.event.start.date()).encode('utf-8'),
+                             unicode(registration.event.start.time()).encode('utf-8'),
+                             unicode(registration.user.username).encode('utf-8') or 'None',
+                             unicode(registration.user.first_name).encode('utf-8') or 'None',
+                             unicode(registration.user.last_name).encode('utf-8') or 'None',
+                             unicode(registration.user.email).encode('utf-8') or 'None',
+                             unicode(registration.group_name).encode('utf-8') or 'None',
+                             unicode(registration.group_captain).encode('utf-8') or 'None',
+                             unicode(registration.date_added.date()).encode('utf-8'),
+                             unicode(registration.date_added.time()).encode('utf-8'),
                              ])
 
         return response
