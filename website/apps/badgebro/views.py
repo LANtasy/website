@@ -331,6 +331,7 @@ class OrganizeEventRegistrationsExportView(OrganizeEventRegistrationsListView):
 class OrganizeRegistrationsListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Registration.objects.all()
+    ordering = ['event', 'date_added']
     template_name = 'badgebro/organize/all_registrations.html'
 
 
