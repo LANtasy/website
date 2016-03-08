@@ -66,7 +66,19 @@ class TicketDetailView(DetailView):
         context = super(TicketDetailView, self).get_context_data(**kwargs)
         context['has_available_variations'] = any([v.has_price() for v in self.variations])
         context['images'] = self.object.images.all()
-        context['ticket_options'] = TicketOption.objects.available().filter(ticket=self.object)
+        # ticket_options = TicketOption.objects.available().filter(ticket=self.object)
+        # valid_ticket_options = []
+        # for ticket_option in ticket_options:
+        #     variations = ProductVariation.objects.filter(product=ticket_option)
+        #     for variation in variations:
+        #         if variation.has_stock():
+        #             print variation
+        #     # if any([v.has_stock() for v in variations]):
+        #     #     valid_ticket_options.append(ticket_option)
+        #
+        #     # if any([v.has_stock() for v in ticket_option.variations]):
+        #
+        # context['ticket_options'] = None
         return context
 
     def get_queryset(self):
