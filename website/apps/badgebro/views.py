@@ -345,24 +345,30 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
 
         writer = csv.writer(response)
         writer.writerow(['Category', 'Event',
-                         'Date', 'Time',
+                         'Event Start Date',
+                         'Event Start Time',
                          'User Name',
                          'First Name',
                          'Last Name',
                          'Email',
                          'Group Name',
-                         'Group Captain'])
+                         'Group Captain',
+                         'Date Added', 'Time Added',
+                         ])
         for registration in object_list:
             writer.writerow([registration.event.event_type,
-                             registration.event,
-                             registration.date_added.date(),
-                             registration.date_added.time(),
+                             registration.event.name,
+                             registration.event.start.date(),
+                             registration.event.start.time(),
                              registration.user.username or 'None',
                              registration.user.first_name or 'None',
                              registration.user.last_name or 'None',
                              registration.user.email or 'None',
                              registration.group_name or 'None',
-                             registration.group_captain or 'None'])
+                             registration.group_captain or 'None',
+                             registration.date_added.date(),
+                             registration.date_added.time(),
+                             ])
 
         return response
 
