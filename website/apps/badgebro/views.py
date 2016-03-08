@@ -14,11 +14,11 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic import ListView, UpdateView, DetailView, CreateView
 from django.views.generic.list import BaseListView
 from extra_views import ModelFormSetView
 
-from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm
+from website.apps.badgebro.forms import BadgeUpdateForm, BadgeUpgradeForm, BadgeCreateForm
 from website.apps.badgebro.models import Badge, UpgradeTransaction
 from website.apps.eventbro.models import Convention, Event, Registration
 from website.apps.salesbro.models import TicketOption
@@ -345,24 +345,30 @@ class OrganizeRegistrationsExportView(OrganizeRegistrationsListView):
 
         writer = csv.writer(response)
         writer.writerow(['Category', 'Event',
-                         'Date', 'Time',
+                         'Event Start Date',
+                         'Event Start Time',
                          'User Name',
                          'First Name',
                          'Last Name',
                          'Email',
                          'Group Name',
-                         'Group Captain'])
+                         'Group Captain',
+                         'Date Added', 'Time Added',
+                         ])
         for registration in object_list:
             writer.writerow([registration.event.event_type,
-                             registration.event,
-                             registration.date_added.date(),
-                             registration.date_added.time(),
+                             registration.event.name,
+                             registration.event.start.date(),
+                             registration.event.start.time(),
                              registration.user.username or 'None',
                              registration.user.first_name or 'None',
                              registration.user.last_name or 'None',
                              registration.user.email or 'None',
                              registration.group_name or 'None',
-                             registration.group_captain or 'None'])
+                             registration.group_captain or 'None',
+                             registration.date_added.date(),
+                             registration.date_added.time(),
+                             ])
 
         return response
 
@@ -423,12 +429,26 @@ class OrganizeBadgesExportView(OrganizeBadgesListView):
         return response
 
 
+class BadgeCreateView(GroupRequiredMixin, SuccessMessageMixin, CreateView):
+    group_required = 'trusted'
+    model = Badge
+    template_name = 'badgebro/badge_create.html'
+    success_message = 'Successfully created badge'
+    form_class = BadgeCreateForm
+
+    def get_success_url(self):
+        uid = self.object.uid
+        url = reverse('badgebro:badge_detail', kwargs={'uid': uid})
+        return url
+
+
 front_desk = FrontDeskListView.as_view()
 badge_detail = BadgeDetailView.as_view()
 badge_upgrade = BadgeUpgradeView.as_view()
 badge_print = BadgePrintView.as_view()
 badge_print_bulk = BadgeBulkPrintView.as_view()
 badge_print_close = BadgePrintCloseView.as_view()
+badge_create = BadgeCreateView.as_view()
 
 badge_order_upgrade = BadgeOrderUgradeView.as_view()
 badge_printed = BadgeSetPrintedView.as_view()

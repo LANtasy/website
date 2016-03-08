@@ -80,3 +80,10 @@ class BadgeUpgradeForm(forms.ModelForm):
 
         if self.instance is not None:
             self.fields['new_ticket_option'].queryset = self.instance.ticket.upgradeable_to()
+
+
+class BadgeCreateForm(BadgeUpdateForm):
+
+    class Meta:
+        model = Badge
+        fields = ('first_name', 'last_name', 'network', 'type', 'option', 'ticket')

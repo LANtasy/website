@@ -3,11 +3,14 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('website.apps.badgebro.views',
     url(r'^frontdesk/$', 'front_desk', name='front_desk'),
+
     url(r'^frontdesk/badge/(?P<uid>BA\w{32})/$', 'badge_detail', name='badge_detail'),
     url(r'^frontdesk/badge/(?P<uid>BA\w{32})/upgrade/$', 'badge_upgrade', name='badge_upgrade'),
     url(r'^frontdesk/badge/(?P<uid>BA\w{32})/printed/$', 'badge_printed', name='badge_printed'),
     url(r'^frontdesk/badge/(?P<uid>BA\w{32})/collected/$', 'badge_collected', name='badge_collected'),
     url(r'^frontdesk/badge/(?P<uid>BA\w{32})/print/$', 'badge_print_close', name='badge_print'),
+
+    url(r'^frontdesk/badge/new/$', 'badge_create', name='badge_create'),
 
     url(r'^frontdesk/order/(?P<order_pk>\d+)/$', 'badge_order_detail', name='badge_order_detail'),
     url(r'^frontdesk/order/(?P<order_pk>\d+)/badge/(?P<uid>BA\w{32})/upgrade/$', 'badge_order_upgrade', name='badge_order_upgrade'),
