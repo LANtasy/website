@@ -48,7 +48,6 @@ class AddTicketForm(AddProductForm):
 
             self.fields['ticket_option'].queryset = ticket_options
 
-
     def clean(self):
         """
         Determine the chosen variation, validate it and assign it as
@@ -98,9 +97,9 @@ class AddTicketForm(AddProductForm):
         else:
             # Validate stock if adding to cart.
             if self._to_cart:
-                if not variation.has_stock():
+                if not ticket_variation.has_stock():
                     error = "no_stock"
-                elif not variation.has_stock(quantity):
+                elif not ticket_variation.has_stock(quantity):
                     error = "no_stock_quantity"
         if error is not None:
             raise forms.ValidationError(ADD_PRODUCT_ERRORS[error])
