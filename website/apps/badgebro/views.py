@@ -223,9 +223,9 @@ class BadgeBulkPrintView(GroupRequiredMixin, ListView):
             else:
                 queryset = queryset.filter(type=type)
         else:
-            normal = ['Weekend Pass', 'weekend',
-                      'Saturday Pass', 'saturday',
-                      'Sunday Pass', 'sunday']
+            normal = ['Weekend Pass', 'weekend', 'Weekend',
+                      'Saturday Pass', 'saturday', 'Saturday',
+                      'Sunday Pass', 'sunday', 'Sunday']
             queryset = queryset.filter(type__in=normal)
 
         return queryset
