@@ -81,6 +81,16 @@ $(document).ready(function() {
 
 <br />
 
+{% if sold_out.count > 0 %}
+    <h5>** Sold Out - Ticket Options **</h5>
+    <ul class="list-group" style="margin-top:-15px">
+    {% for item in sold_out %}
+        <li >{{ item.title }}</li>
+    {% endfor %}
+    </ul>
+
+{% endif %}
+
 {% if ticket.available and has_available_variations and is_stock_available %}
 
 {% errors_for add_product_form %}

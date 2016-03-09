@@ -16,7 +16,8 @@ class BadgeAdmin(ExportMixin, admin.ModelAdmin):
 
 
 class UpgradeTransactionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'badge', 'old_ticket', 'new_ticket', 'created']
+
 
 admin.site.register(Badge, BadgeAdmin)
 admin.site.register(UpgradeTransaction, UpgradeTransactionAdmin)

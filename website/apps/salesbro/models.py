@@ -2,7 +2,7 @@ from __future__ import unicode_literals, absolute_import
 
 import logging
 # from decimal import Decimal
-from cartridge.shop.models import Product
+from cartridge.shop.models import Product, ProductVariation
 
 from django.db import models
 from mezzanine.core.managers import DisplayableManager
@@ -57,9 +57,26 @@ class TicketOption(Product):
         option_ids = [option.id for option in options if option.price() >= current_price]
         return TicketOption.objects.filter(id__in=option_ids).exclude(id=self.id)
 
+    def has_stock(self, quantity=1):
+        variations = ProductVariation.objects.filter(product=self)
+        for variation in variations:
+            if variation.has_stock(quantity):
+                return True
+
+        return False
+
 
 class Ticket(Product):
 
     @models.permalink
     def get_absolute_url(self):
         return ("salesbro:ticket_detail", (), {"slug": self.slug})
+
+    def has_stock(self, quantity=1):
+        ticket_options = TicketOption.objects.filter(ticket=self)
+
+        for ticket_option in ticket_options:
+            if ticket_option.has_stock(quantity):
+                return True
+
+        return False

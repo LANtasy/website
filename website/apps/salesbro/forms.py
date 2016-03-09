@@ -42,13 +42,11 @@ class AddTicketForm(AddProductForm):
         if self._product is not None:
             self.fields['ticket_option'].label = "Ticket options"
             ticket_options = TicketOption.objects.available().filter(ticket=self._product)
-
-            for product_variation in ProductVariation.objects.filter(product=ticket_options):
-                if not getattr(product_variation, 'has_stock')():
-                    ticket_options = ticket_options.exclude(variations=product_variation)
+            for ticket_option in ticket_options:
+                if not ticket_option.has_stock():
+                    ticket_options = ticket_options.exclude(id=ticket_option.id)
 
             self.fields['ticket_option'].queryset = ticket_options
-
 
     def clean(self):
         """
@@ -99,9 +97,9 @@ class AddTicketForm(AddProductForm):
         else:
             # Validate stock if adding to cart.
             if self._to_cart:
-                if not variation.has_stock():
+                if not ticket_variation.has_stock():
                     error = "no_stock"
-                elif not variation.has_stock(quantity):
+                elif not ticket_variation.has_stock(quantity):
                     error = "no_stock_quantity"
         if error is not None:
             raise forms.ValidationError(ADD_PRODUCT_ERRORS[error])
