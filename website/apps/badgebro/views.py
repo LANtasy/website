@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 from django.utils import timezone
+from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, UpdateView, DetailView, CreateView
 from django.views.generic.list import BaseListView
 from extra_views import ModelFormSetView
@@ -206,11 +207,17 @@ class BadgePrintView(GroupRequiredMixin, DetailView):
 class BadgeBulkPrintView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Badge.objects.filter(user__isnull=False)
+    ordering = ['order__id']
     template_name = 'badgebro/badge_bulk_print.html'
 
     def get_queryset(self):
         queryset = super(BadgeBulkPrintView, self).get_queryset()
+        queryset = self.check_for_filters(queryset)
+        self.mark_printed(queryset)
 
+        return queryset
+
+    def check_for_filters(self, queryset):
         type = None
 
         if self.kwargs:
@@ -229,6 +236,11 @@ class BadgeBulkPrintView(GroupRequiredMixin, ListView):
             queryset = queryset.filter(type__in=normal)
 
         return queryset
+
+    def mark_printed(self, queryset):
+        for badge in queryset:
+            badge.printed = datetime.now()
+            badge.save()
 
 
 class BadgePrintCloseView(BadgePrintView):
