@@ -67,7 +67,17 @@ class TicketDetailView(DetailView):
         context['has_available_variations'] = any([v.has_price() for v in self.variations])
         context['images'] = self.object.images.all()
         context['is_stock_available'] = self.object.has_stock()
+        context['sold_out'] = self.get_sold_out()
         return context
+
+    def get_sold_out(self):
+        ticket_options = TicketOption.objects.available()
+        ticket_options = ticket_options.filter(ticket=self.object)
+        for ticket_option in ticket_options:
+            if ticket_option.has_stock():
+                ticket_options = ticket_options.exclude(id=ticket_option.id)
+
+        return ticket_options
 
     def get_queryset(self):
         qs = super(TicketDetailView, self).get_queryset()
