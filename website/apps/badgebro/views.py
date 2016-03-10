@@ -206,7 +206,7 @@ class BadgePrintView(GroupRequiredMixin, DetailView):
 
 class BadgeBulkPrintView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
-    queryset = Badge.objects.filter(user__isnull=False)
+    queryset = Badge.objects.all()
     ordering = ['order__id']
     template_name = 'badgebro/badge_bulk_print.html'
 
@@ -230,6 +230,7 @@ class BadgeBulkPrintView(GroupRequiredMixin, ListView):
             else:
                 queryset = queryset.filter(type=type)
         else:
+            queryset = queryset.filter(user__isnull=False)
             normal = ['Weekend Pass', 'weekend', 'Weekend',
                       'Saturday Pass', 'saturday', 'Saturday',
                       'Sunday Pass', 'sunday', 'Sunday']
