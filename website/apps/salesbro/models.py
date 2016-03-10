@@ -56,7 +56,6 @@ class TicketOption(Product):
         current_price = self.price()
         option_ids = [option.id for option in options if option.price() >= current_price]
 
-
         variations = ProductVariation.objects.filter(product__in=option_ids).exclude(product__id=self.id)
 
         valid_options = []
