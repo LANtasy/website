@@ -28,6 +28,7 @@
                     {% endif %}
 
                     {% for form in ticket_option_formset %}
+                        {% if form.instance.has_stock %}
                         <div class="row">
                             {{ form.id }}
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
@@ -41,6 +42,7 @@
                                 {{ form.quantity }}
                             </div>
                         </div>
+                        {% endif %}
                         <div class="row {% if form.quantity.errors %}has-error{% endif %}">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             {% if form.quantity.errors %}
