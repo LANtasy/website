@@ -55,7 +55,17 @@ class TicketOption(Product):
         options = TicketOption.objects.all()
         current_price = self.price()
         option_ids = [option.id for option in options if option.price() >= current_price]
-        return TicketOption.objects.filter(id__in=option_ids).exclude(id=self.id)
+
+
+        variations = ProductVariation.objects.filter(product__in=option_ids).exclude(product__id=self.id)
+
+        valid_options = []
+
+        for variation in variations:
+            if variation.has_stock():
+                valid_options.append(variation.product_id)
+
+        return TicketOption.objects.filter(id__in=valid_options)
 
     def has_stock(self, quantity=1):
         variations = ProductVariation.objects.filter(product=self)
