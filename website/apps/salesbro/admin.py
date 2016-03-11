@@ -14,6 +14,7 @@ from mezzanine.core.admin import DisplayableAdmin
 from website.apps.salesbro.forms import TicketOptionAdminForm
 
 from website.apps.salesbro.models import Ticket, TicketOption
+from import_export.admin import ExportMixin
 
 logger = logging.getLogger(__name__)
 
@@ -125,7 +126,7 @@ order_fieldsets = deepcopy(OrderAdmin.fieldsets)
 order_fieldsets[0][1]["fields"].insert(-2, 'user_id')
 
 
-class CustomOrderAdmin(OrderAdmin):
+class CustomOrderAdmin(ExportMixin, OrderAdmin):
     fieldsets = order_fieldsets
     list_filter = ('status', 'time', 'user_id')
 
