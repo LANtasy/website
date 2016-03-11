@@ -212,7 +212,8 @@ class UpgradeTransaction(models.Model):
     def save(self, **kwargs):
 
         with transaction.atomic():
-            old_price = int(self.old_ticket.price() * 100)
+
+            old_price = int(self.badge.order_item.unit_price * 100)
             new_price = int(self.new_ticket.price() * 100)
 
             self.difference = new_price - old_price
