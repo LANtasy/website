@@ -292,6 +292,7 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Event.objects.all()
     convention_queryset = Convention.objects.all()
+    ordering = ['event_type']
     template_name = 'badgebro/organize/events.html'
 
     def get_convention(self):
@@ -332,6 +333,19 @@ class OrganizeEventRegistrationsListView(GroupRequiredMixin, ListView):
         queryset = queryset.filter(**filter_kwargs)
 
         return queryset
+
+    def get_context_data(self, **kwargs):
+        queryset = kwargs.pop('object_list', self.object_list)
+        queryset = queryset.order_by('date_added')
+        event = self.get_event()
+
+        # context = super(OrganizeEventRegistrationsListView, self).get_context_data()
+        kwargs['event'] = event
+
+        kwargs['confirmed'] = queryset[:event.size]
+        kwargs['waitlist'] = queryset[event.size:]
+
+        return kwargs
 
 
 class OrganizeEventRegistrationsExportView(OrganizeEventRegistrationsListView):

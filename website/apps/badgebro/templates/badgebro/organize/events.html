@@ -6,6 +6,34 @@
 
 {% block content %}
     <div class="container">
-        {{ object_list }}
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <td class="text-align-center"><h3>Category</h3></td>
+                            <td class="text-align-center"><h3>Event</h3></td>
+                            <td class="text-align-center"><h3>Date</h3></td>
+                            <td class="text-align-center"><h3>Time</h3></td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for event in object_list %}
+                        <tr>
+                            <td>{{ event.event_type.name }}</td>
+                            <td>
+                                <a href="{% url "badgebro:organize_event_registrations" convention=event.convention event=event.slug %}">
+                                    {{ event.name }}
+                                </a>
+                            </td>
+                            <td>{{ event.start|date }}</td>
+                            <td>{{ event.start|time }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock content %}

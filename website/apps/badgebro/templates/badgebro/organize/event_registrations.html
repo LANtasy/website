@@ -6,6 +6,72 @@
 
 {% block content %}
     <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+            <h4>Confirmed</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+{#                            <td class="text-align-center"><h3>Username</h3></td>#}
+                            <td class="text-align-center"><h3>First Name</h3></td>
+                            <td class="text-align-center"><h3>Last Name</h3></td>
+                            <td class="text-align-center"><h3>Email</h3></td>
+                            <td class="text-align-center"><h3>Date Added</h3></td>
+                            <td class="text-align-center"><h3>Group Name</h3></td>
+                            <td class="text-align-center"><h3>Group Captain</h3></td>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for registration in confirmed %}
+                        <tr>
+{#                            <td>{{ registration.user.username }}</td>#}
+                            <td>{{ registration.user.first_name }}</td>
+                            <td>{{ registration.user.last_name }}</td>
+                            <td>{{ registration.user.email }}</td>
+                            <td>{{ registration.date_added }}</td>
+                            <td>{{ registration.group_name }}</td>
+                            <td>{{ registration.group_captain }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+
+
+                </table>
+                <h4>Waitlist</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+{#                            <td class="text-align-center"><h3>Username</h3></td>#}
+                            <td class="text-align-center"><h3>First Name</h3></td>
+                            <td class="text-align-center"><h3>Last Name</h3></td>
+                            <td class="text-align-center"><h3>Email</h3></td>
+                            <td class="text-align-center"><h3>Date Added</h3></td>
+                            <td class="text-align-center"><h3>Group Name</h3></td>
+                            <td class="text-align-center"><h3>Group Captain</h3></td>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for registration in waitlist %}
+                        <tr>
+{#                            <td>{{ registration.user.username }}</td>#}
+                            <td>{{ registration.user.first_name }}</td>
+                            <td>{{ registration.user.last_name }}</td>
+                            <td>{{ registration.user.email }}</td>
+                            <td>{{ registration.date_added }}</td>
+                            <td>{{ registration.group_name }}</td>
+                            <td>{{ registration.group_captain }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         {{ object_list }}
     </div>
 {% endblock content %}
