@@ -2,7 +2,7 @@
 
 {% block breadcrumb_menu %}
     <li><a href="{% url "badgebro:organize" %}">Organize</a></li>
-    <li><a href="{% url "badgebro:organize_events" convention=event.convention %}">{{ event.convention }} - Events</a></li>
+    <li><a href="{% url "badgebro:organize_events" convention=event.convention %}">{{ event.convention.name }} - Events</a></li>
     <li class="active">{{ event.name }}</li>
 {% endblock breadcrumb_menu %}
 

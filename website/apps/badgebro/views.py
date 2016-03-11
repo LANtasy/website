@@ -312,6 +312,11 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
 
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(OrganizeEventListView, self).get_context_data()
+        context['convention'] = self.get_convention()
+        return context
+
 
 class OrganizeEventRegistrationsListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'

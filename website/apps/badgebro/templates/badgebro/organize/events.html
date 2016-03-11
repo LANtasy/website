@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block breadcrumb_menu %}
-    <li class="active">Organize</li>
+    <li><a href="{% url "badgebro:organize" %}">Organize</a></li>
+    <li class="active">{{ convention.name }} - Events</li>
 {% endblock breadcrumb_menu %}
 
 {% block content %}
