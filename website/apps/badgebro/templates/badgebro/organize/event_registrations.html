@@ -1,68 +1,78 @@
 {% extends "base.html" %}
 
 {% block breadcrumb_menu %}
-    <li class="active">Organize</li>
+    <li><a href="{% url "badgebro:organize" %}">Organize</a></li>
+    <li><a href="{% url "badgebro:organize_events" convention=event.convention %}">{{ event.convention }} - Events</a></li>
+    <li class="active">{{ event.name }}</li>
 {% endblock breadcrumb_menu %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-            <h4>Confirmed</h4>
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <td class="text-align-center"><h3>First Name</h3></td>
-                            <td class="text-align-center"><h3>Last Name</h3></td>
-                            <td class="text-align-center"><h3>Email</h3></td>
-                            <td class="text-align-center"><h3>Date Added</h3></td>
-                            <td class="text-align-center"><h3>Group Name</h3></td>
-                            <td class="text-align-center"><h3>Group Captain</h3></td>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        {% for registration in confirmed %}
-                        <tr>
-                            <td>{{ registration.user.first_name }}</td>
-                            <td>{{ registration.user.last_name }}</td>
-                            <td>{{ registration.user.email }}</td>
-                            <td>{{ registration.date_added }}</td>
-                            <td>{{ registration.group_name }}</td>
-                            <td>{{ registration.group_captain }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                {% if confirmed %}
+                    <h4>Confirmed</h4>
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <td class="text-align-center"><h3>First Name</h3></td>
+                                <td class="text-align-center"><h3>Last Name</h3></td>
+                                <td class="text-align-center"><h3>Email</h3></td>
+                                <td class="text-align-center"><h3>Date Added</h3></td>
+                                <td class="text-align-center"><h3>Group Name</h3></td>
+                                <td class="text-align-center"><h3>Group Captain</h3></td>
+                            </tr>
+                        </thead>
 
-                </table>
-                <h4>Waitlist</h4>
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <td class="text-align-center"><h3>First Name</h3></td>
-                            <td class="text-align-center"><h3>Last Name</h3></td>
-                            <td class="text-align-center"><h3>Email</h3></td>
-                            <td class="text-align-center"><h3>Date Added</h3></td>
-                            <td class="text-align-center"><h3>Group Name</h3></td>
-                            <td class="text-align-center"><h3>Group Captain</h3></td>
+                        <tbody>
+                            {% for registration in confirmed %}
+                            <tr>
+                                <td>{{ registration.user.first_name }}</td>
+                                <td>{{ registration.user.last_name }}</td>
+                                <td>{{ registration.user.email }}</td>
+                                <td>{{ registration.date_added }}</td>
+                                <td>{{ registration.group_name }}</td>
+                                <td>{{ registration.group_captain }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
 
-                        </tr>
-                    </thead>
+                    </table>
+                {% else %}
+                    <strong>There are no sign ups for this event.</strong>
+                {% endif %}
 
-                    <tbody>
+                {% if waitlist %}
+                    <h4>Waitlist</h4>
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <td class="text-align-center"><h3>First Name</h3></td>
+                                <td class="text-align-center"><h3>Last Name</h3></td>
+                                <td class="text-align-center"><h3>Email</h3></td>
+                                <td class="text-align-center"><h3>Date Added</h3></td>
+                                <td class="text-align-center"><h3>Group Name</h3></td>
+                                <td class="text-align-center"><h3>Group Captain</h3></td>
 
-                        {% for registration in waitlist %}
-                        <tr>
-                            <td>{{ registration.user.first_name }}</td>
-                            <td>{{ registration.user.last_name }}</td>
-                            <td>{{ registration.user.email }}</td>
-                            <td>{{ registration.date_added }}</td>
-                            <td>{{ registration.group_name }}</td>
-                            <td>{{ registration.group_captain }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for registration in waitlist %}
+                            <tr>
+                                <td>{{ registration.user.first_name }}</td>
+                                <td>{{ registration.user.last_name }}</td>
+                                <td>{{ registration.user.email }}</td>
+                                <td>{{ registration.date_added }}</td>
+                                <td>{{ registration.group_name }}</td>
+                                <td>{{ registration.group_captain }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
         {{ object_list }}
