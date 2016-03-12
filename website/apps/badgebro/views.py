@@ -290,9 +290,9 @@ class OrganizeListView(GroupRequiredMixin, ListView):
 
 class OrganizeEventListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
-    queryset = Event.objects.all()
+    queryset = Event.objects.published()
     convention_queryset = Convention.objects.all()
-    ordering = ['event_type']
+    ordering = ('event_type', 'start', 'name', )
     template_name = 'badgebro/organize/events.html'
 
     def get_convention(self):
@@ -321,7 +321,7 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
 class OrganizeEventRegistrationsListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Registration.objects.all()
-    event_queryset = Event.objects.all()
+    event_queryset = Event.objects.published()
     template_name = 'badgebro/organize/event_registrations.html'
 
     def get_event(self):

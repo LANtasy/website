@@ -7,9 +7,9 @@ from import_export.admin import ExportMixin
 
 class BadgeAdmin(ExportMixin, admin.ModelAdmin):
     #list_display = product_list_display = ['uid', 'ticket', 'order', 'user']
-    list_display = product_list_display = ['uid', 'order', 'user', 'type', 'option', 'first_name', 'last_name', 'network']
+    list_display = product_list_display = ['uid', 'order', 'user', 'type', 'option', 'first_name', 'last_name', 'network', 'collected']
 
-    list_filter = ('order', 'ticket')
+    list_filter = ('order', 'ticket', 'collected', )
     readonly_fields = ('uid', )
 
     search_fields = ['uid', 'network', 'first_name', 'last_name', 'type', 'option']
