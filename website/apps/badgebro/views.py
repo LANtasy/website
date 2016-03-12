@@ -292,7 +292,7 @@ class OrganizeEventListView(GroupRequiredMixin, ListView):
     group_required = u'frontdesk'
     queryset = Event.objects.published()
     convention_queryset = Convention.objects.all()
-    ordering = ['event_type']
+    ordering = ('event_type', 'start', 'title', )
     template_name = 'badgebro/organize/events.html'
 
     def get_convention(self):
