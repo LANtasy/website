@@ -160,10 +160,10 @@ class Event(models.Model):
     objects = EventManager()
 
     class Meta:
-        ordering = ('name', )
+        ordering = ('slug', )
 
     def __unicode__(self):
-        return '{name}'.format(name=self.name)
+        return '{name}'.format(name=self.slug)
 
     def check_for_duplicates(self):
         number = Event.objects.values('name').filter(name=self.name, convention=self.convention).count()
