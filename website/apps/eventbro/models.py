@@ -124,6 +124,14 @@ class EventType(models.Model):
             return None
 
 
+class EventManager(models.Manager):
+
+    def published(self):
+        queryset = super(EventManager, self).get_queryset()
+        queryset = queryset.filter(published=True)
+        return queryset
+
+
 class Event(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     convention = models.ForeignKey(Convention, related_name='event_convention_uid')
@@ -148,6 +156,8 @@ class Event(models.Model):
     sponsors = models.ManyToManyField(Sponsor, related_name='event_sponsors', blank=True)
     organizer = models.CharField(max_length=100, blank=True, null=True)
     disable_registration = models.BooleanField(default=False, verbose_name='Disable Event Registration')
+
+    objects = EventManager()
 
     def __unicode__(self):
         return '{name}'.format(name=self.slug)
